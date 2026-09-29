@@ -1,4 +1,4 @@
-# FrontDoor frontend
+# CIRQO frontend
 
 Next.js (App Router, TypeScript). **All results shown are seeded or simulated demo data**, labeled
 "Sample data" on every page. Revenue figures are illustrative estimates, and the coach gives

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ApprovalQueue from "@/components/screens/ApprovalQueue";
 
-export const metadata: Metadata = { title: "Approvals · FrontDoor" };
+export const metadata: Metadata = { title: "Approvals · CIRQO" };
 
 export default function Page() {
   return (

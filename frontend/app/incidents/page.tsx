@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import IncidentsList from "@/components/screens/IncidentsList";
 
-export const metadata: Metadata = { title: "Incidents · FrontDoor" };
+export const metadata: Metadata = { title: "Incidents · CIRQO" };
 
 export default function Page() {
   return (

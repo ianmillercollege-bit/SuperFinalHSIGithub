@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Growth from "@/components/screens/Growth";
 
-export const metadata: Metadata = { title: "Growth · FrontDoor" };
+export const metadata: Metadata = { title: "Growth · CIRQO" };
 
 export default function Page() {
   return (

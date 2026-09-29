@@ -22,7 +22,7 @@ export default function NavBar() {
   return (
     <header className="nav">
       <Link href="/" className="brand">
-        FrontDoor
+        CIRQO
       </Link>
       <nav>
         {LINKS.map(({ href, label }) => (

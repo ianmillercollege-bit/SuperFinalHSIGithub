@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import TrustDashboard from "@/components/screens/TrustDashboard";
 
-export const metadata: Metadata = { title: "Trust dashboard · FrontDoor" };
+export const metadata: Metadata = { title: "Trust dashboard · CIRQO" };
 
 export default function Page() {
   return (

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import ShopperDemo from "@/components/screens/ShopperDemo";
 
-export const metadata: Metadata = { title: "Shopper demo · FrontDoor" };
+export const metadata: Metadata = { title: "Shopper demo · CIRQO" };
 
 export default function Page() {
   return (
