@@ -194,7 +194,7 @@
       "ruleId": null,
       "factId": "fact_032",
       "reason": "Matches the verified 30-day return policy.",
-      "checkedAt": "2026-09-02T20:20:00Z"
+      "checkedAt": "2026-09-01T20:20:00Z"
     },
     {
       "claimId": "clm_015",
@@ -208,7 +208,7 @@
       "ruleId": "INVENTED_FEATURE",
       "factId": null,
       "reason": "The verified spec sheet lists no fingerprint reader.",
-      "checkedAt": "2026-09-02T20:20:00Z"
+      "checkedAt": "2026-09-01T20:20:00Z"
     },
     {
       "claimId": "clm_016",
@@ -222,7 +222,7 @@
       "ruleId": null,
       "factId": "fact_121",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-02T20:20:00Z"
+      "checkedAt": "2026-09-01T20:20:00Z"
     },
     {
       "claimId": "clm_017",
@@ -236,7 +236,7 @@
       "ruleId": null,
       "factId": "fact_093",
       "reason": "Matches the verified RAM of 12 GB RAM.",
-      "checkedAt": "2026-09-02T20:20:00Z"
+      "checkedAt": "2026-09-01T20:20:00Z"
     },
     {
       "claimId": "clm_018",
@@ -306,7 +306,7 @@
       "ruleId": null,
       "factId": "fact_062",
       "reason": "Matches the verified 30-day return policy.",
-      "checkedAt": "2026-09-03T10:35:00Z"
+      "checkedAt": "2026-09-02T10:35:00Z"
     },
     {
       "claimId": "clm_023",
@@ -320,7 +320,7 @@
       "ruleId": null,
       "factId": "fact_104",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-03T10:35:00Z"
+      "checkedAt": "2026-09-02T10:35:00Z"
     },
     {
       "claimId": "clm_024",
@@ -334,7 +334,7 @@
       "ruleId": null,
       "factId": "fact_127",
       "reason": "Matches the verified weight of 4.6 lb.",
-      "checkedAt": "2026-09-03T10:35:00Z"
+      "checkedAt": "2026-09-02T10:35:00Z"
     },
     {
       "claimId": "clm_025",
@@ -348,7 +348,7 @@
       "ruleId": "POLICY_MISMATCH",
       "factId": "fact_062",
       "reason": "Verified return policy is 30 days.",
-      "checkedAt": "2026-09-03T10:35:00Z"
+      "checkedAt": "2026-09-02T10:35:00Z"
     },
     {
       "claimId": "clm_026",
@@ -362,7 +362,7 @@
       "ruleId": null,
       "factId": "fact_050",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-04T15:05:00Z"
+      "checkedAt": "2026-09-03T15:05:00Z"
     },
     {
       "claimId": "clm_027",
@@ -376,7 +376,7 @@
       "ruleId": null,
       "factId": "fact_034",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-04T15:05:00Z"
+      "checkedAt": "2026-09-03T15:05:00Z"
     },
     {
       "claimId": "clm_028",
@@ -390,7 +390,7 @@
       "ruleId": null,
       "factId": "fact_013",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-04T15:05:00Z"
+      "checkedAt": "2026-09-03T15:05:00Z"
     },
     {
       "claimId": "clm_029",
@@ -404,7 +404,7 @@
       "ruleId": "UNFAIR_COMPARISON",
       "factId": null,
       "reason": "Names a competitor with the comparative phrase 'unlike' and no verified comparison fact supports it.",
-      "checkedAt": "2026-09-04T15:05:00Z"
+      "checkedAt": "2026-09-03T15:05:00Z"
     },
     {
       "claimId": "clm_030",
@@ -418,7 +418,7 @@
       "ruleId": null,
       "factId": null,
       "reason": "A verified comparison fact supports this claim.",
-      "checkedAt": "2026-09-04T15:05:00Z"
+      "checkedAt": "2026-09-03T15:05:00Z"
     },
     {
       "claimId": "clm_031",
@@ -432,7 +432,7 @@
       "ruleId": null,
       "factId": "fact_046",
       "reason": "Matches the verified battery life of 7 h battery.",
-      "checkedAt": "2026-09-04T13:20:00Z"
+      "checkedAt": "2026-09-03T13:20:00Z"
     },
     {
       "claimId": "clm_032",
@@ -446,7 +446,7 @@
       "ruleId": null,
       "factId": "fact_086",
       "reason": "Matches the verified battery life of 8 h battery.",
-      "checkedAt": "2026-09-04T13:20:00Z"
+      "checkedAt": "2026-09-03T13:20:00Z"
     },
     {
       "claimId": "clm_033",
@@ -460,7 +460,7 @@
       "ruleId": null,
       "factId": "fact_020",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-04T13:20:00Z"
+      "checkedAt": "2026-09-03T13:20:00Z"
     },
     {
       "claimId": "clm_034",
@@ -474,7 +474,7 @@
       "ruleId": "SAFETY_LEGAL",
       "factId": null,
       "reason": "Contains safety/legal keyword(s): lifetime guarantee. Escalated for human review.",
-      "checkedAt": "2026-09-04T13:20:00Z"
+      "checkedAt": "2026-09-03T13:20:00Z"
     },
     {
       "claimId": "clm_035",
@@ -488,7 +488,7 @@
       "ruleId": null,
       "factId": null,
       "reason": "A verified comparison fact supports this claim.",
-      "checkedAt": "2026-09-04T13:20:00Z"
+      "checkedAt": "2026-09-03T13:20:00Z"
     },
     {
       "claimId": "clm_036",
@@ -502,7 +502,7 @@
       "ruleId": null,
       "factId": "fact_044",
       "reason": "Matches the verified storage of 512 GB storage.",
-      "checkedAt": "2026-09-05T15:20:00Z"
+      "checkedAt": "2026-09-04T15:20:00Z"
     },
     {
       "claimId": "clm_037",
@@ -516,7 +516,7 @@
       "ruleId": "NO_FACT",
       "factId": null,
       "reason": "No matching product in the verified catalog.",
-      "checkedAt": "2026-09-05T15:20:00Z"
+      "checkedAt": "2026-09-04T15:20:00Z"
     },
     {
       "claimId": "clm_038",
@@ -530,7 +530,7 @@
       "ruleId": null,
       "factId": "fact_083",
       "reason": "Matches the verified RAM of 4 GB RAM.",
-      "checkedAt": "2026-09-05T15:20:00Z"
+      "checkedAt": "2026-09-04T15:20:00Z"
     },
     {
       "claimId": "clm_039",
@@ -544,7 +544,7 @@
       "ruleId": null,
       "factId": "fact_054",
       "reason": "Matches the verified storage of 512 GB storage.",
-      "checkedAt": "2026-09-05T15:20:00Z"
+      "checkedAt": "2026-09-04T15:20:00Z"
     },
     {
       "claimId": "clm_040",
@@ -558,7 +558,7 @@
       "ruleId": null,
       "factId": null,
       "reason": "A verified comparison fact supports this claim.",
-      "checkedAt": "2026-09-05T15:20:00Z"
+      "checkedAt": "2026-09-04T15:20:00Z"
     },
     {
       "claimId": "clm_041",
@@ -572,7 +572,7 @@
       "ruleId": null,
       "factId": "fact_035",
       "reason": "Matches the verified screen size of 14 in screen.",
-      "checkedAt": "2026-09-06T11:20:00Z"
+      "checkedAt": "2026-09-04T11:20:00Z"
     },
     {
       "claimId": "clm_042",
@@ -586,7 +586,7 @@
       "ruleId": null,
       "factId": "fact_107",
       "reason": "Matches the verified weight of 3.1 lb.",
-      "checkedAt": "2026-09-06T11:20:00Z"
+      "checkedAt": "2026-09-04T11:20:00Z"
     },
     {
       "claimId": "clm_043",
@@ -600,7 +600,7 @@
       "ruleId": null,
       "factId": "fact_116",
       "reason": "Matches the verified battery life of 7 h battery.",
-      "checkedAt": "2026-09-06T11:20:00Z"
+      "checkedAt": "2026-09-04T11:20:00Z"
     },
     {
       "claimId": "clm_044",
@@ -614,7 +614,7 @@
       "ruleId": null,
       "factId": null,
       "reason": "A verified comparison fact supports this claim.",
-      "checkedAt": "2026-09-06T11:20:00Z"
+      "checkedAt": "2026-09-04T11:20:00Z"
     },
     {
       "claimId": "clm_045",
@@ -628,7 +628,7 @@
       "ruleId": null,
       "factId": "fact_046",
       "reason": "Matches the verified battery life of 7 h battery.",
-      "checkedAt": "2026-09-06T20:05:00Z"
+      "checkedAt": "2026-09-05T20:05:00Z"
     },
     {
       "claimId": "clm_046",
@@ -642,7 +642,7 @@
       "ruleId": null,
       "factId": "fact_037",
       "reason": "Matches the verified weight of 3.3 lb.",
-      "checkedAt": "2026-09-06T20:05:00Z"
+      "checkedAt": "2026-09-05T20:05:00Z"
     },
     {
       "claimId": "clm_047",
@@ -656,7 +656,7 @@
       "ruleId": null,
       "factId": "fact_096",
       "reason": "Matches the verified battery life of 8 h battery.",
-      "checkedAt": "2026-09-06T20:05:00Z"
+      "checkedAt": "2026-09-05T20:05:00Z"
     },
     {
       "claimId": "clm_048",
@@ -670,7 +670,7 @@
       "ruleId": null,
       "factId": "fact_105",
       "reason": "Matches the verified screen size of 14 in screen.",
-      "checkedAt": "2026-09-07T18:20:00Z"
+      "checkedAt": "2026-09-05T18:20:00Z"
     },
     {
       "claimId": "clm_049",
@@ -684,7 +684,7 @@
       "ruleId": null,
       "factId": "fact_095",
       "reason": "Matches the verified screen size of 15.6 in screen.",
-      "checkedAt": "2026-09-07T18:20:00Z"
+      "checkedAt": "2026-09-05T18:20:00Z"
     },
     {
       "claimId": "clm_050",
@@ -698,7 +698,7 @@
       "ruleId": null,
       "factId": "fact_085",
       "reason": "Matches the verified screen size of 13.3 in screen.",
-      "checkedAt": "2026-09-07T18:20:00Z"
+      "checkedAt": "2026-09-05T18:20:00Z"
     },
     {
       "claimId": "clm_051",
@@ -712,7 +712,7 @@
       "ruleId": null,
       "factId": "fact_026",
       "reason": "Matches the verified battery life of 9 h battery.",
-      "checkedAt": "2026-09-08T09:50:00Z"
+      "checkedAt": "2026-09-06T09:50:00Z"
     },
     {
       "claimId": "clm_052",
@@ -726,7 +726,7 @@
       "ruleId": null,
       "factId": "fact_102",
       "reason": "Matches the verified 15-day return policy.",
-      "checkedAt": "2026-09-08T09:50:00Z"
+      "checkedAt": "2026-09-06T09:50:00Z"
     },
     {
       "claimId": "clm_053",
@@ -740,7 +740,7 @@
       "ruleId": null,
       "factId": "fact_010",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-08T09:50:00Z"
+      "checkedAt": "2026-09-06T09:50:00Z"
     },
     {
       "claimId": "clm_054",
@@ -754,7 +754,7 @@
       "ruleId": null,
       "factId": "fact_113",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-08T15:50:00Z"
+      "checkedAt": "2026-09-06T15:50:00Z"
     },
     {
       "claimId": "clm_055",
@@ -768,7 +768,7 @@
       "ruleId": null,
       "factId": "fact_123",
       "reason": "Matches the verified RAM of 16 GB RAM.",
-      "checkedAt": "2026-09-08T15:50:00Z"
+      "checkedAt": "2026-09-06T15:50:00Z"
     },
     {
       "claimId": "clm_056",
@@ -782,7 +782,7 @@
       "ruleId": null,
       "factId": "fact_101",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-08T15:50:00Z"
+      "checkedAt": "2026-09-06T15:50:00Z"
     },
     {
       "claimId": "clm_057",
@@ -796,7 +796,7 @@
       "ruleId": null,
       "factId": "fact_120",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-09T10:20:00Z"
+      "checkedAt": "2026-09-07T10:20:00Z"
     },
     {
       "claimId": "clm_058",
@@ -810,7 +810,7 @@
       "ruleId": null,
       "factId": "fact_084",
       "reason": "Matches the verified storage of 128 GB storage.",
-      "checkedAt": "2026-09-09T10:20:00Z"
+      "checkedAt": "2026-09-07T10:20:00Z"
     },
     {
       "claimId": "clm_059",
@@ -824,7 +824,7 @@
       "ruleId": null,
       "factId": "fact_077",
       "reason": "Matches the verified weight of 3.2 lb.",
-      "checkedAt": "2026-09-09T10:20:00Z"
+      "checkedAt": "2026-09-07T10:20:00Z"
     },
     {
       "claimId": "clm_060",
@@ -838,7 +838,7 @@
       "ruleId": null,
       "factId": "fact_046",
       "reason": "Matches the verified battery life of 7 h battery.",
-      "checkedAt": "2026-09-10T13:50:00Z"
+      "checkedAt": "2026-09-07T13:50:00Z"
     },
     {
       "claimId": "clm_061",
@@ -852,7 +852,7 @@
       "ruleId": null,
       "factId": "fact_085",
       "reason": "Matches the verified screen size of 13.3 in screen.",
-      "checkedAt": "2026-09-10T13:50:00Z"
+      "checkedAt": "2026-09-07T13:50:00Z"
     },
     {
       "claimId": "clm_062",
@@ -866,7 +866,7 @@
       "ruleId": "PRICE_MISMATCH",
       "factId": "fact_040",
       "reason": "Stated price is 8.0% below the verified price.",
-      "checkedAt": "2026-09-10T13:50:00Z"
+      "checkedAt": "2026-09-07T13:50:00Z"
     },
     {
       "claimId": "clm_063",
@@ -880,7 +880,7 @@
       "ruleId": null,
       "factId": "fact_115",
       "reason": "Matches the verified screen size of 15.6 in screen.",
-      "checkedAt": "2026-09-10T13:50:00Z"
+      "checkedAt": "2026-09-07T13:50:00Z"
     },
     {
       "claimId": "clm_064",
@@ -894,7 +894,7 @@
       "ruleId": null,
       "factId": "fact_071",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-10T14:35:00Z"
+      "checkedAt": "2026-09-08T14:35:00Z"
     },
     {
       "claimId": "clm_065",
@@ -908,7 +908,7 @@
       "ruleId": null,
       "factId": "fact_103",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-10T14:35:00Z"
+      "checkedAt": "2026-09-08T14:35:00Z"
     },
     {
       "claimId": "clm_066",
@@ -922,7 +922,7 @@
       "ruleId": null,
       "factId": "fact_124",
       "reason": "Matches the verified storage of 1024 GB storage.",
-      "checkedAt": "2026-09-10T14:35:00Z"
+      "checkedAt": "2026-09-08T14:35:00Z"
     },
     {
       "claimId": "clm_067",
@@ -936,7 +936,7 @@
       "ruleId": null,
       "factId": "fact_081",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-11T12:50:00Z"
+      "checkedAt": "2026-09-08T12:50:00Z"
     },
     {
       "claimId": "clm_068",
@@ -950,7 +950,7 @@
       "ruleId": null,
       "factId": "fact_091",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-11T12:50:00Z"
+      "checkedAt": "2026-09-08T12:50:00Z"
     },
     {
       "claimId": "clm_069",
@@ -964,7 +964,7 @@
       "ruleId": null,
       "factId": "fact_125",
       "reason": "Matches the verified screen size of 16 in screen.",
-      "checkedAt": "2026-09-11T12:50:00Z"
+      "checkedAt": "2026-09-08T12:50:00Z"
     },
     {
       "claimId": "clm_070",
@@ -978,7 +978,7 @@
       "ruleId": null,
       "factId": "fact_111",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-12T14:20:00Z"
+      "checkedAt": "2026-09-09T14:20:00Z"
     },
     {
       "claimId": "clm_071",
@@ -992,7 +992,7 @@
       "ruleId": null,
       "factId": "fact_077",
       "reason": "Matches the verified weight of 3.2 lb.",
-      "checkedAt": "2026-09-12T14:20:00Z"
+      "checkedAt": "2026-09-09T14:20:00Z"
     },
     {
       "claimId": "clm_072",
@@ -1006,7 +1006,7 @@
       "ruleId": null,
       "factId": "fact_090",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-12T14:20:00Z"
+      "checkedAt": "2026-09-09T14:20:00Z"
     },
     {
       "claimId": "clm_073",
@@ -1020,7 +1020,7 @@
       "ruleId": null,
       "factId": "fact_072",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-12T16:05:00Z"
+      "checkedAt": "2026-09-09T16:05:00Z"
     },
     {
       "claimId": "clm_074",
@@ -1034,7 +1034,7 @@
       "ruleId": null,
       "factId": "fact_123",
       "reason": "Matches the verified RAM of 16 GB RAM.",
-      "checkedAt": "2026-09-12T16:05:00Z"
+      "checkedAt": "2026-09-09T16:05:00Z"
     },
     {
       "claimId": "clm_075",
@@ -1048,7 +1048,7 @@
       "ruleId": null,
       "factId": "fact_115",
       "reason": "Matches the verified screen size of 15.6 in screen.",
-      "checkedAt": "2026-09-12T16:05:00Z"
+      "checkedAt": "2026-09-09T16:05:00Z"
     },
     {
       "claimId": "clm_076",
@@ -1062,7 +1062,7 @@
       "ruleId": null,
       "factId": "fact_097",
       "reason": "Matches the verified weight of 4.1 lb.",
-      "checkedAt": "2026-09-13T10:05:00Z"
+      "checkedAt": "2026-09-10T10:05:00Z"
     },
     {
       "claimId": "clm_077",
@@ -1076,7 +1076,7 @@
       "ruleId": null,
       "factId": "fact_123",
       "reason": "Matches the verified RAM of 16 GB RAM.",
-      "checkedAt": "2026-09-13T10:05:00Z"
+      "checkedAt": "2026-09-10T10:05:00Z"
     },
     {
       "claimId": "clm_078",
@@ -1090,7 +1090,7 @@
       "ruleId": null,
       "factId": "fact_077",
       "reason": "Matches the verified weight of 3.2 lb.",
-      "checkedAt": "2026-09-13T10:05:00Z"
+      "checkedAt": "2026-09-10T10:05:00Z"
     },
     {
       "claimId": "clm_079",
@@ -1104,7 +1104,7 @@
       "ruleId": null,
       "factId": "fact_123",
       "reason": "Matches the verified RAM of 16 GB RAM.",
-      "checkedAt": "2026-09-14T18:05:00Z"
+      "checkedAt": "2026-09-11T18:05:00Z"
     },
     {
       "claimId": "clm_080",
@@ -1118,7 +1118,7 @@
       "ruleId": null,
       "factId": "fact_113",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-14T18:05:00Z"
+      "checkedAt": "2026-09-11T18:05:00Z"
     },
     {
       "claimId": "clm_081",
@@ -1132,7 +1132,7 @@
       "ruleId": null,
       "factId": "fact_071",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-14T18:05:00Z"
+      "checkedAt": "2026-09-11T18:05:00Z"
     },
     {
       "claimId": "clm_082",
@@ -1146,7 +1146,7 @@
       "ruleId": null,
       "factId": "fact_104",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-14T13:20:00Z"
+      "checkedAt": "2026-09-11T13:20:00Z"
     },
     {
       "claimId": "clm_083",
@@ -1160,7 +1160,7 @@
       "ruleId": null,
       "factId": "fact_086",
       "reason": "Matches the verified battery life of 8 h battery.",
-      "checkedAt": "2026-09-14T13:20:00Z"
+      "checkedAt": "2026-09-11T13:20:00Z"
     },
     {
       "claimId": "clm_084",
@@ -1174,7 +1174,7 @@
       "ruleId": null,
       "factId": "fact_123",
       "reason": "Matches the verified RAM of 16 GB RAM.",
-      "checkedAt": "2026-09-14T13:20:00Z"
+      "checkedAt": "2026-09-11T13:20:00Z"
     },
     {
       "claimId": "clm_085",
@@ -1188,7 +1188,7 @@
       "ruleId": null,
       "factId": "fact_062",
       "reason": "Matches the verified 30-day return policy.",
-      "checkedAt": "2026-09-15T12:50:00Z"
+      "checkedAt": "2026-09-12T12:50:00Z"
     },
     {
       "claimId": "clm_086",
@@ -1202,7 +1202,7 @@
       "ruleId": null,
       "factId": "fact_082",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-15T12:50:00Z"
+      "checkedAt": "2026-09-12T12:50:00Z"
     },
     {
       "claimId": "clm_087",
@@ -1216,7 +1216,7 @@
       "ruleId": null,
       "factId": "fact_127",
       "reason": "Matches the verified weight of 4.6 lb.",
-      "checkedAt": "2026-09-15T12:50:00Z"
+      "checkedAt": "2026-09-12T12:50:00Z"
     },
     {
       "claimId": "clm_088",
@@ -1230,7 +1230,7 @@
       "ruleId": null,
       "factId": "fact_074",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-16T09:05:00Z"
+      "checkedAt": "2026-09-12T09:05:00Z"
     },
     {
       "claimId": "clm_089",
@@ -1244,7 +1244,7 @@
       "ruleId": null,
       "factId": "fact_117",
       "reason": "Matches the verified weight of 4 lb.",
-      "checkedAt": "2026-09-16T09:05:00Z"
+      "checkedAt": "2026-09-12T09:05:00Z"
     },
     {
       "claimId": "clm_090",
@@ -1258,7 +1258,7 @@
       "ruleId": null,
       "factId": "fact_124",
       "reason": "Matches the verified storage of 1024 GB storage.",
-      "checkedAt": "2026-09-16T09:05:00Z"
+      "checkedAt": "2026-09-12T09:05:00Z"
     },
     {
       "claimId": "clm_091",
@@ -1272,7 +1272,7 @@
       "ruleId": null,
       "factId": "fact_113",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-16T11:35:00Z"
+      "checkedAt": "2026-09-13T11:35:00Z"
     },
     {
       "claimId": "clm_092",
@@ -1286,7 +1286,7 @@
       "ruleId": null,
       "factId": "fact_083",
       "reason": "Matches the verified RAM of 4 GB RAM.",
-      "checkedAt": "2026-09-16T11:35:00Z"
+      "checkedAt": "2026-09-13T11:35:00Z"
     },
     {
       "claimId": "clm_093",
@@ -1300,7 +1300,7 @@
       "ruleId": null,
       "factId": "fact_097",
       "reason": "Matches the verified weight of 4.1 lb.",
-      "checkedAt": "2026-09-16T11:35:00Z"
+      "checkedAt": "2026-09-13T11:35:00Z"
     },
     {
       "claimId": "clm_094",
@@ -1314,7 +1314,7 @@
       "ruleId": null,
       "factId": "fact_072",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-17T08:35:00Z"
+      "checkedAt": "2026-09-13T08:35:00Z"
     },
     {
       "claimId": "clm_095",
@@ -1328,7 +1328,7 @@
       "ruleId": null,
       "factId": "fact_101",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-17T08:35:00Z"
+      "checkedAt": "2026-09-13T08:35:00Z"
     },
     {
       "claimId": "clm_096",
@@ -1342,7 +1342,7 @@
       "ruleId": null,
       "factId": "fact_127",
       "reason": "Matches the verified weight of 4.6 lb.",
-      "checkedAt": "2026-09-17T08:35:00Z"
+      "checkedAt": "2026-09-13T08:35:00Z"
     },
     {
       "claimId": "clm_097",
@@ -1356,7 +1356,7 @@
       "ruleId": null,
       "factId": "fact_092",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-18T20:35:00Z"
+      "checkedAt": "2026-09-14T20:35:00Z"
     },
     {
       "claimId": "clm_098",
@@ -1370,7 +1370,7 @@
       "ruleId": null,
       "factId": "fact_071",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-18T20:35:00Z"
+      "checkedAt": "2026-09-14T20:35:00Z"
     },
     {
       "claimId": "clm_099",
@@ -1384,7 +1384,7 @@
       "ruleId": null,
       "factId": "fact_101",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-18T20:35:00Z"
+      "checkedAt": "2026-09-14T20:35:00Z"
     },
     {
       "claimId": "clm_100",
@@ -1398,7 +1398,7 @@
       "ruleId": null,
       "factId": "fact_081",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-18T10:20:00Z"
+      "checkedAt": "2026-09-14T10:20:00Z"
     },
     {
       "claimId": "clm_101",
@@ -1412,7 +1412,7 @@
       "ruleId": null,
       "factId": "fact_074",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-18T10:20:00Z"
+      "checkedAt": "2026-09-14T10:20:00Z"
     },
     {
       "claimId": "clm_102",
@@ -1426,7 +1426,7 @@
       "ruleId": null,
       "factId": "fact_104",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-18T10:20:00Z"
+      "checkedAt": "2026-09-14T10:20:00Z"
     },
     {
       "claimId": "clm_103",
@@ -1440,7 +1440,7 @@
       "ruleId": null,
       "factId": "fact_122",
       "reason": "Matches the verified 15-day return policy.",
-      "checkedAt": "2026-09-19T16:35:00Z"
+      "checkedAt": "2026-09-15T16:35:00Z"
     },
     {
       "claimId": "clm_104",
@@ -1454,7 +1454,7 @@
       "ruleId": null,
       "factId": "fact_087",
       "reason": "Matches the verified weight of 2.8 lb.",
-      "checkedAt": "2026-09-19T16:35:00Z"
+      "checkedAt": "2026-09-15T16:35:00Z"
     },
     {
       "claimId": "clm_105",
@@ -1468,7 +1468,7 @@
       "ruleId": null,
       "factId": "fact_097",
       "reason": "Matches the verified weight of 4.1 lb.",
-      "checkedAt": "2026-09-19T16:35:00Z"
+      "checkedAt": "2026-09-15T16:35:00Z"
     },
     {
       "claimId": "clm_106",
@@ -1482,7 +1482,7 @@
       "ruleId": null,
       "factId": "fact_094",
       "reason": "Matches the verified storage of 512 GB storage.",
-      "checkedAt": "2026-09-20T20:35:00Z"
+      "checkedAt": "2026-09-15T20:35:00Z"
     },
     {
       "claimId": "clm_107",
@@ -1496,7 +1496,7 @@
       "ruleId": null,
       "factId": "fact_084",
       "reason": "Matches the verified storage of 128 GB storage.",
-      "checkedAt": "2026-09-20T20:35:00Z"
+      "checkedAt": "2026-09-15T20:35:00Z"
     },
     {
       "claimId": "clm_108",
@@ -1510,7 +1510,7 @@
       "ruleId": null,
       "factId": "fact_074",
       "reason": "Matches the verified storage of 256 GB storage.",
-      "checkedAt": "2026-09-20T20:35:00Z"
+      "checkedAt": "2026-09-15T20:35:00Z"
     },
     {
       "claimId": "clm_109",
@@ -1524,7 +1524,7 @@
       "ruleId": null,
       "factId": "fact_097",
       "reason": "Matches the verified weight of 4.1 lb.",
-      "checkedAt": "2026-09-20T18:05:00Z"
+      "checkedAt": "2026-09-16T18:05:00Z"
     },
     {
       "claimId": "clm_110",
@@ -1538,7 +1538,7 @@
       "ruleId": null,
       "factId": "fact_100",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-20T18:05:00Z"
+      "checkedAt": "2026-09-16T18:05:00Z"
     },
     {
       "claimId": "clm_111",
@@ -1552,7 +1552,7 @@
       "ruleId": null,
       "factId": "fact_082",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-20T18:05:00Z"
+      "checkedAt": "2026-09-16T18:05:00Z"
     },
     {
       "claimId": "clm_112",
@@ -1566,7 +1566,7 @@
       "ruleId": null,
       "factId": "fact_101",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-21T19:20:00Z"
+      "checkedAt": "2026-09-16T19:20:00Z"
     },
     {
       "claimId": "clm_113",
@@ -1580,7 +1580,7 @@
       "ruleId": null,
       "factId": "fact_084",
       "reason": "Matches the verified storage of 128 GB storage.",
-      "checkedAt": "2026-09-21T19:20:00Z"
+      "checkedAt": "2026-09-16T19:20:00Z"
     },
     {
       "claimId": "clm_114",
@@ -1594,7 +1594,7 @@
       "ruleId": null,
       "factId": "fact_110",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-21T19:20:00Z"
+      "checkedAt": "2026-09-16T19:20:00Z"
     },
     {
       "claimId": "clm_115",
@@ -1608,7 +1608,7 @@
       "ruleId": null,
       "factId": "fact_126",
       "reason": "Matches the verified battery life of 6 h battery.",
-      "checkedAt": "2026-09-22T16:50:00Z"
+      "checkedAt": "2026-09-17T16:50:00Z"
     },
     {
       "claimId": "clm_116",
@@ -1622,7 +1622,7 @@
       "ruleId": null,
       "factId": "fact_103",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-22T16:50:00Z"
+      "checkedAt": "2026-09-17T16:50:00Z"
     },
     {
       "claimId": "clm_117",
@@ -1636,7 +1636,7 @@
       "ruleId": null,
       "factId": "fact_080",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-22T16:50:00Z"
+      "checkedAt": "2026-09-17T16:50:00Z"
     },
     {
       "claimId": "clm_118",
@@ -1650,7 +1650,7 @@
       "ruleId": null,
       "factId": "fact_126",
       "reason": "Matches the verified battery life of 6 h battery.",
-      "checkedAt": "2026-09-22T08:50:00Z"
+      "checkedAt": "2026-09-17T08:50:00Z"
     },
     {
       "claimId": "clm_119",
@@ -1664,7 +1664,7 @@
       "ruleId": null,
       "factId": "fact_081",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-22T08:50:00Z"
+      "checkedAt": "2026-09-17T08:50:00Z"
     },
     {
       "claimId": "clm_120",
@@ -1678,7 +1678,7 @@
       "ruleId": null,
       "factId": "fact_092",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-22T08:50:00Z"
+      "checkedAt": "2026-09-17T08:50:00Z"
     },
     {
       "claimId": "clm_121",
@@ -1692,7 +1692,7 @@
       "ruleId": null,
       "factId": "fact_096",
       "reason": "Matches the verified battery life of 8 h battery.",
-      "checkedAt": "2026-09-23T15:35:00Z"
+      "checkedAt": "2026-09-18T15:35:00Z"
     },
     {
       "claimId": "clm_122",
@@ -1706,7 +1706,7 @@
       "ruleId": null,
       "factId": "fact_111",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-23T15:35:00Z"
+      "checkedAt": "2026-09-18T15:35:00Z"
     },
     {
       "claimId": "clm_123",
@@ -1720,7 +1720,7 @@
       "ruleId": null,
       "factId": "fact_073",
       "reason": "Matches the verified RAM of 8 GB RAM.",
-      "checkedAt": "2026-09-23T15:35:00Z"
+      "checkedAt": "2026-09-18T15:35:00Z"
     },
     {
       "claimId": "clm_124",
@@ -1734,7 +1734,7 @@
       "ruleId": null,
       "factId": "fact_096",
       "reason": "Matches the verified battery life of 8 h battery.",
-      "checkedAt": "2026-09-24T12:20:00Z"
+      "checkedAt": "2026-09-18T12:20:00Z"
     },
     {
       "claimId": "clm_125",
@@ -1748,7 +1748,7 @@
       "ruleId": null,
       "factId": "fact_076",
       "reason": "Matches the verified battery life of 10 h battery.",
-      "checkedAt": "2026-09-24T12:20:00Z"
+      "checkedAt": "2026-09-18T12:20:00Z"
     },
     {
       "claimId": "clm_126",
@@ -1762,7 +1762,7 @@
       "ruleId": null,
       "factId": "fact_100",
       "reason": "Matches the verified price.",
-      "checkedAt": "2026-09-24T12:20:00Z"
+      "checkedAt": "2026-09-18T12:20:00Z"
     },
     {
       "claimId": "clm_127",
@@ -1776,7 +1776,7 @@
       "ruleId": null,
       "factId": "fact_026",
       "reason": "Matches the verified battery life of 9 h battery.",
-      "checkedAt": "2026-09-24T15:35:00Z"
+      "checkedAt": "2026-09-19T15:35:00Z"
     },
     {
       "claimId": "clm_128",
@@ -1790,7 +1790,7 @@
       "ruleId": "POLICY_MISMATCH",
       "factId": "fact_022",
       "reason": "Verified return policy is 30 days.",
-      "checkedAt": "2026-09-24T15:35:00Z"
+      "checkedAt": "2026-09-19T15:35:00Z"
     },
     {
       "claimId": "clm_129",
@@ -1804,7 +1804,7 @@
       "ruleId": null,
       "factId": "fact_084",
       "reason": "Matches the verified storage of 128 GB storage.",
-      "checkedAt": "2026-09-24T15:35:00Z"
+      "checkedAt": "2026-09-19T15:35:00Z"
     },
     {
       "claimId": "clm_130",
@@ -1818,7 +1818,7 @@
       "ruleId": null,
       "factId": "fact_123",
       "reason": "Matches the verified RAM of 16 GB RAM.",
-      "checkedAt": "2026-09-24T15:35:00Z"
+      "checkedAt": "2026-09-19T15:35:00Z"
     },
     {
       "claimId": "clm_131",
@@ -1832,7 +1832,7 @@
       "ruleId": null,
       "factId": "fact_091",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-25T19:05:00Z"
+      "checkedAt": "2026-09-19T19:05:00Z"
     },
     {
       "claimId": "clm_132",
@@ -1846,7 +1846,7 @@
       "ruleId": null,
       "factId": "fact_101",
       "reason": "Matches verified availability.",
-      "checkedAt": "2026-09-25T19:05:00Z"
+      "checkedAt": "2026-09-19T19:05:00Z"
     },
     {
       "claimId": "clm_133",
@@ -1860,7 +1860,7 @@
       "ruleId": null,
       "factId": "fact_082",
       "reason": "Matches the verified 14-day return policy.",
-      "checkedAt": "2026-09-25T19:05:00Z"
+      "checkedAt": "2026-09-19T19:05:00Z"
     },
     {
       "claimId": "clm_134",
@@ -1874,7 +1874,7 @@
       "ruleId": null,
       "factId": "fact_112",
       "reason": "Matches the verified 15-day return policy.",
-      "checkedAt": "2026-09-26T18:05:00Z"
+      "checkedAt": "2026-09-20T18:05:00Z"
     },
     {
       "claimId": "clm_135",
@@ -1888,7 +1888,7 @@
       "ruleId": null,
       "factId": "fact_107",
       "reason": "Matches the verified weight of 3.1 lb.",
-      "checkedAt": "2026-09-26T18:05:00Z"
+      "checkedAt": "2026-09-20T18:05:00Z"
     },
     {
       "claimId": "clm_136",
@@ -1902,7 +1902,287 @@
       "ruleId": null,
       "factId": "fact_085",
       "reason": "Matches the verified screen size of 13.3 in screen.",
-      "checkedAt": "2026-09-26T18:05:00Z"
+      "checkedAt": "2026-09-20T18:05:00Z"
+    },
+    {
+      "claimId": "clm_137",
+      "answerId": "ans_080",
+      "productId": "prod_007",
+      "text": "The Novex Slate 14 is rated for 10 hours of battery life.",
+      "claimType": "feature",
+      "extractedValue": "10",
+      "verifiedValue": "10",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_076",
+      "reason": "Matches the verified battery life of 10 h battery.",
+      "checkedAt": "2026-09-23T12:05:00Z"
+    },
+    {
+      "claimId": "clm_138",
+      "answerId": "ans_080",
+      "productId": "prod_002",
+      "text": "The Kestrel Aero 13 Lite includes stylus support.",
+      "claimType": "feature",
+      "extractedValue": "stylus",
+      "verifiedValue": null,
+      "status": "incorrect",
+      "ruleId": "INVENTED_FEATURE",
+      "factId": null,
+      "reason": "The verified spec sheet lists no stylus.",
+      "checkedAt": "2026-09-23T12:05:00Z"
+    },
+    {
+      "claimId": "clm_139",
+      "answerId": "ans_082",
+      "productId": "prod_012",
+      "text": "The Arcton Titan 16 weighs 4.6 lb.",
+      "claimType": "feature",
+      "extractedValue": "4.6",
+      "verifiedValue": "4.6",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_127",
+      "reason": "Matches the verified weight of 4.6 lb.",
+      "checkedAt": "2026-09-23T10:05:00Z"
+    },
+    {
+      "claimId": "clm_140",
+      "answerId": "ans_082",
+      "productId": "prod_004",
+      "text": "Kestrel offers a 45-day return policy on the Kestrel Studio 15.",
+      "claimType": "policy",
+      "extractedValue": "45",
+      "verifiedValue": "30",
+      "status": "incorrect",
+      "ruleId": "POLICY_MISMATCH",
+      "factId": "fact_042",
+      "reason": "Verified return policy is 30 days.",
+      "checkedAt": "2026-09-23T10:05:00Z"
+    },
+    {
+      "claimId": "clm_141",
+      "answerId": "ans_083",
+      "productId": "prod_011",
+      "text": "The Arcton Vista 15 is rated for 7 hours of battery life.",
+      "claimType": "feature",
+      "extractedValue": "7",
+      "verifiedValue": "7",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_116",
+      "reason": "Matches the verified battery life of 7 h battery.",
+      "checkedAt": "2026-09-24T09:05:00Z"
+    },
+    {
+      "claimId": "clm_142",
+      "answerId": "ans_083",
+      "productId": "prod_006",
+      "text": "The Arcton Swift 14 outperforms the Kestrel Pocket 12 for everyday use.",
+      "claimType": "comparison",
+      "extractedValue": "The Arcton Swift 14 outperforms the Kestrel Pocket 12 for everyday use.",
+      "verifiedValue": null,
+      "status": "incorrect",
+      "ruleId": "UNFAIR_COMPARISON",
+      "factId": null,
+      "reason": "Names a competitor with the comparative phrase 'outperforms' and no verified comparison fact supports it.",
+      "checkedAt": "2026-09-24T09:05:00Z"
+    },
+    {
+      "claimId": "clm_143",
+      "answerId": "ans_084",
+      "productId": "prod_011",
+      "text": "The Arcton Vista 15 is in stock.",
+      "claimType": "availability",
+      "extractedValue": "in_stock",
+      "verifiedValue": "in_stock",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_111",
+      "reason": "Matches verified availability.",
+      "checkedAt": "2026-09-24T12:35:00Z"
+    },
+    {
+      "claimId": "clm_144",
+      "answerId": "ans_084",
+      "productId": "prod_005",
+      "text": "The Kestrel Aero 14 Plus comes with a lifetime guarantee.",
+      "claimType": "safety_legal",
+      "extractedValue": "lifetime guarantee",
+      "verifiedValue": null,
+      "status": "unverifiable",
+      "ruleId": "SAFETY_LEGAL",
+      "factId": null,
+      "reason": "Contains safety/legal keyword(s): lifetime guarantee. Escalated for human review.",
+      "checkedAt": "2026-09-24T12:35:00Z"
+    },
+    {
+      "claimId": "clm_145",
+      "answerId": "ans_085",
+      "productId": "prod_011",
+      "text": "The Arcton Vista 15 is in stock.",
+      "claimType": "availability",
+      "extractedValue": "in_stock",
+      "verifiedValue": "in_stock",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_111",
+      "reason": "Matches verified availability.",
+      "checkedAt": "2026-09-24T10:05:00Z"
+    },
+    {
+      "claimId": "clm_146",
+      "answerId": "ans_085",
+      "productId": "prod_003",
+      "text": "The Kestrel Flex 14 Touch includes 5G connectivity.",
+      "claimType": "feature",
+      "extractedValue": "5g",
+      "verifiedValue": null,
+      "status": "incorrect",
+      "ruleId": "INVENTED_FEATURE",
+      "factId": null,
+      "reason": "The verified spec sheet lists no 5g.",
+      "checkedAt": "2026-09-24T10:05:00Z"
+    },
+    {
+      "claimId": "clm_147",
+      "answerId": "ans_086",
+      "productId": "prod_011",
+      "text": "The Arcton Vista 15 has 8 GB of RAM.",
+      "claimType": "feature",
+      "extractedValue": "8",
+      "verifiedValue": "8",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_113",
+      "reason": "Matches the verified RAM of 8 GB RAM.",
+      "checkedAt": "2026-09-25T12:35:00Z"
+    },
+    {
+      "claimId": "clm_148",
+      "answerId": "ans_086",
+      "productId": "prod_003",
+      "text": "Kestrel offers a 60-day return policy on the Kestrel Flex 14 Touch.",
+      "claimType": "policy",
+      "extractedValue": "60",
+      "verifiedValue": "30",
+      "status": "incorrect",
+      "ruleId": "POLICY_MISMATCH",
+      "factId": "fact_032",
+      "reason": "Verified return policy is 30 days.",
+      "checkedAt": "2026-09-25T12:35:00Z"
+    },
+    {
+      "claimId": "clm_149",
+      "answerId": "ans_087",
+      "productId": "prod_010",
+      "text": "The Arcton Swift 14 is rated for 9 hours of battery life.",
+      "claimType": "feature",
+      "extractedValue": "9",
+      "verifiedValue": "9",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_106",
+      "reason": "Matches the verified battery life of 9 h battery.",
+      "checkedAt": "2026-09-25T09:05:00Z"
+    },
+    {
+      "claimId": "clm_150",
+      "answerId": "ans_087",
+      "productId": "prod_006",
+      "text": "Unlike the Kestrel Pocket 12, the Novex Canvas 15 never overheats.",
+      "claimType": "comparison",
+      "extractedValue": "Unlike the Kestrel Pocket 12, the Novex Canvas 15 never overheats.",
+      "verifiedValue": null,
+      "status": "incorrect",
+      "ruleId": "UNFAIR_COMPARISON",
+      "factId": null,
+      "reason": "Names a competitor with the comparative phrase 'unlike' and no verified comparison fact supports it.",
+      "checkedAt": "2026-09-25T09:05:00Z"
+    },
+    {
+      "claimId": "clm_151",
+      "answerId": "ans_088",
+      "productId": "prod_007",
+      "text": "Novex offers a 14-day return policy on the Novex Slate 14.",
+      "claimType": "policy",
+      "extractedValue": "14",
+      "verifiedValue": "14",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_072",
+      "reason": "Matches the verified 14-day return policy.",
+      "checkedAt": "2026-09-26T12:35:00Z"
+    },
+    {
+      "claimId": "clm_152",
+      "answerId": "ans_088",
+      "productId": "prod_004",
+      "text": "The Kestrel Studio 15 comes with a lifetime guarantee.",
+      "claimType": "safety_legal",
+      "extractedValue": "lifetime guarantee",
+      "verifiedValue": null,
+      "status": "unverifiable",
+      "ruleId": "SAFETY_LEGAL",
+      "factId": null,
+      "reason": "Contains safety/legal keyword(s): lifetime guarantee. Escalated for human review.",
+      "checkedAt": "2026-09-26T12:35:00Z"
+    },
+    {
+      "claimId": "clm_153",
+      "answerId": "ans_089",
+      "productId": "prod_008",
+      "text": "The Novex Go 13 weighs 2.8 lb.",
+      "claimType": "feature",
+      "extractedValue": "2.8",
+      "verifiedValue": "2.8",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_087",
+      "reason": "Matches the verified weight of 2.8 lb.",
+      "checkedAt": "2026-09-26T10:35:00Z"
+    },
+    {
+      "claimId": "clm_154",
+      "answerId": "ans_089",
+      "productId": "prod_001",
+      "text": "The Kestrel Aero 14 includes a backlit keyboard.",
+      "claimType": "feature",
+      "extractedValue": "backlit keyboard",
+      "verifiedValue": null,
+      "status": "incorrect",
+      "ruleId": "INVENTED_FEATURE",
+      "factId": null,
+      "reason": "The verified spec sheet lists no backlit keyboard.",
+      "checkedAt": "2026-09-26T10:35:00Z"
+    },
+    {
+      "claimId": "clm_155",
+      "answerId": "ans_090",
+      "productId": "prod_010",
+      "text": "The Arcton Swift 14 costs $469.00.",
+      "claimType": "price",
+      "extractedValue": "469.00",
+      "verifiedValue": "469.00",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_100",
+      "reason": "Matches the verified price.",
+      "checkedAt": "2026-09-27T09:35:00Z"
+    },
+    {
+      "claimId": "clm_156",
+      "answerId": "ans_090",
+      "productId": "prod_001",
+      "text": "Kestrel offers a 60-day return policy on the Kestrel Aero 14.",
+      "claimType": "policy",
+      "extractedValue": "60",
+      "verifiedValue": "30",
+      "status": "incorrect",
+      "ruleId": "POLICY_MISMATCH",
+      "factId": "fact_012",
+      "reason": "Verified return policy is 30 days.",
+      "checkedAt": "2026-09-27T09:35:00Z"
     },
     {
       "claimId": "clm_231",

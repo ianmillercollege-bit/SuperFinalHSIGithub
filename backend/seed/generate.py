@@ -66,8 +66,25 @@ UNKNOWN_MODELS = ["Zephyr Book 13", "Orion Slim 14", "Lumen Pro 15"]
 # The first nine generated answers each carry one of these, so every ruleId is covered.
 RULE_SCHEDULE = ["PRICE_MISMATCH", "PRICE_OUTDATED", "SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH",
                  "POLICY_MISMATCH", "UNFAIR_COMPARISON", "SAFETY_LEGAL", "NO_FACT"]
-# Closed human-reviewed incidents cycle through these outcomes.
+# Closed human-reviewed incidents (older than 7 days) cycle through these outcomes.
 HUMAN_OUTCOMES = ["approved", "rejected_false_alarm", "approved", "rejected", "approved"]
+
+# Human reviews closed in the last 7 days: (days ago, rule, outcome, minutes to resolve). With the
+# shared/mock incidents in the same window (3 human-closed, 1 of them a false alarm, plus 4 instant
+# auto-fixes), this gives a current falseAlarmRate near 0.08 and a median time to resolve near
+# 2.2 hours, in line with the contract's report example (0.06 and 2.5 hours).
+RECENT_REVIEWS = [
+    (6, "INVENTED_FEATURE", "approved", 60),
+    (6, "POLICY_MISMATCH", "approved", 150),
+    (5, "UNFAIR_COMPARISON", "rejected", 240),
+    (5, "SAFETY_LEGAL", "resolved", 300),
+    (5, "INVENTED_FEATURE", "approved", 90),
+    (4, "POLICY_MISMATCH", "approved", 165),
+    (4, "UNFAIR_COMPARISON", "approved", 180),
+    (3, "SAFETY_LEGAL", "resolved", 210),
+    (3, "INVENTED_FEATURE", "approved", 120),
+    (2, "POLICY_MISMATCH", "approved", 135),
+]
 
 
 def iso(dt: datetime) -> str:
@@ -233,37 +250,11 @@ def build() -> dict[str, list[dict]]:
     competitors = [p for p in products if p["brandId"] != "brand_001"]
     new_audit = []
 
-    for k in range(GENERATED_ANSWERS):
-        days_ago = 29 - (k * 27) // GENERATED_ANSWERS  # oldest first, from 29 days ago to 3 days ago
-        captured = (REFERENCE - timedelta(days=days_ago)).replace(hour=rng.randint(8, 20), minute=rng.choice([0, 15, 30, 45]))
-        assistant_id = ASSISTANTS[k % 3]["assistantId"]
-        about_kestrel = k < len(RULE_SCHEDULE) or rng.random() < KESTREL_ANSWER_SHARE
-        # Errors get rarer over the month, matching the improving trend.
-        if k < len(RULE_SCHEDULE):
-            rule = RULE_SCHEDULE[k]
-        elif about_kestrel:
-            rule = rng.choice(RULE_SCHEDULE[:-1]) if rng.random() < 0.75 - 0.5 * (k / GENERATED_ANSWERS) else None
-        else:
-            rule = None
+    def add_answer(text: str, captured: datetime, assistant_id: str, expected_rule: str | None, decide) -> None:
+        """Store an answer, run the checker on it, and store its claims, incidents and audit entries.
 
-        sentences = []
-        if about_kestrel:
-            subject = rng.choice(kestrel)
-            sentences.append(correct_sentence(rng, subject, brand_name[subject["brandId"]]))
-            others = [x for x in products if x is not subject]
-        else:
-            subject, others = None, competitors
-        for p in rng.sample(others, 2 if about_kestrel else 3):
-            sentence = correct_sentence(rng, p, brand_name[p["brandId"]])
-            if sentence not in sentences:  # no repeated sentences within one answer
-                sentences.append(sentence)
-        if about_kestrel and rng.random() < 0.3:
-            sentences.append("The Kestrel Aero 14 is cheaper than the Novex Slate 14.")  # a supported comparison
-        if rule:
-            bad = wrong_sentence(rng, rule, subject, brand_name[subject["brandId"]], products)
-            sentences.insert(rng.randint(1, len(sentences)), bad)
-        text = " ".join(sentences)
-
+        decide(handling, owner) -> (status, resolved datetime, resolvedBy, falseAlarm) for each new incident.
+        """
         mentions = [b for b in ("brand_001", "brand_002", "brand_003")
                     if any(p["name"] in text for p in products if p["brandId"] == b) or brand_name[b] in text]
         order = sorted(mentions, key=lambda b: min(
@@ -300,16 +291,7 @@ def build() -> dict[str, list[dict]]:
             owner = owner_for[r.rule_id]
             incident_id = next(incident_ids)
             created = checked_at
-            false_alarm = False
-            if handling == "auto_fix":
-                status, resolved, by = "auto_fixed", created + timedelta(seconds=2), "system"
-            elif handling == "human_approval":
-                outcome = HUMAN_OUTCOMES[sum(1 for i in incidents if i["handling"] == "human_approval") % 5]
-                status = "approved" if outcome == "approved" else "rejected"
-                false_alarm = outcome == "rejected_false_alarm"
-                resolved, by = created + timedelta(minutes=rng.randint(45, 360)), owner["name"]
-            else:
-                status, resolved, by = "resolved", created + timedelta(minutes=rng.randint(180, 600)), owner["name"]
+            status, resolved, by, false_alarm = decide(handling, owner, created)
             incidents.append({
                 "incidentId": incident_id, "claimId": claim_id, "answerId": answer_id, "productId": c.product_id,
                 "ruleId": r.rule_id, "severity": severity, "handling": handling, "status": status,
@@ -333,8 +315,68 @@ def build() -> dict[str, list[dict]]:
                 new_audit.append((resolved, owner["name"], "human", "rejected", incident_id,
                                   "Rejected as a false alarm. No fix applied." if false_alarm else
                                   "Rejected. No fix applied. Note: Low impact; source already corrected."))
-        if rule and rule not in found_rules:
-            raise AssertionError(f"Template for {rule} was not detected by the checker: {text}")
+        if expected_rule and expected_rule not in found_rules:
+            raise AssertionError(f"Template for {expected_rule} was not detected by the checker: {text}")
+
+    def older_outcome(handling, owner, created):
+        """Older history: auto-fixes in seconds, human outcomes cycling through HUMAN_OUTCOMES."""
+        if handling == "auto_fix":
+            return "auto_fixed", created + timedelta(seconds=2), "system", False
+        if handling == "human_approval":
+            outcome = HUMAN_OUTCOMES[sum(1 for i in incidents if i["handling"] == "human_approval") % 5]
+            return ("approved" if outcome == "approved" else "rejected",
+                    created + timedelta(minutes=rng.randint(45, 360)), owner["name"],
+                    outcome == "rejected_false_alarm")
+        return "resolved", created + timedelta(minutes=rng.randint(180, 600)), owner["name"], False
+
+    for k in range(GENERATED_ANSWERS):
+        # Oldest first, from 29 to 9 days ago, so the last 7 days are set only by RECENT_REVIEWS
+        # and the shared/mock examples.
+        days_ago = 29 - (k * 21) // GENERATED_ANSWERS
+        captured = (REFERENCE - timedelta(days=days_ago)).replace(hour=rng.randint(8, 20), minute=rng.choice([0, 15, 30, 45]))
+        assistant_id = ASSISTANTS[k % 3]["assistantId"]
+        about_kestrel = k < len(RULE_SCHEDULE) or rng.random() < KESTREL_ANSWER_SHARE
+        # Errors get rarer over the month, matching the improving trend.
+        if k < len(RULE_SCHEDULE):
+            rule = RULE_SCHEDULE[k]
+        elif about_kestrel:
+            rule = rng.choice(RULE_SCHEDULE[:-1]) if rng.random() < 0.75 - 0.5 * (k / GENERATED_ANSWERS) else None
+        else:
+            rule = None
+
+        sentences = []
+        if about_kestrel:
+            subject = rng.choice(kestrel)
+            sentences.append(correct_sentence(rng, subject, brand_name[subject["brandId"]]))
+            others = [x for x in products if x is not subject]
+        else:
+            subject, others = None, competitors
+        for p in rng.sample(others, 2 if about_kestrel else 3):
+            sentence = correct_sentence(rng, p, brand_name[p["brandId"]])
+            if sentence not in sentences:  # no repeated sentences within one answer
+                sentences.append(sentence)
+        if about_kestrel and rng.random() < 0.3:
+            sentences.append("The Kestrel Aero 14 is cheaper than the Novex Slate 14.")  # a supported comparison
+        if rule:
+            bad = wrong_sentence(rng, rule, subject, brand_name[subject["brandId"]], products)
+            sentences.insert(rng.randint(1, len(sentences)), bad)
+        add_answer(" ".join(sentences), captured, assistant_id, rule, older_outcome)
+
+    # The last 7 days: human reviews that close in hours, no new false alarms (see RECENT_REVIEWS).
+    for n, (days_ago, rule, outcome, minutes) in enumerate(RECENT_REVIEWS):
+        captured = (REFERENCE - timedelta(days=days_ago)).replace(hour=rng.randint(8, 12), minute=rng.choice([0, 30]))
+        subject = rng.choice(kestrel)
+        rival = rng.choice(competitors)
+        sentences = [correct_sentence(rng, rival, brand_name[rival["brandId"]]),
+                     wrong_sentence(rng, rule, subject, brand_name[subject["brandId"]], products)]
+
+        def recent_outcome(handling, owner, created, outcome=outcome, minutes=minutes, rule=rule):
+            expected = "escalate" if outcome == "resolved" else "human_approval"
+            if handling != expected:
+                raise AssertionError(f"RECENT_REVIEWS {rule} got handling {handling}, expected {expected}")
+            return outcome, created + timedelta(minutes=minutes), owner["name"], False
+
+        add_answer(" ".join(sentences), captured, ASSISTANTS[n % 3]["assistantId"], rule, recent_outcome)
 
     # Every incident needs at least one audit entry (mock incidents inc_32 and inc_33 had none).
     audited = {e["targetId"] for e in audit} | {e[4] for e in new_audit}
