@@ -53,8 +53,8 @@
       "aiSaid": "32 GB RAM",
       "verifiedFact": "16 GB RAM",
       "proposedFix": "Publish verified RAM (16 GB RAM) to the product feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-01T16:50:00Z",
       "resolvedAt": "2026-09-01T16:50:02Z",
@@ -73,12 +73,12 @@
       "aiSaid": "The Kestrel Flex 14 Touch includes a fingerprint reader.",
       "verifiedFact": "No fingerprint reader (verified spec sheet).",
       "proposedFix": "Add an explicit 'no fingerprint reader' line to the Kestrel Flex 14 Touch product page and feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_03",
+      "ownerName": "Grace Kim",
       "falseAlarm": false,
       "createdAt": "2026-09-01T20:20:00Z",
       "resolvedAt": "2026-09-02T01:53:00Z",
-      "resolvedBy": "Dev Patel"
+      "resolvedBy": "Grace Kim"
     },
     {
       "incidentId": "inc_05",
@@ -93,8 +93,8 @@
       "aiSaid": "out of stock",
       "verifiedFact": "in stock",
       "proposedFix": "Publish verified availability (in stock) to the product feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-02T10:05:00Z",
       "resolvedAt": "2026-09-02T10:05:02Z",
@@ -113,12 +113,12 @@
       "aiSaid": "45-day returns",
       "verifiedFact": "30-day returns",
       "proposedFix": "Publish the verified 30-day return policy to the product feed and FAQ.",
-      "ownerId": "own_03",
-      "ownerName": "Grace Kim",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": true,
       "createdAt": "2026-09-02T10:35:00Z",
       "resolvedAt": "2026-09-02T16:03:00Z",
-      "resolvedBy": "Grace Kim"
+      "resolvedBy": "Maria Lopez"
     },
     {
       "incidentId": "inc_07",
@@ -193,12 +193,12 @@
       "aiSaid": "45-day returns",
       "verifiedFact": "30-day returns",
       "proposedFix": "Publish the verified 30-day return policy to the product feed and FAQ.",
-      "ownerId": "own_03",
-      "ownerName": "Grace Kim",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-19T15:35:00Z",
       "resolvedAt": "2026-09-19T18:46:00Z",
-      "resolvedBy": "Grace Kim"
+      "resolvedBy": "Maria Lopez"
     },
     {
       "incidentId": "inc_11",
@@ -213,12 +213,12 @@
       "aiSaid": "The Kestrel Aero 13 Lite includes stylus support.",
       "verifiedFact": "No stylus (verified spec sheet).",
       "proposedFix": "Add an explicit 'no stylus' line to the Kestrel Aero 13 Lite product page and feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_03",
+      "ownerName": "Grace Kim",
       "falseAlarm": false,
       "createdAt": "2026-09-23T12:05:00Z",
       "resolvedAt": "2026-09-23T13:05:00Z",
-      "resolvedBy": "Dev Patel"
+      "resolvedBy": "Grace Kim"
     },
     {
       "incidentId": "inc_12",
@@ -253,12 +253,12 @@
       "aiSaid": "45-day returns",
       "verifiedFact": "30-day returns",
       "proposedFix": "Publish the verified 30-day return policy to the product feed and FAQ.",
-      "ownerId": "own_03",
-      "ownerName": "Grace Kim",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-23T10:05:00Z",
       "resolvedAt": "2026-09-23T12:35:00Z",
-      "resolvedBy": "Grace Kim"
+      "resolvedBy": "Maria Lopez"
     },
     {
       "incidentId": "inc_14",
@@ -313,12 +313,12 @@
       "aiSaid": "The Kestrel Flex 14 Touch includes 5G connectivity.",
       "verifiedFact": "No 5g (verified spec sheet).",
       "proposedFix": "Add an explicit 'no 5g' line to the Kestrel Flex 14 Touch product page and feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_03",
+      "ownerName": "Grace Kim",
       "falseAlarm": false,
       "createdAt": "2026-09-24T10:05:00Z",
       "resolvedAt": "2026-09-24T11:35:00Z",
-      "resolvedBy": "Dev Patel"
+      "resolvedBy": "Grace Kim"
     },
     {
       "incidentId": "inc_17",
@@ -333,12 +333,12 @@
       "aiSaid": "60-day returns",
       "verifiedFact": "30-day returns",
       "proposedFix": "Publish the verified 30-day return policy to the product feed and FAQ.",
-      "ownerId": "own_03",
-      "ownerName": "Grace Kim",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-25T12:35:00Z",
       "resolvedAt": "2026-09-25T15:20:00Z",
-      "resolvedBy": "Grace Kim"
+      "resolvedBy": "Maria Lopez"
     },
     {
       "incidentId": "inc_18",
@@ -413,12 +413,12 @@
       "aiSaid": "The Kestrel Aero 14 includes a backlit keyboard.",
       "verifiedFact": "No backlit keyboard (verified spec sheet).",
       "proposedFix": "Add an explicit 'no backlit keyboard' line to the Kestrel Aero 14 product page and feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_03",
+      "ownerName": "Grace Kim",
       "falseAlarm": false,
       "createdAt": "2026-09-26T10:35:00Z",
       "resolvedAt": "2026-09-26T12:35:00Z",
-      "resolvedBy": "Dev Patel"
+      "resolvedBy": "Grace Kim"
     },
     {
       "incidentId": "inc_22",
@@ -433,12 +433,12 @@
       "aiSaid": "60-day returns",
       "verifiedFact": "30-day returns",
       "proposedFix": "Publish the verified 30-day return policy to the product feed and FAQ.",
-      "ownerId": "own_03",
-      "ownerName": "Grace Kim",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-27T09:35:00Z",
       "resolvedAt": "2026-09-27T11:50:00Z",
-      "resolvedBy": "Grace Kim"
+      "resolvedBy": "Maria Lopez"
     },
     {
       "incidentId": "inc_28",
@@ -473,12 +473,12 @@
       "aiSaid": "60-day returns",
       "verifiedFact": "30-day returns",
       "proposedFix": "Publish the verified 30-day return policy to the product feed and FAQ.",
-      "ownerId": "own_03",
-      "ownerName": "Grace Kim",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-28T15:00:00Z",
       "resolvedAt": "2026-09-28T17:30:00Z",
-      "resolvedBy": "Grace Kim"
+      "resolvedBy": "Maria Lopez"
     },
     {
       "incidentId": "inc_31",
@@ -493,8 +493,8 @@
       "aiSaid": "out of stock",
       "verifiedFact": "in stock",
       "proposedFix": "Publish verified availability (in stock) to the product feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-29T17:05:01Z",
       "resolvedAt": "2026-09-29T17:05:03Z",
@@ -533,8 +533,8 @@
       "aiSaid": "16 GB RAM",
       "verifiedFact": "8 GB RAM",
       "proposedFix": "Publish verified RAM (8 GB) to the product feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_01",
+      "ownerName": "Maria Lopez",
       "falseAlarm": false,
       "createdAt": "2026-09-29T14:12:00Z",
       "resolvedAt": "2026-09-29T14:12:02Z",
@@ -553,8 +553,8 @@
       "aiSaid": "backlit fingerprint reader",
       "verifiedFact": "No fingerprint reader (verified spec sheet).",
       "proposedFix": "Add an explicit 'no fingerprint reader' line to the Kestrel Aero 14 product page and feed.",
-      "ownerId": "own_02",
-      "ownerName": "Dev Patel",
+      "ownerId": "own_03",
+      "ownerName": "Grace Kim",
       "falseAlarm": false,
       "createdAt": "2026-09-29T17:10:00Z",
       "resolvedAt": null,

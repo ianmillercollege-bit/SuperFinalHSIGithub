@@ -26,8 +26,9 @@ def test_owners(client):
     assert res.status_code == 200
     owners = res.json()["owners"]
     assert [(o["name"], o["role"]) for o in owners] == [
-        ("Maria Lopez", "Pricing Manager"), ("Dev Patel", "Product Content Lead"),
-        ("Grace Kim", "Legal and Compliance")]
+        ("Maria Lopez", "Brand Data Owner"), ("Dev Patel", "CIRQO Product Owner"),
+        ("Grace Kim", "CIRQO Trust and Safety Lead")]  # business plan 5.1 roles
+    assert owners[1]["incidentTypes"] == []  # the Product Owner owns rule and model changes, not incidents
     # Together they cover every ruleId that can create an incident, each exactly once.
     types = [t for o in owners for t in o["incidentTypes"]]
     assert sorted(types) == sorted(INCIDENT_RULES)

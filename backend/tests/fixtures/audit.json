@@ -43,7 +43,7 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_44",
-      "details": "INVENTED_FEATURE incident from clm_303. Awaiting approval from Dev Patel."
+      "details": "INVENTED_FEATURE incident from clm_303. Awaiting approval from Grace Kim."
     },
     {
       "auditId": "aud_502",
@@ -102,7 +102,7 @@
     {
       "auditId": "aud_481",
       "timestamp": "2026-09-28T17:30:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_30",
