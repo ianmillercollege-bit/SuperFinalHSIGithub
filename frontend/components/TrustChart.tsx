@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { formatDay, formatPercent } from "@/lib/format";
 import type { TrustDaily } from "@/lib/types";
 
@@ -15,6 +18,8 @@ const SERIES: { key: SeriesKey; label: string; className: string }[] = [
 
 /** Hand-drawn SVG line chart of the contract's daily trust metrics (all 0 to 1). */
 export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
+  const [shown, setShown] = useState<SeriesKey | "all">("all");
+  const visible = SERIES.filter((s) => shown === "all" || s.key === shown);
   const n = daily.length;
   const x = (i: number) => (n === 1 ? W / 2 : PAD.left + (i * (W - PAD.left - PAD.right)) / (n - 1));
   const y = (v: number) => PAD.top + (1 - v) * (H - PAD.top - PAD.bottom);
@@ -45,8 +50,8 @@ export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
             {formatDay(daily[i].date)}
           </text>
         ))}
-        <path className="area-accuracy" d={areaPath} />
-        {SERIES.map((s) => (
+        {visible.some((s) => s.key === "accuracyRate") && <path className="area-accuracy" d={areaPath} />}
+        {visible.map((s) => (
           <path key={s.key} className={`line ${s.className}`} d={pathFor(s.key)} />
         ))}
         {daily.map((d, i) => (
@@ -59,8 +64,17 @@ export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
           </circle>
         ))}
       </svg>
+      <fieldset className="mode-toggle">
+        <legend className="small">Show</legend>
+        {[{ key: "all" as const, label: "All three" }, ...SERIES].map((o) => (
+          <label key={o.key} className="check">
+            <input type="radio" name="trust-series" checked={shown === o.key} onChange={() => setShown(o.key)} />
+            {o.label}
+          </label>
+        ))}
+      </fieldset>
       <figcaption className="legend">
-        {SERIES.map((s) => (
+        {visible.map((s) => (
           <span key={s.key} className="legend-item">
             <span className={`legend-swatch ${s.className}`} aria-hidden />
             {s.label} {formatPercent(first[s.key])} → {formatPercent(last[s.key])}
