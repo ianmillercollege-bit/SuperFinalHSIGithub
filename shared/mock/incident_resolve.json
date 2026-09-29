@@ -1,0 +1,20 @@
+{
+  "incidentId": "inc_47",
+  "claimId": "clm_307",
+  "answerId": "ans_118",
+  "productId": "prod_006",
+  "ruleId": "SAFETY_LEGAL",
+  "severity": "critical",
+  "handling": "escalate",
+  "status": "resolved",
+  "summary": "Assistant C claimed the Kestrel Pocket 12 is certified child-safe.",
+  "aiSaid": "certified child-safe",
+  "verifiedFact": "No safety certification on file for the Kestrel Pocket 12.",
+  "proposedFix": null,
+  "ownerId": "own_03",
+  "ownerName": "Grace Kim",
+  "falseAlarm": false,
+  "createdAt": "2026-09-29T17:40:00Z",
+  "resolvedAt": "2026-09-29T18:15:00Z",
+  "resolvedBy": "Grace Kim"
+}

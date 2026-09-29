@@ -1,0 +1,20 @@
+{
+  "incidentId": "inc_45",
+  "claimId": "clm_305",
+  "answerId": "ans_119",
+  "productId": "prod_001",
+  "ruleId": "UNFAIR_COMPARISON",
+  "severity": "high",
+  "handling": "human_approval",
+  "status": "rejected",
+  "summary": "Assistant A compared the Kestrel Aero 14 unfavorably to the Novex Slate 14 with no supporting facts.",
+  "aiSaid": "Unlike the Kestrel Aero 14, the Novex Slate 14 never overheats.",
+  "verifiedFact": "No verified thermal comparison between these products.",
+  "proposedFix": "Publish the verified thermal specs for the Kestrel Aero 14 and request a correction from the cited forum source.",
+  "ownerId": "own_03",
+  "ownerName": "Grace Kim",
+  "falseAlarm": true,
+  "createdAt": "2026-09-29T17:20:00Z",
+  "resolvedAt": "2026-09-29T18:12:00Z",
+  "resolvedBy": "Grace Kim"
+}

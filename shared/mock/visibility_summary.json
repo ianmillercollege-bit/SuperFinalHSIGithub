@@ -1,0 +1,42 @@
+{
+  "brandId": "brand_001",
+  "brandName": "Kestrel",
+  "periodDays": 30,
+  "visibilityRate": 0.46,
+  "averageRank": 2.7,
+  "shareOfVoice": 0.31,
+  "competitors": [
+    {
+      "brandName": "Arcton",
+      "visibilityRate": 0.61,
+      "averageRank": 2.1,
+      "shareOfVoice": 0.38
+    },
+    {
+      "brandName": "Novex",
+      "visibilityRate": 0.44,
+      "averageRank": 3.0,
+      "shareOfVoice": 0.31
+    }
+  ],
+  "byAssistant": [
+    {
+      "assistantId": "ast_01",
+      "name": "Assistant A",
+      "visibilityRate": 0.52,
+      "averageRank": 2.4
+    },
+    {
+      "assistantId": "ast_02",
+      "name": "Assistant B",
+      "visibilityRate": 0.41,
+      "averageRank": 3.0
+    },
+    {
+      "assistantId": "ast_03",
+      "name": "Assistant C",
+      "visibilityRate": 0.45,
+      "averageRank": 2.7
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-09-29T18:00:00Z",
+  "periodDays": 30,
+  "brandName": "Kestrel",
+  "impact": {
+    "accuracyStart": 0.62,
+    "accuracyEnd": 0.9,
+    "hallucinationStart": 0.12,
+    "hallucinationEnd": 0.04,
+    "visibilityStart": 0.35,
+    "visibilityEnd": 0.54
+  },
+  "incidents": {
+    "total": 142,
+    "autoFixed": 96,
+    "humanApproved": 22,
+    "rejected": 9,
+    "escalated": 7,
+    "open": 8,
+    "medianTimeToResolveHours": 2.5
+  },
+  "topSources": [
+    {
+      "sourceId": "src_01",
+      "name": "Example Tech Reviews",
+      "citationShare": 0.34,
+      "accuracyRate": 0.81
+    },
+    {
+      "sourceId": "src_02",
+      "name": "ShopMart Marketplace",
+      "citationShare": 0.21,
+      "accuracyRate": 0.74
+    },
+    {
+      "sourceId": "src_03",
+      "name": "Kestrel Official Store",
+      "citationShare": 0.16,
+      "accuracyRate": 0.97
+    }
+  ],
+  "openHighRisk": [
+    "inc_44",
+    "inc_45",
+    "inc_46",
+    "inc_47"
+  ],
+  "governance": {
+    "automated": [
+      "low and medium price, spec, and availability fixes"
+    ],
+    "humanReviewed": [
+      "large price errors",
+      "invented features",
+      "policy misstatements",
+      "unfair comparisons"
+    ],
+    "escalateOnly": [
+      "safety and legal claims"
+    ],
+    "owners": [
+      {
+        "name": "Maria Lopez",
+        "role": "Pricing Manager"
+      },
+      {
+        "name": "Dev Patel",
+        "role": "Product Content Lead"
+      },
+      {
+        "name": "Grace Kim",
+        "role": "Legal and Compliance"
+      }
+    ]
+  }
+}

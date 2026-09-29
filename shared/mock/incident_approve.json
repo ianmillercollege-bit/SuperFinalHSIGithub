@@ -1,0 +1,20 @@
+{
+  "incidentId": "inc_44",
+  "claimId": "clm_303",
+  "answerId": "ans_119",
+  "productId": "prod_001",
+  "ruleId": "INVENTED_FEATURE",
+  "severity": "high",
+  "handling": "human_approval",
+  "status": "approved",
+  "summary": "Assistant A said the Kestrel Aero 14 has a fingerprint reader. It does not.",
+  "aiSaid": "backlit fingerprint reader",
+  "verifiedFact": "No fingerprint reader (verified spec sheet).",
+  "proposedFix": "Add an explicit 'no fingerprint reader' line to the Kestrel Aero 14 product page and feed.",
+  "ownerId": "own_02",
+  "ownerName": "Dev Patel",
+  "falseAlarm": false,
+  "createdAt": "2026-09-29T17:10:00Z",
+  "resolvedAt": "2026-09-29T18:10:00Z",
+  "resolvedBy": "Dev Patel"
+}
