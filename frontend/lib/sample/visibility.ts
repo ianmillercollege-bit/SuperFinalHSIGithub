@@ -3,6 +3,7 @@
 // weaknesses, and the business's market share. Edit it here only.
 import type { Assistant, TrackedPrompt } from "../schema";
 import type { RuleId } from "../types";
+import { sampleBusiness } from "./sampleBusiness";
 
 export const assistants: Assistant[] = [
   { assistantId: "ast_a", name: "Assistant A" },
@@ -12,18 +13,18 @@ export const assistants: Assistant[] = [
 ];
 
 export const prompts: TrackedPrompt[] = [
-  { promptId: "p01", text: "Best outdoor gear shop near Asheville" },
-  { promptId: "p02", text: "Where to buy hiking boots in Asheville" },
-  { promptId: "p03", text: "Local store that rents camping gear" },
-  { promptId: "p04", text: "Best rain jacket for Blue Ridge hiking" },
-  { promptId: "p05", text: "Independent outdoor store with a good return policy" },
-  { promptId: "p06", text: "Where can I get a backpack fitted near me" },
-  { promptId: "p07", text: "Who sells trail running shoes in western North Carolina" },
-  { promptId: "p08", text: "Store open Sunday for camping supplies in Asheville" },
-  { promptId: "p09", text: "Best place to buy a used kayak near Asheville" },
-  { promptId: "p10", text: "Outdoor shop with knowledgeable staff for beginners" },
-  { promptId: "p11", text: "Where to buy fly fishing gear in Asheville" },
-  { promptId: "p12", text: "Gift ideas for a hiker from a local shop" },
+  { promptId: "p01", text: "Best laptop under $500 for school" },
+  { promptId: "p02", text: "Lightweight laptop for travel" },
+  { promptId: "p03", text: `Is the ${sampleBusiness.name} Aero 14 in stock` },
+  { promptId: "p04", text: "Laptop with the best battery life under $600" },
+  { promptId: "p05", text: "Laptop brands with an easy return policy" },
+  { promptId: "p06", text: "Best 14-inch laptop for college" },
+  { promptId: "p07", text: "Which budget laptop has 16 GB of RAM" },
+  { promptId: "p08", text: "Cheapest laptop that is actually in stock this week" },
+  { promptId: "p09", text: "Refurbished laptop with a warranty" },
+  { promptId: "p10", text: "Good first laptop for a high school student" },
+  { promptId: "p11", text: "Touchscreen laptop for note-taking" },
+  { promptId: "p12", text: "Laptop gift for a student under $500" },
 ];
 
 /**

@@ -1,10 +1,11 @@
 // Sample-only signed-in user for the sidebar chip. The contract has no users or
-// sign-in (NEEDS LEAD DECISION in INTEGRATION.md). Business is the seeded
-// client brand from BACKEND_CONTRACT.md section 9.
+// sign-in (DECISIONS.md #27: the chip is sample-only and labeled).
+import { sampleBusiness } from "./sampleBusiness";
+
 export const sampleUser = {
   name: "Demo User",
   role: "Brand Manager",
-  business: "Kestrel",
+  business: sampleBusiness.name,
 };
 
 export function initialsOf(name: string): string {

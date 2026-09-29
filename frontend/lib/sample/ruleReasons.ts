@@ -6,7 +6,7 @@ import type { RuleReason } from "../schema";
 export const ruleReasons: RuleReason[] = [
   {
     ruleId: "NO_FACT",
-    text: "Assistants found no verified facts for your products or store, so they left you out.",
+    text: "Assistants found no verified facts for your laptops, so they left you out.",
     opportunityId: "opp_structured_data",
   },
   {
@@ -36,12 +36,12 @@ export const ruleReasons: RuleReason[] = [
   },
   {
     ruleId: "UNFAIR_COMPARISON",
-    text: "Assistants compared you to other stores with no verified facts behind it.",
+    text: "Assistants compared you to other brands with no verified facts behind it.",
     opportunityId: "opp_comparison_facts",
   },
   {
     ruleId: "POLICY_MISMATCH",
-    text: "Assistants got your return or rental policy wrong.",
+    text: "Assistants got your return or warranty policy wrong.",
     opportunityId: "opp_clear_policies",
   },
   {

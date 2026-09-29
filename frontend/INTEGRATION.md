@@ -17,7 +17,7 @@ v1.1 endpoint. `NEXT_PUBLIC_USE_MOCK=true` reads the contract-named files in `sh
 | Claims Reviewed `/claims/reviewed` | `GET /incidents` for `approved`, `rejected`, `resolved`, `auto_fixed`, plus `GET /audit` |
 | Sidebar badge | open incidents = `pending_approval` + `escalated` |
 
-Old routes redirect: `/` to `/dashboard` (the swipe funnel is dropped, #25), `/approvals` and
+Old routes redirect: `/` to `/dashboard` (home page, #29; the swipe funnel is dropped, #25), `/approvals` and
 `/incidents` to `/claims/outstanding`, `/incidents/{id}` to `/claims/{id}`, `/audit` to
 `/claims/reviewed`.
 
@@ -27,6 +27,7 @@ Growth Simulator and AI Coach have no contract endpoint, so they are out of the 
 routes. Their code is kept for later: `components/screens/Growth.tsx`, `components/RevenueEstimate.tsx`,
 `lib/coach/`, `lib/sample/`, `lib/simulator.ts`. `npm run check:sample` still checks that sample data.
 This overrides decisions 11 and 27, which kept the coach as a frontend-only extra (user decision).
+Per decision 28 their sample data is about Kestrel, the contract's brand (`lib/sample/sampleBusiness.ts`).
 
 ## Labeling rules (DECISIONS.md #12, #13)
 
@@ -39,6 +40,4 @@ This overrides decisions 11 and 27, which kept the coach as a frontend-only extr
 - **Connector not live yet.** `POST /api/v1/connector/query` returns 404 on the live backend and
   `shared/mock/connector_query.json` doesn't exist yet. No frontend change is needed once either lands.
 - **Extras parked** against decisions 11 and 27 (see "Parked" above).
-- **Unused sample file.** `lib/sample/visibilityMarket.ts` (Harbor Home Goods) is no longer used,
-  because AI Visibility and Market Position now use the contract endpoints (#27).
 - **Escalated incidents** can only be resolved by the owner (`POST .../resolve`), as in the contract.

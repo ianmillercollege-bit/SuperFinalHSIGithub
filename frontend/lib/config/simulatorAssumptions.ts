@@ -3,7 +3,7 @@
 //
 // revenuePerVisibilityPoint is the one constant the simulator uses. The list
 // below explains where it comes from:
-//   2,000 queries x 1% per point x 10% conversion x $143.33 order ≈ $286.67 per point.
+//   2,000 queries x 1% per point x 3.33% conversion x $430 order ≈ $286.67 per point.
 // If you change the explanation, update the constant to match (npm run check:sample
 // verifies they agree within $1).
 import type { SimulatorAssumptions } from "../schema";
@@ -25,15 +25,15 @@ export const simulatorAssumptions: SimulatorAssumptions = {
     },
     {
       label: "Conversion rate",
-      value: 0.1,
+      value: 0.0333,
       unit: "rate",
       explanation: "Share of shoppers who see the business in an answer and then buy.",
     },
     {
       label: "Average order value",
-      value: 143.33,
+      value: 430,
       unit: "usd",
-      explanation: "Typical purchase size for an outdoor gear shop.",
+      explanation: "Typical price of one of the brand's laptops.",
     },
   ],
 };
