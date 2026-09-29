@@ -58,5 +58,5 @@ It is 9/29 afternoon. The tech submission is due **6:00 AM CT 9/30** (the tech i
 | 13 | AI Visibility Score | Display rule only: `round(visibilityRate x 100)`. No new API field. |
 | 14 | Reason codes | Frontend uses the contract's `ruleId` list, not its own codes. |
 | 15 | Frontend priority | Core screens first (shopper demo, incidents, approvals, audit log, 30-day trust chart), extras after. |
-| 16 | Seed data ownership | **Lead owns `backend/seed/`** on branch `backend/seed-data`. Backend engineer does not edit that folder. |
+| 16 | Seed data ownership | ~~Lead owns `backend/seed/`~~ **Reassigned 3:15 PM CT: backend engineer owns `backend/seed/`** on branch `backend/seed-data`. Lead focuses on hosting, README, run.sh, smoke_test.sh and submission. |
 | 17 | Seed data hand-off format | `backend/seed/generate.py` writes JSON files to `backend/seed/data/`: `brands.json`, `products.json`, `assistants.json`, `sources.json`, `owners.json`, `answers.json`, `claims.json`, `incidents.json`, `audit.json`, `daily_metrics.json`. Same camelCase shapes as the contract, plus seed-only fields (`isClient`, `billingTier` on brands, `priceHistory` on products). The backend loads these into SQLite on startup. Due 6:30 PM CT. |
