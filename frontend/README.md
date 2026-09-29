@@ -1,21 +1,20 @@
 # CIRQO frontend
 
-Next.js (App Router, TypeScript). **All results shown are seeded or simulated demo data**, labeled
-"Sample data" on every page. Revenue figures are illustrative estimates, and the coach gives
-pre-written demo answers.
+Next.js (App Router, TypeScript). CIRQO is an API plugin for AI assistants plus a brand dashboard.
+**All results shown are seeded or simulated demo data**, labeled "Sample data" on every page.
 
-| URL | Screen |
-|-----|--------|
-| `/dashboard` | Dashboard with the 30-day trust chart |
-| `/opportunities` | Opportunity Gaps (placeholder) |
-| `/simulator` | Growth Simulator (sample business, illustrative revenue estimate) |
-| `/coach` | AI Coach (pre-written demo answers) |
-| `/claims/new`, `/claims/outstanding`, `/claims/reviewed` | Claims section (placeholders) |
-| `/` | Shopper demo (not in the nav) |
+| URL | Page |
+|-----|------|
+| `/dashboard` | Dashboard with the 30-day trust trend |
+| `/visibility` | AI Visibility |
+| `/market` | Market Position |
+| `/assistant` | Assistant Simulator (what an AI assistant gets from CIRQO) |
+| `/claims/new` | File a Claim (sends an answer to the checker) |
+| `/claims/outstanding`, `/claims/[id]` | Outstanding Claims, approve / reject / resolve |
+| `/claims/reviewed` | Claims Reviewed and the Insights log |
+| `/simulator`, `/coach` | Extras on frontend sample data (illustrative revenue estimate, pre-written coach answers) |
 
-Navigation is defined once in `lib/nav.ts`.
-
-See `INTEGRATION.md` for where data comes from.
+Navigation is defined once in `lib/nav.ts`. See `INTEGRATION.md` for which endpoint each page uses.
 
 ## Run locally
 

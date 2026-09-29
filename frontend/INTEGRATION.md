@@ -1,69 +1,45 @@
 # Where data comes from
 
-## Core screens (contract data)
+CIRQO is an API plugin for AI assistants plus a brand dashboard (DECISIONS.md #25). Every page except
+the two extras calls the backend through `lib/api.ts`, one typed function per `BACKEND_CONTRACT.md`
+v1.1 endpoint. `NEXT_PUBLIC_USE_MOCK=true` reads the contract-named files in `shared/mock/`
+(read-only); otherwise pages call `NEXT_PUBLIC_API_URL`. `npm run check:mock` shows which mock files exist.
 
-Shopper demo, trust dashboard, incidents, approvals, and audit log call the typed functions in
-`lib/api.ts`, one per `BACKEND_CONTRACT.md` endpoint. `NEXT_PUBLIC_USE_MOCK=true` reads the
-contract-named files in `shared/mock/` (read-only); otherwise they call `NEXT_PUBLIC_API_URL`.
-`npm run check:mock` shows which mock files exist.
+| Page | Endpoints (DECISIONS.md #27) |
+|------|------------------------------|
+| Dashboard `/dashboard` | `GET /metrics/trust?days=30` |
+| AI Visibility `/visibility` | `GET /visibility/summary`, `GET /answers` |
+| Market Position `/market` | `competitors` in `GET /visibility/summary` |
+| Assistant Simulator `/assistant` | `POST /connector/query` (v1.1), assistants from `GET /visibility/summary` |
+| File a Claim `/claims/new` | `POST /checker/run` (pasted answer or recorded `answerId`) |
+| Outstanding Claims `/claims/outstanding` | `GET /incidents?status=pending_approval` and `status=escalated` |
+| Claim detail `/claims/[id]` | `GET /incidents/{id}`, `POST .../approve`, `.../reject`, `.../resolve`, `GET /audit?targetId=` |
+| Claims Reviewed `/claims/reviewed` | `GET /incidents` for `approved`, `rejected`, `resolved`, `auto_fixed`, plus `GET /audit` |
+| Sidebar badge | open incidents = `pending_approval` + `escalated` |
+
+Old routes redirect: `/` to `/dashboard` (the swipe funnel is dropped, #25), `/approvals` and
+`/incidents` to `/claims/outstanding`, `/incidents/{id}` to `/claims/{id}`, `/audit` to
+`/claims/reviewed`, `/growth` to `/simulator`.
 
 ## Extras (frontend-only sample data, DECISIONS.md #11)
 
-The Growth page (score, revenue estimate, coach) uses the frontend's own sample business and has no
-backend endpoints. To plug in real data later, change only `lib/dataSource.ts` (views) or the
-`coach` provider in `lib/coach/index.ts`. Pages don't change.
-
-| What | File |
-|------|------|
-| Business name, category, region | `lib/sample/sampleBusiness.ts` (the only place the name is written) |
-| Prompts, assistants, who appeared and why (contract `ruleId`s, #14) | `lib/sample/visibility.ts` |
-| Plain-English reason per `ruleId`, linked to an opportunity | `lib/sample/ruleReasons.ts` |
-| Opportunities (lift points, effort, steps) | `lib/sample/opportunities.ts` |
-| Past weekly scores | `lib/sample/overview.ts` |
-| Competitors and similar businesses | `lib/sample/market.ts` |
-| Revenue assumptions | `lib/config/simulatorAssumptions.ts` |
-| Coach questions and answer templates | `lib/coach/sampleCoach.ts` |
-
-Summary numbers are calculated in `lib/sample/derive.ts`, never typed twice. Run
-`npm run check:sample` after any edit.
+Growth Simulator (`/simulator`) and AI Coach (`/coach`) use the frontend's own sample business and
+have no backend endpoints. Sample data lives in `lib/sample/`; summary numbers are derived in
+`lib/sample/derive.ts`. Run `npm run check:sample` after any edit.
 
 ## Labeling rules (DECISIONS.md #12, #13)
 
-- Every page shows a "Sample data" badge (in `components/NavBar.tsx`).
-- Revenue is only shown through `components/RevenueEstimate.tsx`, labeled "Illustrative estimate"
-  with its assumptions. Coach answers label dollar amounts the same way.
+- Every page shows a "Sample data" badge (sidebar). The user chip is sample-only and labeled.
+- Revenue is only shown through `components/RevenueEstimate.tsx`, labeled "Illustrative estimate".
 - The coach states it gives pre-written demo answers.
 - AI Visibility Score = `round(visibilityRate x 100)`.
 
 ## NEEDS LEAD DECISION
 
-- **Endpoints now unused by the UI.** The old Incidents, Approvals and Audit log pages were replaced
-  by the Claims section (old routes redirect to `/claims/outstanding` and `/claims/reviewed`). Their
-  `lib/api.ts` functions and `shared/mock/` files are kept but nothing calls them yet:
-  `GET /api/v1/incidents`, `GET /api/v1/incidents/{incidentId}`,
-  `POST /api/v1/incidents/{incidentId}/approve | reject | resolve`, `GET /api/v1/audit`
-  (and `GET /api/v1/owners`, never used). Should the Claims pages use these?
-- **Claims are sample-only.** No claims endpoints exist in the contract. Pages get claims only from
-  `lib/claims/gateway.ts` (seed in `lib/sample/claims.ts`, saved in the browser under
-  `cirqo.sample.v1.demo.claims`). The 2 spotted errors are sample too: the contract's incidents are
-  about Kestrel laptops, not Harbor Home Goods.
-- **Escalated claims have no way to close.** The agreed workflow (`lib/claims/workflow.ts`) allows no
-  move out of `escalated`, and safety/legal claims are escalated on creation, so they stay open. How
-  should Legal close them (accept / not uphold / resolve)?
-- **Demo accounts and roles** (Owner, Approver, Viewer in `lib/sample/demoAccounts.ts`) are
-  sample-only because there is no login. The sidebar chip still shows "Demo User".
-- **"Reset demo data"** exists only as `claimsGateway.resetDemoData()`; there was no reset control
-  or profile system before, so there is no button for it yet.
-- **Three business names.** Growth Simulator and AI Coach use Juniper Trail Outfitters
-  (`lib/sample/sampleBusiness.ts`), the sidebar chip and contract data use Kestrel, and
-  `lib/sample/visibilityMarket.ts` plus claims use Harbor Home Goods. Which one is the demo business?
-- **Users and sign-in.** The contract has none. The sidebar user chip is sample-only
-  (`lib/sample/sampleUser.ts`) and "Sign out" is disabled ("Soon").
-- **Shopper demo** still works at `/` but is not in the new nav.
-- **Opportunity Gaps** (`/opportunities`) is a title-only placeholder; AI Visibility and Market
-  Position are disabled ("Soon").
-
-## Still unconfirmed in the contract
-
-- A correct claim's `ruleId`, and an answer's `rank` when the brand isn't mentioned: typed as nullable.
-- "Open" incidents: treated as `resolvedAt === null`.
+- **Connector not live yet.** `POST /api/v1/connector/query` returns 404 on the live backend and
+  `shared/mock/connector_query.json` doesn't exist yet. The Assistant Simulator shows an honest
+  "not available yet" message until one of them lands; no frontend change is needed after that.
+- **Business names.** The extras use Juniper Trail Outfitters (`lib/sample/sampleBusiness.ts`);
+  contract data is Kestrel. `lib/sample/visibilityMarket.ts` (Harbor Home Goods) is no longer used,
+  because AI Visibility and Market Position now use the contract endpoints (#27).
+- **Escalated incidents** can only be resolved by the owner (`POST .../resolve`), as in the contract.
