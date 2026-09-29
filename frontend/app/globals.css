@@ -919,3 +919,58 @@ tbody tr:last-child td {
   padding-top: 12px;
   border-top: 1px solid var(--border);
 }
+
+/* ---- Bars (AI Visibility, Market Position) ---- */
+
+.bar-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bar-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.bar-track {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--bg-raised);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--navy);
+}
+
+.bar-fill-you {
+  background: var(--orange);
+}
+
+.grow {
+  flex: 1;
+}
+
+.answer-text {
+  margin-top: 6px;
+  white-space: pre-wrap;
+}
+
+details > summary {
+  cursor: pointer;
+}
+
+.constraints {
+  margin-top: 12px;
+}
+
+.connector-card {
+  border-color: var(--orange-border);
+}

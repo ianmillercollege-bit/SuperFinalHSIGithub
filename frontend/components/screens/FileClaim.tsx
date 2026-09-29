@@ -5,7 +5,6 @@ import { useCallback, useState } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
 import StatusPill from "@/components/StatusPill";
 import { getAnswers, getVisibilitySummary, runChecker } from "@/lib/api";
-import { describeError } from "@/lib/errors";
 import { notifyIncidentsChanged } from "@/lib/events";
 import { CLAIM_STATUS_LABELS, RULE_LABELS } from "@/lib/labels";
 import { CLAIM_STATUS_TONES } from "@/lib/tones";
