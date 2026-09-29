@@ -110,6 +110,16 @@ BUDGET_LIMITS = {"b_400": 400.0, "b_500": 500.0, "b_700": 700.0}  # price must b
 
 RANKING_NOTE = "Ranking is neutral. No brand can pay for placement."
 
+# ---- Input limits (hardening) ----------------------------------------------------------------
+# Longer input gets a 422 VALIDATION_ERROR. Generous for real use, small enough that one request
+# cannot tie up the server.
+
+MAX_QUESTION_CHARS = 2_000        # connector question, checker queryText
+MAX_ANSWER_CHARS = 20_000         # checker answerText (an AI answer is usually under 3,000)
+MAX_NAME_CHARS = 200              # approverName, resolverName
+MAX_NOTE_CHARS = 2_000            # approval notes
+MAX_CLAIMS_PER_ANSWER = 100       # claims checked per answer; the rest are ignored
+
 # ---- BACKEND_CONTRACT.md v1.1 section 7: Connector ------------------------------------------
 
 CONNECTOR_RANKING_NOTE = "Neutral ranking. No brand can pay for placement."

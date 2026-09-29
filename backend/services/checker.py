@@ -4,6 +4,7 @@ The AI never judges facts. In mock mode, claims are also *extracted* with plain 
 keyword rules. Every status, severity and handling decision below is ordinary code.
 """
 
+import math
 import re
 from dataclasses import dataclass, field
 
@@ -111,6 +112,20 @@ AVAILABILITY_PATTERNS = [
 ]
 
 
+def before(text: str, end: int, window: int = 40) -> str:
+    """The few words just before a match. Qualifiers like "under" sit right there, and looking at
+    only this window keeps extraction fast on very long sentences."""
+    return text[max(0, end - window):end]
+
+
+def usable_number(value) -> bool:
+    """True for a real, finite number. "9" * 400 is infinity as a float and cannot be checked."""
+    try:
+        return math.isfinite(float(value))
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
 def find_products(sentence: str, catalog: Catalog) -> tuple[list[str], str]:
     """Product IDs in order of appearance, and the sentence with those names masked out."""
     found, masked = [], sentence
@@ -170,8 +185,10 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
 
         # 4. Facts about a known product.
         for m in PRICE.finditer(masked):
-            if BUDGET_WORDS.search(masked[:m.start()]):
+            if BUDGET_WORDS.search(before(masked, m.start())):
                 continue  # "under $500" is a budget, not a price claim
+            if not usable_number(m.group(1).replace(",", "")):
+                continue  # a number too big to be a real price cannot be checked
             claims.append(Extracted(sentence, "price", "price", subject, value=m.group(1).replace(",", "")))
         for status, pattern in AVAILABILITY_PATTERNS:
             if pattern.search(masked):
@@ -182,12 +199,14 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
             claims.append(Extracted(sentence, "policy", "policy", subject, value=int(m.group(1) or m.group(2))))
         for attr, pattern, _ in SPEC_PATTERNS:
             m = pattern.search(masked)
-            if not m or SPEC_QUALIFIER.search(masked[:m.start()]):
+            if not m or SPEC_QUALIFIER.search(before(masked, m.start())):
                 continue  # "under 3 lb" is a range, not a stated value
             if attr == "storageGb":
                 value = float(m.group(1)) * (1024 if m.group(2).upper() == "TB" else 1)
             else:
                 value = float(m.group(1))
+            if not usable_number(value):
+                continue  # too big to be a real spec
             claims.append(Extracted(sentence, "feature", "spec", subject, value=value, attr=attr))
         if NO_TOUCH.search(masked):
             claims.append(Extracted(sentence, "feature", "spec", subject, value=False, attr="touchscreen"))
@@ -319,7 +338,8 @@ def check(c: Extracted, catalog: Catalog) -> Result:
 def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[str, str]:
     if rule_id in C.PRICE_RULES:
         pct = pct_off or 0.0
-        severity = next(sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit)
+        # Anything beyond the last band (including an infinite or NaN gap) is "high".
+        severity = next((sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit), "high")
         return severity, ("human_approval" if severity == "high" else "auto_fix")
     return C.SEVERITY_AND_HANDLING[rule_id]
 
@@ -423,7 +443,12 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
         extracted = extract_claims(answer.answer_text, catalog)
     actor, actor_type = extracted_by
     how = "by the AI model (extraction only)" if actor_type == "ai" else "with plain regex and keyword rules"
-    audit(db, actor, actor_type, "claim_extracted", answer.answer_id, f"Extracted {len(extracted)} claim(s) {how}.")
+    found, limit_note = len(extracted), ""
+    if found > C.MAX_CLAIMS_PER_ANSWER:  # keeps one request from tying up the server
+        limit_note = f" Only the first {C.MAX_CLAIMS_PER_ANSWER} were checked."
+        extracted = extracted[:C.MAX_CLAIMS_PER_ANSWER]
+    audit(db, actor, actor_type, "claim_extracted", answer.answer_id,
+          f"Extracted {found} claim(s) {how}.{limit_note}")
 
     new_incidents = []
     for c in extracted:

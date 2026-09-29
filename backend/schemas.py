@@ -8,6 +8,8 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.alias_generators import to_camel
 
+import constants as C
+
 Source = Literal["live", "mock", "fallback"]
 Availability = Literal["in_stock", "low_stock", "out_of_stock"]
 ClaimStatus = Literal["correct", "incorrect", "outdated", "unverifiable"]
@@ -165,15 +167,21 @@ class RecommendOut(CamelModel):
 
 
 class ConnectorConstraints(CamelModel):
-    max_price: float | None = Field(None, gt=0)
+    # Finite only: "Infinity", NaN and numbers too big for a float are a 422, not a crash.
+    max_price: float | None = Field(None, gt=0, allow_inf_nan=False)
     use_case: Literal["school", "work", "travel", "media"] | None = None
     must_have: list[Literal["battery", "light", "screen", "touch"]] = []
 
 
 class ConnectorQueryIn(CamelModel):
-    question: str
+    question: str = Field(max_length=C.MAX_QUESTION_CHARS)
     assistant_id: str
     constraints: ConnectorConstraints | None = None
+
+    @field_validator("question")
+    @classmethod
+    def not_blank(cls, v: str) -> str:
+        return _not_blank(v)
 
 
 class ConnectorRecommendation(CamelModel):
@@ -273,9 +281,9 @@ class CheckerRunIn(CamelModel):
     """Exactly one form: {"answerId"} or {"answerText", "assistantId", "queryText"}."""
 
     answer_id: str | None = None
-    answer_text: str | None = None
+    answer_text: str | None = Field(None, max_length=C.MAX_ANSWER_CHARS)
     assistant_id: str | None = None
-    query_text: str | None = None
+    query_text: str | None = Field(None, max_length=C.MAX_QUESTION_CHARS)
 
 
 class CheckerRunOut(CamelModel):
@@ -303,8 +311,8 @@ def _not_blank(value: str) -> str:
 
 
 class ApproveIn(CamelModel):
-    approver_name: str
-    note: str | None = None
+    approver_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    note: str | None = Field(None, max_length=C.MAX_NOTE_CHARS)
 
     @field_validator("approver_name")
     @classmethod
@@ -313,8 +321,8 @@ class ApproveIn(CamelModel):
 
 
 class RejectIn(CamelModel):
-    approver_name: str
-    note: str
+    approver_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    note: str = Field(max_length=C.MAX_NOTE_CHARS)
     false_alarm: bool = False
 
     @field_validator("approver_name", "note")
@@ -324,8 +332,8 @@ class RejectIn(CamelModel):
 
 
 class ResolveIn(CamelModel):
-    resolver_name: str
-    note: str
+    resolver_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    note: str = Field(max_length=C.MAX_NOTE_CHARS)
 
     @field_validator("resolver_name", "note")
     @classmethod

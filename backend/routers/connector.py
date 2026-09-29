@@ -19,7 +19,8 @@ from ids import next_id
 from routers.shopper import reasons_for, to_rankable
 from schemas import ConnectorQueryIn, ConnectorQueryOut
 from services.ai_client import source_label
-from services.checker import Catalog, audit, brand_mentions, check, extract_claims, human_availability, num
+from services.checker import (Catalog, audit, brand_mentions, check, extract_claims, human_availability, num,
+                              usable_number)
 from services.ranking import rank
 from timeutil import now_iso, today
 
@@ -38,7 +39,8 @@ def manifest() -> dict:
 def price_from_question(question: str) -> float | None:
     m = DOLLARS.search(question)
     value = float(m.group(1).replace(",", "")) if m else None
-    return value if value and value > 0 else None
+    # A number too big to be a price ("$999...9") is ignored rather than used as a budget.
+    return value if value and value > 0 and usable_number(value) else None
 
 
 def compose_sentences(top: Product, brand: str, alternatives: list[Product], must_have: list[str]) -> list[str]:
