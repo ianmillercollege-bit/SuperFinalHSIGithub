@@ -47,6 +47,11 @@ Summary numbers are calculated in `lib/sample/derive.ts`, never typed twice. Run
   `lib/claims/gateway.ts` (seed in `lib/sample/claims.ts`, saved in the browser under
   `cirqo.sample.v1.demo.claims`). The 2 spotted errors are sample too: the contract's incidents are
   about Kestrel laptops, not Harbor Home Goods.
+- **Escalated claims have no way to close.** The agreed workflow (`lib/claims/workflow.ts`) allows no
+  move out of `escalated`, and safety/legal claims are escalated on creation, so they stay open. How
+  should Legal close them (accept / not uphold / resolve)?
+- **Demo accounts and roles** (Owner, Approver, Viewer in `lib/sample/demoAccounts.ts`) are
+  sample-only because there is no login. The sidebar chip still shows "Demo User".
 - **"Reset demo data"** exists only as `claimsGateway.resetDemoData()`; there was no reset control
   or profile system before, so there is no button for it yet.
 - **Three business names.** Growth Simulator and AI Coach use Juniper Trail Outfitters

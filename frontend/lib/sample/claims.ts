@@ -3,19 +3,13 @@
 //
 // Times are written as "days/hours before seeding", so "last 30 days" stays true whenever
 // the demo data is (re)seeded. Timelines are generated from each claim's status.
+import { CIRQO_REVIEWERS as REVIEWERS } from "../claims/sampleReviewer";
 import type { Claim, ClaimErrorType, ClaimStatus, ClaimTimelineEntry, SpottedError } from "../claims/types";
+import { TRANSITION_ACTIONS } from "../claims/workflow";
+import { demoAccount } from "./demoAccounts";
 
-const FILERS = [
-  { name: "Dana Ruiz", role: "Owner" },
-  { name: "Sam Okafor", role: "Marketing Lead" },
-] as const;
-
-/** CIRQO reviewers. */
-const REVIEWERS = {
-  jordan: { name: "Jordan Lee", team: "Data Quality" },
-  marcus: { name: "Marcus Webb", team: "Data Quality" },
-  priya: { name: "Priya Shah", team: "Legal" },
-} as const;
+/** Claims are filed by the Owner and Approver demo accounts. */
+const FILERS = [demoAccount("Owner"), demoAccount("Approver")].map(({ name, role }) => ({ name, role }));
 
 interface ClaimDef {
   n: number;
@@ -36,12 +30,6 @@ interface ClaimDef {
   /** Outstanding claims: the latest note (needs info / escalation). */
   note?: string;
 }
-
-const OUTCOME_ACTIONS: Partial<Record<ClaimStatus, string>> = {
-  accepted: "Claim accepted, correction sent to the assistant",
-  partlyAccepted: "Claim partly accepted, partial correction sent",
-  notUpheld: "Claim not upheld",
-};
 
 const DEFS: ClaimDef[] = [
   // ---- Reviewed (12): 8 accepted, 1 partly accepted, 3 not upheld ----
@@ -78,18 +66,19 @@ export function buildClaimsSeed(now: Date): Claim[] {
     const filedMs = now.getTime() - d.filedDaysAgo * 24 * HOUR;
     const filer = FILERS[d.filer];
     const reviewer = REVIEWERS[d.reviewer];
+    const reviewerRole = `CIRQO ${reviewer.team}`;
     const timeline: ClaimTimelineEntry[] = [
-      { at: iso(filedMs), actor: filer.name, action: "Claim filed" },
-      { at: iso(filedMs + 2 * HOUR), actor: reviewer.name, action: "Review started" },
+      { at: iso(filedMs), actor: filer.name, actorRole: filer.role, action: TRANSITION_ACTIONS.submitted },
+      { at: iso(filedMs + 2 * HOUR), actor: reviewer.name, actorRole: reviewerRole, action: TRANSITION_ACTIONS.inReview },
     ];
     let resolution: Claim["resolution"];
     if (d.status === "needsInfo") {
-      timeline.push({ at: iso(filedMs + 20 * HOUR), actor: reviewer.name, action: "More evidence requested", note: d.note });
+      timeline.push({ at: iso(filedMs + 20 * HOUR), actor: reviewer.name, actorRole: reviewerRole, action: TRANSITION_ACTIONS.needsInfo, note: d.note });
     } else if (d.status === "escalated") {
-      timeline.push({ at: iso(filedMs + 6 * HOUR), actor: reviewer.name, action: "Escalated to Legal", note: d.note });
+      timeline.push({ at: iso(filedMs + 6 * HOUR), actor: reviewer.name, actorRole: reviewerRole, action: TRANSITION_ACTIONS.escalated, note: d.note });
     } else if (d.resolveAfterHours !== undefined) {
       const resolvedAt = iso(filedMs + d.resolveAfterHours * HOUR);
-      timeline.push({ at: resolvedAt, actor: reviewer.name, action: OUTCOME_ACTIONS[d.status]!, note: d.whatChanged });
+      timeline.push({ at: resolvedAt, actor: reviewer.name, actorRole: reviewerRole, action: TRANSITION_ACTIONS[d.status], note: d.whatChanged });
       resolution = { whatChanged: d.whatChanged!, resolvedAt };
     }
     return {

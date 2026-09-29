@@ -56,6 +56,6 @@ export function averageWaitHours(claims: Claim[], now: Date): number | null {
 /** Every timeline step across all claims, newest first. */
 export function activityFrom(claims: Claim[]): ActivityEntry[] {
   return claims
-    .flatMap((c) => c.timeline.map((t) => ({ at: t.at, actor: t.actor, action: t.action, claimId: c.id })))
+    .flatMap((c) => c.timeline.map((t) => ({ at: t.at, actor: t.actor, actorRole: t.actorRole, action: t.action, claimId: c.id })))
     .sort((a, b) => Date.parse(b.at) - Date.parse(a.at));
 }

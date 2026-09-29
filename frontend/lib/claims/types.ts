@@ -28,6 +28,8 @@ export interface ClaimEvidence {
 export interface ClaimTimelineEntry {
   at: string;
   actor: string;
+  /** e.g. "Owner", "Approver", "CIRQO Legal". */
+  actorRole?: string;
   action: string;
   note?: string;
 }
@@ -64,6 +66,7 @@ export interface SpottedError {
 export interface ActivityEntry {
   at: string;
   actor: string;
+  actorRole?: string;
   action: string;
   claimId?: string;
 }
