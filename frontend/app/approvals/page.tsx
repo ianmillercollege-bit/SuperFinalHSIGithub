@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import UnderConstruction from "@/components/UnderConstruction";
+import PageHeader from "@/components/PageHeader";
+import ApprovalQueue from "@/components/screens/ApprovalQueue";
 
-export const metadata: Metadata = { title: "Approval queue · FrontDoor" };
+export const metadata: Metadata = { title: "Approvals · FrontDoor" };
 
-export default function ApprovalsPage() {
-  return <UnderConstruction title="Human approval queue" />;
+export default function Page() {
+  return (
+    <main className="page">
+      <PageHeader eyebrow="Governance" title="Human approval queue" intro="High-risk fixes wait here for a named person. Nothing here is changed automatically." />
+      <ApprovalQueue />
+    </main>
+  );
 }

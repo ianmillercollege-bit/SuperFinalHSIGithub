@@ -12,14 +12,21 @@ const SAFE_NAME = /^[A-Za-z0-9_-]+$/;
 
 export async function GET(_request: Request, ctx: RouteContext<"/mock/[name]">) {
   const { name } = await ctx.params;
+  // Errors use the contract's shape: {"error": {"code", "message"}}.
   if (!SAFE_NAME.test(name)) {
-    return Response.json({ error: "Invalid mock file name" }, { status: 400 });
+    return Response.json(
+      { error: { code: "BAD_REQUEST", message: "Invalid mock file name." } },
+      { status: 400 },
+    );
   }
 
   try {
     const text = await readFile(path.join(MOCK_DIR, `${name}.json`), "utf8");
     return new Response(text, { headers: { "Content-Type": "application/json" } });
   } catch {
-    return Response.json({ error: `No mock file shared/mock/${name}.json` }, { status: 404 });
+    return Response.json(
+      { error: { code: "NOT_FOUND", message: `No mock file shared/mock/${name}.json.` } },
+      { status: 404 },
+    );
   }
 }

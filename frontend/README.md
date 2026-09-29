@@ -1,12 +1,19 @@
 # FrontDoor frontend
 
-Next.js (App Router, TypeScript). Pages:
+Next.js (App Router, TypeScript). **All results shown are seeded or simulated demo data**, labeled
+"Sample data" on every page. Revenue figures are illustrative estimates, and the coach gives
+pre-written demo answers.
 
-| URL | Page |
-|-----|------|
-| `/` | Shopper demo |
-| `/dashboard` | Business dashboard |
+| URL | Screen |
+|-----|--------|
+| `/` | Shopper demo (questions, swipe, verified recommendation) |
+| `/dashboard` | Trust dashboard with the 30-day trust chart |
+| `/incidents`, `/incidents/[id]` | Incidents list and approve/reject/resolve screen |
 | `/approvals` | Human approval queue |
+| `/audit` | Audit log |
+| `/growth` | Extra: sample business growth view and demo coach |
+
+See `INTEGRATION.md` for where data comes from.
 
 ## Run locally
 
@@ -30,12 +37,17 @@ Both are baked in at build time: restart `npm run dev` (or redeploy) after chang
 
 ## Talking to the backend
 
-All backend calls go through `lib/api.ts` (`apiGet`, `apiPost`, `checkHealth`). Endpoint
-paths and response shapes come from `BACKEND_CONTRACT.md`; don't add endpoints that aren't in it.
+All backend calls go through `lib/api.ts`, one typed function per contract endpoint
+(`getIncidents`, `approveIncident`, `getReport`, ...), with types in `lib/types.ts`.
+`npm run check:mock` shows which `shared/mock/` files have arrived. Endpoint
+paths, fields and types come from `BACKEND_CONTRACT.md`; don't add anything that isn't in it.
+Failed calls throw `ApiError` with the contract's error `code` and `message`.
 
-In mock mode, pass the example file name: `apiGet(path, { mockFile: "name" })` reads
-`shared/mock/name.json` through the read-only `/mock/[name]` route. The frontend never
-writes to `shared/mock/`.
+Rates arrive as 0 to 1; show them with `formatPercent()` from `lib/format.ts`.
+
+In mock mode each function reads its contract-named file from `shared/mock/` (for example
+`incidents.json`) through the read-only `/mock/[name]` route, and applies the same filters the
+backend would. The frontend never writes to `shared/mock/`.
 
 The footer calls the backend's `/health` on every page load and shows online/offline. The
 backend must allow this site's address in its CORS settings.
