@@ -109,3 +109,11 @@ SHOPPER_QUESTIONS = {
 BUDGET_LIMITS = {"b_400": 400.0, "b_500": 500.0, "b_700": 700.0}  # price must be under the limit
 
 RANKING_NOTE = "Ranking is neutral. No brand can pay for placement."
+
+# ---- BACKEND_CONTRACT.md v1.1 section 7: Connector ------------------------------------------
+
+CONNECTOR_RANKING_NOTE = "Neutral ranking. No brand can pay for placement."
+CONNECTOR_SOURCE_ID = "src_brand"  # the brand's own verified feed
+# Connector constraint values -> the shopper option IDs that ranking.py understands.
+USE_CASES = {"school": "u_school", "work": "u_work", "travel": "u_travel", "media": "u_media"}
+MUST_HAVES = {"battery": "s_battery", "light": "s_light", "screen": "s_screen", "touch": "s_touch"}
