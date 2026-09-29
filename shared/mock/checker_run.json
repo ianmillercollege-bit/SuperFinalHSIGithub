@@ -1,0 +1,52 @@
+{
+  "answerId": "ans_121",
+  "claims": [
+    {
+      "claimId": "clm_312",
+      "answerId": "ans_121",
+      "productId": "prod_001",
+      "text": "The Kestrel Aero 14 costs $429.",
+      "claimType": "price",
+      "extractedValue": "429",
+      "verifiedValue": "449.99",
+      "status": "incorrect",
+      "ruleId": "PRICE_MISMATCH",
+      "factId": "fact_040",
+      "reason": "Stated price is 4.7% below the verified price.",
+      "checkedAt": "2026-09-29T18:00:00Z"
+    },
+    {
+      "claimId": "clm_313",
+      "answerId": "ans_121",
+      "productId": "prod_001",
+      "text": "It has a 12-hour battery.",
+      "claimType": "feature",
+      "extractedValue": "12",
+      "verifiedValue": "11",
+      "status": "incorrect",
+      "ruleId": "SPEC_MISMATCH",
+      "factId": "fact_041",
+      "reason": "Verified battery life is 11 hours.",
+      "checkedAt": "2026-09-29T18:00:00Z"
+    },
+    {
+      "claimId": "clm_314",
+      "answerId": "ans_121",
+      "productId": "prod_001",
+      "text": "Its return window is 30 days.",
+      "claimType": "policy",
+      "extractedValue": "30",
+      "verifiedValue": "30",
+      "status": "correct",
+      "ruleId": null,
+      "factId": "fact_044",
+      "reason": "Matches the verified 30-day return policy.",
+      "checkedAt": "2026-09-29T18:00:00Z"
+    }
+  ],
+  "incidentsCreated": [
+    "inc_40",
+    "inc_41"
+  ],
+  "source": "mock"
+}

@@ -1,0 +1,33 @@
+{
+  "owners": [
+    {
+      "ownerId": "own_01",
+      "name": "Maria Lopez",
+      "role": "Pricing Manager",
+      "incidentTypes": [
+        "PRICE_MISMATCH",
+        "PRICE_OUTDATED"
+      ]
+    },
+    {
+      "ownerId": "own_02",
+      "name": "Dev Patel",
+      "role": "Product Content Lead",
+      "incidentTypes": [
+        "SPEC_MISMATCH",
+        "INVENTED_FEATURE",
+        "AVAILABILITY_MISMATCH"
+      ]
+    },
+    {
+      "ownerId": "own_03",
+      "name": "Grace Kim",
+      "role": "Legal and Compliance",
+      "incidentTypes": [
+        "POLICY_MISMATCH",
+        "UNFAIR_COMPARISON",
+        "SAFETY_LEGAL"
+      ]
+    }
+  ]
+}
