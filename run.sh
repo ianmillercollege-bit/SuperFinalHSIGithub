@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# FrontDoor: run the whole app locally.
+# CIRQO: run the whole app locally.
 #   ./run.sh        install and start backend (:8000) and frontend (:3000)
 #   ./run.sh test   run the backend tests
 set -euo pipefail

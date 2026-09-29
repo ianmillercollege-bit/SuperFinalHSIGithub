@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# FrontDoor smoke test: checks that every main endpoint answers with the right shape.
+# CIRQO smoke test: checks that every main endpoint answers with the right shape.
 #   ./smoke_test.sh                          test the live Render backend
 #   ./smoke_test.sh http://localhost:8000    test a local backend
 set -uo pipefail
