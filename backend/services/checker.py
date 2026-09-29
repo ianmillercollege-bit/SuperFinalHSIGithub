@@ -406,17 +406,24 @@ def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistan
     return incident
 
 
-def run_on_answer(db, answer: Answer) -> tuple[list[Claim], list[str]]:
-    """Extract, check and store claims for one answer. Returns (all claims for the answer, new incident IDs)."""
+def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
+                  extracted_by: tuple[str, str] = ("system", "system")) -> tuple[list[Claim], list[str]]:
+    """Check and store claims for one answer. Returns (all claims for the answer, new incident IDs).
+
+    extracted: claims already pulled out of the text (by services/ai_client.py); when None, the plain
+    regex and keyword extraction runs. Either way, every judgment below is plain code.
+    """
     catalog = Catalog(db)
     assistant = db.get(Assistant, answer.assistant_id)
     assistant_name = assistant.name if assistant else answer.assistant_id
     existing = db.scalars(select(Claim).where(Claim.answer_id == answer.answer_id)).all()
     seen = {(e.text.strip().lower(), e.claim_type) for e in existing}
 
-    extracted = extract_claims(answer.answer_text, catalog)
-    audit(db, "system", "system", "claim_extracted", answer.answer_id,
-          f"Extracted {len(extracted)} claim(s) with plain regex and keyword rules.")
+    if extracted is None:
+        extracted = extract_claims(answer.answer_text, catalog)
+    actor, actor_type = extracted_by
+    how = "by the AI model (extraction only)" if actor_type == "ai" else "with plain regex and keyword rules"
+    audit(db, actor, actor_type, "claim_extracted", answer.answer_id, f"Extracted {len(extracted)} claim(s) {how}.")
 
     new_incidents = []
     for c in extracted:
