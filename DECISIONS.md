@@ -48,3 +48,15 @@ It is 9/29 afternoon. The tech submission is due **6:00 AM CT 9/30** (the tech i
 | Code freeze, bug fixes only | 3:30 AM 9/30 |
 | Final checks, repo naming, README, run.sh, upload | 4:00 to 5:30 AM 9/30 |
 | Hard deadline | **6:00 AM CT 9/30** |
+
+## Added 2026-09-29, 2:40 PM CT (lead approved)
+
+| # | Decision | Value |
+|---|----------|-------|
+| 11 | Frontend extras (overview, market, opportunities, revenue simulator, coach chatbot) | **Kept, frontend-only, on the frontend's own sample data.** No new backend endpoints. The coach uses pre-written answers and says so on screen. |
+| 12 | Honest labeling | Every screen shows a "Sample data" badge. Revenue is labeled "Illustrative estimate" with its assumptions visible. README and pitch state results are simulated. |
+| 13 | AI Visibility Score | Display rule only: `round(visibilityRate x 100)`. No new API field. |
+| 14 | Reason codes | Frontend uses the contract's `ruleId` list, not its own codes. |
+| 15 | Frontend priority | Core screens first (shopper demo, incidents, approvals, audit log, 30-day trust chart), extras after. |
+| 16 | Seed data ownership | **Lead owns `backend/seed/`** on branch `backend/seed-data`. Backend engineer does not edit that folder. |
+| 17 | Seed data hand-off format | `backend/seed/generate.py` writes JSON files to `backend/seed/data/`: `brands.json`, `products.json`, `assistants.json`, `sources.json`, `owners.json`, `answers.json`, `claims.json`, `incidents.json`, `audit.json`, `daily_metrics.json`. Same camelCase shapes as the contract, plus seed-only fields (`isClient`, `billingTier` on brands, `priceHistory` on products). The backend loads these into SQLite on startup. Due 6:30 PM CT. |
