@@ -1,19 +1,19 @@
 # CIRQO frontend
 
-Next.js (App Router, TypeScript). **All results shown are seeded or simulated demo data**, labeled
-"Sample data" on every page. Revenue figures are illustrative estimates, and the coach gives
-pre-written demo answers.
+Next.js (App Router, TypeScript). CIRQO is an API plugin for AI assistants plus a brand dashboard.
+**All results shown are seeded or simulated demo data**, labeled "Sample data" on every page.
 
-| URL | Screen |
-|-----|--------|
-| `/` | Shopper demo (questions, swipe, verified recommendation) |
-| `/dashboard` | Trust dashboard with the 30-day trust chart |
-| `/incidents`, `/incidents/[id]` | Incidents list and approve/reject/resolve screen |
-| `/approvals` | Human approval queue |
-| `/audit` | Audit log |
-| `/growth` | Extra: sample business growth view and demo coach |
+| URL | Page |
+|-----|------|
+| `/dashboard` | Dashboard with the 30-day trust trend |
+| `/visibility` | AI Visibility |
+| `/market` | Market Position |
+| `/assistant` | Assistant Simulator (what an AI assistant gets from CIRQO) |
+| `/claims/new` | File a Claim (sends an answer to the checker) |
+| `/claims/outstanding`, `/claims/[id]` | Outstanding Claims, approve / reject / resolve |
+| `/claims/reviewed` | Claims Reviewed and the Insights log |
 
-See `INTEGRATION.md` for where data comes from.
+Navigation is defined once in `lib/nav.ts`. See `INTEGRATION.md` for which endpoint each page uses.
 
 ## Run locally
 

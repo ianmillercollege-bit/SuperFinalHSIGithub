@@ -10,13 +10,29 @@ import type { CoachMessage, CoachReply } from "@/lib/schema";
 import { allLeversOn, simulate } from "@/lib/simulator";
 import { useApi } from "@/lib/useApi";
 
-// Frontend-only extra on the frontend's own sample business (DECISIONS.md #11).
-export default function Growth() {
-  const context = useApi(useCallback(() => loadCoachContext(), []));
+// PARKED: not in the nav (no contract endpoint). Frontend-only extras on sample data (DECISIONS.md #11).
 
+function useSampleContext() {
+  return useApi(useCallback(() => loadCoachContext(), []));
+}
+
+/** /simulator: business header and the illustrative revenue estimate. */
+export function SimulatorScreen() {
+  const context = useSampleContext();
   if (context.loading) return <Loading what="sample business data" />;
   if (context.error !== undefined) return <ErrorNotice error={context.error} onRetry={context.reload} />;
-  const ctx = context.data!;
+  return <SimulatorSections context={context.data!} />;
+}
+
+/** /coach: the demo coach. */
+export function CoachScreen() {
+  const context = useSampleContext();
+  if (context.loading) return <Loading what="sample business data" />;
+  if (context.error !== undefined) return <ErrorNotice error={context.error} onRetry={context.reload} />;
+  return <Coach context={context.data!} />;
+}
+
+function SimulatorSections({ context: ctx }: { context: CoachContext }) {
   const { overview, baseline } = ctx;
   const potential = simulate(allLeversOn(baseline.levers), baseline, baseline.assumptions);
 
@@ -35,7 +51,6 @@ export default function Growth() {
         </p>
       </section>
       <RevenueEstimate result={potential} assumptions={baseline.assumptions} />
-      <Coach context={ctx} />
     </div>
   );
 }
@@ -91,7 +106,12 @@ function Coach({ context }: { context: CoachContext }) {
           void ask(question);
         }}
       >
-        <input value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="Ask about your AI visibility" />
+        <input
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          placeholder="Ask about your AI visibility"
+          aria-label="Your question for the coach"
+        />
         <button type="submit" className="button">
           Ask
         </button>

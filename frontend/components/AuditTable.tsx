@@ -6,7 +6,7 @@ import { ACTOR_TYPE_LABELS, AUDIT_ACTION_LABELS } from "@/lib/labels";
 import type { AuditEntry } from "@/lib/types";
 
 export default function AuditTable({ entries }: { entries: AuditEntry[] }) {
-  if (entries.length === 0) return <Empty>No audit entries yet.</Empty>;
+  if (entries.length === 0) return <Empty>No entries yet.</Empty>;
   return (
     <div className="table-wrap">
       <table>
@@ -32,7 +32,7 @@ export default function AuditTable({ entries }: { entries: AuditEntry[] }) {
               <td>{AUDIT_ACTION_LABELS[entry.action]}</td>
               <td>
                 {entry.targetId.startsWith("inc_") ? (
-                  <Link className="link" href={`/incidents/${encodeURIComponent(entry.targetId)}`}>
+                  <Link className="link" href={`/claims/${encodeURIComponent(entry.targetId)}`}>
                     {entry.targetId}
                   </Link>
                 ) : (

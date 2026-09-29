@@ -1,6 +1,5 @@
-// Types copied from BACKEND_CONTRACT.md (FINAL v1.0). Do not add fields that
+// Types copied from BACKEND_CONTRACT.md (FINAL v1.1). Do not add fields that
 // are not in the contract; change this file only when the contract changes.
-// "UNCONFIRMED" marks a nullability the contract implies but doesn't state.
 //
 // Every "rate" or "share" is a number from 0 to 1. Show it as a % with
 // formatPercent() from lib/format.ts.
@@ -200,7 +199,7 @@ export interface Claim {
   extractedValue: string | null;
   verifiedValue: string | null;
   status: ClaimStatus;
-  /** UNCONFIRMED: correct claims have no rule (section 5), assumed null. */
+  /** null for a correct claim. */
   ruleId: RuleId | null;
   factId: string | null;
   reason: string;
@@ -226,7 +225,7 @@ export interface Answer {
   assistantName: string;
   answerText: string;
   brandMentioned: boolean;
-  /** UNCONFIRMED: assumed null when brandMentioned is false. */
+  /** null when brandMentioned is false. */
   rank: number | null;
   sourceIds: string[];
   capturedAt: Timestamp;
@@ -319,7 +318,8 @@ export type AuditAction =
   | "approved"
   | "rejected"
   | "escalated"
-  | "resolved";
+  | "resolved"
+  | "connector_query";
 
 export interface AuditEntry {
   auditId: string;
@@ -414,5 +414,49 @@ export interface RecommendResponse {
   recommendation: Recommendation | null;
   alternatives: { productId: string; name: string; brandName: string; price: number; matchScore: Rate }[];
   rankingNote: string;
+  source: AiSource;
+}
+
+// ---- Connector (v1.1): POST /api/v1/connector/query ----
+
+export type ConnectorUseCase = "school" | "work" | "travel" | "media";
+export type ConnectorMustHave = "battery" | "light" | "screen" | "touch";
+
+export interface ConnectorQueryRequest {
+  question: string;
+  assistantId: string;
+  /** Optional; every field inside is optional. */
+  constraints?: {
+    maxPrice?: number;
+    useCase?: ConnectorUseCase;
+    mustHave?: ConnectorMustHave[];
+  };
+}
+
+export interface ConnectorRecommendation {
+  productId: string;
+  name: string;
+  brandName: string;
+  price: number;
+  currency: string;
+  availability: Availability;
+  matchScore: Rate;
+  returnPolicyDays: number;
+  facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
+  verifiedAt: Timestamp;
+}
+
+export interface ConnectorQueryResponse {
+  answerId: string;
+  question: string;
+  assistantId: string;
+  /** null when no product fits. */
+  recommendation: ConnectorRecommendation | null;
+  alternatives: { productId: string; name: string; brandName: string; price: number; matchScore: Rate }[];
+  answerText: string;
+  /** Every sentence of answerText, checked; all must be correct. */
+  claims: Claim[];
+  rankingNote: string;
+  verifiedAt: Timestamp;
   source: AiSource;
 }

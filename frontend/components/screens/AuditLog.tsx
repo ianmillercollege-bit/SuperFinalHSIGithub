@@ -41,7 +41,7 @@ export default function AuditLog() {
         )}
       </form>
       <p className="muted small">Append-only: entries cannot be edited or deleted. Newest first.</p>
-      {audit.loading && <Loading what="audit log" />}
+      {audit.loading && <Loading what="insights log" />}
       {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}
       {audit.data && <AuditTable entries={audit.data.entries} />}
     </div>

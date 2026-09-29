@@ -7,6 +7,7 @@ import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
 import StatusPill from "@/components/StatusPill";
 import { approveIncident, getAudit, getIncident, rejectIncident, resolveIncident } from "@/lib/api";
 import { describeError } from "@/lib/errors";
+import { notifyIncidentsChanged } from "@/lib/events";
 import { formatDateTime } from "@/lib/format";
 import { HANDLING_LABELS, INCIDENT_STATUS_LABELS, RULE_LABELS, SEVERITY_LABELS } from "@/lib/labels";
 import { INCIDENT_STATUS_TONES, SEVERITY_TONES } from "@/lib/tones";
@@ -27,8 +28,8 @@ export default function IncidentDetail({ incidentId }: { incidentId: string }) {
   return (
     <div className="stack">
       <p>
-        <Link className="link" href="/incidents">
-          ← All incidents
+        <Link className="link" href="/claims/outstanding">
+          ← Outstanding claims
         </Link>
       </p>
       <section className="card stack">
@@ -71,12 +72,13 @@ export default function IncidentDetail({ incidentId }: { incidentId: string }) {
         onDone={(next) => {
           setUpdated(next);
           audit.reload();
+          notifyIncidentsChanged();
         }}
       />
 
       <section className="card stack">
-        <h3>Audit trail</h3>
-        {audit.loading && <Loading what="audit trail" />}
+        <h3>Insights log for this claim</h3>
+        {audit.loading && <Loading what="insights log" />}
         {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}
         {audit.data && <AuditTable entries={audit.data.entries} />}
       </section>
@@ -139,7 +141,7 @@ function ActionPanel({ incident, onDone }: { incident: Incident; onDone: (incide
       <h3>{canResolve ? "Resolve escalated incident" : "Approve or reject the proposed fix"}</h3>
       <p className="muted small">
         Only the assigned owner, <strong>{incident.ownerName}</strong>, can act on this incident. Every action is
-        written to the audit log.
+        written to the Insights log.
       </p>
       <label className="field">
         Your name

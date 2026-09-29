@@ -11,14 +11,14 @@ export type OpportunityInput = Omit<Opportunity, "relatedRuleIds">;
 export const opportunityInputs: OpportunityInput[] = [
   {
     id: "opp_structured_data",
-    title: "Add structured product and store data",
+    title: "Add structured product data",
     whyItMatters:
-      "Assistants skip stores whose products, hours, and location they can't read reliably.",
+      "Assistants skip brands whose products, prices, and specs they can't read reliably.",
     effort: "Low",
     liftPoints: 4,
     steps: [
-      "Add product and local-business markup to your website.",
-      "List every product with its price, brand, and size range.",
+      "Add product markup (price, specs, availability) to every product page.",
+      "List every model with its price, RAM, storage, screen, and weight.",
       "Check the markup with a free structured-data testing tool.",
     ],
   },
@@ -26,12 +26,12 @@ export const opportunityInputs: OpportunityInput[] = [
     id: "opp_fresh_info",
     title: "Keep prices and stock status up to date",
     whyItMatters:
-      "Assistants avoid recommending a store when its prices look old or stock is unclear.",
+      "Assistants avoid recommending a laptop when its price looks old or stock is unclear.",
     effort: "Med",
     liftPoints: 4,
     steps: [
-      "Connect your point-of-sale stock levels to your website.",
-      "Review prices on your site and listings every week.",
+      "Send live stock levels to your website and retail partners.",
+      "Review prices on your site and retailer listings every week.",
       "Remove discontinued products from every listing.",
     ],
   },
@@ -55,19 +55,19 @@ export const opportunityInputs: OpportunityInput[] = [
     effort: "High",
     liftPoints: 2,
     steps: [
-      "Publish a fact sheet on what you carry, services, and guarantees.",
-      "Ask local guides and review sites to use your fact sheet.",
-      "Keep your name, address, and phone identical on every listing.",
+      "Publish a fact sheet with verified specs, benchmarks, and warranty terms.",
+      "Ask review sites and retailers to use your fact sheet.",
+      "Keep model names identical on your site and every retailer listing.",
     ],
   },
   {
     id: "opp_clear_policies",
-    title: "Publish clear return, rental, and safety policies",
+    title: "Publish clear return, warranty, and safety policies",
     whyItMatters: "Shoppers ask assistants about returns; unclear policies lose those answers.",
     effort: "Low",
     liftPoints: 2,
     steps: [
-      "Write your return, exchange, and rental rules on one simple page.",
+      "Write your return, exchange, and warranty rules on one simple page.",
       "Link that page from every product page and your footer.",
       "Only state safety certifications you can document.",
     ],

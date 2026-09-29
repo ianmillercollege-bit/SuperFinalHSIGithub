@@ -112,11 +112,15 @@ async function main() {
   check("every coach answer says it is a pre-written demo answer (decision 11)",
     fallback.disclaimer === COACH_DEMO_DISCLAIMER && /pre-written/i.test(COACH_DEMO_DISCLAIMER));
 
-  section("Business name");
+  section("Business name (DECISIONS.md #28)");
+  check("sample business is Kestrel, the contract's brand", sampleBusiness.name === "Kestrel");
+  const oldNames = sourceFiles(path.join(__dirname, "..")).filter((f) => /Juniper Trail Outfitters|Harbor Home Goods/.test(readFileSync(f, "utf8")));
+  check("Juniper Trail Outfitters and Harbor Home Goods appear nowhere", oldNames.length === 0, oldNames.join(", "));
   const offenders = sourceFiles(path.join(__dirname, ".."))
     .filter((f) => !f.endsWith(path.join("sample", "sampleBusiness.ts")))
     .filter((f) => readFileSync(f, "utf8").includes(sampleBusiness.name));
-  check("name is written only in lib/sample/sampleBusiness.ts", offenders.length === 0, offenders.join(", "));
+  const libOffenders = offenders.filter((f) => f.includes(`${path.sep}lib${path.sep}`));
+  check("everything in lib/ takes the name from lib/sample/sampleBusiness.ts", libOffenders.length === 0, libOffenders.join(", "));
 
   console.log(failures === 0 ? "\nAll sample checks passed." : `\n${failures} check(s) failed.`);
   process.exit(failures === 0 ? 0 : 1);
