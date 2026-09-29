@@ -70,7 +70,7 @@ endpoint and never read by ranking code.**
 ```
 `claimType`: `price` | `feature` | `availability` | `policy` | `comparison` | `safety_legal`.
 `status`: `correct` | `incorrect` | `outdated` | `unverifiable`.
-`productId`, `extractedValue`, `verifiedValue`, `factId` may be `null`.
+`productId`, `extractedValue`, `verifiedValue`, `factId` may be `null`. `ruleId` is `null` for a `correct` claim.
 
 **Incident**
 ```json
@@ -86,6 +86,7 @@ endpoint and never read by ranking code.**
 `handling`: `auto_fix` | `human_approval` | `escalate`.
 `status`: `auto_fixed` | `pending_approval` | `approved` | `rejected` | `escalated` | `resolved`.
 `proposedFix` is `null` when `handling` is `escalate`. `resolvedAt` and `resolvedBy` are `null` while open.
+An incident is **open** when `status` is `pending_approval` or `escalated` (equivalently, `resolvedAt` is `null`).
 
 ## 5. Checker rules (plain code, `backend/services/checker.py`)
 
@@ -222,7 +223,7 @@ Returns the contents of `backend/connector/manifest.json`: how an AI assistant w
 **`GET /api/v1/answers?assistantId=ast_01&limit=50`** (newest first)
 ```json
 {"answers": [{"answerId": "ans_120", "queryText": "best laptops under $500", "assistantId": "ast_01", "assistantName": "Assistant A",
-  "answerText": "...", "brandMentioned": true, "rank": 2, "sourceIds": ["src_01", "src_03"],
+  "answerText": "...", "brandMentioned": true, "rank": 2 (null when brandMentioned is false), "sourceIds": ["src_01", "src_03"],
   "capturedAt": "2026-09-29T16:00:00Z", "source": "mock"}]}
 ```
 
