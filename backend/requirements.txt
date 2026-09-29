@@ -4,6 +4,9 @@ uvicorn==0.54.0
 pydantic==2.13.5
 pydantic-settings==2.15.0
 sqlalchemy==2.1.1
+# Live AI (only used when MOCK_MODE=false and ANTHROPIC_API_KEY is set)
+anthropic==1.9.0
+httpx2==2.13.1
 
 # Tests
 pytest==9.1.1

@@ -40,6 +40,7 @@ GETS = [
     ("/api/v1/audit", "audit.json"),
     ("/api/v1/metrics/trust?days=30", "metrics_trust.json"),
     ("/api/v1/report?days=30", "report.json"),
+    ("/api/v1/connector/manifest", "connector_manifest.json"),
 ]
 
 
@@ -58,6 +59,9 @@ def test_get_shapes(client, path, mock):
     ("/api/v1/incidents/inc_45/reject", {"approverName": "Grace Kim", "note": "ok", "falseAlarm": True},
      "incident_reject.json"),
     ("/api/v1/incidents/inc_47/resolve", {"resolverName": "Grace Kim", "note": "ok"}, "incident_resolve.json"),
+    ("/api/v1/connector/query", {"question": "What is the best laptop under $500 for school?", "assistantId": "ast_01",
+                                 "constraints": {"maxPrice": 500, "useCase": "school",
+                                                 "mustHave": ["battery", "light"]}}, "connector_query.json"),
 ])
 def test_post_shapes(client, path, body, mock):
     res = client.post(path, json=body)

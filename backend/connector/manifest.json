@@ -1,0 +1,33 @@
+{
+  "name": "cirqo",
+  "description": "CIRQO Shopping Connector. Answers shopping questions from a brand's verified product data instead of guessing. Every fact in the answer is checked by plain code before it is returned, and ranking is neutral: no brand can pay for placement. Sample data (fictional brands).",
+  "version": "1.1",
+  "tools": [
+    {
+      "name": "query",
+      "description": "Ask a shopping question. Returns one recommended product, alternatives, an answer text built only from verified facts, and the checked claims behind it.",
+      "endpoint": {"method": "POST", "path": "/api/v1/connector/query"},
+      "inputSchema": {
+        "type": "object",
+        "required": ["question", "assistantId"],
+        "properties": {
+          "question": {"type": "string", "description": "The shopper's question, e.g. \"What is the best laptop under $500 for school?\""},
+          "assistantId": {"type": "string", "description": "The calling assistant's ID, e.g. \"ast_01\"."},
+          "constraints": {
+            "type": "object",
+            "description": "Optional. Every field is optional. Without it, maxPrice is taken from a dollar amount in the question.",
+            "properties": {
+              "maxPrice": {"type": "number", "exclusiveMinimum": 0, "description": "Highest acceptable price in USD."},
+              "useCase": {"type": "string", "enum": ["school", "work", "travel", "media"]},
+              "mustHave": {
+                "type": "array",
+                "items": {"type": "string", "enum": ["battery", "light", "screen", "touch"]},
+                "description": "battery = 10h+, light = under 3 lb, screen = 15 in+, touch = touchscreen."
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -46,6 +46,9 @@ BRANDS = [  # isClient / billingTier are seed-only: never returned, never read b
     {"brandId": "brand_002", "name": "Arcton", "isClient": False, "billingTier": None},
     {"brandId": "brand_003", "name": "Novex", "isClient": False, "billingTier": None},
 ]
+# Contract v1.1 section 7: connector answers cite the brand's own verified feed.
+BRAND_FEED_SOURCE = {"sourceId": "src_brand", "name": "Kestrel Verified Feed (CIRQO Verified Data Layer)",
+                     "domain": "feed.cirqo.example", "type": "brand_site"}
 ASSISTANTS = [
     {"assistantId": "ast_01", "name": "Assistant A", "simulated": True},
     {"assistantId": "ast_02", "name": "Assistant B", "simulated": True},
@@ -194,6 +197,9 @@ def build() -> dict[str, list[dict]]:
     owners = mock("owners.json", "owners")
     owner_for = {rule: o for o in owners for rule in o["incidentTypes"]}
     sources = [{k: s[k] for k in ("sourceId", "name", "domain", "type")} for s in mock("sources.json", "sources")]
+    cited_by_assistants = [s["sourceId"] for s in sources]  # third-party answers never cite the brand feed
+    if not any(s["sourceId"] == BRAND_FEED_SOURCE["sourceId"] for s in sources):
+        sources.append(BRAND_FEED_SOURCE)
     assistant_name = {a["assistantId"]: a["name"] for a in ASSISTANTS}
 
     # Mock history, unchanged.
@@ -264,7 +270,7 @@ def build() -> dict[str, list[dict]]:
         answers.append({"answerId": answer_id, "queryText": rng.choice(QUERIES), "assistantId": assistant_id,
                         "answerText": text, "brandMentioned": "brand_001" in order,
                         "rank": order.index("brand_001") + 1 if "brand_001" in order else None,
-                        "sourceIds": sorted(rng.sample([s["sourceId"] for s in sources], rng.randint(1, 3))),
+                        "sourceIds": sorted(rng.sample(cited_by_assistants, rng.randint(1, 3))),
                         "capturedAt": iso(captured), "source": "mock"})
 
         checked_at = captured + timedelta(minutes=5)
