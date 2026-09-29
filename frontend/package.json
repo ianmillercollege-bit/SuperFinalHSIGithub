@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:sample": "tsc --noEmit && tsx scripts/check-sample.ts"
+    "check:sample": "tsc --noEmit && tsx scripts/check-sample.ts",
+    "check:mock": "tsx scripts/check-mock.ts"
   },
   "dependencies": {
     "next": "16.3.7",

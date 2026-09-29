@@ -30,8 +30,9 @@ Both are baked in at build time: restart `npm run dev` (or redeploy) after chang
 
 ## Talking to the backend
 
-All backend calls go through the typed functions in `lib/api.ts` (`getVisibilitySummary`,
-`getTrustMetrics`, `getIncidents`, `checkHealth`), with types in `lib/types.ts`. Endpoint
+All backend calls go through `lib/api.ts`, one typed function per contract endpoint
+(`getIncidents`, `approveIncident`, `getReport`, ...), with types in `lib/types.ts`.
+`npm run check:mock` shows which `shared/mock/` files have arrived. Endpoint
 paths, fields and types come from `BACKEND_CONTRACT.md`; don't add anything that isn't in it.
 Failed calls throw `ApiError` with the contract's error `code` and `message`.
 

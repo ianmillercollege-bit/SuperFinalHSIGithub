@@ -87,6 +87,26 @@ a {
   color: var(--muted);
 }
 
+.planned-title {
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.planned {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.planned code {
+  font-size: 0.85rem;
+}
+
 .footer {
   display: flex;
   align-items: center;
