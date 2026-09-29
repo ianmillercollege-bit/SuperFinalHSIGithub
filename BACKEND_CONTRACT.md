@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.1** (approved by lead engineer, 2026-09-29; v1.1 adds the Connector endpoint, section 7, "Connector"). Any change to a path,
+Status: **FINAL v1.2** (approved by lead engineer, 2026-09-29; v1.1 added the Connector endpoint, section 7; v1.2 added the Verified Data Layer fields on Product, section 4). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -55,9 +55,14 @@ Every error, including FastAPI's default 422, uses exactly this shape:
 {"productId": "prod_001", "brandId": "brand_001", "brandName": "Kestrel", "name": "Kestrel Aero 14",
  "price": 449.99, "currency": "USD", "availability": "in_stock",
  "specs": {"ramGb": 8, "storageGb": 256, "screenInches": 14, "batteryHours": 11, "weightLb": 2.9, "touchscreen": false},
- "returnPolicyDays": 30, "updatedAt": "2026-09-28T12:00:00Z"}
+ "returnPolicyDays": 30, "updatedAt": "2026-09-28T12:00:00Z",
+ "factSource": "Brand product feed", "factSourceUrl": "https://www.kestrel.example/aero-14", "verifiedAt": "2026-09-28T12:00:00Z"}
 ```
 `availability`: `in_stock` | `low_stock` | `out_of_stock`.
+**v1.2 (Verified Data Layer):** `factSource` names where the verified facts come from (`Brand product feed` | `Brand website` |
+`Manufacturer spec sheet`), `factSourceUrl` is the brand's own page for the product (fictional `.example` domain), and
+`verifiedAt` is when CIRQO last verified the facts. `factSource` is deliberately not called `source`, because `source`
+elsewhere in this contract means `live` | `mock` | `fallback` for AI output. `updatedAt` stays (when the brand last changed the record).
 The database also stores `isClient` and `billingTier` on brands. **These are never returned by any
 endpoint and never read by ranking code.**
 
