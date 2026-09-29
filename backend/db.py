@@ -38,7 +38,11 @@ class Product(Base):
     availability: Mapped[str] = mapped_column(String)
     specs: Mapped[dict] = mapped_column(JSON)
     return_policy_days: Mapped[int] = mapped_column(Integer)
-    updated_at: Mapped[str] = mapped_column(String)
+    updated_at: Mapped[str] = mapped_column(String)  # when the brand last changed the record
+    # Verified Data Layer (contract v1.2): where the facts come from and when CIRQO last verified them.
+    fact_source: Mapped[str] = mapped_column(String)
+    fact_source_url: Mapped[str] = mapped_column(String)
+    verified_at: Mapped[str] = mapped_column(String)
     price_history: Mapped[list] = mapped_column(JSON, default=list)  # previous prices, numbers only
     features: Mapped[list] = mapped_column(JSON, default=list)  # optional extra verified features
 

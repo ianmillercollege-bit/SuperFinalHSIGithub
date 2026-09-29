@@ -17,7 +17,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 30,
-      "updatedAt": "2026-09-28T12:00:00Z"
+      "updatedAt": "2026-09-28T12:00:00Z",
+      "factSource": "Brand product feed",
+      "factSourceUrl": "https://www.kestrel.example/aero-14",
+      "verifiedAt": "2026-09-28T12:00:00Z"
     },
     {
       "productId": "prod_002",
@@ -36,7 +39,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 30,
-      "updatedAt": "2026-09-28T12:00:00Z"
+      "updatedAt": "2026-09-28T12:00:00Z",
+      "factSource": "Brand product feed",
+      "factSourceUrl": "https://www.kestrel.example/aero-13-lite",
+      "verifiedAt": "2026-09-28T12:00:00Z"
     },
     {
       "productId": "prod_003",
@@ -55,7 +61,10 @@
         "touchscreen": true
       },
       "returnPolicyDays": 30,
-      "updatedAt": "2026-09-28T12:00:00Z"
+      "updatedAt": "2026-09-28T12:00:00Z",
+      "factSource": "Brand product feed",
+      "factSourceUrl": "https://www.kestrel.example/flex-14-touch",
+      "verifiedAt": "2026-09-28T12:00:00Z"
     },
     {
       "productId": "prod_004",
@@ -74,7 +83,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 30,
-      "updatedAt": "2026-09-28T12:00:00Z"
+      "updatedAt": "2026-09-28T12:00:00Z",
+      "factSource": "Brand product feed",
+      "factSourceUrl": "https://www.kestrel.example/studio-15",
+      "verifiedAt": "2026-09-28T12:00:00Z"
     },
     {
       "productId": "prod_005",
@@ -93,7 +105,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 30,
-      "updatedAt": "2026-09-28T12:00:00Z"
+      "updatedAt": "2026-09-28T12:00:00Z",
+      "factSource": "Brand product feed",
+      "factSourceUrl": "https://www.kestrel.example/aero-14-plus",
+      "verifiedAt": "2026-09-28T12:00:00Z"
     },
     {
       "productId": "prod_006",
@@ -112,7 +127,10 @@
         "touchscreen": true
       },
       "returnPolicyDays": 30,
-      "updatedAt": "2026-09-27T09:30:00Z"
+      "updatedAt": "2026-09-27T09:30:00Z",
+      "factSource": "Brand product feed",
+      "factSourceUrl": "https://www.kestrel.example/pocket-12",
+      "verifiedAt": "2026-09-27T09:30:00Z"
     },
     {
       "productId": "prod_007",
@@ -131,7 +149,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 14,
-      "updatedAt": "2026-09-27T15:00:00Z"
+      "updatedAt": "2026-09-27T15:00:00Z",
+      "factSource": "Manufacturer spec sheet",
+      "factSourceUrl": "https://www.novex.example/slate-14",
+      "verifiedAt": "2026-09-27T15:00:00Z"
     },
     {
       "productId": "prod_008",
@@ -150,7 +171,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 14,
-      "updatedAt": "2026-09-27T15:00:00Z"
+      "updatedAt": "2026-09-27T15:00:00Z",
+      "factSource": "Manufacturer spec sheet",
+      "factSourceUrl": "https://www.novex.example/go-13",
+      "verifiedAt": "2026-09-27T15:00:00Z"
     },
     {
       "productId": "prod_009",
@@ -169,7 +193,10 @@
         "touchscreen": true
       },
       "returnPolicyDays": 14,
-      "updatedAt": "2026-09-27T15:00:00Z"
+      "updatedAt": "2026-09-27T15:00:00Z",
+      "factSource": "Manufacturer spec sheet",
+      "factSourceUrl": "https://www.novex.example/canvas-15",
+      "verifiedAt": "2026-09-27T15:00:00Z"
     },
     {
       "productId": "prod_010",
@@ -188,7 +215,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 15,
-      "updatedAt": "2026-09-26T18:00:00Z"
+      "updatedAt": "2026-09-26T18:00:00Z",
+      "factSource": "Brand website",
+      "factSourceUrl": "https://www.arcton.example/swift-14",
+      "verifiedAt": "2026-09-26T18:00:00Z"
     },
     {
       "productId": "prod_011",
@@ -207,7 +237,10 @@
         "touchscreen": true
       },
       "returnPolicyDays": 15,
-      "updatedAt": "2026-09-26T18:00:00Z"
+      "updatedAt": "2026-09-26T18:00:00Z",
+      "factSource": "Brand website",
+      "factSourceUrl": "https://www.arcton.example/vista-15",
+      "verifiedAt": "2026-09-26T18:00:00Z"
     },
     {
       "productId": "prod_012",
@@ -226,7 +259,10 @@
         "touchscreen": false
       },
       "returnPolicyDays": 15,
-      "updatedAt": "2026-09-26T18:00:00Z"
+      "updatedAt": "2026-09-26T18:00:00Z",
+      "factSource": "Brand website",
+      "factSourceUrl": "https://www.arcton.example/titan-16",
+      "verifiedAt": "2026-09-26T18:00:00Z"
     }
   ]
 }

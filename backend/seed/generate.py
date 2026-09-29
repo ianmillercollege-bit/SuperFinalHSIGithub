@@ -245,6 +245,8 @@ def build() -> dict[str, list[dict]]:
         session.add(Product(product_id=p["productId"], brand_id=p["brandId"], name=p["name"], price=p["price"],
                             currency=p["currency"], availability=p["availability"], specs=p["specs"],
                             return_policy_days=p["returnPolicyDays"], updated_at=p["updatedAt"],
+                            fact_source=p["factSource"], fact_source_url=p["factSourceUrl"],
+                            verified_at=p["verifiedAt"],
                             price_history=[PREVIOUS_PRICE[p["productId"]]], features=[]))
     session.commit()
     catalog = Catalog(session)

@@ -154,7 +154,7 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
             "matchScore": round(ranked[0][1], 2), "returnPolicyDays": top.return_policy_days,
             "facts": reasons_for(top, max_price, C.USE_CASES.get(use_case),
                                  [C.MUST_HAVES[m] for m in must_have], catalog),
-            "verifiedAt": top.updated_at}
+            "verifiedAt": top.verified_at}
     return {
         "answerId": answer.answer_id, "question": body.question, "assistantId": assistant.assistant_id,
         "recommendation": recommendation,
