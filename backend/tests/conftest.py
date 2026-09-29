@@ -10,8 +10,8 @@ MOCK_DIR = BACKEND.parent / "shared" / "mock"
 
 # Let tests import main.py, errors.py, settings.py from backend/.
 sys.path.insert(0, str(BACKEND))
-# Tests use the fixed stand-in data so results are predictable, even after the lead's seed lands.
-os.environ["SEED_DIR"] = str(BACKEND / "dev_seed")
+# Tests use the small fixture set so results are predictable, whatever is in backend/seed/data/.
+os.environ["SEED_DIR"] = str(BACKEND / "tests" / "fixtures")
 
 from fastapi.testclient import TestClient  # noqa: E402
 
