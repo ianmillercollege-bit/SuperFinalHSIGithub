@@ -1,16 +1,15 @@
-// Pages use this file only. NEXT_PUBLIC_COACH_MODE picks the coach:
-// "sample" (default) = rule-based answers from sample data, "live" = backend.
-import { coachMode } from "../config";
+// Pages use this file only. The coach gives pre-written demo answers built
+// from sample data (DECISIONS.md #11). To plug in a real chatbot later, write
+// another CoachProvider and switch `coach` below. Pages don't change.
 import { getMarket, getOpportunities, getOverview, getSimulatorBaseline, getVisibility } from "../dataSource";
 import type { CoachMessage, CoachReply } from "../schema";
-import { apiCoach } from "./apiCoach";
 import { sampleCoach } from "./sampleCoach";
 import type { CoachContext, CoachProvider } from "./types";
 
-export { SUGGESTED_QUESTIONS } from "./sampleCoach";
+export { COACH_DEMO_DISCLAIMER, SUGGESTED_QUESTIONS } from "./sampleCoach";
 export type { CoachContext, CoachProvider } from "./types";
 
-export const coach: CoachProvider = coachMode === "live" ? apiCoach : sampleCoach;
+export const coach: CoachProvider = sampleCoach;
 
 /** Loads the dashboard data the coach answers from. */
 export async function loadCoachContext(): Promise<CoachContext> {

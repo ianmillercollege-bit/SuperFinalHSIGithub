@@ -2,7 +2,9 @@
 // keywords, then builds the answer from the current dashboard data, so every
 // number in it matches the rest of the app.
 import { formatChange, formatPercent, formatUsd } from "../format";
-import type { CoachReply, CoachSourceChip, Opportunity, ReasonCode } from "../schema";
+import { RULE_LABELS } from "../labels";
+import type { CoachReply, CoachSourceChip, Opportunity } from "../schema";
+import type { RuleId } from "../types";
 import { allLeversOn, simulate } from "../simulator";
 import type { CoachContext, CoachProvider } from "./types";
 
@@ -37,7 +39,7 @@ const INTENTS: Intent[] = [
         text:
           `If you fully complete "${opportunity.title}", the simulator estimates your AI Visibility Score ` +
           `goes from ${result.visibilityBefore} to ${result.visibilityAfter}, about ` +
-          `${formatUsd(result.revenueDeltaPerMonth)} more in sales per month. ` +
+          `${formatUsd(result.revenueDeltaPerMonth)} more in sales per month (illustrative estimate). ` +
           `Effort: ${opportunity.effort}. First step: ${opportunity.steps[0]}`,
         sources: [
           chip("Opportunity", `${opportunity.title} (+${opportunity.liftPoints} pts)`),
@@ -58,10 +60,10 @@ const INTENTS: Intent[] = [
           `and "${second.title}" (+${second.liftPoints} points, ${second.effort} effort). Doing all ` +
           `${ctx.opportunities.opportunities.length} opportunities could lift your AI Visibility Score from ` +
           `${all.visibilityBefore} to ${all.visibilityAfter}, worth about ${formatUsd(all.revenueDeltaPerMonth)} ` +
-          `a month in extra sales.`,
+          `a month in extra sales (illustrative estimate).`,
         sources: [
           chip("Top opportunity", first.title),
-          chip("Potential", `${all.visibilityAfter}/100, +${formatUsd(all.revenueDeltaPerMonth)}/mo`),
+          chip("Potential (illustrative estimate)", `${all.visibilityAfter}/100, +${formatUsd(all.revenueDeltaPerMonth)}/mo`),
         ],
       };
     },
@@ -78,7 +80,7 @@ const INTENTS: Intent[] = [
           `reasons: ${top.map((r) => `${r.text} (${r.count} answers)`).join(" ")}`,
         sources: [
           chip("Tracked answers", `${appearances} of ${checks} include you`),
-          ...top.map((r) => chip("Reason", `${r.code} × ${r.count}`)),
+          ...top.map((r) => chip("Reason", `${RULE_LABELS[r.ruleId]} × ${r.count}`)),
         ],
       };
     },
@@ -117,7 +119,7 @@ const INTENTS: Intent[] = [
           `The fix is "${fix.title}" (+${fix.liftPoints} points, ${fix.effort} effort). ` +
           `Start here: ${fix.steps[0]}`,
         sources: [
-          chip("Weakness", `${weakness.code} × ${weakness.count}`),
+          chip("Weakness", `${RULE_LABELS[weakness.ruleId]} × ${weakness.count}`),
           chip("Fix", `${fix.title} (+${fix.liftPoints} pts)`),
         ],
       };
@@ -150,13 +152,13 @@ const INTENTS: Intent[] = [
       const all = simulate(allLeversOn(ctx.baseline.levers), ctx.baseline, assumptions);
       return {
         text:
-          `Each AI Visibility point is estimated at ${formatUsd(assumptions.revenuePerVisibilityPoint)} a month. ` +
+          `Illustrative estimate: each AI Visibility point is worth about ${formatUsd(assumptions.revenuePerVisibilityPoint)} a month. ` +
           `Completing every opportunity (${all.visibilityBefore} → ${all.visibilityAfter}) is worth about ` +
-          `${formatUsd(all.revenueDeltaPerMonth)} a month. This is an estimate based on: ` +
+          `${formatUsd(all.revenueDeltaPerMonth)} a month. It is based on these assumptions: ` +
           `${assumptions.explanation.map((a) => a.label.toLowerCase()).join(", ")}. You can change these assumptions.`,
         sources: [
-          chip("Per point", `${formatUsd(assumptions.revenuePerVisibilityPoint)}/mo`),
-          chip("All opportunities", `+${formatUsd(all.revenueDeltaPerMonth)}/mo`),
+          chip("Per point (illustrative estimate)", `${formatUsd(assumptions.revenuePerVisibilityPoint)}/mo`),
+          chip("All opportunities (illustrative estimate)", `+${formatUsd(all.revenueDeltaPerMonth)}/mo`),
         ],
       };
     },
@@ -165,8 +167,8 @@ const INTENTS: Intent[] = [
     id: "accuracy",
     keywords: ["wrong", "accura", "incorrect", "outdated", "mistake", "hallucinat", "stock"],
     answer: (ctx) => {
-      const accuracyCodes: ReasonCode[] = ["OUTDATED_INFO", "STOCK_STATUS_UNKNOWN", "UNCLEAR_POLICY"];
-      const found = ctx.visibility.reasons.filter((r) => accuracyCodes.includes(r.code));
+      const accuracyRules: RuleId[] = ["PRICE_MISMATCH", "PRICE_OUTDATED", "AVAILABILITY_MISMATCH", "SPEC_MISMATCH", "INVENTED_FEATURE", "POLICY_MISMATCH"];
+      const found = ctx.visibility.reasons.filter((r) => accuracyRules.includes(r.ruleId));
       if (found.length === 0) {
         return {
           text: "No tracked answers were affected by outdated details, unclear policies, or unknown stock.",
@@ -177,11 +179,15 @@ const INTENTS: Intent[] = [
         text:
           `Detail problems cost you these answers: ${found.map((r) => `${r.text} (${r.count})`).join(" ")} ` +
           `Fixing them is covered by: ${[...new Set(found.map((r) => opportunityById(ctx, r.opportunityId).title))].join("; ")}.`,
-        sources: found.map((r) => chip("Reason", `${r.code} × ${r.count}`)),
+        sources: found.map((r) => chip("Reason", `${RULE_LABELS[r.ruleId]} × ${r.count}`)),
       };
     },
   },
 ];
+
+/** Shown on screen with the coach and on every answer (DECISIONS.md #11). */
+export const COACH_DEMO_DISCLAIMER =
+  "Demo coach: pre-written answers filled in from sample data. Not a live AI.";
 
 /** Questions offered as one-tap chips in the coach UI. Each maps to one intent. */
 export const SUGGESTED_QUESTIONS: { question: string; intent: IntentId }[] = [
@@ -215,7 +221,7 @@ export const sampleCoach: CoachProvider = {
     const intentId = matchIntent(question);
     const intent = INTENTS.find((i) => i.id === intentId);
     const answer = intent ? intent.answer(context, question) : fallbackAnswer(context);
-    return { ...answer, source: "sample" };
+    return { ...answer, source: "sample", disclaimer: COACH_DEMO_DISCLAIMER };
   },
 };
 
@@ -223,7 +229,7 @@ function fallbackAnswer(ctx: CoachContext): Answer {
   const { business, visibilityScore } = ctx.overview;
   return {
     text:
-      `I'm not sure about that one yet. I can help ${business.name} with sales ideas, why you're missing ` +
+      `I'm a demo coach with pre-written answers, and I don't have one for that yet. I can help ${business.name} with sales ideas, why you're missing ` +
       `from AI answers, how you compare to competitors, your biggest gap, what-if scenarios, weekly changes, ` +
       `revenue estimates, and wrong details. Try one of the suggested questions.`,
     sources: [chip("AI Visibility Score", `${visibilityScore}/100`)],

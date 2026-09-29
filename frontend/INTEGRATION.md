@@ -1,47 +1,41 @@
-# Plugging in real data
+# Where data comes from
 
-Pages never change when data goes live. Each switch below is one file.
+## Core screens (contract data)
 
-## Real AI metrics
+Shopper demo, trust dashboard, incidents, approvals, and audit log call the typed functions in
+`lib/api.ts`, one per `BACKEND_CONTRACT.md` endpoint. `NEXT_PUBLIC_USE_MOCK=true` reads the
+contract-named files in `shared/mock/` (read-only); otherwise they call `NEXT_PUBLIC_API_URL`.
+`npm run check:mock` shows which mock files exist.
 
-1. Lead adds the endpoint to `BACKEND_CONTRACT.md`.
-2. In `lib/api.ts`, replace the matching stub (`getOverviewLive`, `getVisibilityLive`, `getMarketLive`,
-   `getOpportunitiesLive`, `getSimulatorBaselineLive`) with a real call, like `getVisibilitySummary()`.
-3. Update `lib/schema.ts` to the contract's field names if they differ.
-4. Set `NEXT_PUBLIC_USE_MOCK=false`. `lib/dataSource.ts` then uses live data. Until a stub is replaced,
-   it falls back to sample data and the badge says "Sample data (live endpoint not connected)".
+## Extras (frontend-only sample data, DECISIONS.md #11)
 
-## Real chatbot
-
-1. Lead adds a coach endpoint to the contract (message shape below).
-2. Replace the `coachAsk` stub in `lib/api.ts`.
-3. Set `NEXT_PUBLIC_COACH_MODE=live`. `lib/coach/index.ts` switches to `apiCoach.ts`, which falls
-   back to the sample coach with a note if the endpoint is missing. No AI keys in the frontend, ever.
-
-## Editing sample data
+The Growth page (score, revenue estimate, coach) uses the frontend's own sample business and has no
+backend endpoints. To plug in real data later, change only `lib/dataSource.ts` (views) or the
+`coach` provider in `lib/coach/index.ts`. Pages don't change.
 
 | What | File |
 |------|------|
 | Business name, category, region | `lib/sample/sampleBusiness.ts` (the only place the name is written) |
-| Prompts, assistants, who appeared and why | `lib/sample/visibility.ts` |
-| Reason codes and their plain-English text | `lib/sample/reasonCodes.ts` |
+| Prompts, assistants, who appeared and why (contract `ruleId`s, #14) | `lib/sample/visibility.ts` |
+| Plain-English reason per `ruleId`, linked to an opportunity | `lib/sample/ruleReasons.ts` |
 | Opportunities (lift points, effort, steps) | `lib/sample/opportunities.ts` |
 | Past weekly scores | `lib/sample/overview.ts` |
 | Competitors and similar businesses | `lib/sample/market.ts` |
 | Revenue assumptions | `lib/config/simulatorAssumptions.ts` |
 | Coach questions and answer templates | `lib/coach/sampleCoach.ts` |
 
-Summary numbers (score, counts, shares, revenue) are calculated in `lib/sample/derive.ts`, never typed.
-Run `npm run check:sample` after any edit.
+Summary numbers are calculated in `lib/sample/derive.ts`, never typed twice. Run
+`npm run check:sample` after any edit.
 
-## NEEDS LEAD DECISION (contract additions)
+## Labeling rules (DECISIONS.md #12, #13)
 
-1. **Overview** endpoint: score, weekly history, strengths, weaknesses (`Overview` in `lib/schema.ts`).
-2. **Visibility report** endpoint: tracked prompts x assistants with appeared/rank/reason codes.
-3. **Market report** endpoint: mentions for this business, similar businesses, national competitors.
-4. **Opportunities** endpoint: id, title, why, effort, lift points, steps, reason codes.
-5. **Simulator baseline** endpoint, or confirm the simulator stays frontend-only.
-6. **Coach message**: request `{question, history:[{role,text}]}`, reply `{text, sources:[{label,value}], source}`.
-7. **Visibility Score definition**: sample uses round(100 x appearances / prompt-assistant checks).
-8. **Revenue estimate method**: sample uses score points x $/point from stated assumptions.
-9. **Reason code list**: confirm the six codes in `lib/sample/reasonCodes.ts`.
+- Every page shows a "Sample data" badge (in `components/NavBar.tsx`).
+- Revenue is only shown through `components/RevenueEstimate.tsx`, labeled "Illustrative estimate"
+  with its assumptions. Coach answers label dollar amounts the same way.
+- The coach states it gives pre-written demo answers.
+- AI Visibility Score = `round(visibilityRate x 100)`.
+
+## Still unconfirmed in the contract
+
+- A correct claim's `ruleId`, and an answer's `rank` when the brand isn't mentioned: typed as nullable.
+- "Open" incidents: treated as `resolvedAt === null`.

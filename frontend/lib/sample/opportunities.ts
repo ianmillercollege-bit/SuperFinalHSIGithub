@@ -1,12 +1,12 @@
 // Things the business can do to show up more often in AI answers. All of them
-// are within the business's control (content, data, reviews, policies). Nothing
-// here is paid placement: ranking is neutral.
+// are within the business's control (content, data, policies). Nothing here is
+// paid placement: ranking is neutral.
 //
-// relatedReasonCodes is filled in from lib/sample/reasonCodes.ts, so each link
-// is written once.
+// relatedRuleIds is filled in from lib/sample/ruleReasons.ts, so each link is
+// written once.
 import type { Opportunity } from "../schema";
 
-export type OpportunityInput = Omit<Opportunity, "relatedReasonCodes">;
+export type OpportunityInput = Omit<Opportunity, "relatedRuleIds">;
 
 export const opportunityInputs: OpportunityInput[] = [
   {
@@ -24,51 +24,52 @@ export const opportunityInputs: OpportunityInput[] = [
   },
   {
     id: "opp_fresh_info",
-    title: "Keep hours, prices, and stock status up to date",
+    title: "Keep prices and stock status up to date",
     whyItMatters:
-      "Assistants avoid recommending a store when its details look old or stock is unclear.",
+      "Assistants avoid recommending a store when its prices look old or stock is unclear.",
     effort: "Med",
     liftPoints: 4,
     steps: [
       "Connect your point-of-sale stock levels to your website.",
-      "Update holiday and seasonal hours everywhere they are listed.",
       "Review prices on your site and listings every week.",
+      "Remove discontinued products from every listing.",
     ],
   },
   {
-    id: "opp_reviews",
-    title: "Grow recent customer reviews",
-    whyItMatters: "Assistants favor businesses with many recent, detailed reviews.",
+    id: "opp_product_details",
+    title: "Publish complete, accurate product specs",
+    whyItMatters: "When specs are missing, assistants guess, and wrong specs cost trust and sales.",
     effort: "Med",
     liftPoints: 3,
     steps: [
-      "Ask customers for a review on the receipt and in a follow-up email.",
-      "Reply to every review, good or bad, within a few days.",
-      "Encourage reviews that mention specific products and services.",
+      "Add full specs (weight, materials, sizes) to every product page.",
+      "Use the same specs on your site, listings, and marketplaces.",
+      "Correct any product feature a customer or assistant got wrong.",
     ],
   },
   {
-    id: "opp_local_listings",
-    title: "Get listed on local guides and review sites",
+    id: "opp_comparison_facts",
+    title: "Publish verified comparison facts",
     whyItMatters:
-      "Assistants lean on trusted guides; if they don't mention you, assistants rarely do.",
+      "Assistants compare stores anyway; give them facts so the comparison is fair.",
     effort: "High",
     liftPoints: 2,
     steps: [
-      "Claim and complete your profile on the major local listing sites.",
-      "Pitch your store to local outdoor blogs and trail guides.",
+      "Publish a fact sheet on what you carry, services, and guarantees.",
+      "Ask local guides and review sites to use your fact sheet.",
       "Keep your name, address, and phone identical on every listing.",
     ],
   },
   {
     id: "opp_clear_policies",
-    title: "Publish clear return and rental policies",
+    title: "Publish clear return, rental, and safety policies",
     whyItMatters: "Shoppers ask assistants about returns; unclear policies lose those answers.",
     effort: "Low",
     liftPoints: 2,
     steps: [
       "Write your return, exchange, and rental rules on one simple page.",
       "Link that page from every product page and your footer.",
+      "Only state safety certifications you can document.",
     ],
   },
 ];

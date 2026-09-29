@@ -5,18 +5,16 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { simulatorAssumptions } from "../lib/config/simulatorAssumptions";
-import { apiCoach, LIVE_COACH_NOT_CONNECTED_NOTE } from "../lib/coach/apiCoach";
-import { SUGGESTED_QUESTIONS, loadCoachContext } from "../lib/coach";
+import { COACH_DEMO_DISCLAIMER, SUGGESTED_QUESTIONS, loadCoachContext } from "../lib/coach";
 import { matchIntent, sampleCoach } from "../lib/coach/sampleCoach";
-import { dataMode } from "../lib/config";
-import { LIVE_NOT_CONNECTED_NOTE, getOverview } from "../lib/dataSource";
+import { getOverview } from "../lib/dataSource";
 import {
   buildMarketReport,
   buildOpportunitiesReport,
   buildOverview,
   buildSimulatorBaseline,
   buildVisibilityReport,
-  visibilityScoreFrom,
+  visibilityScoreFromRate,
 } from "../lib/sample/derive";
 import { sampleBusiness } from "../lib/sample/sampleBusiness";
 import { allLeversOn, simulate } from "../lib/simulator";
@@ -45,25 +43,25 @@ async function main() {
   check("every prompt x assistant has exactly one result", pairs.size === 48 && visibility.results.length === 48, `${visibility.results.length}`);
   check(
     "appeared results have a rank and no reasons; absent results have reasons and no rank",
-    visibility.results.every((r) => (r.appeared ? r.rank !== null && r.rank >= 1 && r.reasonCodes.length === 0 : r.rank === null && r.reasonCodes.length > 0)),
+    visibility.results.every((r) => (r.appeared ? r.rank !== null && r.rank >= 1 && r.ruleIds.length === 0 : r.rank === null && r.ruleIds.length > 0)),
   );
   check("8 weeks of history", overview.history.length === 8, `${overview.history.length}`);
   check("3 strengths, 3 weaknesses", overview.strengths.length === 3 && overview.weaknesses.length === 3);
   check("5 opportunities", opportunities.length === 5, `${opportunities.length}`);
   check("opportunity liftPoints sum to 15", totalLiftPoints === 15, `${totalLiftPoints}`);
   check(
-    "every reason code links to an existing opportunity",
-    visibility.reasonCodes.every((r) => oppIds.has(r.opportunityId)),
+    "every contract ruleId (all 9) links to an existing opportunity",
+    visibility.ruleReasons.length === 9 && visibility.ruleReasons.every((r) => oppIds.has(r.opportunityId)),
   );
-  check("every opportunity is linked to at least one reason code", opportunities.every((o) => o.relatedReasonCodes.length > 0));
+  check("every opportunity is linked to at least one ruleId", opportunities.every((o) => o.relatedRuleIds.length > 0));
   check("4 similar businesses and 4 national competitors",
     market.entities.filter((e) => e.kind === "peer").length === 4 && market.entities.filter((e) => e.kind === "national").length === 4);
 
   section("Consistency across views");
   check("AI Visibility Score is 63", overview.visibilityScore === 63, `${overview.visibilityScore}`);
   check("score is up from last week", overview.weeklyChange > 0, `${overview.previousScore} -> ${overview.visibilityScore}`);
-  check("score = appearances / checks from the result grid",
-    overview.visibilityScore === visibilityScoreFrom(visibility.appearances, visibility.checks),
+  check("score = round(visibilityRate x 100) from the result grid (decision 13)",
+    overview.visibilityScore === visibilityScoreFromRate(visibility.appearanceRate),
     `${visibility.appearances}/${visibility.checks}`);
   check("last history week = this week's score", overview.history.at(-1)?.score === overview.visibilityScore);
   check("overview counts match the visibility report",
@@ -75,7 +73,7 @@ async function main() {
   const shareSum = market.shares.national + market.shares.peers + market.shares.thisBusiness;
   check("market shares sum to 100%", Math.abs(shareSum - 1) < 1e-9, shareSum.toFixed(4));
   check("weaknesses are the 3 most common absence reasons",
-    overview.weaknesses.every((w, i) => w.code === visibility.reasons[i].code && w.count === visibility.reasons[i].count));
+    overview.weaknesses.every((w, i) => w.ruleId === visibility.reasons[i].ruleId && w.count === visibility.reasons[i].count));
   check("simulator baseline = overview score", baseline.visibilityScore === overview.visibilityScore);
 
   section("Simulator");
@@ -94,13 +92,8 @@ async function main() {
     overview.potentialScore === all.visibilityAfter && overview.potentialRevenuePerMonth === all.revenueDeltaPerMonth);
 
   section("Data source");
-  const live = await getOverview();
-  if (dataMode === "live") {
-    check("live mode falls back to sample data with a note",
-      live.source === "sample" && live.fallbackNote === LIVE_NOT_CONNECTED_NOTE, live.fallbackNote ?? "no note");
-  } else {
-    check("sample mode returns sample data", live.source === "sample" && !live.fallbackNote);
-  }
+  const loaded = await getOverview();
+  check("extras return frontend sample data", loaded.source === "sample");
 
   section("Coach");
   const context = await loadCoachContext();
@@ -109,11 +102,15 @@ async function main() {
     check(`"${question}"`,
       matchIntent(question) === intent && reply.text.length > 0 && reply.sources.length > 0,
       `intent ${matchIntent(question)}, ${reply.sources.length} sources`);
+    const dollarsLabeled = [reply.text, ...reply.sources.map((c) => `${c.label} ${c.value}`)]
+      .filter((t) => t.includes("$"))
+      .every((t) => /illustrative estimate/i.test(t));
+    check(`  revenue in that answer is labeled "illustrative estimate" (decision 12)`, dollarsLabeled);
   }
   const fallback = await sampleCoach.ask("What's the weather tomorrow?", [], context);
   check("unknown question gets a friendly fallback", matchIntent("What's the weather tomorrow?") === "fallback" && fallback.sources.length > 0);
-  const viaApi = await apiCoach.ask(SUGGESTED_QUESTIONS[0].question, [], context);
-  check("live coach falls back to sample with a note", viaApi.source === "sample" && viaApi.fallbackNote === LIVE_COACH_NOT_CONNECTED_NOTE);
+  check("every coach answer says it is a pre-written demo answer (decision 11)",
+    fallback.disclaimer === COACH_DEMO_DISCLAIMER && /pre-written/i.test(COACH_DEMO_DISCLAIMER));
 
   section("Business name");
   const offenders = sourceFiles(path.join(__dirname, ".."))

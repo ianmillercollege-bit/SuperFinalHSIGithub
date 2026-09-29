@@ -1,7 +1,8 @@
 // Which tracked shopper prompts the business appeared in, per AI assistant.
 // This grid is the raw data behind the Visibility Score, recommendation counts,
 // weaknesses, and the business's market share. Edit it here only.
-import type { Assistant, ReasonCode, TrackedPrompt } from "../schema";
+import type { Assistant, TrackedPrompt } from "../schema";
+import type { RuleId } from "../types";
 
 export const assistants: Assistant[] = [
   { assistantId: "ast_a", name: "Assistant A" },
@@ -28,26 +29,26 @@ export const prompts: TrackedPrompt[] = [
 /**
  * One row per prompt, one cell per assistant (A, B, C, D in the order above).
  * A number = the business appeared at that rank (1 = named first).
- * A list of reason codes = the business did not appear, for those reasons.
+ * A list of ruleIds (from BACKEND_CONTRACT.md) = the business did not appear, for those reasons.
  */
-export type Cell = number | ReasonCode[];
+export type Cell = number | RuleId[];
 
 export const resultGrid: Record<string, Cell[]> = {
   p01: [1, 1, 2, 1],
-  p02: [2, 1, 3, ["MISSING_STRUCTURED_DATA"]],
-  p03: [1, ["STOCK_STATUS_UNKNOWN"], 2, ["STOCK_STATUS_UNKNOWN", "OUTDATED_INFO"]],
-  p04: [3, 4, ["MISSING_STRUCTURED_DATA", "COMPETITOR_CITED_MORE"], ["COMPETITOR_CITED_MORE"]],
-  p05: [["UNCLEAR_POLICY"], 2, ["UNCLEAR_POLICY", "FEW_REVIEWS"], 3],
+  p02: [2, 1, 3, ["NO_FACT"]],
+  p03: [1, ["AVAILABILITY_MISMATCH"], 2, ["AVAILABILITY_MISMATCH", "PRICE_OUTDATED"]],
+  p04: [3, 4, ["NO_FACT", "UNFAIR_COMPARISON"], ["UNFAIR_COMPARISON"]],
+  p05: [["POLICY_MISMATCH"], 2, ["POLICY_MISMATCH", "SPEC_MISMATCH"], 3],
   p06: [1, 2, 1, 2],
-  p07: [2, ["MISSING_STRUCTURED_DATA"], 3, ["MISSING_STRUCTURED_DATA", "FEW_REVIEWS"]],
-  p08: [["OUTDATED_INFO"], 1, 3, 2],
+  p07: [2, ["NO_FACT"], 3, ["NO_FACT", "SPEC_MISMATCH"]],
+  p08: [["PRICE_OUTDATED"], 1, 3, 2],
   p09: [
-    ["STOCK_STATUS_UNKNOWN"],
-    ["MISSING_STRUCTURED_DATA", "STOCK_STATUS_UNKNOWN"],
-    ["FEW_REVIEWS"],
-    ["COMPETITOR_CITED_MORE"],
+    ["AVAILABILITY_MISMATCH"],
+    ["NO_FACT", "AVAILABILITY_MISMATCH"],
+    ["SPEC_MISMATCH"],
+    ["UNFAIR_COMPARISON"],
   ],
   p10: [1, 1, 2, 1],
-  p11: [2, ["FEW_REVIEWS"], ["MISSING_STRUCTURED_DATA"], 3],
-  p12: [1, 3, ["FEW_REVIEWS", "MISSING_STRUCTURED_DATA"], ["MISSING_STRUCTURED_DATA"]],
+  p11: [2, ["SPEC_MISMATCH"], ["NO_FACT"], 3],
+  p12: [1, 3, ["SPEC_MISMATCH", "NO_FACT"], ["NO_FACT"]],
 };

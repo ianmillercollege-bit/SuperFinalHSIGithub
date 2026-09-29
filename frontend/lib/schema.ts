@@ -1,10 +1,11 @@
 // Types for the small-business views and the coach.
 //
-// None of these are in BACKEND_CONTRACT.md yet (see INTEGRATION.md, NEEDS LEAD
-// DECISION). They describe what the UI needs; when the lead adds matching
-// endpoints, the contract's field names win and this file follows it.
+// These are frontend-only extras on the frontend's own sample data
+// (DECISIONS.md #11): no backend endpoints. Reasons use the contract's ruleId
+// list (#14).
 //
 // Rates and shares are 0 to 1 (show with formatPercent). Scores are 0 to 100.
+import type { RuleId } from "./types";
 
 /** Where a response came from. "sample" = lib/sample/, "live" = the backend. */
 export type DataSourceKind = "sample" | "live";
@@ -21,18 +22,10 @@ export interface Business {
   region: string;
 }
 
-// ---- Reason codes: why the business was absent from an AI answer ----
+// ---- Why the business was absent from an AI answer (contract ruleIds) ----
 
-export type ReasonCode =
-  | "MISSING_STRUCTURED_DATA"
-  | "OUTDATED_INFO"
-  | "FEW_REVIEWS"
-  | "COMPETITOR_CITED_MORE"
-  | "UNCLEAR_POLICY"
-  | "STOCK_STATUS_UNKNOWN";
-
-export interface ReasonCodeInfo {
-  code: ReasonCode;
+export interface RuleReason {
+  ruleId: RuleId;
   /** Plain-English explanation shown to the business. */
   text: string;
   /** The opportunity that fixes this reason. */
@@ -59,7 +52,7 @@ export interface PromptResult {
   /** Position when it appeared (1 = first), otherwise null. */
   rank: number | null;
   /** Why it did not appear. Empty when appeared is true. */
-  reasonCodes: ReasonCode[];
+  ruleIds: RuleId[];
 }
 
 export interface AssistantSummary {
@@ -71,7 +64,7 @@ export interface AssistantSummary {
 }
 
 export interface ReasonCount {
-  code: ReasonCode;
+  ruleId: RuleId;
   text: string;
   opportunityId: string;
   count: number;
@@ -81,7 +74,7 @@ export interface VisibilityReport extends Sourced {
   prompts: TrackedPrompt[];
   assistants: Assistant[];
   results: PromptResult[];
-  reasonCodes: ReasonCodeInfo[];
+  ruleReasons: RuleReason[];
   /** Derived from results. */
   appearances: number;
   checks: number;
@@ -105,7 +98,7 @@ export interface Strength {
 }
 
 export interface Weakness {
-  code: ReasonCode;
+  ruleId: RuleId;
   title: string;
   /** How many tracked answers this reason affected. */
   count: number;
@@ -168,7 +161,7 @@ export interface Opportunity {
   /** Visibility Score points gained when fully done. */
   liftPoints: number;
   steps: string[];
-  relatedReasonCodes: ReasonCode[];
+  relatedRuleIds: RuleId[];
 }
 
 export interface OpportunitiesReport extends Sourced {
@@ -234,4 +227,6 @@ export interface CoachRequest {
 export interface CoachReply extends Sourced {
   text: string;
   sources: CoachSourceChip[];
+  /** Shown with every answer, e.g. that it is a pre-written demo answer (DECISIONS.md #11). */
+  disclaimer: string;
 }

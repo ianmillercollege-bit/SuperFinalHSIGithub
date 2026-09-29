@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
-import UnderConstruction from "@/components/UnderConstruction";
+import PageHeader from "@/components/PageHeader";
+import ApprovalQueue from "@/components/screens/ApprovalQueue";
 
-export const metadata: Metadata = { title: "Approval queue · FrontDoor" };
+export const metadata: Metadata = { title: "Approvals · FrontDoor" };
 
-export default function ApprovalsPage() {
+export default function Page() {
   return (
-    <UnderConstruction
-      title="Human approval queue"
-      plannedData={[
-        "GET /api/v1/incidents?status=pending_approval",
-        "GET /api/v1/incidents/{incidentId}",
-        "POST /api/v1/incidents/{incidentId}/approve | reject | resolve",
-        "GET /api/v1/owners",
-        "GET /api/v1/audit",
-      ]}
-    />
+    <main className="page">
+      <PageHeader eyebrow="Governance" title="Human approval queue" intro="High-risk fixes wait here for a named person. Nothing here is changed automatically." />
+      <ApprovalQueue />
+    </main>
   );
 }

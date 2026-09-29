@@ -1,12 +1,19 @@
 # FrontDoor frontend
 
-Next.js (App Router, TypeScript). Pages:
+Next.js (App Router, TypeScript). **All results shown are seeded or simulated demo data**, labeled
+"Sample data" on every page. Revenue figures are illustrative estimates, and the coach gives
+pre-written demo answers.
 
-| URL | Page |
-|-----|------|
-| `/` | Shopper demo |
-| `/dashboard` | Business dashboard |
+| URL | Screen |
+|-----|--------|
+| `/` | Shopper demo (questions, swipe, verified recommendation) |
+| `/dashboard` | Trust dashboard with the 30-day trust chart |
+| `/incidents`, `/incidents/[id]` | Incidents list and approve/reject/resolve screen |
 | `/approvals` | Human approval queue |
+| `/audit` | Audit log |
+| `/growth` | Extra: sample business growth view and demo coach |
+
+See `INTEGRATION.md` for where data comes from.
 
 ## Run locally
 

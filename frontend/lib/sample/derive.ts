@@ -18,7 +18,7 @@ import { allLeversOn, simulate } from "../simulator";
 import { otherBusinesses } from "./market";
 import { opportunityInputs } from "./opportunities";
 import { pastWeeklyScores, thisWeekStart } from "./overview";
-import { reasonCodes } from "./reasonCodes";
+import { ruleReasons } from "./ruleReasons";
 import { sampleBusiness } from "./sampleBusiness";
 import { assistants, prompts, resultGrid } from "./visibility";
 
@@ -28,11 +28,11 @@ type Unsourced<T> = Omit<T, "source" | "fallbackNote">;
 // ---- Shared calculations ----
 
 /**
- * AI Visibility Score (0 to 100) = share of tracked prompt x assistant checks
- * where the business appeared. PENDING LEAD DECISION on the real definition.
+ * AI Visibility Score (0 to 100) = round(visibilityRate x 100) (DECISIONS.md #13).
+ * visibilityRate = share of tracked answers mentioning the business.
  */
-export function visibilityScoreFrom(appearances: number, checks: number): number {
-  return checks === 0 ? 0 : Math.round((100 * appearances) / checks);
+export function visibilityScoreFromRate(visibilityRate: number): number {
+  return Math.round(visibilityRate * 100);
 }
 
 export function expandResults(): PromptResult[] {
@@ -43,8 +43,8 @@ export function expandResults(): PromptResult[] {
         throw new Error(`Missing result for ${promptId} x ${assistantId} in lib/sample/visibility.ts`);
       }
       return typeof cell === "number"
-        ? { promptId, assistantId, appeared: true, rank: cell, reasonCodes: [] }
-        : { promptId, assistantId, appeared: false, rank: null, reasonCodes: cell };
+        ? { promptId, assistantId, appeared: true, rank: cell, ruleIds: [] }
+        : { promptId, assistantId, appeared: false, rank: null, ruleIds: cell };
     }),
   );
 }
@@ -58,12 +58,12 @@ function assistantSummaries(results: PromptResult[]): AssistantSummary[] {
 }
 
 function reasonCountsFrom(results: PromptResult[]): ReasonCount[] {
-  return reasonCodes
-    .map(({ code, text, opportunityId }) => ({
-      code,
+  return ruleReasons
+    .map(({ ruleId, text, opportunityId }) => ({
+      ruleId,
       text,
       opportunityId,
-      count: results.filter((r) => r.reasonCodes.includes(code)).length,
+      count: results.filter((r) => r.ruleIds.includes(ruleId)).length,
     }))
     .filter((r) => r.count > 0)
     .sort((a, b) => b.count - a.count);
@@ -72,9 +72,9 @@ function reasonCountsFrom(results: PromptResult[]): ReasonCount[] {
 function opportunitiesWithReasons(): Opportunity[] {
   return opportunityInputs.map((opportunity) => ({
     ...opportunity,
-    relatedReasonCodes: reasonCodes
+    relatedRuleIds: ruleReasons
       .filter((reason) => reason.opportunityId === opportunity.id)
-      .map((reason) => reason.code),
+      .map((reason) => reason.ruleId),
   }));
 }
 
@@ -87,7 +87,7 @@ export function buildVisibilityReport(): Unsourced<VisibilityReport> {
     prompts,
     assistants,
     results,
-    reasonCodes,
+    ruleReasons,
     appearances,
     checks: results.length,
     appearanceRate: appearances / results.length,
@@ -105,9 +105,9 @@ export function buildOpportunitiesReport(): Unsourced<OpportunitiesReport> {
 }
 
 export function buildSimulatorBaseline(): Unsourced<SimulatorBaseline> {
-  const { appearances, checks } = buildVisibilityReport();
+  const { appearanceRate } = buildVisibilityReport();
   return {
-    visibilityScore: visibilityScoreFrom(appearances, checks),
+    visibilityScore: visibilityScoreFromRate(appearanceRate),
     levers: opportunityInputs.map(({ id, title, liftPoints }) => ({
       opportunityId: id,
       title,
@@ -152,7 +152,7 @@ export function buildOverview(): Unsourced<Overview> {
     firstPlaceCount: visibility.results.filter((r) => r.rank === 1).length,
     strengths: strengthsFrom(visibility),
     weaknesses: visibility.reasons.slice(0, 3).map((reason) => ({
-      code: reason.code,
+      ruleId: reason.ruleId,
       title: reason.text,
       count: reason.count,
       opportunityId: reason.opportunityId,

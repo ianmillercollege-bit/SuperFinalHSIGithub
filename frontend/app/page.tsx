@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import UnderConstruction from "@/components/UnderConstruction";
+import PageHeader from "@/components/PageHeader";
+import ShopperDemo from "@/components/screens/ShopperDemo";
 
 export const metadata: Metadata = { title: "Shopper demo · FrontDoor" };
 
-export default function ShopperDemoPage() {
+export default function Page() {
   return (
-    <UnderConstruction
-      title="Shopper demo"
-      plannedData={["GET /api/v1/shopper/questions", "POST /api/v1/shopper/recommend"]}
-    />
+    <main className="page">
+      <PageHeader eyebrow="Shopper demo" title="Find the right laptop" intro="A shopper's question, answered with a neutral, fact-checked recommendation." />
+      <ShopperDemo />
+    </main>
   );
 }
