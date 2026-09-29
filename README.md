@@ -28,7 +28,7 @@ checks every claim, and shows the brand the results. The three components from t
 
 | Component (business plan) | Who it serves | Where it is in this repo |
 |---------------------------|---------------|--------------------------|
-| **Shopping Connector** | Consumers, inside their AI assistant | `POST /api/v1/connector/query`: the endpoint an assistant calls. Returns a verified recommendation, checked facts and alternatives, and records the interaction. `GET /api/v1/connector/manifest` describes the tool. The **Assistant simulator** page shows what the assistant receives. |
+| **Shopping Connector** | Consumers, inside their AI assistant | `POST /api/v1/connector/query`: the endpoint an assistant calls. Returns a verified recommendation, checked facts and alternatives, and records the interaction. `GET /api/v1/connector/manifest` describes the tool. The **Assistant simulator** page shows what the assistant receives. To call it from Claude Desktop as an MCP tool, see `backend/connector/README.md`. |
 | **Visibility and Accuracy Dashboard** | Technology brands | The dashboard site: AI inclusion, rankings, competitors, sources used, incorrect product information, claims to review, and the audit trail. |
 | **Verified Data Layer** | Both | The verified product facts (`GET /api/v1/products`) with timestamps, which every AI claim is checked against. |
 
