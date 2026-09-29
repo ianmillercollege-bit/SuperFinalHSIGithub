@@ -1,32 +1,42 @@
 // The single place where the frontend talks to the backend.
 //
-// Pages never call fetch() directly. They call the helpers below, so the
-// backend address and the mock-data switch are handled in one spot.
+// Pages never call fetch() directly. They call the typed functions below, so the
+// backend address, the mock-data switch and error handling live in one spot.
 //
 // Settings (read at build time, so restart `npm run dev` after changing them):
 //   NEXT_PUBLIC_API_URL   Backend address, e.g. https://frontdoor-api.onrender.com
 //   NEXT_PUBLIC_USE_MOCK  "true" = load example data from shared/mock/ instead
 //                         of the live backend. Anything else = live backend.
 //
-// Endpoint paths and response shapes come from BACKEND_CONTRACT.md. Do not add
+// Endpoints, fields and types come from BACKEND_CONTRACT.md. Do not add
 // endpoints here that are not in the contract.
 //
-// These helpers are meant to be called from the browser (client components).
+// These functions are meant to be called from the browser (client components).
+
+import type {
+  ApiErrorBody,
+  ApiErrorCode,
+  Incident,
+  IncidentFilters,
+  IncidentsResponse,
+  TrustMetrics,
+  VisibilitySummary,
+} from "./types";
 
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 export const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
 const TIMEOUT_MS = 8000;
 
-type RequestOptions = {
-  // Name of the example file in shared/mock/ (without ".json") to use when
-  // mock mode is on, e.g. { mockFile: "some_endpoint" }.
-  mockFile?: string;
-};
+type Query = Record<string, string | number | undefined>;
 
+// Thrown by every function below when a call fails. `code` is the contract's
+// error code, or null when the backend could not be reached or sent no
+// contract-shaped error (network down, timeout, bad JSON).
 export class ApiError extends Error {
   constructor(
     message: string,
+    public code: ApiErrorCode | null = null,
     public status?: number,
   ) {
     super(message);
@@ -34,16 +44,42 @@ export class ApiError extends Error {
   }
 }
 
-export async function apiGet<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  return request<T>("GET", path, undefined, options);
+// ---- Endpoints (BACKEND_CONTRACT.md section 7) ----
+
+// GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)
+export function getVisibilitySummary(days?: number): Promise<VisibilitySummary> {
+  return apiGet<VisibilitySummary>("/api/v1/visibility/summary", { days }, "visibility_summary");
 }
 
-export async function apiPost<T>(
-  path: string,
-  body: unknown,
-  options: RequestOptions = {},
-): Promise<T> {
-  return request<T>("POST", path, body, options);
+// GET /api/v1/metrics/trust?days=  (`daily` has exactly `days` entries, oldest first)
+export async function getTrustMetrics(days?: number): Promise<TrustMetrics> {
+  const data = await apiGet<TrustMetrics>("/api/v1/metrics/trust", { days }, "metrics_trust");
+  if (USE_MOCK && days !== undefined) {
+    return { ...data, periodDays: days, daily: data.daily.slice(-days) };
+  }
+  return data;
+}
+
+// GET /api/v1/incidents?status=&severity=&limit=  (filters optional, newest first)
+export async function getIncidents(filters: IncidentFilters = {}): Promise<IncidentsResponse> {
+  const data = await apiGet<IncidentsResponse>("/api/v1/incidents", { ...filters }, "incidents");
+  if (USE_MOCK) {
+    // Apply the same filters the backend would, so mock and live behave alike.
+    const { status, severity, limit = 50 } = filters;
+    return {
+      incidents: data.incidents
+        .filter((i) => !status || i.status === status)
+        .filter((i) => !severity || i.severity === severity)
+        .slice(0, limit),
+    };
+  }
+  return data;
+}
+
+// "Open" is not a status in the contract; the contract says resolvedAt is null
+// while an incident is open. PENDING LEAD CONFIRMATION.
+export function isOpenIncident(incident: Incident): boolean {
+  return incident.resolvedAt === null;
 }
 
 // Asks the live backend's /health endpoint whether it is up. This always checks
@@ -58,37 +94,54 @@ export async function checkHealth(): Promise<boolean> {
   }
 }
 
-async function request<T>(
-  method: "GET" | "POST",
-  path: string,
-  body: unknown,
-  { mockFile }: RequestOptions,
-): Promise<T> {
-  if (USE_MOCK) {
-    if (!mockFile) {
-      throw new ApiError(`Mock mode is on but no mockFile was given for ${method} ${path}`);
-    }
-    return readJson<T>(await fetchWithTimeout(`/mock/${encodeURIComponent(mockFile)}`));
-  }
+// ---- Plumbing ----
 
+async function apiGet<T>(path: string, query: Query, mockFile: string): Promise<T> {
+  if (USE_MOCK) {
+    return readJson<T>(await fetchOrThrow(`/mock/${mockFile}`));
+  }
   if (!API_URL) {
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
+  return readJson<T>(await fetchOrThrow(`${API_URL}${path}${toQueryString(query)}`, { cache: "no-store" }));
+}
 
-  const res = await fetchWithTimeout(`${API_URL}${path.startsWith("/") ? path : `/${path}`}`, {
-    method,
-    headers: body === undefined ? undefined : { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
-    cache: "no-store",
-  });
-  return readJson<T>(res);
+function toQueryString(query: Query): string {
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    if (value !== undefined) params.set(key, String(value));
+  }
+  const text = params.toString();
+  return text ? `?${text}` : "";
 }
 
 async function readJson<T>(res: Response): Promise<T> {
-  if (!res.ok) {
-    throw new ApiError(`Request failed: ${res.status} ${res.statusText}`, res.status);
+  let body: unknown;
+  try {
+    body = await res.json();
+  } catch {
+    throw new ApiError(`Request failed: ${res.status} ${res.statusText}`, null, res.status);
   }
-  return (await res.json()) as T;
+  if (!res.ok) {
+    if (isApiErrorBody(body)) {
+      throw new ApiError(body.error.message, body.error.code, res.status);
+    }
+    throw new ApiError(`Request failed: ${res.status} ${res.statusText}`, null, res.status);
+  }
+  return body as T;
+}
+
+function isApiErrorBody(body: unknown): body is ApiErrorBody {
+  const error = (body as ApiErrorBody | null)?.error;
+  return typeof error?.code === "string" && typeof error?.message === "string";
+}
+
+async function fetchOrThrow(url: string, init: RequestInit = {}): Promise<Response> {
+  try {
+    return await fetchWithTimeout(url, init);
+  } catch {
+    throw new ApiError("Could not reach the backend");
+  }
 }
 
 async function fetchWithTimeout(url: string, init: RequestInit = {}): Promise<Response> {
