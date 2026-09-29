@@ -7,12 +7,13 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/mock/*": ["../shared/mock/**/*.json"],
   },
-  // Old pages replaced by the Claims section and the split Insights pages.
+  // Old pages: the swipe funnel is dropped (DECISIONS.md #25); governance pages moved into Claims.
   async redirects() {
     return [
+      { source: "/", destination: "/dashboard", permanent: false },
       { source: "/approvals", destination: "/claims/outstanding", permanent: false },
       { source: "/incidents", destination: "/claims/outstanding", permanent: false },
-      { source: "/incidents/:id", destination: "/claims/outstanding", permanent: false },
+      { source: "/incidents/:id", destination: "/claims/:id", permanent: false },
       { source: "/audit", destination: "/claims/reviewed", permanent: false },
       { source: "/growth", destination: "/simulator", permanent: false },
     ];

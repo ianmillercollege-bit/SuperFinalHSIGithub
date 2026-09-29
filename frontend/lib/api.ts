@@ -8,7 +8,7 @@
 //   NEXT_PUBLIC_USE_MOCK  "true" = load example data from shared/mock/ instead
 //                         of the live backend. Anything else = live backend.
 //
-// Endpoints, fields and types come from BACKEND_CONTRACT.md (FINAL v1.0). Do not
+// Endpoints, fields and types come from BACKEND_CONTRACT.md (FINAL v1.1). Do not
 // add endpoints here that are not in the contract.
 //
 // These functions are meant to be called from the browser (client components).
@@ -24,6 +24,8 @@ import type {
   AuditResponse,
   CheckerRunRequest,
   CheckerRunResponse,
+  ConnectorQueryRequest,
+  ConnectorQueryResponse,
   ClaimFilters,
   ClaimsResponse,
   HealthResponse,
@@ -70,6 +72,7 @@ export const MOCK_FILES = {
   report: "report",
   errorNotFound: "error_not_found",
   errorValidation: "error_validation",
+  connectorQuery: "connector_query",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -179,10 +182,14 @@ export function resolveIncident(incidentId: string, body: ResolveRequest): Promi
   return request("POST", `/api/v1/incidents/${encodeURIComponent(incidentId)}/resolve`, {}, body, MOCK_FILES.incidentResolve);
 }
 
-// "Open" is not a status in the contract; the contract says resolvedAt is null
-// while an incident is open. PENDING LEAD CONFIRMATION.
+// Open = pending_approval or escalated (contract v1.1, section 4).
 export function isOpenIncident(incident: Incident): boolean {
-  return incident.resolvedAt === null;
+  return incident.status === "pending_approval" || incident.status === "escalated";
+}
+
+// POST /api/v1/connector/query  (v1.1: what an AI assistant calls)
+export function connectorQuery(body: ConnectorQueryRequest): Promise<ConnectorQueryResponse> {
+  return request("POST", "/api/v1/connector/query", {}, body, MOCK_FILES.connectorQuery);
 }
 
 // GET /api/v1/owners

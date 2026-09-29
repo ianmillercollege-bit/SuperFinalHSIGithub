@@ -1,8 +1,11 @@
 // The single navigation definition. The sidebar renders exactly this.
 
-export type NavItem =
-  | { label: string; href: string; count?: "outstandingClaims" }
-  | { label: string; soon: true };
+export interface NavItem {
+  label: string;
+  href: string;
+  /** Shows a live count badge. */
+  count?: "openIncidents";
+}
 
 export interface NavGroup {
   title: string;
@@ -17,11 +20,9 @@ export const NAV: NavGroup[] = [
     tone: "default",
     items: [
       { label: "Dashboard", href: "/dashboard" },
-      { label: "AI Visibility", soon: true },
-      { label: "Market Position", soon: true },
-      { label: "Opportunity Gaps", href: "/opportunities" },
-      { label: "Growth Simulator", href: "/simulator" },
-      { label: "AI Coach", href: "/coach" },
+      { label: "AI Visibility", href: "/visibility" },
+      { label: "Market Position", href: "/market" },
+      { label: "Assistant Simulator", href: "/assistant" },
     ],
   },
   {
@@ -29,9 +30,17 @@ export const NAV: NavGroup[] = [
     tone: "claims",
     items: [
       { label: "File a Claim", href: "/claims/new" },
-      // Count badge shows outstandingCount from lib/claims/selectors.ts.
-      { label: "Outstanding Claims", href: "/claims/outstanding", count: "outstandingClaims" },
+      { label: "Outstanding Claims", href: "/claims/outstanding", count: "openIncidents" },
       { label: "Claims Reviewed", href: "/claims/reviewed" },
+    ],
+  },
+  {
+    // Frontend-only extras on sample data (DECISIONS.md #11).
+    title: "Extras (sample)",
+    tone: "default",
+    items: [
+      { label: "Growth Simulator", href: "/simulator" },
+      { label: "AI Coach", href: "/coach" },
     ],
   },
 ];

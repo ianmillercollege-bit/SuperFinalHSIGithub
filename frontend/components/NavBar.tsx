@@ -4,19 +4,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import BackendStatus from "@/components/BackendStatus";
-import { claimsGateway } from "@/lib/claims/gateway";
-import { outstandingCount } from "@/lib/claims/selectors";
+import { getIncidents } from "@/lib/api";
+import { onIncidentsChanged } from "@/lib/events";
 import { NAV, isActive } from "@/lib/nav";
-import { useApi } from "@/lib/useApi";
 import { initialsOf, sampleUser } from "@/lib/sample/sampleUser";
+import { useApi } from "@/lib/useApi";
 
-/** 240px navy sidebar: brand, user chip, navigation from lib/nav.ts, data badge, backend status. */
+// Open incidents = pending_approval + escalated (contract v1.1).
+async function countOpenIncidents(): Promise<number> {
+  const [pending, escalated] = await Promise.all([
+    getIncidents({ status: "pending_approval", limit: 100 }),
+    getIncidents({ status: "escalated", limit: 100 }),
+  ]);
+  return pending.incidents.length + escalated.incidents.length;
+}
+
+/** 240px navy sidebar: brand, sample user chip, navigation from lib/nav.ts, data badge, backend status. */
 export default function NavBar({ brand }: { brand: React.ReactNode }) {
   const pathname = usePathname();
-  const claims = useApi(useCallback(() => claimsGateway.listClaims(), []));
-  const { reload } = claims;
-  useEffect(() => claimsGateway.subscribe(reload), [reload]);
-  const counts = { outstandingClaims: claims.data ? outstandingCount(claims.data) : null };
+  const open = useApi(useCallback(() => countOpenIncidents(), []));
+  const { reload } = open;
+  useEffect(() => onIncidentsChanged(reload), [reload]);
+  const counts = { openIncidents: open.data ?? null };
 
   return (
     <aside className="sidebar">
@@ -24,25 +33,19 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
         {brand}
       </Link>
 
-      <div className="user-chip">
+      <div className="user-chip" title="Sample account: CIRQO has no sign-in in this demo.">
         <span className="user-initials" aria-hidden>
           {initialsOf(sampleUser.name)}
         </span>
         <span className="user-text">
-          <span className="user-name">{sampleUser.name}</span>
+          <span className="user-name">
+            {sampleUser.name} <span className="soon-tag">Sample</span>
+          </span>
           <span className="user-meta">
             {sampleUser.role} · {sampleUser.business}
           </span>
         </span>
       </div>
-      <button
-        type="button"
-        className="sign-out"
-        disabled
-        title="Sign-in isn't part of this demo yet."
-      >
-        Sign out <span className="soon-tag">Soon</span>
-      </button>
 
       <nav aria-label="Main" className="sidebar-groups">
         {NAV.map((group) => (
@@ -50,15 +53,6 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
             <p className="nav-group-title">{group.title}</p>
             <ul className="sidebar-nav">
               {group.items.map((item) => {
-                if (!("href" in item)) {
-                  return (
-                    <li key={item.label}>
-                      <span className="nav-disabled" aria-disabled="true">
-                        {item.label} <span className="soon-tag">Soon</span>
-                      </span>
-                    </li>
-                  );
-                }
                 const active = isActive(pathname, item.href);
                 const count = item.count ? counts[item.count] : null;
                 return (
@@ -70,7 +64,7 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
                     >
                       {item.label}
                       {count !== null && (
-                        <span className="nav-count" aria-label={`${count} outstanding`}>
+                        <span className="nav-count" aria-label={`${count} open`}>
                           {count}
                         </span>
                       )}

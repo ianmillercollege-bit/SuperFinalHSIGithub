@@ -32,19 +32,6 @@ export function CoachScreen() {
   return <Coach context={context.data!} />;
 }
 
-/** The original combined page (the /growth route now redirects to /simulator). */
-export default function Growth() {
-  const context = useSampleContext();
-  if (context.loading) return <Loading what="sample business data" />;
-  if (context.error !== undefined) return <ErrorNotice error={context.error} onRetry={context.reload} />;
-  return (
-    <div className="stack">
-      <SimulatorSections context={context.data!} />
-      <Coach context={context.data!} />
-    </div>
-  );
-}
-
 function SimulatorSections({ context: ctx }: { context: CoachContext }) {
   const { overview, baseline } = ctx;
   const potential = simulate(allLeversOn(baseline.levers), baseline, baseline.assumptions);
