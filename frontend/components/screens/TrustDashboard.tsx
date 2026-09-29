@@ -2,7 +2,9 @@
 
 import { useCallback } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
+import Ring from "@/components/Ring";
 import TrustChart from "@/components/TrustChart";
+import Link from "next/link";
 import AuditTable from "@/components/AuditTable";
 import { getAudit, getIncidents, getTrustMetrics } from "@/lib/api";
 import { formatPercent } from "@/lib/format";
@@ -29,32 +31,90 @@ export default function TrustDashboard() {
   const { current, daily } = trust.data!;
 
   // DECISIONS.md #13: AI Visibility Score = round(visibilityRate x 100).
-  const stats = [
-    { label: "Description accuracy", value: formatPercent(current.accuracyRate), note: "Correct claims, last 7 days" },
-    { label: "Hallucination rate", value: formatPercent(current.hallucinationRate, 1), note: "Invented features, last 7 days" },
-    { label: "AI Visibility Score", value: `${Math.round(current.visibilityRate * 100)}/100`, note: "Share of answers naming the brand" },
-    { label: "Median time to resolve", value: `${current.medianTimeToResolveHours} h`, note: "Closed incidents" },
-    { label: "False alarm rate", value: formatPercent(current.falseAlarmRate), note: "Rejected as false alarms" },
-    { label: "Open claims", value: counts.data ? String(counts.data.open) : "…", note: "Waiting for approval or escalated" },
-    { label: "Pending approvals", value: counts.data ? String(counts.data.pending) : "…", note: "High-risk fixes to approve or reject" },
-  ];
+  const score = Math.round(current.visibilityRate * 100);
 
   return (
-    <div className="stack">
-      <div className="stat-grid">
-        {stats.map((s) => (
-          <div key={s.label} className="card stat">
-            <p className="eyebrow">{s.label}</p>
-            <p className="big-number">{s.value}</p>
-            <p className="muted small">{s.note}</p>
-          </div>
-        ))}
+    <div className="dash">
+      <div className="ring-row">
+        <Ring value={current.accuracyRate} label="Description accuracy" note="Correct claims, last 7 days" color="var(--good)" />
+        <Ring
+          value={current.visibilityRate}
+          display={String(score)}
+          label="AI Visibility Score"
+          note="Out of 100: share of answers naming the brand"
+          color="var(--orange)"
+        />
+        <Ring
+          value={current.hallucinationRate}
+          digits={1}
+          label="Hallucination rate"
+          note="Invented features, last 7 days. Lower is better"
+          color="var(--bad)"
+        />
+        <Ring value={current.falseAlarmRate} label="False alarm rate" note="Incidents rejected as false alarms" color="var(--warn)" />
       </div>
-      <section className="card stack">
-        <h2>{DAYS}-day trust trend</h2>
-        {daily.length === 0 ? <Empty>No daily metrics yet.</Empty> : <TrustChart daily={daily} />}
-        <p className="muted small">Seeded pilot data, not real customer results.</p>
-      </section>
+
+      <div className="dash-main">
+        <section className="card stack">
+          <h2>{DAYS}-day trust trend</h2>
+          {daily.length === 0 ? <Empty>No daily metrics yet.</Empty> : <TrustChart daily={daily} />}
+          <p className="muted small">Seeded pilot data, not real customer results.</p>
+        </section>
+
+        <aside className="dash-side">
+          <section className="card stack action-card">
+            <h2>Claims that need you</h2>
+            <div className="action-numbers">
+              <div>
+                <p className="big-number">{counts.data ? counts.data.open : "…"}</p>
+                <p className="muted small">Open claims</p>
+              </div>
+              <div>
+                <p className="big-number">{counts.data ? counts.data.pending : "…"}</p>
+                <p className="muted small">Waiting for approval</p>
+              </div>
+            </div>
+            {counts.error !== undefined && <ErrorNotice error={counts.error} onRetry={counts.reload} />}
+            <Link className="button" href="/claims/outstanding">
+              Review outstanding claims
+            </Link>
+          </section>
+          <section className="card stack">
+            <p className="eyebrow">Median time to resolve</p>
+            <p className="big-number">{current.medianTimeToResolveHours} h</p>
+            <p className="muted small">From claim opened to closed, closed incidents</p>
+          </section>
+          {daily.length > 1 && (
+            <section className="card stack">
+              <h2>Change over {daily.length} days</h2>
+              <ul className="change-list">
+                {[
+                  { label: "Accuracy", key: "accuracyRate" as const, goodWhen: "up" },
+                  { label: "Hallucination rate", key: "hallucinationRate" as const, goodWhen: "down" },
+                  { label: "Visibility", key: "visibilityRate" as const, goodWhen: "up" },
+                ].map((m) => {
+                  const from = daily[0][m.key];
+                  const to = daily[daily.length - 1][m.key];
+                  const points = Math.round((to - from) * 100);
+                  const better = m.goodWhen === "up" ? points > 0 : points < 0;
+                  return (
+                    <li key={m.key}>
+                      <span>{m.label}</span>
+                      <span>
+                        {formatPercent(from)} → {formatPercent(to)}
+                      </span>
+                      <span className={better ? "change-good" : "change-bad"}>
+                        {points > 0 ? "▲" : points < 0 ? "▼" : "•"} {Math.abs(points)} pts {better ? "better" : points === 0 ? "" : "worse"}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+        </aside>
+      </div>
+
       <section className="card stack">
         <h2>Latest insights</h2>
         {latest.loading && <Loading what="latest insights" />}

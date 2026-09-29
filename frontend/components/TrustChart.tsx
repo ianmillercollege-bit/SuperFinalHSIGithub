@@ -5,7 +5,7 @@ import { formatDay, formatPercent } from "@/lib/format";
 import type { TrustDaily } from "@/lib/types";
 
 const W = 640;
-const H = 240;
+const H = 300;
 const PAD = { left: 44, right: 12, top: 12, bottom: 28 };
 
 type SeriesKey = "accuracyRate" | "hallucinationRate" | "visibilityRate";

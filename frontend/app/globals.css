@@ -1032,3 +1032,151 @@ details > summary {
     padding: 8px 16px;
   }
 }
+
+/* ---- Dashboard layout: rings across the top, chart with a side column, then the latest insights ---- */
+
+.page-wide {
+  max-width: 1360px;
+}
+
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ring-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ring-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ring {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--bg-raised);
+  stroke-width: 10;
+}
+
+.ring-fill {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.ring-value {
+  fill: var(--fg);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ring-label {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.dash-main {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dash-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dash-side > .card:last-child {
+  flex: 1;
+}
+
+.action-card {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--on-navy);
+}
+
+.action-card h2,
+.action-card .big-number {
+  color: var(--on-navy);
+}
+
+.action-card .muted {
+  color: var(--on-navy-muted);
+}
+
+.action-numbers {
+  display: flex;
+  gap: 32px;
+}
+
+.action-card .button {
+  align-self: flex-start;
+  text-decoration: none;
+}
+
+@media (max-width: 1180px) {
+  .ring-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .dash-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .ring-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.change-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.change-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.change-list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.change-list li > span:first-child {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.change-list li > span:nth-child(3) {
+  grid-column: 1 / -1;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.change-good { color: var(--good); }
+.change-bad { color: var(--bad); }
