@@ -55,16 +55,18 @@ fields, and `backend/tests/test_ranking_neutral.py` proves the results are ident
 
 ## How a judge should navigate it
 
-Open https://super-final-hsi-github.vercel.app and use the top menu:
+Open https://super-final-hsi-github.vercel.app (it opens on the Dashboard). The sidebar has two groups.
+A click-by-click script with talking points is in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md).
 
-| Page | What to look at |
-|------|-----------------|
-| **Shopper demo** (Shopping Connector) | Start from "What are the best laptops under $500?", answer the questions, swipe on features, and get one verified recommendation with checked reasons. |
-| **Trust dashboard** (Visibility and Accuracy Dashboard) | AI-answer inclusion rate, share of voice vs. competitors, sources the AI relied on, and the 30-day accuracy trend (our proof of impact). |
-| **Incidents** | Every wrong AI claim, its severity, what the AI said vs. the verified fact, and whether it was auto-fixed, awaiting approval, or escalated. |
-| **Approvals** | High-risk fixes waiting for their named owner. Try approving or rejecting one (the approver name must match the owner). |
-| **Audit log** | Who did what and when: system, AI, or a named person. |
-| **Growth (extra)** | Illustrative revenue simulator and a demo coach with pre-written answers. Clearly labeled as estimates and sample data. |
+| Sidebar item | What to look at |
+|--------------|-----------------|
+| **Dashboard** | The brand's trust numbers and the 30-day trend: claim accuracy rising from 62% to about 93%, hallucination rate falling, AI-answer inclusion rising. This is the proof of impact. |
+| **AI Visibility** | How often the brand appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. |
+| **Market Position** | The brand against its competitors (Arcton, Novex) on the same measures. |
+| **Assistant Simulator** | Type a shopper question as if you were in ChatGPT or Claude. The "assistant" calls CIRQO's connector and returns a verified answer with every fact checked. The interaction is recorded and shows up in AI Visibility. |
+| **File a Claim** | Paste any AI answer about the brand. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
+| **Outstanding Claims** | Wrong claims waiting for a named person: high-risk fixes to approve or reject, and safety or legal claims that only a person can close. Try approving one (the approver must be the incident's owner). |
+| **Claims Reviewed** | Everything already decided, by the system or by a person, with the full audit trail. |
 
 To explore the API directly, open https://frontdoor-api-hiel.onrender.com/docs and click any endpoint, then "Try it out".
 The read-only client API needs the header `X-API-Key: fd_demo_owner_2026` (demo key, sample data only).
@@ -113,12 +115,13 @@ NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev
 
 ```
 backend/            FastAPI app (routers/, services/checker.py, services/ranking.py, services/ai_client.py, tests/)
-frontend/           Next.js app (app/ pages, components/, lib/)
+frontend/           Next.js app (app/ pages, components/, lib/); frontend/INTEGRATION.md maps each page to its endpoint
 shared/mock/        One example JSON response per endpoint (the frontend built against these first)
 BACKEND_CONTRACT.md      API contract: every endpoint, field, error, severity rule, and seed data rule
 CLIENT_API_CONTRACT.md   Read-only API for customer companies
 DECISIONS.md        Team decisions log
-run.sh, smoke_test.sh
+run.sh, smoke_test.sh, DEMO_SCRIPT.md, COVER_PAGE.md
+.github/workflows/ci.yml   Runs backend tests and the frontend build on every push
 ```
 
 ## Ethics and governance summary
