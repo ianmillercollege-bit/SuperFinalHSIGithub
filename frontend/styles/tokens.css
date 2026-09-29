@@ -1,0 +1,44 @@
+/* CIRQO design tokens. The only file where colors are written. Imported once in app/layout.tsx. */
+:root {
+  /* Brand */
+  --navy: #0c2340;
+  --navy-raised: #1c3d66;
+  --orange: #f15a22; /* fills only, with navy text */
+  --orange-text: #b93e0b; /* orange text on light backgrounds */
+  --orange-tint: #fdeee7;
+  --orange-border: #f6c4ae;
+  --on-navy: #ffffff;
+  --on-navy-muted: #c9d3e0;
+
+  /* Surfaces and lines */
+  --bg: #f5f6f8; /* page */
+  --bg-card: #ffffff;
+  --bg-raised: #f0f2f6; /* muted background */
+  --border: #dde2e9;
+  --border-strong: #c9d1db;
+
+  /* Text */
+  --fg: #0c2340; /* headings and strong text */
+  --text-body: #2e4159;
+  --muted: #55657a;
+
+  /* Accent (kept names) */
+  --accent: var(--orange-text);
+  --accent-soft: var(--orange-tint);
+
+  /* Status: text color on its background */
+  --good: #14653c;
+  --good-bg: #e6f4ec;
+  --bad: #a31d14;
+  --bad-bg: #fdecea;
+  --warn: #8a5200;
+  --warn-bg: #fff3dc;
+  --neutral: #3f4a56;
+  --neutral-bg: #eef0f2;
+
+  /* Shape and type */
+  --radius: 12px;
+  --font-ui: var(--font-public-sans), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-archivo), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}

@@ -16,25 +16,28 @@ function isActive(pathname: string, href: string): boolean {
   return href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export default function NavBar() {
+/** Left sidebar: brand, navigation, and the "Sample data" badge. */
+export default function NavBar({ brand }: { brand: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <header className="nav">
-      <Link href="/" className="brand">
-        CIRQO
+    <aside className="sidebar">
+      <Link href="/" className="sidebar-brand" aria-label="CIRQO Analytics home">
+        {brand}
       </Link>
-      <nav>
-        {LINKS.map(({ href, label }) => (
-          <Link
-            key={href}
-            href={href}
-            className={isActive(pathname, href) ? "active" : undefined}
-            aria-current={isActive(pathname, href) ? "page" : undefined}
-          >
-            {label}
-          </Link>
-        ))}
+      <nav aria-label="Main">
+        <ul className="sidebar-nav">
+          {LINKS.map(({ href, label }) => {
+            const active = isActive(pathname, href);
+            return (
+              <li key={href}>
+                <Link href={href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
+                  {label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
       {/* DECISIONS.md #12: every screen shows this badge. */}
       <span
@@ -43,6 +46,6 @@ export default function NavBar() {
       >
         Sample data
       </span>
-    </header>
+    </aside>
   );
 }
