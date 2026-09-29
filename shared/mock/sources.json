@@ -1,0 +1,64 @@
+{
+  "sources": [
+    {
+      "sourceId": "src_01",
+      "name": "Example Tech Reviews",
+      "domain": "reviews.example.com",
+      "type": "review_site",
+      "citationCount": 212,
+      "citationShare": 0.34,
+      "accuracyRate": 0.81,
+      "lastSeenAt": "2026-09-29T16:00:00Z"
+    },
+    {
+      "sourceId": "src_02",
+      "name": "ShopMart Marketplace",
+      "domain": "shopmart.example.com",
+      "type": "marketplace",
+      "citationCount": 131,
+      "citationShare": 0.21,
+      "accuracyRate": 0.74,
+      "lastSeenAt": "2026-09-29T15:40:00Z"
+    },
+    {
+      "sourceId": "src_03",
+      "name": "Kestrel Official Store",
+      "domain": "kestrel.example.com",
+      "type": "brand_site",
+      "citationCount": 100,
+      "citationShare": 0.16,
+      "accuracyRate": 0.97,
+      "lastSeenAt": "2026-09-29T16:00:00Z"
+    },
+    {
+      "sourceId": "src_04",
+      "name": "LaptopTalk Forum",
+      "domain": "forum.example.net",
+      "type": "forum",
+      "citationCount": 75,
+      "citationShare": 0.12,
+      "accuracyRate": 0.58,
+      "lastSeenAt": "2026-09-29T14:10:00Z"
+    },
+    {
+      "sourceId": "src_05",
+      "name": "Daily Gadget News",
+      "domain": "news.example.org",
+      "type": "news",
+      "citationCount": 56,
+      "citationShare": 0.09,
+      "accuracyRate": 0.86,
+      "lastSeenAt": "2026-09-28T20:15:00Z"
+    },
+    {
+      "sourceId": "src_06",
+      "name": "BudgetBench Reviews",
+      "domain": "budgetbench.example.com",
+      "type": "review_site",
+      "citationCount": 50,
+      "citationShare": 0.08,
+      "accuracyRate": 0.79,
+      "lastSeenAt": "2026-09-29T11:05:00Z"
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+{
+  "products": [
+    {
+      "productId": "prod_001",
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "name": "Kestrel Aero 14",
+      "price": 449.99,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 8,
+        "storageGb": 256,
+        "screenInches": 14,
+        "batteryHours": 11,
+        "weightLb": 2.9,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 30,
+      "updatedAt": "2026-09-28T12:00:00Z"
+    },
+    {
+      "productId": "prod_002",
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "name": "Kestrel Aero 13 Lite",
+      "price": 329.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 4,
+        "storageGb": 128,
+        "screenInches": 13.3,
+        "batteryHours": 9,
+        "weightLb": 2.6,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 30,
+      "updatedAt": "2026-09-28T12:00:00Z"
+    },
+    {
+      "productId": "prod_003",
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "name": "Kestrel Flex 14 Touch",
+      "price": 479.99,
+      "currency": "USD",
+      "availability": "low_stock",
+      "specs": {
+        "ramGb": 8,
+        "storageGb": 256,
+        "screenInches": 14,
+        "batteryHours": 8,
+        "weightLb": 3.3,
+        "touchscreen": true
+      },
+      "returnPolicyDays": 30,
+      "updatedAt": "2026-09-28T12:00:00Z"
+    },
+    {
+      "productId": "prod_004",
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "name": "Kestrel Studio 15",
+      "price": 599.99,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 16,
+        "storageGb": 512,
+        "screenInches": 15.6,
+        "batteryHours": 7,
+        "weightLb": 3.9,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 30,
+      "updatedAt": "2026-09-28T12:00:00Z"
+    },
+    {
+      "productId": "prod_005",
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "name": "Kestrel Aero 14 Plus",
+      "price": 549.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 16,
+        "storageGb": 512,
+        "screenInches": 14,
+        "batteryHours": 12,
+        "weightLb": 3.0,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 30,
+      "updatedAt": "2026-09-28T12:00:00Z"
+    },
+    {
+      "productId": "prod_006",
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "name": "Kestrel Pocket 12",
+      "price": 379.0,
+      "currency": "USD",
+      "availability": "out_of_stock",
+      "specs": {
+        "ramGb": 4,
+        "storageGb": 128,
+        "screenInches": 11.6,
+        "batteryHours": 8,
+        "weightLb": 2.4,
+        "touchscreen": true
+      },
+      "returnPolicyDays": 30,
+      "updatedAt": "2026-09-27T09:30:00Z"
+    },
+    {
+      "productId": "prod_007",
+      "brandId": "brand_003",
+      "brandName": "Novex",
+      "name": "Novex Slate 14",
+      "price": 479.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 8,
+        "storageGb": 256,
+        "screenInches": 14,
+        "batteryHours": 10,
+        "weightLb": 3.2,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 14,
+      "updatedAt": "2026-09-27T15:00:00Z"
+    },
+    {
+      "productId": "prod_008",
+      "brandId": "brand_003",
+      "brandName": "Novex",
+      "name": "Novex Go 13",
+      "price": 349.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 4,
+        "storageGb": 128,
+        "screenInches": 13.3,
+        "batteryHours": 8,
+        "weightLb": 2.8,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 14,
+      "updatedAt": "2026-09-27T15:00:00Z"
+    },
+    {
+      "productId": "prod_009",
+      "brandId": "brand_003",
+      "brandName": "Novex",
+      "name": "Novex Canvas 15",
+      "price": 529.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 12,
+        "storageGb": 512,
+        "screenInches": 15.6,
+        "batteryHours": 8,
+        "weightLb": 4.1,
+        "touchscreen": true
+      },
+      "returnPolicyDays": 14,
+      "updatedAt": "2026-09-27T15:00:00Z"
+    },
+    {
+      "productId": "prod_010",
+      "brandId": "brand_002",
+      "brandName": "Arcton",
+      "name": "Arcton Swift 14",
+      "price": 469.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 8,
+        "storageGb": 256,
+        "screenInches": 14,
+        "batteryHours": 9,
+        "weightLb": 3.1,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 15,
+      "updatedAt": "2026-09-26T18:00:00Z"
+    },
+    {
+      "productId": "prod_011",
+      "brandId": "brand_002",
+      "brandName": "Arcton",
+      "name": "Arcton Vista 15",
+      "price": 499.0,
+      "currency": "USD",
+      "availability": "in_stock",
+      "specs": {
+        "ramGb": 8,
+        "storageGb": 512,
+        "screenInches": 15.6,
+        "batteryHours": 7,
+        "weightLb": 4.0,
+        "touchscreen": true
+      },
+      "returnPolicyDays": 15,
+      "updatedAt": "2026-09-26T18:00:00Z"
+    },
+    {
+      "productId": "prod_012",
+      "brandId": "brand_002",
+      "brandName": "Arcton",
+      "name": "Arcton Titan 16",
+      "price": 699.0,
+      "currency": "USD",
+      "availability": "low_stock",
+      "specs": {
+        "ramGb": 16,
+        "storageGb": 1024,
+        "screenInches": 16,
+        "batteryHours": 6,
+        "weightLb": 4.6,
+        "touchscreen": false
+      },
+      "returnPolicyDays": 15,
+      "updatedAt": "2026-09-26T18:00:00Z"
+    }
+  ]
+}

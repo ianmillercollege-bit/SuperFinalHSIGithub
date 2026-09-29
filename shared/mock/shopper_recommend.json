@@ -1,0 +1,52 @@
+{
+  "recommendation": {
+    "productId": "prod_001",
+    "name": "Kestrel Aero 14",
+    "brandName": "Kestrel",
+    "price": 449.99,
+    "currency": "USD",
+    "availability": "in_stock",
+    "matchScore": 0.92,
+    "reasons": [
+      {
+        "text": "$449.99, within your under-$500 budget",
+        "claimStatus": "correct",
+        "factId": "fact_040"
+      },
+      {
+        "text": "11-hour rated battery",
+        "claimStatus": "correct",
+        "factId": "fact_041"
+      },
+      {
+        "text": "Weighs 2.9 lb",
+        "claimStatus": "correct",
+        "factId": "fact_042"
+      },
+      {
+        "text": "8 GB RAM and 256 GB storage, enough for schoolwork",
+        "claimStatus": "correct",
+        "factId": "fact_043"
+      }
+    ],
+    "verifiedAt": "2026-09-28T12:00:00Z"
+  },
+  "alternatives": [
+    {
+      "productId": "prod_007",
+      "name": "Novex Slate 14",
+      "brandName": "Novex",
+      "price": 479.0,
+      "matchScore": 0.85
+    },
+    {
+      "productId": "prod_002",
+      "name": "Kestrel Aero 13 Lite",
+      "brandName": "Kestrel",
+      "price": 329.0,
+      "matchScore": 0.71
+    }
+  ],
+  "rankingNote": "Ranking is neutral. No brand can pay for placement.",
+  "source": "mock"
+}

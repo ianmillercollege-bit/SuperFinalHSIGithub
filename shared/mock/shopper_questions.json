@@ -1,0 +1,70 @@
+{
+  "openingQuery": "What are the best laptops under $500?",
+  "questions": [
+    {
+      "questionId": "q_budget",
+      "type": "single",
+      "prompt": "What's your budget?",
+      "options": [
+        {
+          "optionId": "b_400",
+          "label": "Under $400"
+        },
+        {
+          "optionId": "b_500",
+          "label": "Under $500"
+        },
+        {
+          "optionId": "b_700",
+          "label": "Under $700"
+        }
+      ]
+    },
+    {
+      "questionId": "q_use",
+      "type": "single",
+      "prompt": "What will you use it for most?",
+      "options": [
+        {
+          "optionId": "u_school",
+          "label": "School"
+        },
+        {
+          "optionId": "u_work",
+          "label": "Work"
+        },
+        {
+          "optionId": "u_travel",
+          "label": "Travel"
+        },
+        {
+          "optionId": "u_media",
+          "label": "Streaming and media"
+        }
+      ]
+    },
+    {
+      "questionId": "q_swipe",
+      "type": "swipe",
+      "prompt": "Swipe right on what matters to you.",
+      "options": [
+        {
+          "optionId": "s_battery",
+          "label": "All-day battery (10h+)"
+        },
+        {
+          "optionId": "s_light",
+          "label": "Lightweight (under 3 lb)"
+        },
+        {
+          "optionId": "s_screen",
+          "label": "Big screen (15 in+)"
+        },
+        {
+          "optionId": "s_touch",
+          "label": "Touchscreen"
+        }
+      ]
+    }
+  ]
+}
