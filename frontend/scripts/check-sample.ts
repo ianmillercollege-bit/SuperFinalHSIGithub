@@ -18,6 +18,17 @@ import {
 } from "../lib/sample/derive";
 import { sampleBusiness } from "../lib/sample/sampleBusiness";
 import { allLeversOn, simulate } from "../lib/simulator";
+import { createClaimsGateway, storageKey } from "../lib/claims/gateway";
+import {
+  activityFrom,
+  averageWaitHours,
+  correctionShare,
+  medianTimeToResolveHours,
+  outstandingCount,
+  reviewedCount,
+  waitingForEvidenceCount,
+} from "../lib/claims/selectors";
+import { buildClaimsSeed, buildSpottedErrorsSeed } from "../lib/sample/claims";
 
 let failures = 0;
 function check(label: string, ok: boolean, detail = "") {
@@ -112,6 +123,8 @@ async function main() {
   check("every coach answer says it is a pre-written demo answer (decision 11)",
     fallback.disclaimer === COACH_DEMO_DISCLAIMER && /pre-written/i.test(COACH_DEMO_DISCLAIMER));
 
+  await checkClaims();
+
   section("Business name");
   const offenders = sourceFiles(path.join(__dirname, ".."))
     .filter((f) => !f.endsWith(path.join("sample", "sampleBusiness.ts")))
@@ -120,6 +133,92 @@ async function main() {
 
   console.log(failures === 0 ? "\nAll sample checks passed." : `\n${failures} check(s) failed.`);
   process.exit(failures === 0 ? 0 : 1);
+}
+
+async function checkClaims() {
+  section("Claims (sample-only)");
+  const now = new Date("2026-09-29T18:00:00Z");
+  const claims = buildClaimsSeed(now);
+  const spotted = buildSpottedErrorsSeed();
+  const byStatus = (st: string) => claims.filter((c) => c.status === st).map((c) => c.id);
+
+  check("3 outstanding: clm_014 inReview, clm_015 needsInfo, clm_016 escalated safetyLegal",
+    outstandingCount(claims) === 3 &&
+      byStatus("inReview").join() === "clm_014" &&
+      byStatus("needsInfo").join() === "clm_015" &&
+      byStatus("escalated").join() === "clm_016" &&
+      claims.find((c) => c.id === "clm_016")?.errorType === "safetyLegal",
+    `${outstandingCount(claims)} outstanding`);
+  check("12 reviewed in the last 30 days: 8 accepted, 1 partly accepted, 3 not upheld",
+    reviewedCount(claims, now) === 12 && byStatus("accepted").length === 8 &&
+      byStatus("partlyAccepted").length === 1 && byStatus("notUpheld").length === 3,
+    `${reviewedCount(claims, now)} = ${byStatus("accepted").length}/${byStatus("partlyAccepted").length}/${byStatus("notUpheld").length}`);
+  check("2 spotted errors", spotted.length === 2);
+
+  const ids = [...claims.map((c) => c.id), ...spotted.map((e) => e.id)];
+  check("ids are unique and prefixed (clm_###, spt_###)",
+    new Set(ids).size === ids.length &&
+      claims.every((c) => /^clm_\d{3}$/.test(c.id)) && spotted.every((e) => /^spt_\d{3}$/.test(e.id)));
+  const isoZ = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+  const allTimes = claims.flatMap((c) => [c.filedAt, c.updatedAt, ...(c.resolution ? [c.resolution.resolvedAt] : []), ...c.timeline.map((t) => t.at)]);
+  check("all timestamps are ISO 8601 UTC", allTimes.every((t) => isoZ.test(t)));
+  check("timelines are in order: filed first, updatedAt = last step, nothing in the future",
+    claims.every((c) =>
+      c.timeline[0]?.at === c.filedAt && c.timeline[0]?.action === "Claim filed" &&
+      c.timeline.every((t, i) => i === 0 || Date.parse(t.at) >= Date.parse(c.timeline[i - 1].at)) &&
+      c.updatedAt === c.timeline[c.timeline.length - 1].at &&
+      Date.parse(c.updatedAt) <= now.getTime()));
+  check("reviewed claims have a reviewer and a resolution after filing; outstanding ones have no resolution",
+    claims.every((c) => ["accepted", "partlyAccepted", "notUpheld"].includes(c.status)
+      ? !!c.reviewer && !!c.resolution && Date.parse(c.resolution.resolvedAt) > Date.parse(c.filedAt)
+      : !c.resolution));
+  const reviewerNames = new Set(claims.map((c) => `${c.reviewer?.name} (${c.reviewer?.team})`));
+  check("reviewers are Jordan Lee, Marcus Webb (Data Quality) and Priya Shah (Legal)",
+    [...reviewerNames].sort().join() === "Jordan Lee (Data Quality),Marcus Webb (Data Quality),Priya Shah (Legal)");
+
+  const share = correctionShare(claims, now);
+  check("share that led to a correction = (accepted + partly accepted) / reviewed", share === 9 / 12, `${share}`);
+  const median = medianTimeToResolveHours(claims, now);
+  const hours = claims.filter((c) => c.resolution).map((c) => (Date.parse(c.resolution!.resolvedAt) - Date.parse(c.filedAt)) / 3600_000).sort((a, b) => a - b);
+  check("median time to resolve matches the timestamps", median === (hours[5] + hours[6]) / 2, `${median} h`);
+  check("waiting-for-your-evidence count = needsInfo claims", waitingForEvidenceCount(claims) === 1);
+  const wait = averageWaitHours(claims, now);
+  const expectedWait = claims.filter((c) => ["submitted", "inReview", "needsInfo", "escalated"].includes(c.status))
+    .reduce((sum, c) => sum + (now.getTime() - Date.parse(c.filedAt)) / 3600_000, 0) / 3;
+  check("average wait = mean hours open across outstanding claims", wait === expectedWait, `${wait?.toFixed(1)} h`);
+  const activity = activityFrom(claims);
+  check("activity is every timeline step, newest first",
+    activity.length === claims.reduce((n, c) => n + c.timeline.length, 0) &&
+      activity.every((a, i) => i === 0 || Date.parse(a.at) <= Date.parse(activity[i - 1].at)));
+
+  // Gateway with a fake browser storage.
+  const store = new Map<string, string>();
+  const fakeStorage = { getItem: (k: string) => store.get(k) ?? null, setItem: (k: string, v: string) => void store.set(k, v) };
+  (globalThis as { window?: unknown }).window = { localStorage: fakeStorage };
+  try {
+    store.set(storageKey("check"), "{not json");
+    const gw = createClaimsGateway("check");
+    const listed = await gw.listClaims();
+    check("corrupt stored data reseeds", listed.length === 15 && JSON.parse(store.get(storageKey("check"))!).version === 1);
+    check("listClaims filters match the selectors",
+      (await gw.listClaims({ group: "outstanding" })).length === outstandingCount(listed) &&
+        (await gw.listClaims({ group: "reviewed" })).length === 12 &&
+        (await gw.listClaims({ status: "needsInfo" })).length === waitingForEvidenceCount(listed));
+    check("getClaim finds a claim and returns null for an unknown id",
+      (await gw.getClaim("clm_015"))?.status === "needsInfo" && (await gw.getClaim("clm_999")) === null);
+    check("listSpottedErrors and listActivity return the seed", (await gw.listSpottedErrors()).length === 2 &&
+      (await gw.listActivity()).length === activityFrom(listed).length);
+    let notified = 0;
+    const stop = gw.subscribe(() => notified++);
+    store.set(storageKey("check"), JSON.stringify({ ...JSON.parse(store.get(storageKey("check"))!), claims: [] }));
+    await gw.resetDemoData();
+    stop();
+    check("Reset demo data reseeds claims and notifies subscribers",
+      notified === 1 && JSON.parse(store.get(storageKey("check"))!).claims.length === 15 && (await gw.listClaims()).length === 15);
+    check("storage key is versioned and per profile", storageKey("check") === "cirqo.sample.v1.check.claims");
+  } finally {
+    delete (globalThis as { window?: unknown }).window;
+  }
 }
 
 function sourceFiles(root: string): string[] {

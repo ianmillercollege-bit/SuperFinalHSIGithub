@@ -29,7 +29,7 @@ export const NAV: NavGroup[] = [
     tone: "claims",
     items: [
       { label: "File a Claim", href: "/claims/new" },
-      // Count badge is wired in a later step; nothing is shown until then.
+      // Count badge shows outstandingCount from lib/claims/selectors.ts.
       { label: "Outstanding Claims", href: "/claims/outstanding", count: "outstandingClaims" },
       { label: "Claims Reviewed", href: "/claims/reviewed" },
     ],

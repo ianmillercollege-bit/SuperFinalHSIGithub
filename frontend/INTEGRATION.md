@@ -43,6 +43,15 @@ Summary numbers are calculated in `lib/sample/derive.ts`, never typed twice. Run
   `GET /api/v1/incidents`, `GET /api/v1/incidents/{incidentId}`,
   `POST /api/v1/incidents/{incidentId}/approve | reject | resolve`, `GET /api/v1/audit`
   (and `GET /api/v1/owners`, never used). Should the Claims pages use these?
+- **Claims are sample-only.** No claims endpoints exist in the contract. Pages get claims only from
+  `lib/claims/gateway.ts` (seed in `lib/sample/claims.ts`, saved in the browser under
+  `cirqo.sample.v1.demo.claims`). The 2 spotted errors are sample too: the contract's incidents are
+  about Kestrel laptops, not Harbor Home Goods.
+- **"Reset demo data"** exists only as `claimsGateway.resetDemoData()`; there was no reset control
+  or profile system before, so there is no button for it yet.
+- **Three business names.** Growth Simulator and AI Coach use Juniper Trail Outfitters
+  (`lib/sample/sampleBusiness.ts`), the sidebar chip and contract data use Kestrel, and
+  `lib/sample/visibilityMarket.ts` plus claims use Harbor Home Goods. Which one is the demo business?
 - **Users and sign-in.** The contract has none. The sidebar user chip is sample-only
   (`lib/sample/sampleUser.ts`) and "Sign out" is disabled ("Soon").
 - **Shopper demo** still works at `/` but is not in the new nav.

@@ -2,13 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCallback, useEffect } from "react";
 import BackendStatus from "@/components/BackendStatus";
+import { claimsGateway } from "@/lib/claims/gateway";
+import { outstandingCount } from "@/lib/claims/selectors";
 import { NAV, isActive } from "@/lib/nav";
+import { useApi } from "@/lib/useApi";
 import { initialsOf, sampleUser } from "@/lib/sample/sampleUser";
 
 /** 240px navy sidebar: brand, user chip, navigation from lib/nav.ts, data badge, backend status. */
 export default function NavBar({ brand }: { brand: React.ReactNode }) {
   const pathname = usePathname();
+  const claims = useApi(useCallback(() => claimsGateway.listClaims(), []));
+  const { reload } = claims;
+  useEffect(() => claimsGateway.subscribe(reload), [reload]);
+  const counts = { outstandingClaims: claims.data ? outstandingCount(claims.data) : null };
 
   return (
     <aside className="sidebar">
@@ -52,6 +60,7 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
                   );
                 }
                 const active = isActive(pathname, item.href);
+                const count = item.count ? counts[item.count] : null;
                 return (
                   <li key={item.href}>
                     <Link
@@ -60,6 +69,11 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
                       aria-current={active ? "page" : undefined}
                     >
                       {item.label}
+                      {count !== null && (
+                        <span className="nav-count" aria-label={`${count} outstanding`}>
+                          {count}
+                        </span>
+                      )}
                     </Link>
                   </li>
                 );
