@@ -3,28 +3,27 @@
     {
       "ownerId": "own_01",
       "name": "Maria Lopez",
-      "role": "Pricing Manager",
+      "role": "Brand Data Owner",
       "incidentTypes": [
         "PRICE_MISMATCH",
-        "PRICE_OUTDATED"
+        "PRICE_OUTDATED",
+        "AVAILABILITY_MISMATCH",
+        "SPEC_MISMATCH",
+        "POLICY_MISMATCH"
       ]
     },
     {
       "ownerId": "own_02",
       "name": "Dev Patel",
-      "role": "Product Content Lead",
-      "incidentTypes": [
-        "SPEC_MISMATCH",
-        "INVENTED_FEATURE",
-        "AVAILABILITY_MISMATCH"
-      ]
+      "role": "CIRQO Product Owner",
+      "incidentTypes": []
     },
     {
       "ownerId": "own_03",
       "name": "Grace Kim",
-      "role": "Legal and Compliance",
+      "role": "CIRQO Trust and Safety Lead",
       "incidentTypes": [
-        "POLICY_MISMATCH",
+        "INVENTED_FEATURE",
         "UNFAIR_COMPARISON",
         "SAFETY_LEGAL"
       ]

@@ -61,15 +61,15 @@
     "owners": [
       {
         "name": "Maria Lopez",
-        "role": "Pricing Manager"
+        "role": "Brand Data Owner"
       },
       {
         "name": "Dev Patel",
-        "role": "Product Content Lead"
+        "role": "CIRQO Product Owner"
       },
       {
         "name": "Grace Kim",
-        "role": "Legal and Compliance"
+        "role": "CIRQO Trust and Safety Lead"
       }
     ]
   }
