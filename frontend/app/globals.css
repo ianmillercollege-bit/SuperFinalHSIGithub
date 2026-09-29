@@ -73,8 +73,8 @@ code {
 .sidebar {
   position: sticky;
   top: 0;
-  flex: 0 0 192px;
-  width: 192px;
+  flex: 0 0 240px;
+  width: 240px;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -104,9 +104,91 @@ code {
 
 .lockup-analytics {
   color: var(--on-navy-muted);
-  font-size: 10px; /* 11px with .4em spacing overflows the 192px sidebar after the 34% indent */
+  font-size: 11px;
   letter-spacing: 0.4em;
   white-space: nowrap;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-initials {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.user-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.user-name {
+  color: var(--on-navy);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.user-meta {
+  color: var(--on-navy-muted);
+  font-size: 0.78rem;
+}
+
+.sign-out {
+  align-self: flex-start;
+  margin-top: -12px;
+  padding: 4px 10px;
+  border: 1px solid var(--navy-raised);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--on-navy-muted);
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.sign-out:disabled {
+  cursor: not-allowed;
+}
+
+.soon-tag {
+  margin-left: 4px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--navy-raised);
+  color: var(--on-navy-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sidebar-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-group-title {
+  margin-bottom: 4px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--on-navy-muted);
 }
 
 .sidebar-nav {
@@ -116,13 +198,19 @@ code {
   gap: 2px;
 }
 
-.sidebar-nav a {
+.sidebar-nav a,
+.nav-disabled {
   position: relative;
   display: block;
   padding: 8px 10px 8px 22px;
   border-radius: 8px;
   color: var(--on-navy-muted);
   font-size: 0.92rem;
+}
+
+.nav-disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
 }
 
 .sidebar-nav a:hover {
@@ -145,6 +233,66 @@ code {
   margin-top: -3px;
   border-radius: 50%;
   background: var(--orange);
+}
+
+/* Solid orange Claims block: navy text; active item navy with white text. */
+.nav-group-claims {
+  padding: 10px 6px;
+  border-radius: var(--radius);
+  background: var(--orange);
+}
+
+.nav-group-claims .nav-group-title,
+.nav-group-claims .sidebar-nav a,
+.nav-group-claims .sidebar-nav a:hover {
+  color: var(--navy);
+}
+
+.nav-group-claims .sidebar-nav a {
+  font-weight: 600;
+}
+
+.nav-group-claims .sidebar-nav a.active {
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.sidebar .footer {
+  margin-top: auto;
+  flex-wrap: wrap;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--navy-raised);
+  color: var(--on-navy-muted);
+  font-size: 0.78rem;
+}
+
+.sidebar .mock-tag {
+  margin-left: 0;
+  border-color: var(--navy-raised);
+}
+
+/* Claims pages: 4px orange top edge and a CLAIMS tag beside the eyebrow. */
+.claims-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-top: 4px solid var(--orange);
+}
+
+.eyebrow-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.claims-tag {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--orange);
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
 .main-col {

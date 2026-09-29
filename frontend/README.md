@@ -6,12 +6,14 @@ pre-written demo answers.
 
 | URL | Screen |
 |-----|--------|
-| `/` | Shopper demo (questions, swipe, verified recommendation) |
-| `/dashboard` | Trust dashboard with the 30-day trust chart |
-| `/incidents`, `/incidents/[id]` | Incidents list and approve/reject/resolve screen |
-| `/approvals` | Human approval queue |
-| `/audit` | Audit log |
-| `/growth` | Extra: sample business growth view and demo coach |
+| `/dashboard` | Dashboard with the 30-day trust chart |
+| `/opportunities` | Opportunity Gaps (placeholder) |
+| `/simulator` | Growth Simulator (sample business, illustrative revenue estimate) |
+| `/coach` | AI Coach (pre-written demo answers) |
+| `/claims/new`, `/claims/outstanding`, `/claims/reviewed` | Claims section (placeholders) |
+| `/` | Shopper demo (not in the nav) |
+
+Navigation is defined once in `lib/nav.ts`.
 
 See `INTEGRATION.md` for where data comes from.
 

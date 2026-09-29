@@ -35,6 +35,20 @@ Summary numbers are calculated in `lib/sample/derive.ts`, never typed twice. Run
 - The coach states it gives pre-written demo answers.
 - AI Visibility Score = `round(visibilityRate x 100)`.
 
+## NEEDS LEAD DECISION
+
+- **Endpoints now unused by the UI.** The old Incidents, Approvals and Audit log pages were replaced
+  by the Claims section (old routes redirect to `/claims/outstanding` and `/claims/reviewed`). Their
+  `lib/api.ts` functions and `shared/mock/` files are kept but nothing calls them yet:
+  `GET /api/v1/incidents`, `GET /api/v1/incidents/{incidentId}`,
+  `POST /api/v1/incidents/{incidentId}/approve | reject | resolve`, `GET /api/v1/audit`
+  (and `GET /api/v1/owners`, never used). Should the Claims pages use these?
+- **Users and sign-in.** The contract has none. The sidebar user chip is sample-only
+  (`lib/sample/sampleUser.ts`) and "Sign out" is disabled ("Soon").
+- **Shopper demo** still works at `/` but is not in the new nav.
+- **Opportunity Gaps** (`/opportunities`) is a title-only placeholder; AI Visibility and Market
+  Position are disabled ("Soon").
+
 ## Still unconfirmed in the contract
 
 - A correct claim's `ruleId`, and an answer's `rank` when the brand isn't mentioned: typed as nullable.

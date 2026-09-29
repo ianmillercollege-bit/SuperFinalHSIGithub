@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/mock/*": ["../shared/mock/**/*.json"],
   },
+  // Old pages replaced by the Claims section and the split Insights pages.
+  async redirects() {
+    return [
+      { source: "/approvals", destination: "/claims/outstanding", permanent: false },
+      { source: "/incidents", destination: "/claims/outstanding", permanent: false },
+      { source: "/incidents/:id", destination: "/claims/outstanding", permanent: false },
+      { source: "/audit", destination: "/claims/reviewed", permanent: false },
+      { source: "/growth", destination: "/simulator", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;
