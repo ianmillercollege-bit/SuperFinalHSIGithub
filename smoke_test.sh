@@ -33,6 +33,11 @@ check "shopper questions"   200 questions     "$BASE/api/v1/shopper/questions"
 check "shopper recommend"   200 rankingNote   -X POST -H "Content-Type: application/json" \
   -d '{"answers":[{"questionId":"q_budget","optionId":"b_500"},{"questionId":"q_use","optionId":"u_school"}],"swipes":[{"optionId":"s_battery","liked":true},{"optionId":"s_light","liked":true},{"optionId":"s_screen","liked":false},{"optionId":"s_touch","liked":false}]}' \
   "$BASE/api/v1/shopper/recommend"
+check "connector manifest"  200 tools         "$BASE/api/v1/connector/manifest"
+check "connector query"     200 answerText    -X POST -H "Content-Type: application/json" \
+  -d '{"question":"What is the best laptop under $500 for school?","assistantId":"ast_01"}' \
+  "$BASE/api/v1/connector/query"
+check "connector 422"       422 error         -X POST -H "Content-Type: application/json" -d '{"question":"x"}' "$BASE/api/v1/connector/query"
 check "products"            200 products      "$BASE/api/v1/products"
 check "visibility summary"  200 visibilityRate "$BASE/api/v1/visibility/summary"
 check "answers"             200 answers       "$BASE/api/v1/answers"
