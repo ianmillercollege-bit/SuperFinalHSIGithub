@@ -34,6 +34,15 @@ export const NAV: NavGroup[] = [
       { label: "Claims Reviewed", href: "/claims/reviewed" },
     ],
   },
+  {
+    // Sample-only pages (DECISIONS.md #28): frontend sample data about Kestrel.
+    title: "Extras (sample data)",
+    tone: "default",
+    items: [
+      { label: "Growth Simulator", href: "/simulator" },
+      { label: "AI Coach", href: "/coach" },
+    ],
+  },
 ];
 
 export function isActive(pathname: string, href: string): boolean {
