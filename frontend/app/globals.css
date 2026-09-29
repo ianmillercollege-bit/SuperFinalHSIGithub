@@ -895,3 +895,27 @@ tbody tr:last-child td {
   border: 1px solid var(--border);
   border-radius: 999px;
 }
+
+/* ---- File a Claim ---- */
+
+.mode-toggle {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.claim-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.claim-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}

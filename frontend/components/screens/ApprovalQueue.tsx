@@ -58,7 +58,7 @@ function Queue({ status, title, blurb, empty }: { status: IncidentStatus; title:
                 </span>
                 <span className="muted small">Owner: {incident.ownerName}</span>
               </div>
-              <Link className="button" href={`/incidents/${encodeURIComponent(incident.incidentId)}`}>
+              <Link className="button" href={`/claims/${encodeURIComponent(incident.incidentId)}`}>
                 Review
               </Link>
             </li>
