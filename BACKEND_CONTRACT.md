@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.0** (approved by lead engineer, 2026-09-29). Any change to a path,
+Status: **FINAL v1.1** (approved by lead engineer, 2026-09-29; v1.1 adds the Connector endpoint, section 7, "Connector"). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -123,7 +123,7 @@ Every incident gets the owner whose `incidentTypes` include its `ruleId`. Every 
 ### Health
 **`GET /health`** → `{"status": "ok", "mockMode": true, "version": "0.1.0"}`
 
-### Shopper funnel (demo)
+### Shopper funnel (legacy demo, kept for compatibility; the frontend no longer needs to show it)
 **`GET /api/v1/shopper/questions`**
 ```json
 {"openingQuery": "What are the best laptops under $500?",
@@ -158,6 +158,51 @@ Rules: ranking lives in `backend/services/ranking.py`: products over budget are 
 score = share of liked swipe features met + use-case fit, ties broken by lower price then `productId`.
 Every reason passes through the checker; only reasons with status `correct` are returned.
 If no product fits, `recommendation` is `null` and `alternatives` is empty. Errors: 422 for unknown `questionId` or `optionId`.
+
+### Connector (what an AI assistant calls) - added in v1.1
+
+CIRQO is sold to brands as a plugin for AI assistants. When a shopper asks an assistant a shopping question, the
+assistant calls this endpoint instead of guessing. CIRQO answers from verified facts and records the interaction so
+it appears in the brand's dashboard.
+
+**`POST /api/v1/connector/query`**
+Request:
+```json
+{"question": "What is the best laptop under $500 for school?", "assistantId": "ast_01",
+ "constraints": {"maxPrice": 500, "useCase": "school", "mustHave": ["battery", "light"]}}
+```
+`assistantId` is required. `constraints` is optional; every field inside it is optional.
+`useCase`: `school` | `work` | `travel` | `media`. `mustHave` values: `battery` | `light` | `screen` | `touch`
+(same meanings as the shopper swipe options). If `constraints` is missing, the backend derives `maxPrice` from a
+dollar amount in `question` when present.
+
+Response:
+```json
+{"answerId": "ans_130", "question": "What is the best laptop under $500 for school?", "assistantId": "ast_01",
+ "recommendation": {"productId": "prod_001", "name": "Kestrel Aero 14", "brandName": "Kestrel", "price": 449.99,
+   "currency": "USD", "availability": "in_stock", "matchScore": 0.92, "returnPolicyDays": 30,
+   "facts": [{"text": "11-hour rated battery", "claimStatus": "correct", "factId": "fact_041"}],
+   "verifiedAt": "2026-09-28T12:00:00Z"},
+ "alternatives": [{"productId": "prod_007", "name": "Novex Slate 14", "brandName": "Novex", "price": 479.00, "matchScore": 0.85}],
+ "answerText": "Based on verified data, the Kestrel Aero 14 ($449.99, in stock) fits best: 11-hour rated battery, 2.9 lb. ...",
+ "claims": [Claim],
+ "rankingNote": "Neutral ranking. No brand can pay for placement.",
+ "verifiedAt": "2026-09-29T20:10:00Z", "source": "mock"}
+```
+Rules:
+- Ranking uses `services/ranking.py` exactly as the shopper endpoint does (neutral, tested).
+- `answerText` is composed by plain code from verified facts (never by AI in mock mode). Every sentence in it is
+  passed through the checker; `claims` lists the result, and every claim must be `correct`.
+- The interaction is stored as an answer (`brandMentioned`, `rank`, `sourceIds` = `["src_brand"]` the brand's own
+  verified feed) so it appears in `GET /api/v1/answers`, `GET /api/v1/visibility/summary` and the trust metrics.
+- Writes an audit entry with `action: "connector_query"`, `actorType: "ai"`, `actor: <assistant name>`.
+- If no product fits the constraints, `recommendation` is `null`, `alternatives` is empty, and `answerText`
+  says so honestly. Still stored and audited.
+- Errors: 422 for a missing `assistantId`, unknown `useCase` or `mustHave` value, or `maxPrice` <= 0. 404 for an unknown `assistantId`.
+
+**`GET /api/v1/connector/manifest`**
+Returns the contents of `backend/connector/manifest.json`: how an AI assistant would register CIRQO as a tool
+(`name`, `description`, `version`, and the single `query` tool with its input schema). Static file, no auth.
 
 ### Products (verified facts)
 **`GET /api/v1/products`** → `{"products": [Product]}` (all brands)
@@ -234,7 +279,7 @@ Rules for all three:
   "action": "auto_fix_applied", "targetId": "inc_12", "details": "Published verified price $449.99."}]}
 ```
 `actorType`: `system` | `human` | `ai`.
-`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved`.
+`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query`.
 
 ### Trust metrics
 **`GET /api/v1/metrics/trust?days=30`**
@@ -302,13 +347,14 @@ One file per response, named after the endpoint. The frontend builds against the
 `health.json`, `shopper_questions.json`, `shopper_recommend.json`, `products.json`, `visibility_summary.json`,
 `answers.json`, `sources.json`, `checker_run.json`, `claims.json`, `incidents.json`, `incident_detail.json`,
 `incident_approve.json`, `incident_reject.json`, `incident_resolve.json`, `owners.json`, `audit.json`,
-`metrics_trust.json`, `report.json`, `error_not_found.json`, `error_validation.json`.
+`metrics_trust.json`, `report.json`, `error_not_found.json`, `error_validation.json`, `connector_query.json`, `connector_manifest.json` (v1.1).
 Mock values must match the shapes above exactly.
 
 ## 11. Required tests (pytest)
 
 `test_health`, `test_error_format` (404 and 422), `test_ranking_neutral`, `test_checker_rules` (one case per `ruleId`),
-`test_severity_rules`, `test_approval_flow` (approve, reject, resolve, 403 and 409 cases), `test_trend_improves`.
+`test_severity_rules`, `test_approval_flow` (approve, reject, resolve, 403 and 409 cases), `test_trend_improves`,
+`test_connector` (v1.1: a query returns only `correct` claims, is stored as an answer, writes an audit entry, 422 and 404 cases, and manifest loads).
 
 ## 12. Timeline (Central Time, compressed)
 

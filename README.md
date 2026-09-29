@@ -19,16 +19,18 @@ Cover page: [`COVER_PAGE.md`](COVER_PAGE.md). Companion document: the CIRQO 5-Pa
 Shoppers now ask AI assistants "what are the best laptops under $500?" and may never visit a brand's website.
 Brands lose visibility, and the AI can state wrong prices, features, availability, or policies.
 
-CIRQO is an AI product visibility and accuracy platform for consumer technology brands. It has the three components
-described in the business plan:
+CIRQO is an **API plugin for AI assistants plus a brand dashboard**, for consumer technology brands. It is not a
+shopping app. A brand connects its product catalog to CIRQO. When a shopper asks an AI assistant a shopping question,
+the assistant calls CIRQO instead of guessing and gets verified facts back. CIRQO records what was asked and answered,
+checks every claim, and shows the brand the results. The three components from the business plan:
 
-| Component (business plan) | Who it serves | Where it is in this app |
-|---------------------------|---------------|-------------------------|
-| **Shopping Connector** | Consumers | The **Shopper demo** page: a broad request narrows to one primary recommendation plus alternatives, with the shopper's constraints (budget, use, features) kept visible. |
-| **Visibility and Accuracy Dashboard** | Technology brands | The **Trust dashboard**, **Incidents**, **Approvals** and **Audit log** pages: AI inclusion, rankings, competitors, sources used, and incorrect product information across AI assistants. |
+| Component (business plan) | Who it serves | Where it is in this repo |
+|---------------------------|---------------|--------------------------|
+| **Shopping Connector** | Consumers, inside their AI assistant | `POST /api/v1/connector/query`: the endpoint an assistant calls. Returns a verified recommendation, checked facts and alternatives, and records the interaction. `GET /api/v1/connector/manifest` describes the tool. The **Assistant simulator** page shows what the assistant receives. |
+| **Visibility and Accuracy Dashboard** | Technology brands | The dashboard site: AI inclusion, rankings, competitors, sources used, incorrect product information, claims to review, and the audit trail. |
 | **Verified Data Layer** | Both | The verified product facts (`GET /api/v1/products`) with timestamps, which every AI claim is checked against. |
 
-A brand gives CIRQO its verified product facts, and CIRQO:
+A brand connects its verified product facts, and CIRQO:
 
 1. **Tracks visibility**: how often and how high the brand appears in AI answers, share of voice, and competitors.
 2. **Shows sources**: which review sites, marketplaces, and brand pages the AI relied on, and how accurate each one is.
@@ -43,8 +45,8 @@ A brand gives CIRQO its verified product facts, and CIRQO:
    (visibility), claim accuracy rate, hallucination rate, median time to resolve, and false alarm rate.
    The 30-day sample trend shows claim accuracy rising from 62% to about 93% and AI-answer inclusion from 35% to 56%.
    `GET /api/v1/report` is the aggregated summary of errors and resolutions that the plan commits to publishing each quarter.
-7. **Shopper demo**: a broad question narrows to one verified recommendation (with a swipe-style question),
-   showing what a verified AI answer looks like. Every reason shown has passed the checker.
+7. **Answers the assistant from verified facts**: the connector composes its answer from checked facts only, with
+   neutral ranking, and every sentence passes through the checker before it leaves CIRQO.
 
 **Neutral ranking:** brands can never pay for placement. The ranking code never receives the client or billing
 fields, and `backend/tests/test_ranking_neutral.py` proves the results are identical when those fields change.
