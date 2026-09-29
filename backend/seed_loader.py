@@ -78,7 +78,9 @@ def load(db, folder: Path) -> dict:
         db.add(Product(product_id=r["productId"], brand_id=r["brandId"], name=r["name"], price=float(r["price"]),
                        currency=pick(r, "currency", default="USD"), availability=r["availability"],
                        specs=r["specs"], return_policy_days=int(r["returnPolicyDays"]),
-                       updated_at=shift_iso(r["updatedAt"], shift), price_history=previous_prices(r),
+                       updated_at=shift_iso(r["updatedAt"], shift), fact_source=r["factSource"],
+                       fact_source_url=r["factSourceUrl"], verified_at=shift_iso(r["verifiedAt"], shift),
+                       price_history=previous_prices(r),
                        features=[f.lower() for f in pick(r, "features", default=[])]))
 
     for r in read_list(folder, "assistants", "assistants"):

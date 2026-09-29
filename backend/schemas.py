@@ -51,6 +51,10 @@ class ProductOut(CamelModel):
     specs: Specs
     return_policy_days: int
     updated_at: str
+    # v1.2 Verified Data Layer. factSource is not called "source": that word means live|mock|fallback.
+    fact_source: Literal["Brand product feed", "Brand website", "Manufacturer spec sheet"]
+    fact_source_url: str
+    verified_at: str
 
 
 class ClaimOut(CamelModel):

@@ -88,7 +88,7 @@ def recommend(body: RecommendIn, db=Depends(get_db)):
         recommendation = {"productId": p.product_id, "name": p.name, "brandName": brands.get(p.brand_id, ""),
                           "price": p.price, "currency": p.currency, "availability": p.availability,
                           "matchScore": round(score, 2), "reasons": reasons_for(p, budget, use, liked, catalog),
-                          "verifiedAt": p.updated_at}
+                          "verifiedAt": p.verified_at}
         for alt, alt_score in ranked[1:3]:
             ap = products[alt.product_id]
             alternatives.append({"productId": ap.product_id, "name": ap.name,

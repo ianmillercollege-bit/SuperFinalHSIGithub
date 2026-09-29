@@ -59,6 +59,10 @@ def test_products(seed):
         assert isinstance(p["returnPolicyDays"], int)
         previous = [h["price"] for h in p["priceHistory"] if h["price"] != p["price"]]
         assert previous, f"{p['productId']} needs at least one previous price"
+        # Contract v1.2 Verified Data Layer fields.
+        assert p["factSource"] in ("Brand product feed", "Brand website", "Manufacturer spec sheet")
+        assert p["factSourceUrl"].startswith("https://www.") and ".example/" in p["factSourceUrl"]
+        assert p["verifiedAt"] >= p["updatedAt"]
 
 
 def test_assistants_are_fictional_and_simulated(seed):

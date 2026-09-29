@@ -26,7 +26,8 @@ def product_out(p: Product, brands: dict[str, str]) -> dict:
             "name": p.name, "price": p.price, "currency": p.currency, "availability": p.availability,
             "specs": {k: p.specs[k] for k in ("ramGb", "storageGb", "screenInches", "batteryHours", "weightLb",
                                               "touchscreen")},
-            "returnPolicyDays": p.return_policy_days, "updatedAt": p.updated_at}
+            "returnPolicyDays": p.return_policy_days, "updatedAt": p.updated_at,
+            "factSource": p.fact_source, "factSourceUrl": p.fact_source_url, "verifiedAt": p.verified_at}
 
 
 @router.get("/products", response_model=ProductsOut)

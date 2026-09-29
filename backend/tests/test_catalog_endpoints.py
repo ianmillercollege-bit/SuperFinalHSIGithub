@@ -3,7 +3,8 @@
 from conftest import load_mock
 
 PRODUCT_KEYS = {"productId", "brandId", "brandName", "name", "price", "currency", "availability", "specs",
-                "returnPolicyDays", "updatedAt"}
+                "returnPolicyDays", "updatedAt", "factSource", "factSourceUrl", "verifiedAt"}  # v1.2
+FACT_SOURCES = {"Brand product feed", "Brand website", "Manufacturer spec sheet"}
 SPEC_KEYS = {"ramGb", "storageGb", "screenInches", "batteryHours", "weightLb", "touchscreen"}
 INCIDENT_RULES = {"PRICE_MISMATCH", "PRICE_OUTDATED", "SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH",
                   "POLICY_MISMATCH", "UNFAIR_COMPARISON", "SAFETY_LEGAL"}
@@ -19,6 +20,34 @@ def test_products(client):
         assert set(p) == PRODUCT_KEYS and set(p["specs"]) == SPEC_KEYS  # no isClient / billingTier / priceHistory
         assert p["currency"] == "USD" and p["availability"] in ("in_stock", "low_stock", "out_of_stock")
     assert {p["brandName"] for p in products} == {"Kestrel", "Arcton", "Novex"}
+
+
+def test_products_verified_data_layer(client):
+    """Contract v1.2: factSource, factSourceUrl (fictional .example domain) and verifiedAt on every product."""
+    import re
+    from urllib.parse import urlparse
+
+    for p in client.get("/api/v1/products").json()["products"]:
+        assert p["factSource"] in FACT_SOURCES
+        url = urlparse(p["factSourceUrl"])
+        assert url.scheme == "https" and url.hostname.endswith(".example"), p["factSourceUrl"]
+        assert p["brandName"].lower() in url.hostname  # the brand's own page
+        assert re.fullmatch(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", p["verifiedAt"])
+        assert p["verifiedAt"] >= p["updatedAt"]  # verified no earlier than the last change
+    aero = next(p for p in client.get("/api/v1/products").json()["products"] if p["productId"] == "prod_001")
+    assert (aero["factSource"], aero["factSourceUrl"]) == ("Brand product feed", "https://www.kestrel.example/aero-14")
+
+
+def test_recommendations_report_when_facts_were_verified(client):
+    from conftest import DEFAULT_ANSWERS
+
+    verified = {p["productId"]: p["verifiedAt"] for p in client.get("/api/v1/products").json()["products"]}
+    shopper = client.post("/api/v1/shopper/recommend", json=DEFAULT_ANSWERS).json()["recommendation"]
+    assert shopper["verifiedAt"] == verified[shopper["productId"]]
+    connector = client.post("/api/v1/connector/query", json={
+        "question": "Best laptop under $500?", "assistantId": "ast_01",
+        "constraints": {"useCase": "school", "mustHave": ["battery", "light"]}}).json()["recommendation"]
+    assert connector["verifiedAt"] == verified[connector["productId"]]
 
 
 def test_owners(client):
