@@ -1,0 +1,146 @@
+// npm run check:sample
+// Verifies the sample data is complete and consistent, the simulator hits its
+// anchors, and the coach answers every suggested question. (Type checking
+// against lib/schema.ts runs first, via tsc, in the npm script.)
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import path from "node:path";
+import { simulatorAssumptions } from "../lib/config/simulatorAssumptions";
+import { apiCoach, LIVE_COACH_NOT_CONNECTED_NOTE } from "../lib/coach/apiCoach";
+import { SUGGESTED_QUESTIONS, loadCoachContext } from "../lib/coach";
+import { matchIntent, sampleCoach } from "../lib/coach/sampleCoach";
+import { dataMode } from "../lib/config";
+import { LIVE_NOT_CONNECTED_NOTE, getOverview } from "../lib/dataSource";
+import {
+  buildMarketReport,
+  buildOpportunitiesReport,
+  buildOverview,
+  buildSimulatorBaseline,
+  buildVisibilityReport,
+  visibilityScoreFrom,
+} from "../lib/sample/derive";
+import { sampleBusiness } from "../lib/sample/sampleBusiness";
+import { allLeversOn, simulate } from "../lib/simulator";
+
+let failures = 0;
+function check(label: string, ok: boolean, detail = "") {
+  if (!ok) failures++;
+  console.log(`${ok ? "✓" : "✗"} ${label}${detail ? `  (${detail})` : ""}`);
+}
+function section(title: string) {
+  console.log(`\n${title}`);
+}
+
+async function main() {
+  const visibility = buildVisibilityReport();
+  const overview = buildOverview();
+  const market = buildMarketReport();
+  const { opportunities, totalLiftPoints } = buildOpportunitiesReport();
+  const baseline = buildSimulatorBaseline();
+  const oppIds = new Set(opportunities.map((o) => o.id));
+
+  section("Sample data shape");
+  check("12 tracked prompts", visibility.prompts.length === 12, `${visibility.prompts.length}`);
+  check("4 assistants", visibility.assistants.length === 4, `${visibility.assistants.length}`);
+  const pairs = new Set(visibility.results.map((r) => `${r.promptId}|${r.assistantId}`));
+  check("every prompt x assistant has exactly one result", pairs.size === 48 && visibility.results.length === 48, `${visibility.results.length}`);
+  check(
+    "appeared results have a rank and no reasons; absent results have reasons and no rank",
+    visibility.results.every((r) => (r.appeared ? r.rank !== null && r.rank >= 1 && r.reasonCodes.length === 0 : r.rank === null && r.reasonCodes.length > 0)),
+  );
+  check("8 weeks of history", overview.history.length === 8, `${overview.history.length}`);
+  check("3 strengths, 3 weaknesses", overview.strengths.length === 3 && overview.weaknesses.length === 3);
+  check("5 opportunities", opportunities.length === 5, `${opportunities.length}`);
+  check("opportunity liftPoints sum to 15", totalLiftPoints === 15, `${totalLiftPoints}`);
+  check(
+    "every reason code links to an existing opportunity",
+    visibility.reasonCodes.every((r) => oppIds.has(r.opportunityId)),
+  );
+  check("every opportunity is linked to at least one reason code", opportunities.every((o) => o.relatedReasonCodes.length > 0));
+  check("4 similar businesses and 4 national competitors",
+    market.entities.filter((e) => e.kind === "peer").length === 4 && market.entities.filter((e) => e.kind === "national").length === 4);
+
+  section("Consistency across views");
+  check("AI Visibility Score is 63", overview.visibilityScore === 63, `${overview.visibilityScore}`);
+  check("score is up from last week", overview.weeklyChange > 0, `${overview.previousScore} -> ${overview.visibilityScore}`);
+  check("score = appearances / checks from the result grid",
+    overview.visibilityScore === visibilityScoreFrom(visibility.appearances, visibility.checks),
+    `${visibility.appearances}/${visibility.checks}`);
+  check("last history week = this week's score", overview.history.at(-1)?.score === overview.visibilityScore);
+  check("overview counts match the visibility report",
+    overview.appearances === visibility.appearances && overview.checks === visibility.checks);
+  check("per-assistant appearances add up to the total",
+    visibility.byAssistant.reduce((s, a) => s + a.appearances, 0) === visibility.appearances);
+  check("this business's market mentions = its appearances",
+    market.entities.find((e) => e.kind === "this_business")?.mentions === visibility.appearances);
+  const shareSum = market.shares.national + market.shares.peers + market.shares.thisBusiness;
+  check("market shares sum to 100%", Math.abs(shareSum - 1) < 1e-9, shareSum.toFixed(4));
+  check("weaknesses are the 3 most common absence reasons",
+    overview.weaknesses.every((w, i) => w.code === visibility.reasons[i].code && w.count === visibility.reasons[i].count));
+  check("simulator baseline = overview score", baseline.visibilityScore === overview.visibilityScore);
+
+  section("Simulator");
+  const all = simulate(allLeversOn(baseline.levers), baseline, simulatorAssumptions);
+  check("all levers at 100%: 63 -> 78", all.visibilityBefore === 63 && all.visibilityAfter === 78, `${all.visibilityBefore} -> ${all.visibilityAfter}`);
+  check("all levers at 100%: +$4,300/month", all.revenueDeltaPerMonth === 4300, `$${all.revenueDeltaPerMonth}`);
+  const none = simulate({}, baseline, simulatorAssumptions);
+  check("no levers: no change", none.visibilityAfter === 63 && none.revenueDeltaPerMonth === 0);
+  const half = simulate(Object.fromEntries(baseline.levers.map((l) => [l.opportunityId, 0.5])), baseline, simulatorAssumptions);
+  check("all levers at 50%: 63 -> 70.5", half.visibilityAfter === 70.5, `${half.visibilityAfter}, $${half.revenueDeltaPerMonth}`);
+  const explained = simulatorAssumptions.explanation.reduce((p, a) => p * a.value, 1);
+  check("assumptions list explains revenuePerVisibilityPoint (within $1)",
+    Math.abs(explained - simulatorAssumptions.revenuePerVisibilityPoint) < 1,
+    `$${explained.toFixed(2)} vs $${simulatorAssumptions.revenuePerVisibilityPoint}`);
+  check("overview potential matches simulator",
+    overview.potentialScore === all.visibilityAfter && overview.potentialRevenuePerMonth === all.revenueDeltaPerMonth);
+
+  section("Data source");
+  const live = await getOverview();
+  if (dataMode === "live") {
+    check("live mode falls back to sample data with a note",
+      live.source === "sample" && live.fallbackNote === LIVE_NOT_CONNECTED_NOTE, live.fallbackNote ?? "no note");
+  } else {
+    check("sample mode returns sample data", live.source === "sample" && !live.fallbackNote);
+  }
+
+  section("Coach");
+  const context = await loadCoachContext();
+  for (const { question, intent } of SUGGESTED_QUESTIONS) {
+    const reply = await sampleCoach.ask(question, [], context);
+    check(`"${question}"`,
+      matchIntent(question) === intent && reply.text.length > 0 && reply.sources.length > 0,
+      `intent ${matchIntent(question)}, ${reply.sources.length} sources`);
+  }
+  const fallback = await sampleCoach.ask("What's the weather tomorrow?", [], context);
+  check("unknown question gets a friendly fallback", matchIntent("What's the weather tomorrow?") === "fallback" && fallback.sources.length > 0);
+  const viaApi = await apiCoach.ask(SUGGESTED_QUESTIONS[0].question, [], context);
+  check("live coach falls back to sample with a note", viaApi.source === "sample" && viaApi.fallbackNote === LIVE_COACH_NOT_CONNECTED_NOTE);
+
+  section("Business name");
+  const offenders = sourceFiles(path.join(__dirname, ".."))
+    .filter((f) => !f.endsWith(path.join("sample", "sampleBusiness.ts")))
+    .filter((f) => readFileSync(f, "utf8").includes(sampleBusiness.name));
+  check("name is written only in lib/sample/sampleBusiness.ts", offenders.length === 0, offenders.join(", "));
+
+  console.log(failures === 0 ? "\nAll sample checks passed." : `\n${failures} check(s) failed.`);
+  process.exit(failures === 0 ? 0 : 1);
+}
+
+function sourceFiles(root: string): string[] {
+  return ["app", "components", "lib"].flatMap((dir) => walk(path.join(root, dir)));
+}
+
+function walk(dir: string): string[] {
+  let entries: string[];
+  try {
+    entries = readdirSync(dir);
+  } catch {
+    return [];
+  }
+  return entries.flatMap((name) => {
+    const full = path.join(dir, name);
+    if (statSync(full).isDirectory()) return walk(full);
+    return /\.(ts|tsx)$/.test(name) ? [full] : [];
+  });
+}
+
+main();

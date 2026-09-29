@@ -13,6 +13,16 @@
 //
 // These functions are meant to be called from the browser (client components).
 
+import { USE_MOCK } from "./config";
+import type {
+  CoachReply,
+  CoachRequest,
+  MarketReport,
+  OpportunitiesReport,
+  Overview,
+  SimulatorBaseline,
+  VisibilityReport,
+} from "./schema";
 import type {
   ApiErrorBody,
   ApiErrorCode,
@@ -23,8 +33,8 @@ import type {
   VisibilitySummary,
 } from "./types";
 
+export { USE_MOCK };
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
-export const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "true";
 
 const TIMEOUT_MS = 8000;
 
@@ -80,6 +90,45 @@ export async function getIncidents(filters: IncidentFilters = {}): Promise<Incid
 // while an incident is open. PENDING LEAD CONFIRMATION.
 export function isOpenIncident(incident: Incident): boolean {
   return incident.resolvedAt === null;
+}
+
+// ---- Not in the contract yet ----
+//
+// The small-business views and the coach have no endpoint in BACKEND_CONTRACT.md.
+// Each stub below throws NotInContractError; lib/dataSource.ts and lib/coach/
+// catch it and fall back to sample data. When the lead adds an endpoint, replace
+// the stub body with a call like getVisibilitySummary() above. Pages don't change.
+
+export class NotInContractError extends Error {
+  constructor(what: string) {
+    super(`${what} has no endpoint in BACKEND_CONTRACT.md yet`);
+    this.name = "NotInContractError";
+  }
+}
+
+export async function getOverviewLive(): Promise<Overview> {
+  throw new NotInContractError("Overview");
+}
+
+export async function getVisibilityLive(): Promise<VisibilityReport> {
+  throw new NotInContractError("Visibility report");
+}
+
+export async function getMarketLive(): Promise<MarketReport> {
+  throw new NotInContractError("Market report");
+}
+
+export async function getOpportunitiesLive(): Promise<OpportunitiesReport> {
+  throw new NotInContractError("Opportunities");
+}
+
+export async function getSimulatorBaselineLive(): Promise<SimulatorBaseline> {
+  throw new NotInContractError("Simulator baseline");
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function coachAsk(request: CoachRequest): Promise<CoachReply> {
+  throw new NotInContractError("Coach");
 }
 
 // Asks the live backend's /health endpoint whether it is up. This always checks
