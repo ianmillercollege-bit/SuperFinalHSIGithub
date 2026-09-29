@@ -11,7 +11,7 @@ the final submission check. If this file and `BACKEND_CONTRACT.md` disagree, the
 | 2 | Repo link | https://github.com/ianmillercollege-bit/SuperFinalHSIGithub | Working repo. Final submission must be a public repo or zip named `<SchoolAcronym>_TECH_09302026`. Rename the repo or submit a zip before 6:00 AM CT 9/30. |
 | 3 | AI provider and model | Anthropic, `claude-sonnet-5-5` | Decided. Used only in `backend/services/ai_client.py`, only for claim extraction and answer drafting.  `MOCK_MODE=true` stays default. |
 | 4 | Frontend framework and Vercel URL | Next.js (React, TypeScript), dev on `localhost:3000`. Vercel URL: `https://frontdoor-SCHOOL.vercel.app` | Framework decided. URL is **PLACEHOLDER** until the frontend engineer's first Vercel deploy. |
-| 5 | Backend live URL | `https://frontdoor-api.onrender.com` | **PLACEHOLDER.** Backend engineer sends the real URL to the lead at checkpoint hour 2. |
+| 5 | Backend live URL | `https://frontdoor-api-hiel.onrender.com` | Live, `/health` verified 9/29 afternoon. |
 | 6 | Demo API keys (client API, not the AI key) | Owner: `fd_demo_owner_2026` / Viewer: `fd_demo_viewer_2026` | Decided. Demo-only values, safe to commit. They grant access to seeded demo data only. The Anthropic API key is never written anywhere in the repo. |
 | 7 | Severity for an invented feature (hallucinated spec) | `high` | Decided. Goes to a named human for approval, never auto-fixed. |
 | 8 | Detecting unfair comparisons and safety or legal claims in mock mode | Plain-code rules, no AI. See "Mock-mode detection rules" below. | Decided. |
