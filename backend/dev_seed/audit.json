@@ -1,0 +1,130 @@
+{
+  "entries": [
+    {
+      "auditId": "aud_507",
+      "timestamp": "2026-09-29T17:40:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "escalated",
+      "targetId": "inc_47",
+      "details": "Safety/legal claim escalated to Grace Kim. No fix applied."
+    },
+    {
+      "auditId": "aud_506",
+      "timestamp": "2026-09-29T17:40:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_47",
+      "details": "SAFETY_LEGAL incident from clm_307."
+    },
+    {
+      "auditId": "aud_505",
+      "timestamp": "2026-09-29T17:30:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_46",
+      "details": "PRICE_MISMATCH (16.8%) incident from clm_306. Awaiting approval from Maria Lopez."
+    },
+    {
+      "auditId": "aud_504",
+      "timestamp": "2026-09-29T17:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_45",
+      "details": "UNFAIR_COMPARISON incident from clm_305. Awaiting approval from Grace Kim."
+    },
+    {
+      "auditId": "aud_503",
+      "timestamp": "2026-09-29T17:10:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_44",
+      "details": "INVENTED_FEATURE incident from clm_303. Awaiting approval from Dev Patel."
+    },
+    {
+      "auditId": "aud_502",
+      "timestamp": "2026-09-29T17:05:03Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_31",
+      "details": "Published verified availability (in stock) for Kestrel Aero 14 Plus."
+    },
+    {
+      "auditId": "aud_501",
+      "timestamp": "2026-09-29T17:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_12",
+      "details": "Published verified price $449.99."
+    },
+    {
+      "auditId": "aud_500",
+      "timestamp": "2026-09-29T17:05:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_31",
+      "details": "AVAILABILITY_MISMATCH incident from clm_302."
+    },
+    {
+      "auditId": "aud_499",
+      "timestamp": "2026-09-29T17:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_12",
+      "details": "PRICE_MISMATCH (11.3%) incident from clm_300."
+    },
+    {
+      "auditId": "aud_498",
+      "timestamp": "2026-09-29T17:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_300",
+      "details": "PRICE_MISMATCH: stated $399, verified $449.99."
+    },
+    {
+      "auditId": "aud_497",
+      "timestamp": "2026-09-29T16:00:05Z",
+      "actor": "ai_client",
+      "actorType": "ai",
+      "action": "claim_extracted",
+      "targetId": "ans_120",
+      "details": "Extracted 3 claims from answer ans_120."
+    },
+    {
+      "auditId": "aud_481",
+      "timestamp": "2026-09-28T17:30:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_30",
+      "details": "Approved publishing the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_470",
+      "timestamp": "2026-09-27T14:45:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_28",
+      "details": "False alarm: verified battery facts support the comparison (12 h vs 9 h)."
+    },
+    {
+      "auditId": "aud_452",
+      "timestamp": "2026-09-25T16:00:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "resolved",
+      "targetId": "inc_20",
+      "details": "Confirmed UL listing from the manufacturer certificate. No correction needed."
+    }
+  ]
+}

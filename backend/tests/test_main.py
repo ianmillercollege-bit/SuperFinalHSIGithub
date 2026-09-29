@@ -1,6 +1,4 @@
-import json
-from pathlib import Path
-
+from conftest import load_mock
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
@@ -9,11 +7,6 @@ from main import app
 from settings import Settings
 
 client = TestClient(app)
-MOCK_DIR = Path(__file__).resolve().parents[2] / "shared" / "mock"
-
-
-def load_mock(name: str) -> dict:
-    return json.loads((MOCK_DIR / name).read_text(encoding="utf-8"))
 
 
 def assert_error_shape(body: dict, code: str) -> None:
@@ -32,6 +25,16 @@ def test_health():
 def test_health_matches_mock_file():
     # The frontend builds against shared/mock/health.json, so the real response must match it.
     assert client.get("/health").json() == load_mock("health.json")
+
+
+def test_error_format():
+    # Contract section 11: 404 and 422 on real endpoints use the standard shape.
+    res = client.get("/api/v1/incidents/inc_99")
+    assert res.status_code == 404
+    assert res.json() == {"error": {"code": "NOT_FOUND", "message": "Incident inc_99 does not exist."}}
+    res = client.get("/api/v1/claims?limit=0")
+    assert res.status_code == 422
+    assert_error_shape(res.json(), "VALIDATION_ERROR")
 
 
 def test_error_format_not_found():

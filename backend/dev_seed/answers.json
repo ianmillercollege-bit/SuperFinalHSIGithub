@@ -1,0 +1,100 @@
+{
+  "answers": [
+    {
+      "answerId": "ans_120",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_02",
+      "answerText": "For under $500, the Kestrel Aero 14 is a strong pick. The Kestrel Aero 14 costs $399. It has an 11-hour battery, so it lasts a full school day. The Kestrel Aero 14 Plus is out of stock right now. The Novex Slate 14 at $479 is a solid alternative.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_03"
+      ],
+      "capturedAt": "2026-09-29T16:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_119",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_01",
+      "answerText": "Arcton Swift 14 is a popular choice. The Kestrel Aero 14 has a backlit fingerprint reader and weighs 2.9 lb. Unlike the Kestrel Aero 14, the Novex Slate 14 never overheats.",
+      "brandMentioned": true,
+      "rank": 2,
+      "sourceIds": [
+        "src_04",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-29T15:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_118",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_03",
+      "answerText": "You can get the Kestrel Studio 15 for $499, a great value for a 15.6-inch screen. For younger users, the Kestrel Pocket 12 is certified child-safe. The Arcton Vista 15 is another option.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-29T15:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_116",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Flex 14 Touch has 16 GB of RAM and a responsive touchscreen. The Arcton Vista 15 also has touch.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-29T14:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_117",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Go 13 and the Kestrel Aero 13 Lite are both budget-friendly. The Kestrel Aero 13 Lite is $339.",
+      "brandMentioned": true,
+      "rank": 2,
+      "sourceIds": [
+        "src_06"
+      ],
+      "capturedAt": "2026-09-29T11:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_115",
+      "queryText": "laptop with the best return policy",
+      "assistantId": "ast_03",
+      "answerText": "Kestrel offers a 60-day return window on the Aero 14, longer than most brands. Arcton offers 15 days.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_03",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-28T14:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_114",
+      "queryText": "good laptop for students",
+      "assistantId": "ast_01",
+      "answerText": "The Zephyr Book 13 is great for students. Arcton Swift 14 and Kestrel Aero 14 are also worth a look.",
+      "brandMentioned": true,
+      "rank": 3,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-28T10:00:00Z",
+      "source": "mock"
+    }
+  ]
+}
