@@ -1,5 +1,7 @@
 # CIRQO: Trustworthy AI Product Discovery
 
+[![CI](https://github.com/ianmillercollege-bit/SuperFinalHSIGithub/actions/workflows/ci.yml/badge.svg)](https://github.com/ianmillercollege-bit/SuperFinalHSIGithub/actions/workflows/ci.yml)
+
 **UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
 Cover page: [`COVER_PAGE.md`](COVER_PAGE.md). Companion document: the CIRQO 5-Page Business and Marketing Plan (`UTSA_5PBP_09292026.pdf`).
 
