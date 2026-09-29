@@ -157,12 +157,16 @@ def test_consistent_with_shared_mock(seed):
 
 
 def test_generator_is_deterministic(tmp_path):
+    def read(path: Path) -> bytes:
+        # Git on Windows may check files out with CRLF line endings; that is not a content change.
+        return path.read_bytes().replace(b"\r\n", b"\n")
+
     for out in (tmp_path / "a", tmp_path / "b"):
         subprocess.run([sys.executable, str(GENERATOR), "--out", str(out)], check=True, capture_output=True)
     for name in FILES:
-        first, second = (tmp_path / "a" / f"{name}.json").read_bytes(), (tmp_path / "b" / f"{name}.json").read_bytes()
+        first, second = read(tmp_path / "a" / f"{name}.json"), read(tmp_path / "b" / f"{name}.json")
         assert first == second, name
-        assert first == (DATA / f"{name}.json").read_bytes(), f"{name}.json is stale: rerun generate.py"
+        assert first == read(DATA / f"{name}.json"), f"{name}.json is stale: rerun generate.py"
 
 
 # ---- The real server on the real seed -----------------------------------------------------------
