@@ -1,6 +1,7 @@
 # CIRQO: Trustworthy AI Product Discovery
 
 **UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
+Cover page: [`COVER_PAGE.md`](COVER_PAGE.md). Companion document: the CIRQO 5-Page Business and Marketing Plan (`UTSA_5PBP_09292026.pdf`).
 
 - **Live app:** https://super-final-hsi-github.vercel.app
 - **Live API (interactive docs):** https://frontdoor-api-hiel.onrender.com/docs
@@ -18,7 +19,18 @@
 Shoppers now ask AI assistants "what are the best laptops under $500?" and may never visit a brand's website.
 Brands lose visibility, and the AI can state wrong prices, features, availability, or policies.
 
-CIRQO is a trust and visibility platform for AI shopping. A company gives CIRQO its verified product facts, and CIRQO:
+CIRQO is an **API plugin for AI assistants plus a brand dashboard**, for consumer technology brands. It is not a
+shopping app. A brand connects its product catalog to CIRQO. When a shopper asks an AI assistant a shopping question,
+the assistant calls CIRQO instead of guessing and gets verified facts back. CIRQO records what was asked and answered,
+checks every claim, and shows the brand the results. The three components from the business plan:
+
+| Component (business plan) | Who it serves | Where it is in this repo |
+|---------------------------|---------------|--------------------------|
+| **Shopping Connector** | Consumers, inside their AI assistant | `POST /api/v1/connector/query`: the endpoint an assistant calls. Returns a verified recommendation, checked facts and alternatives, and records the interaction. `GET /api/v1/connector/manifest` describes the tool. The **Assistant simulator** page shows what the assistant receives. |
+| **Visibility and Accuracy Dashboard** | Technology brands | The dashboard site: AI inclusion, rankings, competitors, sources used, incorrect product information, claims to review, and the audit trail. |
+| **Verified Data Layer** | Both | The verified product facts (`GET /api/v1/products`) with timestamps, which every AI claim is checked against. |
+
+A brand connects its verified product facts, and CIRQO:
 
 1. **Tracks visibility**: how often and how high the brand appears in AI answers, share of voice, and competitors.
 2. **Shows sources**: which review sites, marketplaces, and brand pages the AI relied on, and how accurate each one is.
@@ -29,10 +41,12 @@ CIRQO is a trust and visibility platform for AI shopping. A company gives CIRQO 
    - High risk (large price errors, invented features, policy misstatements, unfair comparisons): waits for a named human owner to approve or reject.
    - Safety and legal claims: escalated only. No automatic fix, ever.
 5. **Keeps an audit log** of every action by the system, the AI, and people. Every incident type has a named owner.
-6. **Measures trust over time**: accuracy rate, hallucination rate, time to resolve, and false alarm rate.
-   The 30-day sample trend shows accuracy rising from 62% to about 91%.
-7. **Shopper demo**: a broad question narrows to one verified recommendation (with a swipe-style question),
-   showing what a verified AI answer looks like. Every reason shown has passed the checker.
+6. **Measures trust over time**, using the success metrics from the business plan: AI-answer inclusion rate
+   (visibility), claim accuracy rate, hallucination rate, median time to resolve, and false alarm rate.
+   The 30-day sample trend shows claim accuracy rising from 62% to about 93% and AI-answer inclusion from 35% to 56%.
+   `GET /api/v1/report` is the aggregated summary of errors and resolutions that the plan commits to publishing each quarter.
+7. **Answers the assistant from verified facts**: the connector composes its answer from checked facts only, with
+   neutral ranking, and every sentence passes through the checker before it leaves CIRQO.
 
 **Neutral ranking:** brands can never pay for placement. The ranking code never receives the client or billing
 fields, and `backend/tests/test_ranking_neutral.py` proves the results are identical when those fields change.
@@ -43,8 +57,8 @@ Open https://super-final-hsi-github.vercel.app and use the top menu:
 
 | Page | What to look at |
 |------|-----------------|
-| **Shopper demo** | Start from "What are the best laptops under $500?", answer the questions, swipe on features, and get one verified recommendation with checked reasons. |
-| **Trust dashboard** | Visibility score, share of voice vs. competitors, sources the AI relied on, and the 30-day accuracy trend (our proof of impact). |
+| **Shopper demo** (Shopping Connector) | Start from "What are the best laptops under $500?", answer the questions, swipe on features, and get one verified recommendation with checked reasons. |
+| **Trust dashboard** (Visibility and Accuracy Dashboard) | AI-answer inclusion rate, share of voice vs. competitors, sources the AI relied on, and the 30-day accuracy trend (our proof of impact). |
 | **Incidents** | Every wrong AI claim, its severity, what the AI said vs. the verified fact, and whether it was auto-fixed, awaiting approval, or escalated. |
 | **Approvals** | High-risk fixes waiting for their named owner. Try approving or rejecting one (the approver name must match the owner). |
 | **Audit log** | Who did what and when: system, AI, or a named person. |
@@ -109,11 +123,29 @@ run.sh, smoke_test.sh
 
 - **Accuracy decided by code, not AI.** The AI extracts claims; deterministic rules judge them (`backend/services/checker.py`).
 - **Human in the loop for high risk.** Named owners approve or reject; safety and legal claims are escalate-only.
+  An incident waiting for a person is the plan's "verification pending" state.
 - **Accountability.** Every incident type has a named owner, and every action is in the append-only audit log.
+- **Regression set.** Every resolved incident stays in the seeded history, so the checker rules are re-tested against
+  past errors on every run (`backend/tests/`).
 - **Neutral ranking**, proven by a test.
 - **Honest labeling.** All sample data and estimates are labeled as such, in the app and in this README.
 
 ## Team
 
-Three-person engineering team (lead, backend, frontend) plus a three-person business team.
-All code in this repository was written for this competition.
+UTSA: Ian Miller, Zain Imam, Eniyan Aravindan, Aditya Ballal, Matthew Hernandez, Abraham Ly.
+Three members built the tech solution (lead, backend, frontend) and three wrote the business plan.
+All code in this repository was written by the team for this competition.
+
+## References
+
+Business context (cited in full in the business plan):
+
+- Gartner. (2026, May 27). *Gartner survey finds consumers want AI shopping help but not AI purchase decisions.* Gartner Newsroom.
+- SOCi. (2026). *The challenge of AI visibility for brands, part 1.* SOCi Blog.
+- Store Leads. (2026). *Shopify stores in the Consumer Electronics category (United States).* storeleads.app.
+
+Open-source software used (no code copied; used as dependencies):
+
+- FastAPI, Uvicorn, Pydantic, SQLAlchemy, pytest, httpx (Python backend)
+- Next.js, React, TypeScript (frontend)
+- Hosting: Render (backend), Vercel (frontend)
