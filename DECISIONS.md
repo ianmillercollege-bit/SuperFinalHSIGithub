@@ -1,4 +1,4 @@
-# FrontDoor: Open Decisions (Brief Section 9)
+# CIRQO: Open Decisions (Brief Section 9)
 
 Owner: Lead engineer. Last updated: 2026-09-29, 12:25 PM CT.
 
@@ -7,11 +7,11 @@ the final submission check. If this file and `BACKEND_CONTRACT.md` disagree, the
 
 | # | Decision | Value | Status |
 |---|----------|-------|--------|
-| 1 | School acronym | `SCHOOL` | **PLACEHOLDER. Must be the real acronym before submission. Wrong names are rejected.** |
-| 2 | Repo link | https://github.com/ianmillercollege-bit/SuperFinalHSIGithub | Working repo. Final submission must be a public repo or zip named `<SchoolAcronym>_TECH_09302026`. Rename the repo or submit a zip before 6:00 AM CT 9/30. |
+| 1 | School acronym | `UTSA` | Decided. Tech submission name: `UTSA_TECH_09302026`. |
+| 2 | Repo link | https://github.com/ianmillercollege-bit/UTSA_TECH_09302026 | Renamed to `UTSA_TECH_09302026`. Must be **public** before 6:00 AM CT 9/30. |
 | 3 | AI provider and model | Anthropic, `claude-sonnet-5-5` | Decided. Used only in `backend/services/ai_client.py`, only for claim extraction and answer drafting.  `MOCK_MODE=true` stays default. |
-| 4 | Frontend framework and Vercel URL | Next.js (React, TypeScript), dev on `localhost:3000`. Vercel URL: `https://frontdoor-SCHOOL.vercel.app` | Framework decided. URL is **PLACEHOLDER** until the frontend engineer's first Vercel deploy. |
-| 5 | Backend live URL | `https://frontdoor-api.onrender.com` | **PLACEHOLDER.** Backend engineer sends the real URL to the lead at checkpoint hour 2. |
+| 4 | Frontend framework and Vercel URL | Next.js (React, TypeScript), dev on `localhost:3000`. Vercel URL: `https://super-final-hsi-github.vercel.app` | Live. |
+| 5 | Backend live URL | `https://frontdoor-api-hiel.onrender.com` | Live, `/health` verified 9/29 afternoon. |
 | 6 | Demo API keys (client API, not the AI key) | Owner: `fd_demo_owner_2026` / Viewer: `fd_demo_viewer_2026` | Decided. Demo-only values, safe to commit. They grant access to seeded demo data only. The Anthropic API key is never written anywhere in the repo. |
 | 7 | Severity for an invented feature (hallucinated spec) | `high` | Decided. Goes to a named human for approval, never auto-fixed. |
 | 8 | Detecting unfair comparisons and safety or legal claims in mock mode | Plain-code rules, no AI. See "Mock-mode detection rules" below. | Decided. |
@@ -58,5 +58,6 @@ It is 9/29 afternoon. The tech submission is due **6:00 AM CT 9/30** (the tech i
 | 13 | AI Visibility Score | Display rule only: `round(visibilityRate x 100)`. No new API field. |
 | 14 | Reason codes | Frontend uses the contract's `ruleId` list, not its own codes. |
 | 15 | Frontend priority | Core screens first (shopper demo, incidents, approvals, audit log, 30-day trust chart), extras after. |
-| 16 | Seed data ownership | **Lead owns `backend/seed/`** on branch `backend/seed-data`. Backend engineer does not edit that folder. |
+| 16 | Seed data ownership | ~~Lead owns `backend/seed/`~~ **Reassigned 3:15 PM CT: backend engineer owns `backend/seed/`** on branch `backend/seed-data`. Lead focuses on hosting, README, run.sh, smoke_test.sh and submission. |
 | 17 | Seed data hand-off format | `backend/seed/generate.py` writes JSON files to `backend/seed/data/`: `brands.json`, `products.json`, `assistants.json`, `sources.json`, `owners.json`, `answers.json`, `claims.json`, `incidents.json`, `audit.json`, `daily_metrics.json`. Same camelCase shapes as the contract, plus seed-only fields (`isClient`, `billingTier` on brands, `priceHistory` on products). The backend loads these into SQLite on startup. Due 6:30 PM CT. |
+| 18 | Product and company name | **CIRQO** (was FrontDoor). Rename all user-facing text: app title, nav, page headings, API docs title, README, pitch. **Do not change** technical identifiers: API paths, field names, demo keys (`fd_demo_owner_2026`, `fd_demo_viewer_2026`), environment variable names, or the Render and Vercel URLs. The competition theme "The New Front Door" stays as written. |

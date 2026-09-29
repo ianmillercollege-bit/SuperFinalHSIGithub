@@ -1,4 +1,4 @@
-# FrontDoor Backend Contract
+# CIRQO Backend Contract
 
 Status: **FINAL v1.0** (approved by lead engineer, 2026-09-29). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
@@ -278,7 +278,7 @@ Definitions:
 
 All names are fictional. Do not use real brands or real AI assistant names.
 
-- **Brands:** `Kestrel` (the FrontDoor client, `isClient: true`), competitors `Arcton` and `Novex`.
+- **Brands:** `Kestrel` (the CIRQO client, `isClient: true`), competitors `Arcton` and `Novex`.
 - **Products:** 12 laptops (6 Kestrel, 3 Arcton, 3 Novex), prices $329 to $699, at least 8 under $500.
   Each has a full spec set, `returnPolicyDays`, and at least one previous price in its price history.
 - **Assistants:** `Assistant A`, `Assistant B`, `Assistant C` (labeled as simulated).

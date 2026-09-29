@@ -4,17 +4,22 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
+from routers import client, dashboard, governance, shopper
+from schemas import HealthResponse
+from seed_loader import rebuild_database
 from settings import settings
 
-# DECISIONS.md #4. The Vercel URL is a placeholder until the first frontend deploy;
-# the regex below already covers it and every *.vercel.app preview.
-ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://frontdoor-SCHOOL.vercel.app",
-]
-ALLOWED_ORIGIN_REGEX = r"https://[a-zA-Z0-9-]+\.vercel\.app"
+VERSION = "0.1.0"
 
-app = FastAPI(title="FrontDoor API", version="0.1.0")
+# The database is rebuilt from seed data on every startup (BACKEND_CONTRACT.md section 3).
+rebuild_database()
+
+# BACKEND_CONTRACT.md section 3: localhost:3000, every *.vercel.app (production and previews),
+# plus anything listed in FRONTEND_ORIGINS.
+ALLOWED_ORIGINS = ["http://localhost:3000", *settings.frontend_origin_list]
+ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
+
+app = FastAPI(title="FrontDoor API", version=VERSION)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,7 +31,11 @@ app.add_middleware(
 
 register_error_handlers(app)
 
+# Everything except /health lives under /api/v1 (BACKEND_CONTRACT.md section 1).
+for module in (shopper, dashboard, governance, client):
+    app.include_router(module.router, prefix="/api/v1")
 
-@app.get("/health")
-def health() -> dict:
-    return {"status": "ok", "mock_mode": settings.mock_mode}
+
+@app.get("/health", response_model=HealthResponse)
+def health() -> HealthResponse:
+    return HealthResponse(status="ok", mock_mode=settings.mock_mode, version=VERSION)
