@@ -1,6 +1,6 @@
 # FrontDoor: Trustworthy AI Product Discovery
 
-**2026 HSI Battle of the Brains, Tech Submission.** Theme: "The New Front Door: Trustworthy AI Product Discovery."
+**UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
 
 - **Live app:** https://super-final-hsi-github.vercel.app
 - **Live API (interactive docs):** https://frontdoor-api-hiel.onrender.com/docs

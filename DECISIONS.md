@@ -7,8 +7,8 @@ the final submission check. If this file and `BACKEND_CONTRACT.md` disagree, the
 
 | # | Decision | Value | Status |
 |---|----------|-------|--------|
-| 1 | School acronym | `SCHOOL` | **PLACEHOLDER. Must be the real acronym before submission. Wrong names are rejected.** |
-| 2 | Repo link | https://github.com/ianmillercollege-bit/SuperFinalHSIGithub | Working repo. Final submission must be a public repo or zip named `<SchoolAcronym>_TECH_09302026`. Rename the repo or submit a zip before 6:00 AM CT 9/30. |
+| 1 | School acronym | `UTSA` | Decided. Tech submission name: `UTSA_TECH_09302026`. |
+| 2 | Repo link | https://github.com/ianmillercollege-bit/SuperFinalHSIGithub | Working repo. Final submission must be a public repo or zip named `UTSA_TECH_09302026`. Rename the repo or submit a zip before 6:00 AM CT 9/30. |
 | 3 | AI provider and model | Anthropic, `claude-sonnet-5-5` | Decided. Used only in `backend/services/ai_client.py`, only for claim extraction and answer drafting.  `MOCK_MODE=true` stays default. |
 | 4 | Frontend framework and Vercel URL | Next.js (React, TypeScript), dev on `localhost:3000`. Vercel URL: `https://super-final-hsi-github.vercel.app` | Live. |
 | 5 | Backend live URL | `https://frontdoor-api-hiel.onrender.com` | Live, `/health` verified 9/29 afternoon. |
