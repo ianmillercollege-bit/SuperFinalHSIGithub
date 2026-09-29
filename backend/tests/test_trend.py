@@ -24,6 +24,24 @@ def test_trend_improves(client):
     assert body["current"]["hallucinationRate"] < daily[0]["hallucinationRate"]
 
 
+def test_current_resolution_metrics_use_last_7_days(client):
+    from datetime import timedelta
+
+    from db import Incident, SessionLocal
+    from timeutil import now, to_iso
+
+    before = client.get("/api/v1/metrics/trust").json()["current"]
+    # A slow false alarm closed 10 days ago must not move the current (last 7 days) numbers.
+    with SessionLocal() as db:
+        old = db.get(Incident, "inc_45")
+        old.status, old.false_alarm, old.resolved_by = "rejected", True, "Grace Kim"
+        old.created_at, old.resolved_at = to_iso(now() - timedelta(days=11)), to_iso(now() - timedelta(days=10))
+        db.commit()
+    after = client.get("/api/v1/metrics/trust").json()["current"]
+    assert after["falseAlarmRate"] == before["falseAlarmRate"]
+    assert after["medianTimeToResolveHours"] == before["medianTimeToResolveHours"]
+
+
 def test_days_parameter(client):
     assert len(client.get("/api/v1/metrics/trust?days=7").json()["daily"]) == 7
     for bad in (0, 31):
