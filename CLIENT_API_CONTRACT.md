@@ -1,12 +1,12 @@
-# FrontDoor Client API Contract (Part I)
+# CIRQO Client API Contract (Part I)
 
 Status: **FINAL v1.0** (approved by lead engineer, 2026-09-29). Read-only subset. **Cut if not working by 1:30 AM CT 9/30.**
 All rules from `BACKEND_CONTRACT.md` apply (camelCase, prefixed IDs, UTC timestamps, error shape).
 
 ## Purpose
 
-The API a customer company calls from its own systems (for example, to pull FrontDoor numbers into
-its own reports). It is read-only: approvals and fixes happen only in the FrontDoor dashboard,
+The API a customer company calls from its own systems (for example, to pull CIRQO numbers into
+its own reports). It is read-only: approvals and fixes happen only in the CIRQO dashboard,
 so a named human is always accountable.
 
 ## Authentication
