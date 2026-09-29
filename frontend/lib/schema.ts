@@ -17,7 +17,10 @@ export interface Sourced {
 }
 
 export interface Business {
+  /** The contract brand id, for example brand_001. */
+  id: string;
   name: string;
+  shortName: string;
   category: string;
   region: string;
 }

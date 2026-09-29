@@ -1,5 +1,6 @@
 "use client";
 
+import SourceChip from "@/components/SourceChip";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
@@ -142,7 +143,7 @@ function CheckerResult({ result }: { result: CheckerRunResponse }) {
       <div>
         <h2>Checked answer {result.answerId}</h2>
         <p className="muted small">
-          {result.claims.length} claim{result.claims.length === 1 ? "" : "s"} found · answer source: {result.source}
+          {result.claims.length} claim{result.claims.length === 1 ? "" : "s"} found · <SourceChip source={result.source} />
         </p>
       </div>
       {result.claims.length === 0 ? (

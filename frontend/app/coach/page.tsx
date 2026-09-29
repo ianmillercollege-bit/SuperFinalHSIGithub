@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <main className="page">
       <PageHeader
-        eyebrow="Extras · sample data"
+        eyebrow="Insights · sample data"
         title="AI Coach"
         intro="Ask about AI visibility for the sample brand. Demo: pre-written answers, not a live AI."
       />

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ErrorNotice } from "@/components/LoadState";
+import SourceChip from "@/components/SourceChip";
 import StatusPill from "@/components/StatusPill";
 import { connectorQuery, getVisibilitySummary } from "@/lib/api";
 import { CONNECTOR_MUST_HAVES, CONNECTOR_USE_CASES } from "@/lib/connectorOptions";
@@ -19,13 +20,6 @@ const DEFAULT_USE_CASE: ConnectorUseCase | "" = "school";
 const DEFAULT_MUST_HAVE: ConnectorMustHave[] = [];
 
 const SLOW_AFTER_MS = 4000;
-
-// The contract's `source` field: how the backend composed the answer.
-const SOURCE_LABELS: Record<ConnectorResult["response"]["source"], string> = {
-  live: "Source: live AI",
-  mock: "Source: plain code, no AI",
-  fallback: "Source: seeded fallback",
-};
 
 interface Exchange {
   id: number;
@@ -375,7 +369,9 @@ function Reply({ result }: { result: ConnectorResult }) {
 
         <p className="neutral-note">{response.rankingNote}</p>
         <ul className="chip-row" aria-label="About this answer">
-          <li className="source-chip">{SOURCE_LABELS[response.source]}</li>
+          <li>
+            <SourceChip source={response.source} />
+          </li>
           <li className="source-chip">Recorded as {response.answerId}</li>
           <li className="source-chip">Verified {formatDateTime(response.verifiedAt)}</li>
         </ul>

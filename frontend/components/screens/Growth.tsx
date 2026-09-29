@@ -10,7 +10,7 @@ import type { CoachMessage, CoachReply } from "@/lib/schema";
 import { allLeversOn, simulate } from "@/lib/simulator";
 import { useApi } from "@/lib/useApi";
 
-// Sample-only extras on Kestrel sample data (DECISIONS.md #11, #28). Shown under "Extras (sample data)" in the nav.
+// Sample-only extras on Kestrel sample data (DECISIONS.md #11, #28). Shown in the Insights nav group.
 
 function useSampleContext() {
   return useApi(useCallback(() => loadCoachContext(), []));

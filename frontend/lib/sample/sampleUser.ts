@@ -1,11 +1,11 @@
 // Sample-only signed-in user for the sidebar chip. The contract has no users or
 // sign-in (DECISIONS.md #27: the chip is sample-only and labeled).
-import { sampleBusiness } from "./sampleBusiness";
+import { BUSINESS } from "../business";
 
 export const sampleUser = {
   name: "Demo User",
   role: "Brand Manager",
-  business: sampleBusiness.name,
+  business: BUSINESS.name,
 };
 
 export function initialsOf(name: string): string {
