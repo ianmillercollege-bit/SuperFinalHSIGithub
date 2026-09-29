@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
+import SourceChip from "@/components/SourceChip";
 import StatusPill from "@/components/StatusPill";
 import { getAnswers, getVisibilitySummary } from "@/lib/api";
 import { formatDateTime, formatPercent } from "@/lib/format";
@@ -66,7 +67,10 @@ export default function AiVisibility() {
 
       <section className="card stack">
         <div className="filters">
-          <h2 className="grow">Recent AI answers</h2>
+          <h2 className="grow">
+            Recent AI answers{" "}
+            {answers.data?.answers[0] && <SourceChip source={answers.data.answers[0].source} />}
+          </h2>
           <label>
             Assistant
             <select value={assistantId} onChange={(e) => setAssistantId(e.target.value)}>

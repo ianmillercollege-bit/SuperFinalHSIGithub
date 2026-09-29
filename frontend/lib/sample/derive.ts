@@ -19,7 +19,7 @@ import { otherBusinesses } from "./market";
 import { opportunityInputs } from "./opportunities";
 import { pastWeeklyScores, thisWeekStart } from "./overview";
 import { ruleReasons } from "./ruleReasons";
-import { sampleBusiness } from "./sampleBusiness";
+import { BUSINESS } from "../business";
 import { assistants, prompts, resultGrid } from "./visibility";
 
 /** Views without the `source` field; lib/dataSource.ts adds it. */
@@ -121,7 +121,7 @@ export function buildMarketReport(): Unsourced<MarketReport> {
   const { appearances } = buildVisibilityReport();
   const entities = [
     ...otherBusinesses,
-    { id: "this_business", name: sampleBusiness.name, kind: "this_business" as const, mentions: appearances },
+    { id: "this_business", name: BUSINESS.name, kind: "this_business" as const, mentions: appearances },
   ];
   const totalMentions = entities.reduce((sum, e) => sum + e.mentions, 0);
   const shareOf = (kind: string) =>
@@ -142,7 +142,7 @@ export function buildOverview(): Unsourced<Overview> {
   const potential = simulate(allLeversOn(baseline.levers), baseline, baseline.assumptions);
 
   return {
-    business: sampleBusiness,
+    business: BUSINESS,
     visibilityScore,
     previousScore,
     weeklyChange: visibilityScore - previousScore,

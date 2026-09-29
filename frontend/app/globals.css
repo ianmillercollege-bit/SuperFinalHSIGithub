@@ -998,3 +998,14 @@ details > summary {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 12px;
 }
+
+/* A button that looks like a text link (used for "Reset"). */
+.link-button {
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  font: inherit;
+  color: var(--orange-text);
+  text-decoration: underline;
+  cursor: pointer;
+}

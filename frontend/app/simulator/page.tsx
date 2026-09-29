@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <main className="page">
       <PageHeader
-        eyebrow="Extras · sample data"
+        eyebrow="Insights · sample data"
         title="Growth Simulator"
         intro="A what-if view for the sample brand, built on frontend-only sample data."
       />

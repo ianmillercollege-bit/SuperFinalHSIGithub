@@ -419,14 +419,16 @@ export interface RecommendResponse {
 
 // ---- Connector (v1.1): POST /api/v1/connector/query ----
 
-export type ConnectorUseCase = "school" | "work" | "travel" | "media";
-export type ConnectorMustHave = "battery" | "light" | "screen" | "touch";
+import type { ConnectorMustHave, ConnectorUseCase } from "./connectorOptions";
+export type { ConnectorMustHave, ConnectorUseCase };
 
 export interface ConnectorQueryRequest {
   question: string;
+  /** Required by the contract (`ast_01` and so on). */
   assistantId: string;
   /** Optional; every field inside is optional. */
   constraints?: {
+    /** Must be greater than 0. */
     maxPrice?: number;
     useCase?: ConnectorUseCase;
     mustHave?: ConnectorMustHave[];

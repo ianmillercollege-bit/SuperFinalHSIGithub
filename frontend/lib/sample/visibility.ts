@@ -3,7 +3,7 @@
 // weaknesses, and the business's market share. Edit it here only.
 import type { Assistant, TrackedPrompt } from "../schema";
 import type { RuleId } from "../types";
-import { sampleBusiness } from "./sampleBusiness";
+import { BUSINESS } from "../business";
 
 export const assistants: Assistant[] = [
   { assistantId: "ast_a", name: "Assistant A" },
@@ -15,7 +15,7 @@ export const assistants: Assistant[] = [
 export const prompts: TrackedPrompt[] = [
   { promptId: "p01", text: "Best laptop under $500 for school" },
   { promptId: "p02", text: "Lightweight laptop for travel" },
-  { promptId: "p03", text: `Is the ${sampleBusiness.name} Aero 14 in stock` },
+  { promptId: "p03", text: `Is the ${BUSINESS.name} Aero 14 in stock` },
   { promptId: "p04", text: "Laptop with the best battery life under $600" },
   { promptId: "p05", text: "Laptop brands with an easy return policy" },
   { promptId: "p06", text: "Best 14-inch laptop for college" },

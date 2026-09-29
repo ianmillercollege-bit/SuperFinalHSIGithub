@@ -23,6 +23,9 @@ export const NAV: NavGroup[] = [
       { label: "AI Visibility", href: "/visibility" },
       { label: "Market Position", href: "/market" },
       { label: "Assistant Simulator", href: "/assistant" },
+      // Sample-only pages allowed by DECISIONS.md #28: frontend sample data about the demo business.
+      { label: "Growth Simulator", href: "/simulator" },
+      { label: "AI Coach", href: "/coach" },
     ],
   },
   {
@@ -32,15 +35,6 @@ export const NAV: NavGroup[] = [
       { label: "File a Claim", href: "/claims/new" },
       { label: "Outstanding Claims", href: "/claims/outstanding", count: "openIncidents" },
       { label: "Claims Reviewed", href: "/claims/reviewed" },
-    ],
-  },
-  {
-    // Sample-only pages (DECISIONS.md #28): frontend sample data about Kestrel.
-    title: "Extras (sample data)",
-    tone: "default",
-    items: [
-      { label: "Growth Simulator", href: "/simulator" },
-      { label: "AI Coach", href: "/coach" },
     ],
   },
 ];

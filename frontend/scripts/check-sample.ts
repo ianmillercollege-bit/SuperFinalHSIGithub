@@ -16,7 +16,7 @@ import {
   buildVisibilityReport,
   visibilityScoreFromRate,
 } from "../lib/sample/derive";
-import { sampleBusiness } from "../lib/sample/sampleBusiness";
+import { BUSINESS } from "../lib/business";
 import { allLeversOn, simulate } from "../lib/simulator";
 
 let failures = 0;
@@ -113,14 +113,16 @@ async function main() {
     fallback.disclaimer === COACH_DEMO_DISCLAIMER && /pre-written/i.test(COACH_DEMO_DISCLAIMER));
 
   section("Business name (DECISIONS.md #28)");
-  check("sample business is Kestrel, the contract's brand", sampleBusiness.name === "Kestrel");
-  const oldNames = sourceFiles(path.join(__dirname, "..")).filter((f) => /Juniper Trail Outfitters|Harbor Home Goods/.test(readFileSync(f, "utf8")));
-  check("Juniper Trail Outfitters and Harbor Home Goods appear nowhere", oldNames.length === 0, oldNames.join(", "));
+  check("the business is Kestrel (brand_001), the contract's brand", BUSINESS.name === "Kestrel" && BUSINESS.id === "brand_001");
+  // The two retired names are built from pieces so this file does not contain them itself.
+  const retired = [["Juni", "per Trail"], ["Har", "bor"]].map((parts) => new RegExp(parts.join(""), "i"));
+  const oldNames = sourceFiles(path.join(__dirname, "..")).filter((f) => retired.some((r) => r.test(readFileSync(f, "utf8"))));
+  check("the two retired business names appear nowhere in frontend/", oldNames.length === 0, oldNames.join(", "));
   const offenders = sourceFiles(path.join(__dirname, ".."))
-    .filter((f) => !f.endsWith(path.join("sample", "sampleBusiness.ts")))
-    .filter((f) => readFileSync(f, "utf8").includes(sampleBusiness.name));
+    .filter((f) => !f.endsWith("business.ts"))
+    .filter((f) => readFileSync(f, "utf8").includes(BUSINESS.name));
   const libOffenders = offenders.filter((f) => f.includes(`${path.sep}lib${path.sep}`));
-  check("everything in lib/ takes the name from lib/sample/sampleBusiness.ts", libOffenders.length === 0, libOffenders.join(", "));
+  check("everything in lib/ takes the name from lib/business.ts", libOffenders.length === 0, libOffenders.join(", "));
 
   console.log(failures === 0 ? "\nAll sample checks passed." : `\n${failures} check(s) failed.`);
   process.exit(failures === 0 ? 0 : 1);
