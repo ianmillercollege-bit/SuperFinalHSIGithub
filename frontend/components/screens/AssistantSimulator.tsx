@@ -13,6 +13,13 @@ import { useApi } from "@/lib/useApi";
 
 const DEFAULT_QUESTION = "What is the best laptop under $500 for school?";
 
+// The contract's `source` field: how the backend composed the answer.
+const AI_SOURCE_LABELS: Record<ConnectorResult["response"]["source"], string> = {
+  live: "live AI extraction",
+  mock: "plain code from verified facts (no AI)",
+  fallback: "seeded data (AI unavailable)",
+};
+
 const USE_CASES: { value: ConnectorUseCase; label: string }[] = [
   { value: "school", label: "School" },
   { value: "work", label: "Work" },
@@ -30,6 +37,8 @@ const MUST_HAVES: { value: ConnectorMustHave; label: string }[] = [
 interface Exchange {
   question: string;
   assistantName: string;
+  /** Plain-English summary of the constraints that were sent. */
+  sent: string;
   result?: ConnectorResult;
   error?: unknown;
 }
@@ -40,8 +49,9 @@ export default function AssistantSimulator() {
   const [question, setQuestion] = useState(DEFAULT_QUESTION);
   const [assistantId, setAssistantId] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [useCase, setUseCase] = useState<ConnectorUseCase | "">("");
-  const [mustHave, setMustHave] = useState<ConnectorMustHave[]>([]);
+  // Defaults match the pre-filled question. Without constraints the connector just ranks by price.
+  const [useCase, setUseCase] = useState<ConnectorUseCase | "">("school");
+  const [mustHave, setMustHave] = useState<ConnectorMustHave[]>(["battery", "light"]);
   const [formError, setFormError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
@@ -71,12 +81,17 @@ export default function AssistantSimulator() {
       ...(Object.keys(constraints).length ? { constraints } : {}),
     };
     const assistantName = assistants.find((a) => a.assistantId === chosen)?.name ?? chosen;
+    const sent = [
+      price !== undefined ? `max ${formatPrice(price)}` : "max price from the question",
+      useCase ? `for ${USE_CASES.find((u) => u.value === useCase)?.label.toLowerCase()}` : "any use",
+      mustHave.length ? `must have ${mustHave.map((m) => MUST_HAVES.find((x) => x.value === m)?.label.toLowerCase()).join(", ")}` : "no must-haves",
+    ].join(" · ");
     setSending(true);
     try {
       const result = await connectorQuery(body);
-      setExchanges((list) => [...list, { question: text, assistantName, result }]);
+      setExchanges((list) => [...list, { question: text, assistantName, sent, result }]);
     } catch (error) {
-      setExchanges((list) => [...list, { question: text, assistantName, error }]);
+      setExchanges((list) => [...list, { question: text, assistantName, sent, error }]);
     } finally {
       setSending(false);
     }
@@ -96,6 +111,7 @@ export default function AssistantSimulator() {
                 <div className="bubble bubble-user">
                   <span className="eyebrow">Shopper asks {ex.assistantName}</span>
                   <p>{ex.question}</p>
+                  <span className="small muted">Constraints sent: {ex.sent}</span>
                 </div>
                 {ex.result ? <ConnectorReply result={ex.result} /> : <ConnectorError error={ex.error} />}
               </li>
@@ -119,13 +135,9 @@ export default function AssistantSimulator() {
               ))}
             </select>
           </label>
-          <details>
-            <summary>Optional: constraints the assistant passes along</summary>
-            <div className="stack constraints">
-              <label className="field">
-                Max price (USD)
-                <input type="number" min={1} inputMode="decimal" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} />
-              </label>
+          <fieldset className="constraints-box">
+            <legend className="eyebrow">What the shopper cares about (sent to CIRQO as constraints)</legend>
+            <div className="constraints-grid">
               <label className="field">
                 Use case
                 <select value={useCase} onChange={(e) => setUseCase(e.target.value as ConnectorUseCase | "")}>
@@ -137,7 +149,19 @@ export default function AssistantSimulator() {
                   ))}
                 </select>
               </label>
-              <fieldset className="mode-toggle">
+              <label className="field">
+                Max price (USD, optional)
+                <input
+                  type="number"
+                  min={1}
+                  inputMode="decimal"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                  placeholder="Taken from the question"
+                />
+              </label>
+            </div>
+            <fieldset className="mode-toggle">
                 <legend className="small">Must have</legend>
                 {MUST_HAVES.map((m) => (
                   <label key={m.value} className="check">
@@ -151,9 +175,8 @@ export default function AssistantSimulator() {
                     {m.label}
                   </label>
                 ))}
-              </fieldset>
-            </div>
-          </details>
+            </fieldset>
+          </fieldset>
           {formError && (
             <p className="state-error" role="alert">
               {formError}
@@ -268,7 +291,8 @@ function ConnectorReply({ result }: { result: ConnectorResult }) {
 
         <p className="neutral-note">{response.rankingNote}</p>
         <p className="muted small">
-          Recorded as answer {response.answerId} · verified {formatDateTime(response.verifiedAt)} · source {response.source}
+          Recorded as answer {response.answerId} · verified {formatDateTime(response.verifiedAt)} · answer written by{" "}
+          {AI_SOURCE_LABELS[response.source]}
         </p>
       </div>
     </div>
