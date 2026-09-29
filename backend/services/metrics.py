@@ -106,7 +106,8 @@ def false_alarm_rate(incidents: list[Incident]) -> float:
 def trust_metrics(db, days: int) -> dict:
     rows = db.scalars(select(DailyMetric).order_by(DailyMetric.date)).all()[-days:]
     last7 = rows[-7:]
-    incidents = db.scalars(select(Incident)).all()
+    # current = the last 7 days (contract section 7): incidents closed in that window.
+    recently_closed = db.scalars(select(Incident).where(Incident.resolved_at >= days_ago_iso(7))).all()
 
     def mean(key):
         return round(statistics.mean(getattr(r, key) for r in last7), 2) if last7 else 0.0
@@ -116,8 +117,8 @@ def trust_metrics(db, days: int) -> dict:
         "current": {
             "accuracyRate": mean("accuracy_rate"),
             "hallucinationRate": mean("hallucination_rate"),
-            "medianTimeToResolveHours": median_hours_to_resolve(incidents),
-            "falseAlarmRate": false_alarm_rate(incidents),
+            "medianTimeToResolveHours": median_hours_to_resolve(recently_closed),
+            "falseAlarmRate": false_alarm_rate(recently_closed),
             "visibilityRate": mean("visibility_rate"),
         },
         "daily": [{"date": r.date, "accuracyRate": r.accuracy_rate, "hallucinationRate": r.hallucination_rate,

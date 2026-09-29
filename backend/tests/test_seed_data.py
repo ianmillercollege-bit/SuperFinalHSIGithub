@@ -192,6 +192,21 @@ def test_shopper_some_path_won_by_competitor(seeded):
     assert body["recommendation"]["brandName"] in ("Arcton", "Novex")
 
 
+def test_current_review_metrics_match_contract_example(seeded):
+    # Contract report example: falseAlarmRate 0.06, medianTimeToResolveHours 2.5 (last 7 days).
+    current = seeded.get("/api/v1/metrics/trust?days=30").json()["current"]
+    assert 0.05 <= current["falseAlarmRate"] <= 0.10, current
+    assert 2.0 <= current["medianTimeToResolveHours"] <= 3.0, current
+    # Exactly one false alarm in the window; the other human reviews there were correct flags.
+    from timeutil import days_ago_iso
+    since = days_ago_iso(7)
+    recent = [i for i in seeded.get("/api/v1/incidents?limit=100").json()["incidents"]
+              if i["resolvedAt"] and i["resolvedAt"] >= since]
+    assert sum(i["falseAlarm"] for i in recent) == 1
+    human = [i for i in recent if i["resolvedBy"] != "system"]
+    assert len(human) >= 10  # 1 / 10 or more keeps the rate at or under 0.10
+
+
 def test_server_serves_the_seed(seeded):
     assert len(seeded.get("/api/v1/answers?limit=100").json()["answers"]) >= 30
     assert len(seeded.get("/api/v1/incidents?status=pending_approval").json()["incidents"]) >= 3
