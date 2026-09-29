@@ -1,4 +1,4 @@
-# FrontDoor: Trustworthy AI Product Discovery
+# CIRQO: Trustworthy AI Product Discovery
 
 **UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
 
@@ -18,7 +18,7 @@
 Shoppers now ask AI assistants "what are the best laptops under $500?" and may never visit a brand's website.
 Brands lose visibility, and the AI can state wrong prices, features, availability, or policies.
 
-FrontDoor is a trust and visibility platform for AI shopping. A company gives FrontDoor its verified product facts, and FrontDoor:
+CIRQO is a trust and visibility platform for AI shopping. A company gives CIRQO its verified product facts, and CIRQO:
 
 1. **Tracks visibility**: how often and how high the brand appears in AI answers, share of voice, and competitors.
 2. **Shows sources**: which review sites, marketplaces, and brand pages the AI relied on, and how accurate each one is.

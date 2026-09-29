@@ -1,4 +1,4 @@
-# FrontDoor: Open Decisions (Brief Section 9)
+# CIRQO: Open Decisions (Brief Section 9)
 
 Owner: Lead engineer. Last updated: 2026-09-29, 12:25 PM CT.
 
@@ -60,3 +60,4 @@ It is 9/29 afternoon. The tech submission is due **6:00 AM CT 9/30** (the tech i
 | 15 | Frontend priority | Core screens first (shopper demo, incidents, approvals, audit log, 30-day trust chart), extras after. |
 | 16 | Seed data ownership | ~~Lead owns `backend/seed/`~~ **Reassigned 3:15 PM CT: backend engineer owns `backend/seed/`** on branch `backend/seed-data`. Lead focuses on hosting, README, run.sh, smoke_test.sh and submission. |
 | 17 | Seed data hand-off format | `backend/seed/generate.py` writes JSON files to `backend/seed/data/`: `brands.json`, `products.json`, `assistants.json`, `sources.json`, `owners.json`, `answers.json`, `claims.json`, `incidents.json`, `audit.json`, `daily_metrics.json`. Same camelCase shapes as the contract, plus seed-only fields (`isClient`, `billingTier` on brands, `priceHistory` on products). The backend loads these into SQLite on startup. Due 6:30 PM CT. |
+| 18 | Product and company name | **CIRQO** (was FrontDoor). Rename all user-facing text: app title, nav, page headings, API docs title, README, pitch. **Do not change** technical identifiers: API paths, field names, demo keys (`fd_demo_owner_2026`, `fd_demo_viewer_2026`), environment variable names, or the Render and Vercel URLs. The competition theme "The New Front Door" stays as written. |
