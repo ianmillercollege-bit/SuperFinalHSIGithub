@@ -188,52 +188,40 @@ export function isOpenIncident(incident: Incident): boolean {
   return incident.status === "pending_approval" || incident.status === "escalated";
 }
 
-/** The connector hasn't shipped and there is no shared/mock/connector_query.json to show instead. */
-export class ConnectorUnavailableError extends Error {
-  constructor() {
-    super("The connector isn't available yet.");
-    this.name = "ConnectorUnavailableError";
-  }
-}
-
 export interface ConnectorResult {
   response: ConnectorQueryResponse;
-  /** "mock" = example from shared/mock/ because the live connector hasn't shipped. Label it. */
+  /** "mock" = example from shared/mock/ (mock mode is on). Label it on screen. */
   via: "live" | "mock";
 }
 
 // POST /api/v1/connector/query  (v1.1: what an AI assistant calls)
-// Live first. If the backend hasn't shipped the connector yet (the manifest is also
-// "not found"), falls back to shared/mock/connector_query.json and says so.
-// A real "not found" (for example an unknown assistantId) is never hidden.
+// Always live, unless mock mode is on (NEXT_PUBLIC_USE_MOCK=true), which reads
+// shared/mock/connector_query.json. Errors keep the contract's codes (404 unknown
+// assistantId, 422 bad useCase / mustHave / maxPrice / missing assistantId); nothing is hidden.
 export async function connectorQuery(body: ConnectorQueryRequest): Promise<ConnectorResult> {
-  if (USE_MOCK) return connectorMock();
-  try {
-    return { response: await request("POST", "/api/v1/connector/query", {}, body, MOCK_FILES.connectorQuery), via: "live" };
-  } catch (error) {
-    if (!(error instanceof ApiError && error.code === "NOT_FOUND") || (await connectorShipped())) throw error;
-    return connectorMock();
-  }
-}
-
-async function connectorMock(): Promise<ConnectorResult> {
-  try {
+  if (USE_MOCK) {
     return { response: await readMock<ConnectorQueryResponse>(MOCK_FILES.connectorQuery), via: "mock" };
-  } catch (error) {
-    if (error instanceof ApiError && error.code === "NOT_FOUND") throw new ConnectorUnavailableError();
-    throw error;
   }
+  const response = await request<ConnectorQueryResponse>(
+    "POST",
+    "/api/v1/connector/query",
+    {},
+    withoutEmptyConstraints(body),
+    MOCK_FILES.connectorQuery,
+  );
+  return { response, via: "live" };
 }
 
-// GET /api/v1/connector/manifest  (v1.1). Used only to tell whether the connector has shipped.
-async function connectorShipped(): Promise<boolean> {
-  try {
-    await request("GET", "/api/v1/connector/manifest", {}, undefined, MOCK_FILES.connectorManifest);
-    return true;
-  } catch (error) {
-    if (error instanceof ApiError && error.code === "NOT_FOUND") return false;
-    throw error;
-  }
+// Optional constraint fields that are empty are left out of the request; if none are
+// left, `constraints` is left out too (the contract makes all of them optional).
+function withoutEmptyConstraints(body: ConnectorQueryRequest): ConnectorQueryRequest {
+  const { maxPrice, useCase, mustHave } = body.constraints ?? {};
+  const constraints: NonNullable<ConnectorQueryRequest["constraints"]> = {};
+  if (typeof maxPrice === "number" && Number.isFinite(maxPrice)) constraints.maxPrice = maxPrice;
+  if (useCase) constraints.useCase = useCase;
+  if (mustHave && mustHave.length > 0) constraints.mustHave = mustHave;
+  const { constraints: _dropped, ...rest } = body;
+  return Object.keys(constraints).length > 0 ? { ...rest, constraints } : rest;
 }
 
 // GET /api/v1/owners
@@ -328,9 +316,20 @@ async function readJson<T>(res: Response): Promise<T> {
   return body as T;
 }
 
+// The contract's error codes (BACKEND_CONTRACT.md section 2). Any other code is not treated as a contract error.
+const ERROR_CODES: readonly string[] = [
+  "BAD_REQUEST",
+  "UNAUTHORIZED",
+  "FORBIDDEN",
+  "NOT_FOUND",
+  "CONFLICT",
+  "VALIDATION_ERROR",
+  "INTERNAL_ERROR",
+];
+
 function isApiErrorBody(body: unknown): body is ApiErrorBody {
   const error = (body as ApiErrorBody | null)?.error;
-  return typeof error?.code === "string" && typeof error?.message === "string";
+  return typeof error?.code === "string" && ERROR_CODES.includes(error.code) && typeof error?.message === "string";
 }
 
 async function fetchOrThrow(url: string, init: RequestInit = {}): Promise<Response> {

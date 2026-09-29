@@ -3,7 +3,8 @@
 import { useCallback, useState } from "react";
 import { ErrorNotice, Loading } from "@/components/LoadState";
 import StatusPill from "@/components/StatusPill";
-import { ConnectorUnavailableError, connectorQuery, getVisibilitySummary } from "@/lib/api";
+import { connectorQuery, getVisibilitySummary } from "@/lib/api";
+import { CONNECTOR_MUST_HAVES, CONNECTOR_USE_CASES } from "@/lib/connectorOptions";
 import { formatDateTime, formatPercent, formatPrice } from "@/lib/format";
 import { AVAILABILITY_LABELS, CLAIM_STATUS_LABELS } from "@/lib/labels";
 import { CLAIM_STATUS_TONES } from "@/lib/tones";
@@ -20,19 +21,8 @@ const AI_SOURCE_LABELS: Record<ConnectorResult["response"]["source"], string> = 
   fallback: "seeded data (AI unavailable)",
 };
 
-const USE_CASES: { value: ConnectorUseCase; label: string }[] = [
-  { value: "school", label: "School" },
-  { value: "work", label: "Work" },
-  { value: "travel", label: "Travel" },
-  { value: "media", label: "Streaming and media" },
-];
-
-const MUST_HAVES: { value: ConnectorMustHave; label: string }[] = [
-  { value: "battery", label: "All-day battery" },
-  { value: "light", label: "Lightweight" },
-  { value: "screen", label: "Big screen" },
-  { value: "touch", label: "Touchscreen" },
-];
+const USE_CASES = CONNECTOR_USE_CASES;
+const MUST_HAVES = CONNECTOR_MUST_HAVES;
 
 interface Exchange {
   question: string;
@@ -194,17 +184,6 @@ export default function AssistantSimulator() {
 }
 
 function ConnectorError({ error }: { error: unknown }) {
-  if (error instanceof ConnectorUnavailableError) {
-    return (
-      <div className="bubble bubble-coach state-error" role="alert">
-        <p>
-          The connector isn&apos;t available yet: the backend hasn&apos;t shipped POST /api/v1/connector/query and
-          there is no example file (shared/mock/connector_query.json) to show instead. It will work as soon as
-          either one lands.
-        </p>
-      </div>
-    );
-  }
   return <ErrorNotice error={error} />;
 }
 
@@ -215,8 +194,8 @@ function ConnectorReply({ result }: { result: ConnectorResult }) {
     <div className="stack-tight">
       {via === "mock" && (
         <p className="mock-note" role="note">
-          <span className="estimate-badge">Mock data</span> The live connector hasn&apos;t shipped yet, so this is the
-          example answer from shared/mock/connector_query.json, not a reply to your exact question.
+          <span className="estimate-badge">Mock data</span> Mock mode is on, so this is the example answer from
+          shared/mock/connector_query.json, not a reply to your exact question.
         </p>
       )}
       <div className="bubble bubble-coach">
