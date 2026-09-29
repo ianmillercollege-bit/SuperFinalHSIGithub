@@ -4,7 +4,7 @@
 
 - **Live app:** https://super-final-hsi-github.vercel.app
 - **Live API (interactive docs):** https://frontdoor-api-hiel.onrender.com/docs
-- **Repository:** https://github.com/ianmillercollege-bit/SuperFinalHSIGithub
+- **Repository:** https://github.com/ianmillercollege-bit/UTSA_TECH_09302026
 
 > **All data in this demo is simulated.** Brands (Kestrel, Arcton, Novex), AI assistants (Assistant A, B, C),
 > products, answers, and metrics are fictional sample data. Revenue figures are illustrative estimates with their
