@@ -1,0 +1,22 @@
+{
+  "brands": [
+    {
+      "brandId": "brand_001",
+      "name": "Kestrel",
+      "isClient": true,
+      "billingTier": "pro"
+    },
+    {
+      "brandId": "brand_002",
+      "name": "Arcton",
+      "isClient": false,
+      "billingTier": null
+    },
+    {
+      "brandId": "brand_003",
+      "name": "Novex",
+      "isClient": false,
+      "billingTier": null
+    }
+  ]
+}

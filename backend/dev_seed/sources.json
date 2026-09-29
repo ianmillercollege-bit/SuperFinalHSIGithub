@@ -1,0 +1,40 @@
+{
+  "sources": [
+    {
+      "sourceId": "src_01",
+      "name": "Example Tech Reviews",
+      "domain": "reviews.example.com",
+      "type": "review_site"
+    },
+    {
+      "sourceId": "src_02",
+      "name": "ShopMart Marketplace",
+      "domain": "shopmart.example.com",
+      "type": "marketplace"
+    },
+    {
+      "sourceId": "src_03",
+      "name": "Kestrel Official Store",
+      "domain": "kestrel.example.com",
+      "type": "brand_site"
+    },
+    {
+      "sourceId": "src_04",
+      "name": "LaptopTalk Forum",
+      "domain": "forum.example.net",
+      "type": "forum"
+    },
+    {
+      "sourceId": "src_05",
+      "name": "Daily Gadget News",
+      "domain": "news.example.org",
+      "type": "news"
+    },
+    {
+      "sourceId": "src_06",
+      "name": "BudgetBench Reviews",
+      "domain": "budgetbench.example.com",
+      "type": "review_site"
+    }
+  ]
+}

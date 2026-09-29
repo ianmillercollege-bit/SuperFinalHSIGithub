@@ -4,10 +4,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
+from routers import client, dashboard, governance, shopper
 from schemas import HealthResponse
+from seed_loader import rebuild_database
 from settings import settings
 
 VERSION = "0.1.0"
+
+# The database is rebuilt from seed data on every startup (BACKEND_CONTRACT.md section 3).
+rebuild_database()
 
 # BACKEND_CONTRACT.md section 3: localhost:3000, every *.vercel.app (production and previews),
 # plus anything listed in FRONTEND_ORIGINS.
@@ -25,6 +30,10 @@ app.add_middleware(
 )
 
 register_error_handlers(app)
+
+# Everything except /health lives under /api/v1 (BACKEND_CONTRACT.md section 1).
+for module in (shopper, dashboard, governance, client):
+    app.include_router(module.router, prefix="/api/v1")
 
 
 @app.get("/health", response_model=HealthResponse)
