@@ -1,6 +1,6 @@
 # FrontDoor Client API Contract (Part I)
 
-Status: **DRAFT v0.1** (lead engineer). Read-only subset. **Cut if not working by 1:30 AM CT 9/30.**
+Status: **FINAL v1.0** (approved by lead engineer, 2026-09-29). Read-only subset. **Cut if not working by 1:30 AM CT 9/30.**
 All rules from `BACKEND_CONTRACT.md` apply (camelCase, prefixed IDs, UTC timestamps, error shape).
 
 ## Purpose

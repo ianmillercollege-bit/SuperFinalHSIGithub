@@ -1,6 +1,6 @@
 # FrontDoor Backend Contract
 
-Status: **DRAFT v0.1** (lead engineer). Once approved this file is final. Any change to a path,
+Status: **FINAL v1.0** (approved by lead engineer, 2026-09-29). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
