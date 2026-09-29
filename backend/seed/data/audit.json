@@ -1,0 +1,1939 @@
+{
+  "entries": [
+    {
+      "auditId": "aud_001",
+      "timestamp": "2026-08-31T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_001",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_002",
+      "timestamp": "2026-08-31T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_002",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_003",
+      "timestamp": "2026-08-31T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_003",
+      "details": "PRICE_MISMATCH: Stated price is 2.9% below the verified price."
+    },
+    {
+      "auditId": "aud_004",
+      "timestamp": "2026-08-31T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_004",
+      "details": "correct: Matches the verified screen size of 13.3 in screen."
+    },
+    {
+      "auditId": "aud_005",
+      "timestamp": "2026-08-31T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_040",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_006",
+      "timestamp": "2026-08-31T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_01",
+      "details": "PRICE_MISMATCH (low) from clm_003. Owner: Maria Lopez."
+    },
+    {
+      "auditId": "aud_007",
+      "timestamp": "2026-08-31T14:35:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_01",
+      "details": "Publish verified price $379.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_008",
+      "timestamp": "2026-08-31T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_005",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_009",
+      "timestamp": "2026-08-31T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_006",
+      "details": "correct: Matches the verified weight of 2.8 lb."
+    },
+    {
+      "auditId": "aud_010",
+      "timestamp": "2026-08-31T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_007",
+      "details": "PRICE_OUTDATED: Matches the previous price $339.00. The current price is $329.00."
+    },
+    {
+      "auditId": "aud_011",
+      "timestamp": "2026-08-31T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_008",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_012",
+      "timestamp": "2026-08-31T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_041",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_013",
+      "timestamp": "2026-08-31T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_02",
+      "details": "PRICE_OUTDATED (low) from clm_007. Owner: Maria Lopez."
+    },
+    {
+      "auditId": "aud_014",
+      "timestamp": "2026-08-31T20:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_02",
+      "details": "Publish verified price $329.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_015",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_009",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_016",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_010",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_017",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_011",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_018",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_012",
+      "details": "SPEC_MISMATCH: Verified RAM is 16 GB RAM."
+    },
+    {
+      "auditId": "aud_019",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_013",
+      "details": "correct: A verified comparison fact supports this claim."
+    },
+    {
+      "auditId": "aud_020",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_042",
+      "details": "Extracted 5 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_021",
+      "timestamp": "2026-09-01T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_03",
+      "details": "SPEC_MISMATCH (medium) from clm_012. Owner: Dev Patel."
+    },
+    {
+      "auditId": "aud_022",
+      "timestamp": "2026-09-01T16:50:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_03",
+      "details": "Publish verified RAM (16 GB RAM) to the product feed."
+    },
+    {
+      "auditId": "aud_023",
+      "timestamp": "2026-09-02T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_018",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_024",
+      "timestamp": "2026-09-02T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_019",
+      "details": "AVAILABILITY_MISMATCH: Verified availability is in_stock."
+    },
+    {
+      "auditId": "aud_025",
+      "timestamp": "2026-09-02T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_020",
+      "details": "correct: Matches the verified weight of 3.3 lb."
+    },
+    {
+      "auditId": "aud_026",
+      "timestamp": "2026-09-02T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_021",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_027",
+      "timestamp": "2026-09-02T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_044",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_028",
+      "timestamp": "2026-09-02T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_05",
+      "details": "AVAILABILITY_MISMATCH (medium) from clm_019. Owner: Dev Patel."
+    },
+    {
+      "auditId": "aud_029",
+      "timestamp": "2026-09-02T10:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_05",
+      "details": "Publish verified availability (in stock) to the product feed."
+    },
+    {
+      "auditId": "aud_030",
+      "timestamp": "2026-09-02T20:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_014",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_031",
+      "timestamp": "2026-09-02T20:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_015",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no fingerprint reader."
+    },
+    {
+      "auditId": "aud_032",
+      "timestamp": "2026-09-02T20:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_016",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_033",
+      "timestamp": "2026-09-02T20:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_017",
+      "details": "correct: Matches the verified RAM of 12 GB RAM."
+    },
+    {
+      "auditId": "aud_034",
+      "timestamp": "2026-09-02T20:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_043",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_035",
+      "timestamp": "2026-09-02T20:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_04",
+      "details": "INVENTED_FEATURE (high) from clm_015. Owner: Dev Patel."
+    },
+    {
+      "auditId": "aud_036",
+      "timestamp": "2026-09-03T01:53:00Z",
+      "actor": "Dev Patel",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_04",
+      "details": "Approved. Fix applied: Add an explicit 'no fingerprint reader' line to the Kestrel Flex 14 Touch product page and feed."
+    },
+    {
+      "auditId": "aud_037",
+      "timestamp": "2026-09-03T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_022",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_038",
+      "timestamp": "2026-09-03T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_023",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_039",
+      "timestamp": "2026-09-03T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_024",
+      "details": "correct: Matches the verified weight of 4.6 lb."
+    },
+    {
+      "auditId": "aud_040",
+      "timestamp": "2026-09-03T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_025",
+      "details": "POLICY_MISMATCH: Verified return policy is 30 days."
+    },
+    {
+      "auditId": "aud_041",
+      "timestamp": "2026-09-03T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_045",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_042",
+      "timestamp": "2026-09-03T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_06",
+      "details": "POLICY_MISMATCH (high) from clm_025. Owner: Grace Kim."
+    },
+    {
+      "auditId": "aud_043",
+      "timestamp": "2026-09-03T16:03:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_06",
+      "details": "Rejected as a false alarm. No fix applied."
+    },
+    {
+      "auditId": "aud_044",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_031",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_045",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_032",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_046",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_033",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_047",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_034",
+      "details": "SAFETY_LEGAL: Contains safety/legal keyword(s): lifetime guarantee. Escalated for human review."
+    },
+    {
+      "auditId": "aud_048",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_035",
+      "details": "correct: A verified comparison fact supports this claim."
+    },
+    {
+      "auditId": "aud_049",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_047",
+      "details": "Extracted 5 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_050",
+      "timestamp": "2026-09-04T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_08",
+      "details": "SAFETY_LEGAL (critical) from clm_034. Owner: Grace Kim."
+    },
+    {
+      "auditId": "aud_051",
+      "timestamp": "2026-09-04T13:20:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "escalated",
+      "targetId": "inc_08",
+      "details": "Escalated to Grace Kim. No fix applied."
+    },
+    {
+      "auditId": "aud_052",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_026",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_053",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_027",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_054",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_028",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_055",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_029",
+      "details": "UNFAIR_COMPARISON: Names a competitor with the comparative phrase 'unlike' and no verified comparison fact supports it."
+    },
+    {
+      "auditId": "aud_056",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_030",
+      "details": "correct: A verified comparison fact supports this claim."
+    },
+    {
+      "auditId": "aud_057",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_046",
+      "details": "Extracted 5 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_058",
+      "timestamp": "2026-09-04T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_07",
+      "details": "UNFAIR_COMPARISON (high) from clm_029. Owner: Grace Kim."
+    },
+    {
+      "auditId": "aud_059",
+      "timestamp": "2026-09-04T16:57:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_07",
+      "details": "Approved. Fix applied: Publish verified comparison specs and request a correction from the cited source."
+    },
+    {
+      "auditId": "aud_060",
+      "timestamp": "2026-09-04T18:44:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "resolved",
+      "targetId": "inc_08",
+      "details": "Resolved by a human. Note: Reviewed with Legal; no public claim to correct."
+    },
+    {
+      "auditId": "aud_061",
+      "timestamp": "2026-09-05T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_036",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_062",
+      "timestamp": "2026-09-05T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_037",
+      "details": "NO_FACT: No matching product in the verified catalog."
+    },
+    {
+      "auditId": "aud_063",
+      "timestamp": "2026-09-05T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_038",
+      "details": "correct: Matches the verified RAM of 4 GB RAM."
+    },
+    {
+      "auditId": "aud_064",
+      "timestamp": "2026-09-05T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_039",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_065",
+      "timestamp": "2026-09-05T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_040",
+      "details": "correct: A verified comparison fact supports this claim."
+    },
+    {
+      "auditId": "aud_066",
+      "timestamp": "2026-09-05T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_048",
+      "details": "Extracted 5 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_067",
+      "timestamp": "2026-09-06T11:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_041",
+      "details": "correct: Matches the verified screen size of 14 in screen."
+    },
+    {
+      "auditId": "aud_068",
+      "timestamp": "2026-09-06T11:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_042",
+      "details": "correct: Matches the verified weight of 3.1 lb."
+    },
+    {
+      "auditId": "aud_069",
+      "timestamp": "2026-09-06T11:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_043",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_070",
+      "timestamp": "2026-09-06T11:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_044",
+      "details": "correct: A verified comparison fact supports this claim."
+    },
+    {
+      "auditId": "aud_071",
+      "timestamp": "2026-09-06T11:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_049",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_072",
+      "timestamp": "2026-09-06T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_045",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_073",
+      "timestamp": "2026-09-06T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_046",
+      "details": "correct: Matches the verified weight of 3.3 lb."
+    },
+    {
+      "auditId": "aud_074",
+      "timestamp": "2026-09-06T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_047",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_075",
+      "timestamp": "2026-09-06T20:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_050",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_076",
+      "timestamp": "2026-09-07T18:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_048",
+      "details": "correct: Matches the verified screen size of 14 in screen."
+    },
+    {
+      "auditId": "aud_077",
+      "timestamp": "2026-09-07T18:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_049",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_078",
+      "timestamp": "2026-09-07T18:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_050",
+      "details": "correct: Matches the verified screen size of 13.3 in screen."
+    },
+    {
+      "auditId": "aud_079",
+      "timestamp": "2026-09-07T18:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_051",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_080",
+      "timestamp": "2026-09-08T09:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_051",
+      "details": "correct: Matches the verified battery life of 9 h battery."
+    },
+    {
+      "auditId": "aud_081",
+      "timestamp": "2026-09-08T09:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_052",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_082",
+      "timestamp": "2026-09-08T09:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_053",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_083",
+      "timestamp": "2026-09-08T09:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_052",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_084",
+      "timestamp": "2026-09-08T15:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_054",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_085",
+      "timestamp": "2026-09-08T15:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_055",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_086",
+      "timestamp": "2026-09-08T15:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_056",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_087",
+      "timestamp": "2026-09-08T15:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_053",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_088",
+      "timestamp": "2026-09-09T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_057",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_089",
+      "timestamp": "2026-09-09T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_058",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_090",
+      "timestamp": "2026-09-09T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_059",
+      "details": "correct: Matches the verified weight of 3.2 lb."
+    },
+    {
+      "auditId": "aud_091",
+      "timestamp": "2026-09-09T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_054",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_092",
+      "timestamp": "2026-09-10T13:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_060",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_093",
+      "timestamp": "2026-09-10T13:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_061",
+      "details": "correct: Matches the verified screen size of 13.3 in screen."
+    },
+    {
+      "auditId": "aud_094",
+      "timestamp": "2026-09-10T13:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_062",
+      "details": "PRICE_MISMATCH: Stated price is 8.0% below the verified price."
+    },
+    {
+      "auditId": "aud_095",
+      "timestamp": "2026-09-10T13:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_063",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_096",
+      "timestamp": "2026-09-10T13:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_055",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_097",
+      "timestamp": "2026-09-10T13:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_09",
+      "details": "PRICE_MISMATCH (medium) from clm_062. Owner: Maria Lopez."
+    },
+    {
+      "auditId": "aud_098",
+      "timestamp": "2026-09-10T13:50:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_09",
+      "details": "Publish verified price $599.99 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_099",
+      "timestamp": "2026-09-10T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_064",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_100",
+      "timestamp": "2026-09-10T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_065",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_101",
+      "timestamp": "2026-09-10T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_066",
+      "details": "correct: Matches the verified storage of 1024 GB storage."
+    },
+    {
+      "auditId": "aud_102",
+      "timestamp": "2026-09-10T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_056",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_103",
+      "timestamp": "2026-09-11T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_067",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_104",
+      "timestamp": "2026-09-11T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_068",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_105",
+      "timestamp": "2026-09-11T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_069",
+      "details": "correct: Matches the verified screen size of 16 in screen."
+    },
+    {
+      "auditId": "aud_106",
+      "timestamp": "2026-09-11T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_057",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_107",
+      "timestamp": "2026-09-12T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_070",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_108",
+      "timestamp": "2026-09-12T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_071",
+      "details": "correct: Matches the verified weight of 3.2 lb."
+    },
+    {
+      "auditId": "aud_109",
+      "timestamp": "2026-09-12T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_072",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_110",
+      "timestamp": "2026-09-12T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_058",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_111",
+      "timestamp": "2026-09-12T16:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_073",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_112",
+      "timestamp": "2026-09-12T16:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_074",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_113",
+      "timestamp": "2026-09-12T16:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_075",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_114",
+      "timestamp": "2026-09-12T16:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_059",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_115",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_076",
+      "details": "correct: Matches the verified weight of 4.1 lb."
+    },
+    {
+      "auditId": "aud_116",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_077",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_117",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_078",
+      "details": "correct: Matches the verified weight of 3.2 lb."
+    },
+    {
+      "auditId": "aud_118",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_060",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_119",
+      "timestamp": "2026-09-14T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_082",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_120",
+      "timestamp": "2026-09-14T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_083",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_121",
+      "timestamp": "2026-09-14T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_084",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_122",
+      "timestamp": "2026-09-14T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_062",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_123",
+      "timestamp": "2026-09-14T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_079",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_124",
+      "timestamp": "2026-09-14T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_080",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_125",
+      "timestamp": "2026-09-14T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_081",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_126",
+      "timestamp": "2026-09-14T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_061",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_127",
+      "timestamp": "2026-09-15T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_085",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_128",
+      "timestamp": "2026-09-15T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_086",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_129",
+      "timestamp": "2026-09-15T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_087",
+      "details": "correct: Matches the verified weight of 4.6 lb."
+    },
+    {
+      "auditId": "aud_130",
+      "timestamp": "2026-09-15T12:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_063",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_131",
+      "timestamp": "2026-09-16T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_088",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_132",
+      "timestamp": "2026-09-16T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_089",
+      "details": "correct: Matches the verified weight of 4 lb."
+    },
+    {
+      "auditId": "aud_133",
+      "timestamp": "2026-09-16T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_090",
+      "details": "correct: Matches the verified storage of 1024 GB storage."
+    },
+    {
+      "auditId": "aud_134",
+      "timestamp": "2026-09-16T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_064",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_135",
+      "timestamp": "2026-09-16T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_091",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_136",
+      "timestamp": "2026-09-16T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_092",
+      "details": "correct: Matches the verified RAM of 4 GB RAM."
+    },
+    {
+      "auditId": "aud_137",
+      "timestamp": "2026-09-16T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_093",
+      "details": "correct: Matches the verified weight of 4.1 lb."
+    },
+    {
+      "auditId": "aud_138",
+      "timestamp": "2026-09-16T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_065",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_139",
+      "timestamp": "2026-09-17T08:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_094",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_140",
+      "timestamp": "2026-09-17T08:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_095",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_141",
+      "timestamp": "2026-09-17T08:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_096",
+      "details": "correct: Matches the verified weight of 4.6 lb."
+    },
+    {
+      "auditId": "aud_142",
+      "timestamp": "2026-09-17T08:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_066",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_143",
+      "timestamp": "2026-09-18T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_100",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_144",
+      "timestamp": "2026-09-18T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_101",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_145",
+      "timestamp": "2026-09-18T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_102",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_146",
+      "timestamp": "2026-09-18T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_068",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_147",
+      "timestamp": "2026-09-18T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_097",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_148",
+      "timestamp": "2026-09-18T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_098",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_149",
+      "timestamp": "2026-09-18T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_099",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_150",
+      "timestamp": "2026-09-18T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_067",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_151",
+      "timestamp": "2026-09-19T16:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_103",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_152",
+      "timestamp": "2026-09-19T16:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_104",
+      "details": "correct: Matches the verified weight of 2.8 lb."
+    },
+    {
+      "auditId": "aud_153",
+      "timestamp": "2026-09-19T16:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_105",
+      "details": "correct: Matches the verified weight of 4.1 lb."
+    },
+    {
+      "auditId": "aud_154",
+      "timestamp": "2026-09-19T16:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_069",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_155",
+      "timestamp": "2026-09-20T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_109",
+      "details": "correct: Matches the verified weight of 4.1 lb."
+    },
+    {
+      "auditId": "aud_156",
+      "timestamp": "2026-09-20T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_110",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_157",
+      "timestamp": "2026-09-20T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_111",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_158",
+      "timestamp": "2026-09-20T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_071",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_159",
+      "timestamp": "2026-09-20T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_106",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_160",
+      "timestamp": "2026-09-20T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_107",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_161",
+      "timestamp": "2026-09-20T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_108",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_162",
+      "timestamp": "2026-09-20T20:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_070",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_163",
+      "timestamp": "2026-09-21T19:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_112",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_164",
+      "timestamp": "2026-09-21T19:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_113",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_165",
+      "timestamp": "2026-09-21T19:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_114",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_166",
+      "timestamp": "2026-09-21T19:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_072",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_167",
+      "timestamp": "2026-09-22T08:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_118",
+      "details": "correct: Matches the verified battery life of 6 h battery."
+    },
+    {
+      "auditId": "aud_168",
+      "timestamp": "2026-09-22T08:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_119",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_169",
+      "timestamp": "2026-09-22T08:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_120",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_170",
+      "timestamp": "2026-09-22T08:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_074",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_171",
+      "timestamp": "2026-09-22T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_115",
+      "details": "correct: Matches the verified battery life of 6 h battery."
+    },
+    {
+      "auditId": "aud_172",
+      "timestamp": "2026-09-22T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_116",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_173",
+      "timestamp": "2026-09-22T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_117",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_174",
+      "timestamp": "2026-09-22T16:50:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_073",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_175",
+      "timestamp": "2026-09-23T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_121",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_176",
+      "timestamp": "2026-09-23T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_122",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_177",
+      "timestamp": "2026-09-23T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_123",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_178",
+      "timestamp": "2026-09-23T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_075",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_179",
+      "timestamp": "2026-09-24T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_124",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_180",
+      "timestamp": "2026-09-24T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_125",
+      "details": "correct: Matches the verified battery life of 10 h battery."
+    },
+    {
+      "auditId": "aud_181",
+      "timestamp": "2026-09-24T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_126",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_182",
+      "timestamp": "2026-09-24T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_076",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_183",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_127",
+      "details": "correct: Matches the verified battery life of 9 h battery."
+    },
+    {
+      "auditId": "aud_184",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_128",
+      "details": "POLICY_MISMATCH: Verified return policy is 30 days."
+    },
+    {
+      "auditId": "aud_185",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_129",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_186",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_130",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_187",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_077",
+      "details": "Extracted 4 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_188",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_10",
+      "details": "POLICY_MISMATCH (high) from clm_128. Owner: Grace Kim."
+    },
+    {
+      "auditId": "aud_189",
+      "timestamp": "2026-09-24T18:46:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_10",
+      "details": "Rejected. No fix applied. Note: Low impact; source already corrected."
+    },
+    {
+      "auditId": "aud_190",
+      "timestamp": "2026-09-25T19:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_131",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_191",
+      "timestamp": "2026-09-25T19:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_132",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_192",
+      "timestamp": "2026-09-25T19:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_133",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_193",
+      "timestamp": "2026-09-25T19:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_078",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_194",
+      "timestamp": "2026-09-26T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_134",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_195",
+      "timestamp": "2026-09-26T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_135",
+      "details": "correct: Matches the verified weight of 3.1 lb."
+    },
+    {
+      "auditId": "aud_196",
+      "timestamp": "2026-09-26T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_136",
+      "details": "correct: Matches the verified screen size of 13.3 in screen."
+    },
+    {
+      "auditId": "aud_197",
+      "timestamp": "2026-09-26T18:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_079",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_198",
+      "timestamp": "2026-09-29T11:30:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_32",
+      "details": "PRICE_OUTDATED (low) from clm_308. Owner: Maria Lopez."
+    },
+    {
+      "auditId": "aud_199",
+      "timestamp": "2026-09-29T11:30:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_32",
+      "details": "Publish verified price $329.00 to the product feed."
+    },
+    {
+      "auditId": "aud_200",
+      "timestamp": "2026-09-29T14:12:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_33",
+      "details": "SPEC_MISMATCH (medium) from clm_309. Owner: Dev Patel."
+    },
+    {
+      "auditId": "aud_201",
+      "timestamp": "2026-09-29T14:12:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_33",
+      "details": "Publish verified RAM (8 GB) to the product feed."
+    },
+    {
+      "auditId": "aud_452",
+      "timestamp": "2026-09-25T16:00:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "resolved",
+      "targetId": "inc_20",
+      "details": "Confirmed UL listing from the manufacturer certificate. No correction needed."
+    },
+    {
+      "auditId": "aud_470",
+      "timestamp": "2026-09-27T14:45:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_28",
+      "details": "False alarm: verified battery facts support the comparison (12 h vs 9 h)."
+    },
+    {
+      "auditId": "aud_481",
+      "timestamp": "2026-09-28T17:30:00Z",
+      "actor": "Grace Kim",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_30",
+      "details": "Approved publishing the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_497",
+      "timestamp": "2026-09-29T16:00:05Z",
+      "actor": "ai_client",
+      "actorType": "ai",
+      "action": "claim_extracted",
+      "targetId": "ans_120",
+      "details": "Extracted 3 claims from answer ans_120."
+    },
+    {
+      "auditId": "aud_498",
+      "timestamp": "2026-09-29T17:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_300",
+      "details": "PRICE_MISMATCH: stated $399, verified $449.99."
+    },
+    {
+      "auditId": "aud_499",
+      "timestamp": "2026-09-29T17:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_12",
+      "details": "PRICE_MISMATCH (11.3%) incident from clm_300."
+    },
+    {
+      "auditId": "aud_500",
+      "timestamp": "2026-09-29T17:05:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_31",
+      "details": "AVAILABILITY_MISMATCH incident from clm_302."
+    },
+    {
+      "auditId": "aud_501",
+      "timestamp": "2026-09-29T17:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_12",
+      "details": "Published verified price $449.99."
+    },
+    {
+      "auditId": "aud_502",
+      "timestamp": "2026-09-29T17:05:03Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_31",
+      "details": "Published verified availability (in stock) for Kestrel Aero 14 Plus."
+    },
+    {
+      "auditId": "aud_503",
+      "timestamp": "2026-09-29T17:10:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_44",
+      "details": "INVENTED_FEATURE incident from clm_303. Awaiting approval from Dev Patel."
+    },
+    {
+      "auditId": "aud_504",
+      "timestamp": "2026-09-29T17:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_45",
+      "details": "UNFAIR_COMPARISON incident from clm_305. Awaiting approval from Grace Kim."
+    },
+    {
+      "auditId": "aud_505",
+      "timestamp": "2026-09-29T17:30:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_46",
+      "details": "PRICE_MISMATCH (16.8%) incident from clm_306. Awaiting approval from Maria Lopez."
+    },
+    {
+      "auditId": "aud_506",
+      "timestamp": "2026-09-29T17:40:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_47",
+      "details": "SAFETY_LEGAL incident from clm_307."
+    },
+    {
+      "auditId": "aud_507",
+      "timestamp": "2026-09-29T17:40:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "escalated",
+      "targetId": "inc_47",
+      "details": "Safety/legal claim escalated to Grace Kim. No fix applied."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "assistants": [
+    {
+      "assistantId": "ast_01",
+      "name": "Assistant A",
+      "simulated": true
+    },
+    {
+      "assistantId": "ast_02",
+      "name": "Assistant B",
+      "simulated": true
+    },
+    {
+      "assistantId": "ast_03",
+      "name": "Assistant C",
+      "simulated": true
+    }
+  ]
+}

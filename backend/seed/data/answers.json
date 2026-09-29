@@ -1,0 +1,685 @@
+{
+  "answers": [
+    {
+      "answerId": "ans_040",
+      "queryText": "most reliable laptop brand",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Pocket 12 is out of stock. The Kestrel Flex 14 Touch has 8 GB of RAM. The Kestrel Pocket 12 costs $368. The Novex Go 13 has a 13.3-inch display.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_06"
+      ],
+      "capturedAt": "2026-08-31T14:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_041",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 13 Lite is in stock. The Novex Go 13 weighs 2.8 lb. The Kestrel Aero 13 Lite costs $339.00. The Kestrel Studio 15 comes with 512 GB of storage.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-08-31T20:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_042",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Studio 15 has a 15.6-inch display. Kestrel offers a 30-day return policy on the Kestrel Pocket 12. The Kestrel Aero 14 Plus is in stock. The Kestrel Studio 15 has 32 GB of RAM. The Kestrel Aero 14 is cheaper than the Novex Slate 14.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_03",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-01T16:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_043",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_01",
+      "answerText": "Kestrel offers a 30-day return policy on the Kestrel Flex 14 Touch. The Kestrel Flex 14 Touch includes a fingerprint reader. The Arcton Titan 16 has limited stock. The Novex Canvas 15 has 12 GB of RAM.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_06"
+      ],
+      "capturedAt": "2026-09-02T20:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_044",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 14 is in stock. The Kestrel Aero 14 is out of stock. The Kestrel Flex 14 Touch weighs 3.3 lb. The Kestrel Aero 13 Lite comes with 128 GB of storage.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-09-02T10:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_045",
+      "queryText": "best laptop for travel",
+      "assistantId": "ast_03",
+      "answerText": "Kestrel offers a 30-day return policy on the Kestrel Pocket 12. The Arcton Swift 14 comes with 256 GB of storage. The Arcton Titan 16 weighs 4.6 lb. Kestrel offers a 45-day return policy on the Kestrel Pocket 12.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_03"
+      ],
+      "capturedAt": "2026-09-03T10:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_046",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 14 Plus costs $549.00. The Kestrel Flex 14 Touch comes with 256 GB of storage. The Kestrel Aero 14 has 8 GB of RAM. Unlike the Kestrel Aero 14 Plus, the Arcton Titan 16 never overheats. The Kestrel Aero 14 is cheaper than the Novex Slate 14.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_03",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-04T15:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_047",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Studio 15 is rated for 7 hours of battery life. The Novex Go 13 is rated for 8 hours of battery life. The Kestrel Aero 13 Lite costs $329.00. The Kestrel Studio 15 comes with a lifetime guarantee. The Kestrel Aero 14 is cheaper than the Novex Slate 14.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_03",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-04T13:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_048",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Studio 15 comes with 512 GB of storage. The Zephyr Book 13 is great for students. The Novex Go 13 has 4 GB of RAM. The Kestrel Aero 14 Plus comes with 512 GB of storage. The Kestrel Aero 14 is cheaper than the Novex Slate 14.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_03"
+      ],
+      "capturedAt": "2026-09-05T15:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_049",
+      "queryText": "laptop with the best return policy",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Flex 14 Touch has a 14-inch display. The Arcton Swift 14 weighs 3.1 lb. The Arcton Vista 15 is rated for 7 hours of battery life. The Kestrel Aero 14 is cheaper than the Novex Slate 14.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-06T11:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_050",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Studio 15 is rated for 7 hours of battery life. The Kestrel Flex 14 Touch weighs 3.3 lb. The Novex Canvas 15 is rated for 8 hours of battery life.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-06T20:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_051",
+      "queryText": "laptop for streaming and media",
+      "assistantId": "ast_03",
+      "answerText": "The Arcton Swift 14 has a 14-inch display. The Novex Canvas 15 has a 15.6-inch display. The Novex Go 13 has a 13.3-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01"
+      ],
+      "capturedAt": "2026-09-07T18:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_052",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 13 Lite is rated for 9 hours of battery life. Arcton offers a 15-day return policy on the Arcton Swift 14. The Kestrel Aero 14 costs $449.99.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-09-08T09:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_053",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_02",
+      "answerText": "The Arcton Vista 15 has 8 GB of RAM. The Arcton Titan 16 has 16 GB of RAM. The Arcton Swift 14 is in stock.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-08T15:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_054",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_03",
+      "answerText": "The Arcton Titan 16 costs $699.00. The Novex Go 13 comes with 128 GB of storage. The Novex Slate 14 weighs 3.2 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-09T10:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_055",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Studio 15 is rated for 7 hours of battery life. The Novex Go 13 has a 13.3-inch display. The Kestrel Studio 15 costs $552. The Arcton Vista 15 has a 15.6-inch display.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_05"
+      ],
+      "capturedAt": "2026-09-10T13:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_056",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Slate 14 is in stock. The Arcton Swift 14 has 8 GB of RAM. The Arcton Titan 16 comes with 1024 GB of storage.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-10T14:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_057",
+      "queryText": "laptop for streaming and media",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Go 13 is in stock. The Novex Canvas 15 is in stock. The Arcton Titan 16 has a 16-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-11T12:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_058",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_01",
+      "answerText": "The Arcton Vista 15 is in stock. The Novex Slate 14 weighs 3.2 lb. The Novex Canvas 15 costs $529.00.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-12T14:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_059",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_02",
+      "answerText": "Novex offers a 14-day return policy on the Novex Slate 14. The Arcton Titan 16 has 16 GB of RAM. The Arcton Vista 15 has a 15.6-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-12T16:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_060",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 weighs 4.1 lb. The Arcton Titan 16 has 16 GB of RAM. The Novex Slate 14 weighs 3.2 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_05"
+      ],
+      "capturedAt": "2026-09-13T10:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_061",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_01",
+      "answerText": "The Arcton Titan 16 has 16 GB of RAM. The Arcton Vista 15 has 8 GB of RAM. The Novex Slate 14 is in stock.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_04",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-14T18:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_062",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_02",
+      "answerText": "The Arcton Swift 14 comes with 256 GB of storage. The Novex Go 13 is rated for 8 hours of battery life. The Arcton Titan 16 has 16 GB of RAM.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_06"
+      ],
+      "capturedAt": "2026-09-14T13:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_063",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_03",
+      "answerText": "Kestrel offers a 30-day return policy on the Kestrel Pocket 12. Novex offers a 14-day return policy on the Novex Go 13. The Arcton Titan 16 weighs 4.6 lb.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-15T12:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_064",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Slate 14 comes with 256 GB of storage. The Arcton Vista 15 weighs 4 lb. The Arcton Titan 16 comes with 1024 GB of storage.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-16T09:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_065",
+      "queryText": "best laptop for travel",
+      "assistantId": "ast_02",
+      "answerText": "The Arcton Vista 15 has 8 GB of RAM. The Novex Go 13 has 4 GB of RAM. The Novex Canvas 15 weighs 4.1 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-16T11:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_066",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_03",
+      "answerText": "Novex offers a 14-day return policy on the Novex Slate 14. The Arcton Swift 14 is in stock. The Arcton Titan 16 weighs 4.6 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-17T08:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_067",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_01",
+      "answerText": "Novex offers a 14-day return policy on the Novex Canvas 15. The Novex Slate 14 is in stock. The Arcton Swift 14 is in stock.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-18T20:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_068",
+      "queryText": "best laptop for travel",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Go 13 is in stock. The Novex Slate 14 comes with 256 GB of storage. The Arcton Swift 14 comes with 256 GB of storage.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-18T10:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_069",
+      "queryText": "most reliable laptop brand",
+      "assistantId": "ast_03",
+      "answerText": "Arcton offers a 15-day return policy on the Arcton Titan 16. The Novex Go 13 weighs 2.8 lb. The Novex Canvas 15 weighs 4.1 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-19T16:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_070",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Canvas 15 comes with 512 GB of storage. The Novex Go 13 comes with 128 GB of storage. The Novex Slate 14 comes with 256 GB of storage.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_04",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-20T20:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_071",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Canvas 15 weighs 4.1 lb. The Arcton Swift 14 costs $469.00. Novex offers a 14-day return policy on the Novex Go 13.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03"
+      ],
+      "capturedAt": "2026-09-20T18:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_072",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_03",
+      "answerText": "The Arcton Swift 14 is in stock. The Novex Go 13 comes with 128 GB of storage. The Arcton Vista 15 costs $499.00.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-21T19:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_073",
+      "queryText": "most reliable laptop brand",
+      "assistantId": "ast_01",
+      "answerText": "The Arcton Titan 16 is rated for 6 hours of battery life. The Arcton Swift 14 has 8 GB of RAM. The Novex Go 13 costs $349.00.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-22T16:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_074",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_02",
+      "answerText": "The Arcton Titan 16 is rated for 6 hours of battery life. The Novex Go 13 is in stock. Novex offers a 14-day return policy on the Novex Canvas 15.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-22T08:45:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_075",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 is rated for 8 hours of battery life. The Arcton Vista 15 is in stock. The Novex Slate 14 has 8 GB of RAM.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_03",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-23T15:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_076",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Canvas 15 is rated for 8 hours of battery life. The Novex Slate 14 is rated for 10 hours of battery life. The Arcton Swift 14 costs $469.00.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-24T12:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_077",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 13 Lite is rated for 9 hours of battery life. Kestrel offers a 45-day return policy on the Kestrel Aero 13 Lite. The Novex Go 13 comes with 128 GB of storage. The Arcton Titan 16 has 16 GB of RAM.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-24T15:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_078",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 is in stock. The Arcton Swift 14 is in stock. Novex offers a 14-day return policy on the Novex Go 13.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-25T19:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_079",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_01",
+      "answerText": "Arcton offers a 15-day return policy on the Arcton Vista 15. The Arcton Swift 14 weighs 3.1 lb. The Novex Go 13 has a 13.3-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-26T18:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_081",
+      "queryText": "best laptop for work",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Studio 15 is UL listed, and its 15.6-inch screen suits office work.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_05"
+      ],
+      "capturedAt": "2026-09-25T09:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_098",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 14 Plus outlasts the Arcton Swift 14 on battery. Both are solid picks.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01"
+      ],
+      "capturedAt": "2026-09-27T12:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_114",
+      "queryText": "good laptop for students",
+      "assistantId": "ast_01",
+      "answerText": "The Zephyr Book 13 is great for students. Arcton Swift 14 and Kestrel Aero 14 are also worth a look.",
+      "brandMentioned": true,
+      "rank": 3,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-28T10:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_115",
+      "queryText": "laptop with the best return policy",
+      "assistantId": "ast_03",
+      "answerText": "Kestrel offers a 60-day return window on the Aero 14, longer than most brands. Arcton offers 15 days.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_03",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-28T14:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_116",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Flex 14 Touch has 16 GB of RAM and a responsive touchscreen. The Arcton Vista 15 also has touch.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-29T14:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_117",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Go 13 and the Kestrel Aero 13 Lite are both budget-friendly. The Kestrel Aero 13 Lite is $339.",
+      "brandMentioned": true,
+      "rank": 2,
+      "sourceIds": [
+        "src_06"
+      ],
+      "capturedAt": "2026-09-29T11:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_118",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_03",
+      "answerText": "You can get the Kestrel Studio 15 for $499, a great value for a 15.6-inch screen. For younger users, the Kestrel Pocket 12 is certified child-safe. The Arcton Vista 15 is another option.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-29T15:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_119",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_01",
+      "answerText": "Arcton Swift 14 is a popular choice. The Kestrel Aero 14 has a backlit fingerprint reader and weighs 2.9 lb. Unlike the Kestrel Aero 14, the Novex Slate 14 never overheats.",
+      "brandMentioned": true,
+      "rank": 2,
+      "sourceIds": [
+        "src_04",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-29T15:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_120",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_02",
+      "answerText": "For under $500, the Kestrel Aero 14 is a strong pick. The Kestrel Aero 14 costs $399. It has an 11-hour battery, so it lasts a full school day. The Kestrel Aero 14 Plus is out of stock right now. The Novex Slate 14 at $479 is a solid alternative.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_03"
+      ],
+      "capturedAt": "2026-09-29T16:00:00Z",
+      "source": "mock"
+    }
+  ]
+}
