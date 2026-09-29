@@ -8,6 +8,9 @@ sqlalchemy==2.1.1
 anthropic==1.9.0
 httpx2==2.13.1
 
-# Tests
+# MCP server for Claude Desktop (backend/mcp_server.py). Uses httpx below for the API call.
+mcp==2.2.0
+
+# Tests (httpx is also the HTTP client of the MCP server)
 pytest==9.1.1
 httpx==0.28.1
