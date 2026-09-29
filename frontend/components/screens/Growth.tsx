@@ -10,7 +10,7 @@ import type { CoachMessage, CoachReply } from "@/lib/schema";
 import { allLeversOn, simulate } from "@/lib/simulator";
 import { useApi } from "@/lib/useApi";
 
-// PARKED: not in the nav (no contract endpoint). Frontend-only extras on sample data (DECISIONS.md #11).
+// Sample-only extras on Kestrel sample data (DECISIONS.md #11, #28). Shown under "Extras (sample data)" in the nav.
 
 function useSampleContext() {
   return useApi(useCallback(() => loadCoachContext(), []));
