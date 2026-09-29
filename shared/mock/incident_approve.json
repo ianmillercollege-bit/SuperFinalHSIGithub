@@ -11,10 +11,10 @@
   "aiSaid": "backlit fingerprint reader",
   "verifiedFact": "No fingerprint reader (verified spec sheet).",
   "proposedFix": "Add an explicit 'no fingerprint reader' line to the Kestrel Aero 14 product page and feed.",
-  "ownerId": "own_02",
-  "ownerName": "Dev Patel",
+  "ownerId": "own_03",
+  "ownerName": "Grace Kim",
   "falseAlarm": false,
   "createdAt": "2026-09-29T17:10:00Z",
   "resolvedAt": "2026-09-29T18:10:00Z",
-  "resolvedBy": "Dev Patel"
+  "resolvedBy": "Grace Kim"
 }

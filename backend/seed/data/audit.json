@@ -187,7 +187,7 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_03",
-      "details": "SPEC_MISMATCH (medium) from clm_012. Owner: Dev Patel."
+      "details": "SPEC_MISMATCH (medium) from clm_012. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_022",
@@ -250,12 +250,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_04",
-      "details": "INVENTED_FEATURE (high) from clm_015. Owner: Dev Patel."
+      "details": "INVENTED_FEATURE (high) from clm_015. Owner: Grace Kim."
     },
     {
       "auditId": "aud_029",
       "timestamp": "2026-09-02T01:53:00Z",
-      "actor": "Dev Patel",
+      "actor": "Grace Kim",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_04",
@@ -313,7 +313,7 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_05",
-      "details": "AVAILABILITY_MISMATCH (medium) from clm_019. Owner: Dev Patel."
+      "details": "AVAILABILITY_MISMATCH (medium) from clm_019. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_036",
@@ -376,12 +376,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_06",
-      "details": "POLICY_MISMATCH (high) from clm_025. Owner: Grace Kim."
+      "details": "POLICY_MISMATCH (high) from clm_025. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_043",
       "timestamp": "2026-09-02T16:03:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "rejected",
       "targetId": "inc_06",
@@ -1690,12 +1690,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_10",
-      "details": "POLICY_MISMATCH (high) from clm_128. Owner: Grace Kim."
+      "details": "POLICY_MISMATCH (high) from clm_128. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_189",
       "timestamp": "2026-09-19T18:46:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "rejected",
       "targetId": "inc_10",
@@ -1807,7 +1807,7 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_13",
-      "details": "POLICY_MISMATCH (high) from clm_140. Owner: Grace Kim."
+      "details": "POLICY_MISMATCH (high) from clm_140. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_202",
@@ -1843,12 +1843,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_11",
-      "details": "INVENTED_FEATURE (high) from clm_138. Owner: Dev Patel."
+      "details": "INVENTED_FEATURE (high) from clm_138. Owner: Grace Kim."
     },
     {
       "auditId": "aud_206",
       "timestamp": "2026-09-23T12:35:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_13",
@@ -1857,7 +1857,7 @@
     {
       "auditId": "aud_207",
       "timestamp": "2026-09-23T13:05:00Z",
-      "actor": "Dev Patel",
+      "actor": "Grace Kim",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_11",
@@ -1933,12 +1933,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_16",
-      "details": "INVENTED_FEATURE (high) from clm_146. Owner: Dev Patel."
+      "details": "INVENTED_FEATURE (high) from clm_146. Owner: Grace Kim."
     },
     {
       "auditId": "aud_216",
       "timestamp": "2026-09-24T11:35:00Z",
-      "actor": "Dev Patel",
+      "actor": "Grace Kim",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_16",
@@ -2086,12 +2086,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_17",
-      "details": "POLICY_MISMATCH (high) from clm_148. Owner: Grace Kim."
+      "details": "POLICY_MISMATCH (high) from clm_148. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_233",
       "timestamp": "2026-09-25T15:20:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_17",
@@ -2131,12 +2131,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_21",
-      "details": "INVENTED_FEATURE (high) from clm_154. Owner: Dev Patel."
+      "details": "INVENTED_FEATURE (high) from clm_154. Owner: Grace Kim."
     },
     {
       "auditId": "aud_238",
       "timestamp": "2026-09-26T12:35:00Z",
-      "actor": "Dev Patel",
+      "actor": "Grace Kim",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_21",
@@ -2230,12 +2230,12 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_22",
-      "details": "POLICY_MISMATCH (high) from clm_156. Owner: Grace Kim."
+      "details": "POLICY_MISMATCH (high) from clm_156. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_249",
       "timestamp": "2026-09-27T11:50:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_22",
@@ -2266,7 +2266,7 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_33",
-      "details": "SPEC_MISMATCH (medium) from clm_309. Owner: Dev Patel."
+      "details": "SPEC_MISMATCH (medium) from clm_309. Owner: Maria Lopez."
     },
     {
       "auditId": "aud_253",
@@ -2298,7 +2298,7 @@
     {
       "auditId": "aud_481",
       "timestamp": "2026-09-28T17:30:00Z",
-      "actor": "Grace Kim",
+      "actor": "Maria Lopez",
       "actorType": "human",
       "action": "approved",
       "targetId": "inc_30",
@@ -2365,7 +2365,7 @@
       "actorType": "system",
       "action": "incident_created",
       "targetId": "inc_44",
-      "details": "INVENTED_FEATURE incident from clm_303. Awaiting approval from Dev Patel."
+      "details": "INVENTED_FEATURE incident from clm_303. Awaiting approval from Grace Kim."
     },
     {
       "auditId": "aud_504",

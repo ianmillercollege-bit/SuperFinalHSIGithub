@@ -1,6 +1,6 @@
 """BACKEND_CONTRACT.md section 7: approve, reject, resolve, with the 403 / 409 / 404 / 422 rules.
 
-Seeded incidents used: inc_44 (INVENTED_FEATURE, pending, Dev Patel), inc_45 (UNFAIR_COMPARISON, pending,
+Seeded incidents used: inc_44 (INVENTED_FEATURE, pending, Grace Kim), inc_45 (UNFAIR_COMPARISON, pending,
 Grace Kim), inc_46 (PRICE_MISMATCH high, pending, Maria Lopez), inc_47 (SAFETY_LEGAL critical, escalated,
 Grace Kim), inc_12 (auto_fixed).
 """
@@ -16,10 +16,10 @@ def audit_actions(client, incident_id):
 
 def test_approval_flow(client):
     # Approve by the owner.
-    res = post(client, "inc_44", "approve", {"approverName": "Dev Patel", "note": "Checked the spec sheet."})
+    res = post(client, "inc_44", "approve", {"approverName": "Grace Kim", "note": "Checked the spec sheet."})
     assert res.status_code == 200
     body = res.json()
-    assert (body["status"], body["resolvedBy"]) == ("approved", "Dev Patel") and body["resolvedAt"]
+    assert (body["status"], body["resolvedBy"]) == ("approved", "Grace Kim") and body["resolvedAt"]
     assert audit_actions(client, "inc_44")[0] == "approved"
 
     # Reject as a false alarm.
@@ -39,6 +39,10 @@ def test_forbidden_cases(client):
     res = post(client, "inc_44", "approve", {"approverName": "Maria Lopez"})
     assert res.status_code == 403 and res.json()["error"]["code"] == "FORBIDDEN"
     assert post(client, "inc_47", "resolve", {"resolverName": "Dev Patel", "note": "x"}).status_code == 403
+    # The CIRQO Product Owner owns no incident types, so cannot decide any incident.
+    for incident_id, action in (("inc_44", "approve"), ("inc_45", "reject"), ("inc_46", "approve")):
+        body = {"approverName": "Dev Patel", "note": "x"}
+        assert post(client, incident_id, action, body).status_code == 403, incident_id
     # Critical incidents can never be approved or rejected, even by their owner.
     for action, body in (("approve", {"approverName": "Grace Kim"}),
                          ("reject", {"approverName": "Grace Kim", "note": "x"})):
@@ -49,8 +53,8 @@ def test_forbidden_cases(client):
 
 
 def test_conflict_cases(client):
-    assert post(client, "inc_44", "approve", {"approverName": "Dev Patel"}).status_code == 200
-    res = post(client, "inc_44", "approve", {"approverName": "Dev Patel"})  # already approved
+    assert post(client, "inc_44", "approve", {"approverName": "Grace Kim"}).status_code == 200
+    res = post(client, "inc_44", "approve", {"approverName": "Grace Kim"})  # already approved
     assert res.status_code == 409 and res.json()["error"]["code"] == "CONFLICT"
     assert post(client, "inc_12", "reject", {"approverName": "Maria Lopez", "note": "x"}).status_code == 409
     # Resolve only works on escalated incidents.

@@ -55,7 +55,7 @@ def test_get_shapes(client, path, mock):
     ("/api/v1/shopper/recommend", DEFAULT_ANSWERS, "shopper_recommend.json"),
     ("/api/v1/checker/run", {"answerText": "The Kestrel Aero 14 costs $429 and has a 12-hour battery.",
                              "assistantId": "ast_03", "queryText": "best laptops"}, "checker_run.json"),
-    ("/api/v1/incidents/inc_44/approve", {"approverName": "Dev Patel"}, "incident_approve.json"),
+    ("/api/v1/incidents/inc_44/approve", {"approverName": "Grace Kim"}, "incident_approve.json"),
     ("/api/v1/incidents/inc_45/reject", {"approverName": "Grace Kim", "note": "ok", "falseAlarm": True},
      "incident_reject.json"),
     ("/api/v1/incidents/inc_47/resolve", {"resolverName": "Grace Kim", "note": "ok"}, "incident_resolve.json"),

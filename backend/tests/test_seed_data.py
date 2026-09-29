@@ -79,10 +79,21 @@ def test_sources(seed):
 def test_owners(seed):
     owners = {o["name"]: (o["role"], set(o["incidentTypes"])) for o in seed["owners"]}
     assert owners == {
-        "Maria Lopez": ("Pricing Manager", {"PRICE_MISMATCH", "PRICE_OUTDATED"}),
-        "Dev Patel": ("Product Content Lead", {"SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH"}),
-        "Grace Kim": ("Legal and Compliance", {"POLICY_MISMATCH", "UNFAIR_COMPARISON", "SAFETY_LEGAL"}),
+        # Business plan 5.1 roles (lead decision on DECISIONS.md #23).
+        "Maria Lopez": ("Brand Data Owner", {"PRICE_MISMATCH", "PRICE_OUTDATED", "AVAILABILITY_MISMATCH",
+                                             "SPEC_MISMATCH", "POLICY_MISMATCH"}),
+        "Dev Patel": ("CIRQO Product Owner", set()),
+        "Grace Kim": ("CIRQO Trust and Safety Lead", {"INVENTED_FEATURE", "UNFAIR_COMPARISON", "SAFETY_LEGAL"}),
     }
+
+
+def test_every_incident_owned_and_decided_by_its_rule_owner(seed):
+    owner_for = {r: o for o in seed["owners"] for r in o["incidentTypes"]}
+    for i in seed["incidents"]:
+        assert (i["ownerId"], i["ownerName"]) == (owner_for[i["ruleId"]]["ownerId"], owner_for[i["ruleId"]]["name"])
+        assert i["resolvedBy"] in (None, "system", i["ownerName"]), i["incidentId"]
+    humans = {e["actor"] for e in seed["audit"] if e["actorType"] == "human"}
+    assert humans <= {"Maria Lopez", "Grace Kim"}  # the Product Owner decides no incidents
 
 
 def test_answers_and_claims(seed):
