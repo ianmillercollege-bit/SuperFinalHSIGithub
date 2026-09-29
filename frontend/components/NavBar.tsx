@@ -77,14 +77,6 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
         ))}
       </nav>
 
-      {/* DECISIONS.md #12: every screen shows this badge. */}
-      <span
-        className="sample-badge"
-        title="Everything shown is seeded or simulated demo data, not real customer results."
-      >
-        Sample data
-      </span>
-
       <BackendStatus />
     </aside>
   );

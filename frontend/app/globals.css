@@ -1009,3 +1009,26 @@ details > summary {
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* The "Sample data" bar: top of every page, sticky so it is always visible. */
+.sample-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 36px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.sample-bar .sample-badge {
+  align-self: center;
+}
+
+@media (max-width: 760px) {
+  .sample-bar {
+    padding: 8px 16px;
+  }
+}

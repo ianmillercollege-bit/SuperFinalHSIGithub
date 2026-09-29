@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo, Public_Sans } from "next/font/google";
 import BrandLockup from "@/components/BrandLockup";
 import NavBar from "@/components/NavBar";
+import SampleDataBar from "@/components/SampleDataBar";
 import "@/styles/tokens.css";
 import "./globals.css";
 
@@ -30,7 +31,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <div className="shell">
           <NavBar brand={<BrandLockup width={SIDEBAR_LOCKUP_WIDTH} />} />
-          <div className="main-col">{children}</div>
+          <div className="main-col">
+            <SampleDataBar />
+            {children}
+          </div>
         </div>
       </body>
     </html>
