@@ -79,7 +79,7 @@ export default function ShopperDemo() {
         <p className="eyebrow">A shopper asks an AI assistant</p>
         <p className="quote">“{data.openingQuery}”</p>
         <p className="muted">
-          Answer {data.questions.length} quick questions and FrontDoor finds the best fit, using only verified
+          Answer {data.questions.length} quick questions and CIRQO finds the best fit, using only verified
           product facts.
         </p>
         <div>

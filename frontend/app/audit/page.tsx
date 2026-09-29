@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import AuditLog from "@/components/screens/AuditLog";
 
-export const metadata: Metadata = { title: "Audit log · FrontDoor" };
+export const metadata: Metadata = { title: "Audit log · CIRQO" };
 
 export default function Page() {
   return (
