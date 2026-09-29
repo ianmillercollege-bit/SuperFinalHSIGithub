@@ -1,8 +1,7 @@
 """Rebuild the database from seed JSON on every startup (BACKEND_CONTRACT.md section 3).
 
-The lead owns backend/seed/ (DECISIONS.md #16). Its generator writes JSON files to
-backend/seed/data/ (DECISIONS.md #17). Until those exist, backend/dev_seed/ holds a small
-stand-in set in the same format so the backend can be built and tested.
+backend/seed/generate.py writes the JSON files to backend/seed/data/ (DECISIONS.md #17).
+Tests point SEED_DIR at backend/tests/fixtures/, a small set in the same shapes.
 
 All seed dates are shifted by whole days so the 30-day trend always ends today (UTC).
 """
@@ -17,17 +16,17 @@ from db import (Answer, Assistant, AuditEntry, Base, Brand, Claim, DailyMetric, 
 from timeutil import shift_date, shift_iso, today
 
 BACKEND_DIR = Path(__file__).resolve().parent
-SEED_DIRS = [BACKEND_DIR / "seed" / "data", BACKEND_DIR / "dev_seed"]
+DEFAULT_SEED_DIR = BACKEND_DIR / "seed" / "data"
 
 
 def seed_dir() -> Path:
-    override = os.environ.get("SEED_DIR")
-    if override:
-        return Path(override)
-    for d in SEED_DIRS:
-        if (d / "products.json").exists():
-            return d
-    raise FileNotFoundError("No seed data found in backend/seed/data/ or backend/dev_seed/.")
+    """backend/seed/data/, or the folder in SEED_DIR. No silent fallback to test data."""
+    folder = Path(os.environ.get("SEED_DIR") or DEFAULT_SEED_DIR)
+    if not (folder / "products.json").exists():
+        raise FileNotFoundError(
+            f"No seed data in {folder}. Run backend/seed/generate.py to create backend/seed/data/, "
+            "or set SEED_DIR to a folder with the DECISIONS.md #17 JSON files.")
+    return folder
 
 
 def read_list(folder: Path, name: str, key: str) -> list[dict]:
