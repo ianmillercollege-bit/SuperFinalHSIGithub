@@ -49,6 +49,8 @@ export { USE_MOCK };
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 
 const TIMEOUT_MS = 8000;
+/** The connector is the first call a visitor makes; a sleeping Render backend can take about a minute to wake. */
+const CONNECTOR_TIMEOUT_MS = 60000;
 
 /** Mock file names in shared/mock/ (contract section 10), without ".json". */
 export const MOCK_FILES = {
@@ -208,6 +210,7 @@ export async function connectorQuery(body: ConnectorQueryRequest): Promise<Conne
     {},
     withoutEmptyConstraints(body),
     MOCK_FILES.connectorQuery,
+    CONNECTOR_TIMEOUT_MS,
   );
   return { response, via: "live" };
 }
@@ -272,6 +275,7 @@ async function request<T>(
   query: Query,
   body: unknown,
   mockFile: string,
+  timeoutMs: number = TIMEOUT_MS,
 ): Promise<T> {
   if (USE_MOCK) return readMock<T>(mockFile);
   if (!API_URL) {
@@ -283,7 +287,7 @@ async function request<T>(
       headers: body === undefined ? undefined : { "Content-Type": "application/json" },
       body: body === undefined ? undefined : JSON.stringify(body),
       cache: "no-store",
-    }),
+    }, timeoutMs),
   );
 }
 
@@ -332,17 +336,17 @@ function isApiErrorBody(body: unknown): body is ApiErrorBody {
   return typeof error?.code === "string" && ERROR_CODES.includes(error.code) && typeof error?.message === "string";
 }
 
-async function fetchOrThrow(url: string, init: RequestInit = {}): Promise<Response> {
+async function fetchOrThrow(url: string, init: RequestInit = {}, timeoutMs: number = TIMEOUT_MS): Promise<Response> {
   try {
-    return await fetchWithTimeout(url, init);
+    return await fetchWithTimeout(url, init, timeoutMs);
   } catch {
     throw new ApiError("Could not reach the backend");
   }
 }
 
-async function fetchWithTimeout(url: string, init: RequestInit = {}): Promise<Response> {
+async function fetchWithTimeout(url: string, init: RequestInit = {}, timeoutMs: number = TIMEOUT_MS): Promise<Response> {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     return await fetch(url, { ...init, signal: controller.signal });
   } finally {
