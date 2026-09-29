@@ -12,7 +12,6 @@ Next.js (App Router, TypeScript). CIRQO is an API plugin for AI assistants plus 
 | `/claims/new` | File a Claim (sends an answer to the checker) |
 | `/claims/outstanding`, `/claims/[id]` | Outstanding Claims, approve / reject / resolve |
 | `/claims/reviewed` | Claims Reviewed and the Insights log |
-| `/simulator`, `/coach` | Extras on frontend sample data (illustrative revenue estimate, pre-written coach answers) |
 
 Navigation is defined once in `lib/nav.ts`. See `INTEGRATION.md` for which endpoint each page uses.
 

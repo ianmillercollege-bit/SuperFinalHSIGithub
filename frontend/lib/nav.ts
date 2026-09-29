@@ -34,15 +34,6 @@ export const NAV: NavGroup[] = [
       { label: "Claims Reviewed", href: "/claims/reviewed" },
     ],
   },
-  {
-    // Frontend-only extras on sample data (DECISIONS.md #11).
-    title: "Extras (sample)",
-    tone: "default",
-    items: [
-      { label: "Growth Simulator", href: "/simulator" },
-      { label: "AI Coach", href: "/coach" },
-    ],
-  },
 ];
 
 export function isActive(pathname: string, href: string): boolean {

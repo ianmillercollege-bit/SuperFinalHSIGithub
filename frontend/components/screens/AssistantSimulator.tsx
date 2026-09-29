@@ -3,11 +3,12 @@
 import { useCallback, useState } from "react";
 import { ErrorNotice, Loading } from "@/components/LoadState";
 import StatusPill from "@/components/StatusPill";
-import { ApiError, connectorQuery, getVisibilitySummary } from "@/lib/api";
+import { ConnectorUnavailableError, connectorQuery, getVisibilitySummary } from "@/lib/api";
 import { formatDateTime, formatPercent, formatPrice } from "@/lib/format";
 import { AVAILABILITY_LABELS, CLAIM_STATUS_LABELS } from "@/lib/labels";
 import { CLAIM_STATUS_TONES } from "@/lib/tones";
-import type { ConnectorMustHave, ConnectorQueryRequest, ConnectorQueryResponse, ConnectorUseCase } from "@/lib/types";
+import type { ConnectorResult } from "@/lib/api";
+import type { ConnectorMustHave, ConnectorQueryRequest, ConnectorUseCase } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
 const DEFAULT_QUESTION = "What is the best laptop under $500 for school?";
@@ -29,7 +30,7 @@ const MUST_HAVES: { value: ConnectorMustHave; label: string }[] = [
 interface Exchange {
   question: string;
   assistantName: string;
-  response?: ConnectorQueryResponse;
+  result?: ConnectorResult;
   error?: unknown;
 }
 
@@ -72,8 +73,8 @@ export default function AssistantSimulator() {
     const assistantName = assistants.find((a) => a.assistantId === chosen)?.name ?? chosen;
     setSending(true);
     try {
-      const response = await connectorQuery(body);
-      setExchanges((list) => [...list, { question: text, assistantName, response }]);
+      const result = await connectorQuery(body);
+      setExchanges((list) => [...list, { question: text, assistantName, result }]);
     } catch (error) {
       setExchanges((list) => [...list, { question: text, assistantName, error }]);
     } finally {
@@ -96,7 +97,7 @@ export default function AssistantSimulator() {
                   <span className="eyebrow">Shopper asks {ex.assistantName}</span>
                   <p>{ex.question}</p>
                 </div>
-                {ex.response ? <ConnectorReply response={ex.response} /> : <ConnectorError error={ex.error} />}
+                {ex.result ? <ConnectorReply result={ex.result} /> : <ConnectorError error={ex.error} />}
               </li>
             ))}
           </ul>
@@ -170,12 +171,13 @@ export default function AssistantSimulator() {
 }
 
 function ConnectorError({ error }: { error: unknown }) {
-  if (error instanceof ApiError && error.code === "NOT_FOUND") {
+  if (error instanceof ConnectorUnavailableError) {
     return (
       <div className="bubble bubble-coach state-error" role="alert">
         <p>
-          The connector isn&apos;t available on this backend yet (POST /api/v1/connector/query returned “not found”).
-          It will work as soon as the backend ships contract v1.1.
+          The connector isn&apos;t available yet: the backend hasn&apos;t shipped POST /api/v1/connector/query and
+          there is no example file (shared/mock/connector_query.json) to show instead. It will work as soon as
+          either one lands.
         </p>
       </div>
     );
@@ -183,10 +185,17 @@ function ConnectorError({ error }: { error: unknown }) {
   return <ErrorNotice error={error} />;
 }
 
-function ConnectorReply({ response }: { response: ConnectorQueryResponse }) {
+function ConnectorReply({ result }: { result: ConnectorResult }) {
+  const { response, via } = result;
   const r = response.recommendation;
   return (
     <div className="stack-tight">
+      {via === "mock" && (
+        <p className="mock-note" role="note">
+          <span className="estimate-badge">Mock data</span> The live connector hasn&apos;t shipped yet, so this is the
+          example answer from shared/mock/connector_query.json, not a reply to your exact question.
+        </p>
+      )}
       <div className="bubble bubble-coach">
         <span className="eyebrow">Assistant answers, from CIRQO</span>
         <p>{response.answerText}</p>

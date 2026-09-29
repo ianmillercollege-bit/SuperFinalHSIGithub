@@ -15,7 +15,6 @@ const nextConfig: NextConfig = {
       { source: "/incidents", destination: "/claims/outstanding", permanent: false },
       { source: "/incidents/:id", destination: "/claims/:id", permanent: false },
       { source: "/audit", destination: "/claims/reviewed", permanent: false },
-      { source: "/growth", destination: "/simulator", permanent: false },
     ];
   },
 };

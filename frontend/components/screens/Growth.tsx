@@ -10,7 +10,7 @@ import type { CoachMessage, CoachReply } from "@/lib/schema";
 import { allLeversOn, simulate } from "@/lib/simulator";
 import { useApi } from "@/lib/useApi";
 
-// Frontend-only extras on the frontend's own sample business (DECISIONS.md #11).
+// PARKED: not in the nav (no contract endpoint). Frontend-only extras on sample data (DECISIONS.md #11).
 
 function useSampleContext() {
   return useApi(useCallback(() => loadCoachContext(), []));

@@ -73,6 +73,7 @@ export const MOCK_FILES = {
   errorNotFound: "error_not_found",
   errorValidation: "error_validation",
   connectorQuery: "connector_query",
+  connectorManifest: "connector_manifest",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -187,9 +188,52 @@ export function isOpenIncident(incident: Incident): boolean {
   return incident.status === "pending_approval" || incident.status === "escalated";
 }
 
+/** The connector hasn't shipped and there is no shared/mock/connector_query.json to show instead. */
+export class ConnectorUnavailableError extends Error {
+  constructor() {
+    super("The connector isn't available yet.");
+    this.name = "ConnectorUnavailableError";
+  }
+}
+
+export interface ConnectorResult {
+  response: ConnectorQueryResponse;
+  /** "mock" = example from shared/mock/ because the live connector hasn't shipped. Label it. */
+  via: "live" | "mock";
+}
+
 // POST /api/v1/connector/query  (v1.1: what an AI assistant calls)
-export function connectorQuery(body: ConnectorQueryRequest): Promise<ConnectorQueryResponse> {
-  return request("POST", "/api/v1/connector/query", {}, body, MOCK_FILES.connectorQuery);
+// Live first. If the backend hasn't shipped the connector yet (the manifest is also
+// "not found"), falls back to shared/mock/connector_query.json and says so.
+// A real "not found" (for example an unknown assistantId) is never hidden.
+export async function connectorQuery(body: ConnectorQueryRequest): Promise<ConnectorResult> {
+  if (USE_MOCK) return connectorMock();
+  try {
+    return { response: await request("POST", "/api/v1/connector/query", {}, body, MOCK_FILES.connectorQuery), via: "live" };
+  } catch (error) {
+    if (!(error instanceof ApiError && error.code === "NOT_FOUND") || (await connectorShipped())) throw error;
+    return connectorMock();
+  }
+}
+
+async function connectorMock(): Promise<ConnectorResult> {
+  try {
+    return { response: await readMock<ConnectorQueryResponse>(MOCK_FILES.connectorQuery), via: "mock" };
+  } catch (error) {
+    if (error instanceof ApiError && error.code === "NOT_FOUND") throw new ConnectorUnavailableError();
+    throw error;
+  }
+}
+
+// GET /api/v1/connector/manifest  (v1.1). Used only to tell whether the connector has shipped.
+async function connectorShipped(): Promise<boolean> {
+  try {
+    await request("GET", "/api/v1/connector/manifest", {}, undefined, MOCK_FILES.connectorManifest);
+    return true;
+  } catch (error) {
+    if (error instanceof ApiError && error.code === "NOT_FOUND") return false;
+    throw error;
+  }
 }
 
 // GET /api/v1/owners
@@ -241,9 +285,7 @@ async function request<T>(
   body: unknown,
   mockFile: string,
 ): Promise<T> {
-  if (USE_MOCK) {
-    return readJson<T>(await fetchOrThrow(`/mock/${mockFile}`));
-  }
+  if (USE_MOCK) return readMock<T>(mockFile);
   if (!API_URL) {
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
@@ -255,6 +297,10 @@ async function request<T>(
       cache: "no-store",
     }),
   );
+}
+
+async function readMock<T>(mockFile: string): Promise<T> {
+  return readJson<T>(await fetchOrThrow(`/mock/${mockFile}`));
 }
 
 function toQueryString(query: Query): string {
