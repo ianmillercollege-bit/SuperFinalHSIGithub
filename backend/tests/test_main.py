@@ -16,6 +16,12 @@ def assert_error_shape(body: dict, code: str) -> None:
     assert body["error"]["message"]
 
 
+def test_api_docs_use_product_name():
+    # DECISIONS.md #18: user-facing text says CIRQO.
+    assert client.get("/openapi.json").json()["info"]["title"] == "CIRQO API"
+    assert "CIRQO API" in client.get("/docs").text
+
+
 def test_health():
     res = client.get("/health")
     assert res.status_code == 200

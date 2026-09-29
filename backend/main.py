@@ -1,4 +1,4 @@
-"""FrontDoor API. Run locally from backend/: uvicorn main:app --reload"""
+"""CIRQO API. Run locally from backend/: uvicorn main:app --reload"""
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,7 +19,8 @@ rebuild_database()
 ALLOWED_ORIGINS = ["http://localhost:3000", *settings.frontend_origin_list]
 ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
 
-app = FastAPI(title="FrontDoor API", version=VERSION)
+# DECISIONS.md #18: user-facing name is CIRQO. Paths, field names, demo keys and env vars are unchanged.
+app = FastAPI(title="CIRQO API", version=VERSION)
 
 app.add_middleware(
     CORSMiddleware,

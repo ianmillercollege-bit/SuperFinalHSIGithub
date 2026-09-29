@@ -1,4 +1,4 @@
-"""Generate the FrontDoor seed set: backend/seed/data/*.json (DECISIONS.md #17).
+"""Generate the CIRQO seed set: backend/seed/data/*.json (DECISIONS.md #17).
 
 Meets every requirement in BACKEND_CONTRACT.md section 9 and stays consistent with shared/mock/:
 the catalog, owners, sources, the example answers, claims, incidents, audit entries and the
