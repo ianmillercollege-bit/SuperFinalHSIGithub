@@ -35,6 +35,12 @@
       "name": "BudgetBench Reviews",
       "domain": "budgetbench.example.com",
       "type": "review_site"
+    },
+    {
+      "sourceId": "src_brand",
+      "name": "Kestrel Verified Feed (CIRQO Verified Data Layer)",
+      "domain": "feed.cirqo.example",
+      "type": "brand_site"
     }
   ]
 }

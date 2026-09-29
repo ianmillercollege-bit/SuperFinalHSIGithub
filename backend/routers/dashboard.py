@@ -9,7 +9,7 @@ from db import Answer, Assistant, Brand, Claim, Product, get_db
 from ids import next_id
 from schemas import (AnswersOut, CheckerRunIn, CheckerRunOut, ClaimsOut, ProductsOut, ReportOut, SourcesOut,
                      TrustOut, VisibilityOut)
-from services import metrics
+from services import ai_client, metrics
 from services.ai_client import source_label
 from services.checker import Catalog, brand_mentions, run_on_answer
 from timeutil import now_iso
@@ -100,8 +100,12 @@ def checker_run(body: CheckerRunIn, db=Depends(get_db)):
         db.add(answer)
         db.flush()
 
-    claims, created = run_on_answer(db, answer)
-    return {"answerId": answer.answer_id, "claims": claims, "incidentsCreated": created, "source": source_label()}
+    # AI (when MOCK_MODE=false) only extracts claims; plain code judges them (contract section 3).
+    extracted, source, extracted_by = ai_client.extract(answer.answer_text, Catalog(db))
+    if not has_id:
+        answer.source = source
+    claims, created = run_on_answer(db, answer, extracted, extracted_by)
+    return {"answerId": answer.answer_id, "claims": claims, "incidentsCreated": created, "source": source}
 
 
 @router.get("/claims", response_model=ClaimsOut)

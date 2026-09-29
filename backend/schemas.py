@@ -5,7 +5,7 @@ Python uses snake_case; JSON uses camelCase (section 1).
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.alias_generators import to_camel
 
 Source = Literal["live", "mock", "fallback"]
@@ -157,6 +157,47 @@ class RecommendOut(CamelModel):
     source: Source
 
 
+# ---- Connector (v1.1) -------------------------------------------------------------------------
+
+
+class ConnectorConstraints(CamelModel):
+    max_price: float | None = Field(None, gt=0)
+    use_case: Literal["school", "work", "travel", "media"] | None = None
+    must_have: list[Literal["battery", "light", "screen", "touch"]] = []
+
+
+class ConnectorQueryIn(CamelModel):
+    question: str
+    assistant_id: str
+    constraints: ConnectorConstraints | None = None
+
+
+class ConnectorRecommendation(CamelModel):
+    product_id: str
+    name: str
+    brand_name: str
+    price: float
+    currency: str
+    availability: Availability
+    match_score: float
+    return_policy_days: int
+    facts: list[Reason]
+    verified_at: str
+
+
+class ConnectorQueryOut(CamelModel):
+    answer_id: str
+    question: str
+    assistant_id: str
+    recommendation: ConnectorRecommendation | None
+    alternatives: list[Alternative]
+    answer_text: str
+    claims: list[ClaimOut]
+    ranking_note: str
+    verified_at: str
+    source: Source
+
+
 # ---- Products, visibility, answers, sources -------------------------------------------------
 
 
@@ -305,7 +346,7 @@ class AuditOut(CamelModel):
     actor: str
     actor_type: Literal["system", "human", "ai"]
     action: Literal["claim_extracted", "claim_checked", "incident_created", "auto_fix_applied", "approved",
-                    "rejected", "escalated", "resolved"]
+                    "rejected", "escalated", "resolved", "connector_query"]
     target_id: str
     details: str
 

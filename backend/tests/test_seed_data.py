@@ -67,8 +67,13 @@ def test_assistants_are_fictional_and_simulated(seed):
 
 
 def test_sources(seed):
-    assert len(seed["sources"]) == 6
-    assert {s["type"] for s in seed["sources"]} == {"review_site", "marketplace", "brand_site", "forum", "news"}
+    # Section 9: 6 sources covering every type. Section 7 (v1.1) adds src_brand, the brand's verified feed.
+    third_party = [s for s in seed["sources"] if s["sourceId"] != "src_brand"]
+    assert len(third_party) == 6
+    assert {s["type"] for s in third_party} == {"review_site", "marketplace", "brand_site", "forum", "news"}
+    assert [s["type"] for s in seed["sources"] if s["sourceId"] == "src_brand"] == ["brand_site"]
+    # Seeded third-party answers never cite the brand's own feed; only connector answers do.
+    assert not any("src_brand" in a["sourceIds"] for a in seed["answers"])
 
 
 def test_owners(seed):
