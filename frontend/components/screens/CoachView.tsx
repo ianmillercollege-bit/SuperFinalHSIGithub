@@ -2,8 +2,12 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { PageHeader } from './ui';
+import type { ActionItem, CoachMode } from '../../lib/coach/types';
 
-export interface ChatMessage { id: string; role: 'user' | 'coach'; text: string; sources?: string[] }
+export interface ChatMessage {
+  id: string; role: 'user' | 'coach'; text: string; sources?: string[];
+  actions?: ActionItem[]; meta?: { mode: CoachMode; verified: boolean; note?: string };
+}
 export interface CoachViewProps {
   banner: string;                       // "Demo: pre-written answers, not a live AI."
   messages: ChatMessage[];
@@ -34,12 +38,19 @@ export default function CoachView({ banner, messages, suggestions, sending, erro
               : (
                 <div key={m.id} className="cq-bubble is-bot">
                   {m.text}
+                  {m.meta?.mode === 'live' && m.meta.verified && <div style={{ marginTop: 8 }}><span className="cq-pill is-ok is-md">AI-generated · numbers checked</span></div>}
+                  {m.meta?.mode === 'fallback' && <div style={{ marginTop: 8 }} className="cq-note is-warn">{m.meta.note ?? 'Built-in answer.'}</div>}
+                  {m.actions && m.actions.length > 0 && (
+                    <ol className="cq-mini-actions">
+                      {m.actions.map((a) => <li key={a.id}><b>{a.title}</b><span>{a.expectedImpact} · {a.effort} effort</span><span>First step: {a.steps[0]}</span></li>)}
+                    </ol>
+                  )}
                   {m.sources && m.sources.length > 0 && (
                     <div><div className="cq-sub" style={{ marginTop: 10, fontWeight: 600 }}>Sources used</div><div className="cq-chips-inline">{m.sources.map((s) => <span key={s} className="cq-source">{s}</span>)}</div></div>
                   )}
                 </div>
               ))}
-            {sending && <div className="cq-typing">Coach is typing...</div>}
+            {sending && <div className="cq-typing">Analyzing your dashboard data...</div>}
             {error && <div className="cq-note" role="alert" style={{ background: 'var(--cq-bad-bg)', color: 'var(--cq-bad)' }}>{error} {onRetry && <button type="button" className="cq-btn is-quiet" onClick={onRetry}>Retry</button>}</div>}
             <div ref={end} />
           </div>

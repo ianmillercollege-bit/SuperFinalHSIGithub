@@ -25,7 +25,7 @@ type Job = { kind: "query"; body: ConnectorQueryRequest } | { kind: "search"; bo
 
 /** What an AI assistant gets back from POST /api/v1/connector/query (contract v1.1), shown in the kit's chat view. */
 export default function AssistantSimulator() {
-  const summary = useApi(useCallback(() => getVisibilitySummary(), []));
+  const summary = useApi(useCallback(() => getVisibilitySummary(30), []));
   const [turns, setTurns] = useState<SimTurn[]>([]);
   const [sending, setSending] = useState(false);
   // The request behind each turn, so Retry can send the same thing again.

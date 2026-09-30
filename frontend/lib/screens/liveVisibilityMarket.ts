@@ -32,7 +32,7 @@ export function liveVisibilityProps(summary: VisibilitySummary, answers: Answer[
   const stats: StatData[] = [
     { id: "freq", label: "Recommendation frequency", value: pct(summary.visibilityRate), note: `Share of tracked answers naming ${summary.brandName}, last ${summary.periodDays} days` },
     { id: "tested", label: "Questions tested", value: String(byQuestion.size), note: `Across ${assistants.length} AI assistants` },
-    { id: "missed", label: "Answers that missed you", value: String(missed), note: `Out of ${answers.length} recent answers` },
+    { id: "missed", label: "Answers that missed you", value: String(missed), note: `Out of ${answers.length} recorded answers` },
     { id: "best", label: "Strongest assistant", value: best?.name ?? "None yet", note: best ? `Named you in ${pct(best.visibilityRate)} of answers` : "No assistants tracked yet" },
   ];
   return { stats, assistants, prompts, reasons: [], missedTotal: missed, hiddenQuestions: byQuestion.size - prompts.length };

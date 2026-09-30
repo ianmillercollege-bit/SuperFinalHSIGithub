@@ -7,6 +7,7 @@ import { ErrorNotice, Loading } from "@/components/LoadState";
 import CheckerView from "@/components/screens/CheckerView";
 import type { CheckerResultData, FieldSpec } from "@/components/screens/CheckerView";
 import { getAnswers, getIncident, getVisibilitySummary, runChecker } from "@/lib/api";
+import { ANSWERS_LIMIT } from "@/lib/dashboard/liveVisibility";
 import { canAct, useUserSession } from "@/lib/auth/userSession";
 import { describeError } from "@/lib/errors";
 import { notifyIncidentsChanged } from "@/lib/events";
@@ -19,8 +20,8 @@ const NO_ANSWER = "None (I will paste an answer)";
 
 /** File a Claim = POST /api/v1/checker/run (DECISIONS.md #27, contract section 7). */
 export default function FileClaim() {
-  const summary = useApi(useCallback(() => getVisibilitySummary(), []));
-  const answers = useApi(useCallback(() => getAnswers({ limit: 50 }), []));
+  const summary = useApi(useCallback(() => getVisibilitySummary(30), []));
+  const answers = useApi(useCallback(() => getAnswers({ limit: ANSWERS_LIMIT }), []));
   const params = useSearchParams();
   const session = useUserSession();
   const canFile = canAct(session);

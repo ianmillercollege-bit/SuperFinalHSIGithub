@@ -61,7 +61,7 @@ function Chips<T extends string | number>({ options, value, onChange, format }: 
   );
 }
 
-function WeeklyCard({ scores }: { scores: number[] }) {
+function WeeklyCard({ scores, badge }: { scores: number[]; badge?: string }) {
   const options = ([4, 8] as const).filter((n) => scores.length >= n);
   const [weeks, setWeeks] = useState<number>(options.length ? options[options.length - 1] : scores.length);
   const shown = options.length ? scores.slice(-weeks) : scores;
@@ -69,6 +69,7 @@ function WeeklyCard({ scores }: { scores: number[] }) {
     <div className="cq-card cq-card-col cq-flex1">
       <div className="cq-chart-head">
         <h2 className="cq-h2">Weekly visibility score</h2>
+        {badge && <span className="cq-pill is-warn is-badge">{badge}</span>}
         {options.length > 1 && <Chips options={[...options]} value={weeks} onChange={setWeeks} format={(n) => `${n} weeks`} />}
       </div>
       <TrendChart values={shown} kind="score" startLabel={`${shown.length} weeks ago`} endLabel="This week"
@@ -226,7 +227,7 @@ export default function DashboardView({ vm, headerRight, afterOpportunities, aft
 
       {hasCharts && (
         <div className="cq-row">
-          {vm.weeklyScores && vm.weeklyScores.length > 1 && <WeeklyCard scores={vm.weeklyScores} />}
+          {vm.weeklyScores && vm.weeklyScores.length > 1 && <WeeklyCard scores={vm.weeklyScores} badge={vm.weeklyBadge} />}
           {vm.trust && vm.trust.series.length > 0 && <TrustCard series={vm.trust.series} badge={vm.trust.badge} />}
         </div>
       )}

@@ -15,7 +15,9 @@ const PAGE_SIZE = 25;
 export default function Companies() {
   const { user } = useUserSession();
   const [page, setPage] = useState(0);
-  const brands = useApi(useCallback(() => getBrands(), []));
+  // Only CIRQO Staff can list companies (a guest gets a 401), so nobody else asks.
+  const isStaff = Boolean(user?.staff);
+  const brands = useApi(useCallback(() => (isStaff ? getBrands() : Promise.resolve({ brands: [] })), [isStaff]));
   const rows = useMemo(
     () => [...(brands.data?.brands ?? [])].sort((a, b) => b.escalatedIncidents - a.escalatedIncidents || b.openIncidents - a.openIncidents || a.brandName.localeCompare(b.brandName)),
     [brands.data],
