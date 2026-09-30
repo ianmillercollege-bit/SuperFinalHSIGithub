@@ -1871,3 +1871,18 @@ aside.cq-sidebar .cq-lockup-sub {
   padding-left: 0.4em;
   text-align: center;
 }
+
+/* ---- Profile: a ticked assistant reads "Connected" with a green accent ---- */
+:root {
+  --connected-green: #1a9d5c;   /* 3.4:1 on white: enough for the border and the checkbox */
+}
+:root[data-theme="dark"] {
+  --connected-green: #3ecf8e;
+}
+.cq-tiles .cq-tile.is-on {
+  border-color: var(--connected-green);
+  background: var(--cq-ok-bg);
+}
+.cq-tiles .cq-tile.is-on input {
+  accent-color: var(--connected-green);
+}

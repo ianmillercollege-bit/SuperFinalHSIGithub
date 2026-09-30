@@ -9,4 +9,8 @@ import type { AssistantId } from './types';
 //      chatgpt: '/brand/assistants/chatgpt.svg',
 //      gemini: '/brand/assistants/gemini.svg',
 // Paths are used as-is in an <img>. A path that fails to load falls back to the monogram, so nothing breaks.
-export const ASSISTANT_LOGOS: Partial<Record<AssistantId, string>> = {};
+export const ASSISTANT_LOGOS: Partial<Record<AssistantId, string>> = {
+  claude: '/brand/assistants/claude.jpg',
+  chatgpt: '/brand/assistants/chatgpt.png',
+  gemini: '/brand/assistants/gemini.png',
+};
