@@ -23,7 +23,7 @@ export const NAV: NavGroup[] = [
       { label: "AI Visibility", href: "/visibility" },
       { label: "Market Position", href: "/market" },
       // Sample-only pages allowed by DECISIONS.md #28: frontend sample data about the demo business.
-      { label: "Assistant Simulator", href: "/assistant-simulator" },
+      { label: "Preview as shopper", href: "/preview" },
       { label: "Growth Simulator", href: "/growth-simulator" },
       { label: "AI Coach", href: "/coach" },
     ],

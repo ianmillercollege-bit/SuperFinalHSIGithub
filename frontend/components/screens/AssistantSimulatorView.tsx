@@ -16,12 +16,14 @@ export interface AssistantSimulatorViewProps {
   turns: SimTurn[]; sending?: boolean;
   onSend: (v: SimulatorSend) => void; onClear: () => void; onRetry?: (turnId: string) => void;
   headerRight?: ReactNode;
+  title?: string; eyebrow?: string;   // added locally: the page is named "Preview as shopper" (DECISIONS.md #32)
+  intro?: ReactNode;                  // added locally: a short note under the header
 }
 
 const CheckIcon = () => <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 const FACT = { checked: { tone: 'ok', label: 'Checked' }, failed: { tone: 'bad', label: 'Not verified' }, removed: { tone: 'warn', label: 'Removed' } } as const;
 
-export default function AssistantSimulatorView({ defaultQuestion, maxLength = 500, assistants, useCases, mustHaves, defaultUseCase, turns, sending, onSend, onClear, onRetry, headerRight }: AssistantSimulatorViewProps) {
+export default function AssistantSimulatorView({ defaultQuestion, maxLength = 500, assistants, useCases, mustHaves, defaultUseCase, turns, sending, onSend, onClear, onRetry, headerRight, title = 'Assistant simulator', eyebrow = 'See what an AI assistant would say, verified', intro }: AssistantSimulatorViewProps) {
   const initUse = defaultUseCase ?? useCases[0]?.value ?? '';
   const [question, setQuestion] = useState(defaultQuestion);
   const [assistant, setAssistant] = useState(assistants[0]?.value ?? '');
@@ -34,7 +36,8 @@ export default function AssistantSimulatorView({ defaultQuestion, maxLength = 50
 
   return (
     <>
-      <PageHeader eyebrow="See what an AI assistant would say, verified" title="Assistant simulator" right={headerRight} />
+      <PageHeader eyebrow={eyebrow} title={title} right={headerRight} />
+      {intro}
       <div className="cq-row cq-top">
         <div className="cq-card cq-flex3 cq-col">
           <div className="cq-chat" role="log" aria-live="polite" aria-label="Simulator conversation">

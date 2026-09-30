@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
 import { ErrorNotice, Loading } from "@/components/LoadState";
 import AssistantSimulatorView from "@/components/screens/AssistantSimulatorView";
@@ -76,6 +77,14 @@ export default function AssistantSimulator() {
       useCases={[...CONNECTOR_USE_CASES]}
       mustHaves={[...CONNECTOR_MUST_HAVES]}
       defaultUseCase="school"
+      title="Preview as shopper"
+      eyebrow="What a shopper's AI assistant answers from your verified catalog"
+      intro={
+        <p className="cq-line">
+          Check a launch, see why a competitor wins a question, or reproduce a complaint. Shoppers never see this page. Every preview is
+          recorded and appears in <Link className="link" href="/visibility">AI Visibility</Link>.
+        </p>
+      }
       turns={turns}
       sending={sending}
       onSend={send}
