@@ -36,5 +36,11 @@ def shift_iso(value: str | None, days: int) -> str | None:
     return to_iso(parse_iso(value) + timedelta(days=days))
 
 
+def shift_iso_seconds(value: str | None, seconds: float) -> str | None:
+    if value is None or seconds == 0:
+        return value
+    return to_iso(parse_iso(value) + timedelta(seconds=seconds))
+
+
 def shift_date(value: str, days: int) -> str:
     return (date.fromisoformat(value) + timedelta(days=days)).isoformat()

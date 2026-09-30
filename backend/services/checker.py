@@ -4,6 +4,7 @@ The AI never judges facts. In mock mode, claims are also *extracted* with plain 
 keyword rules. Every status, severity and handling decision below is ordinary code.
 """
 
+import math
 import re
 from dataclasses import dataclass, field
 
@@ -12,6 +13,8 @@ from sqlalchemy import select
 import constants as C
 from db import Answer, Assistant, AuditEntry, Brand, Claim, Incident, Owner, Product
 from ids import next_id
+from services.activity import record_activity
+from services.scope import brand_of_target
 from timeutil import now_iso
 
 # ---------------------------------------------------------------------------------------------
@@ -111,6 +114,20 @@ AVAILABILITY_PATTERNS = [
 ]
 
 
+def before(text: str, end: int, window: int = 40) -> str:
+    """The few words just before a match. Qualifiers like "under" sit right there, and looking at
+    only this window keeps extraction fast on very long sentences."""
+    return text[max(0, end - window):end]
+
+
+def usable_number(value) -> bool:
+    """True for a real, finite number. "9" * 400 is infinity as a float and cannot be checked."""
+    try:
+        return math.isfinite(float(value))
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
 def find_products(sentence: str, catalog: Catalog) -> tuple[list[str], str]:
     """Product IDs in order of appearance, and the sentence with those names masked out."""
     found, masked = [], sentence
@@ -170,8 +187,10 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
 
         # 4. Facts about a known product.
         for m in PRICE.finditer(masked):
-            if BUDGET_WORDS.search(masked[:m.start()]):
+            if BUDGET_WORDS.search(before(masked, m.start())):
                 continue  # "under $500" is a budget, not a price claim
+            if not usable_number(m.group(1).replace(",", "")):
+                continue  # a number too big to be a real price cannot be checked
             claims.append(Extracted(sentence, "price", "price", subject, value=m.group(1).replace(",", "")))
         for status, pattern in AVAILABILITY_PATTERNS:
             if pattern.search(masked):
@@ -182,12 +201,14 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
             claims.append(Extracted(sentence, "policy", "policy", subject, value=int(m.group(1) or m.group(2))))
         for attr, pattern, _ in SPEC_PATTERNS:
             m = pattern.search(masked)
-            if not m or SPEC_QUALIFIER.search(masked[:m.start()]):
+            if not m or SPEC_QUALIFIER.search(before(masked, m.start())):
                 continue  # "under 3 lb" is a range, not a stated value
             if attr == "storageGb":
                 value = float(m.group(1)) * (1024 if m.group(2).upper() == "TB" else 1)
             else:
                 value = float(m.group(1))
+            if not usable_number(value):
+                continue  # too big to be a real spec
             claims.append(Extracted(sentence, "feature", "spec", subject, value=value, attr=attr))
         if NO_TOUCH.search(masked):
             claims.append(Extracted(sentence, "feature", "spec", subject, value=False, attr="touchscreen"))
@@ -286,9 +307,10 @@ def check(c: Extracted, catalog: Catalog) -> Result:
     if c.kind == "spec":
         label = SPEC_LABELS[c.attr]
         fid = fact_id(p.product_id, c.attr)
-        if c.attr not in p.specs:
-            return Result("incorrect", "INVENTED_FEATURE", str(c.value), None, None,
-                          f"The verified spec sheet has no {label}.")
+        if p.specs.get(c.attr) is None:
+            # No verified value on file (onboarded products may omit specs): nothing to judge against.
+            return Result("unverifiable", "NO_FACT", str(c.value).lower() if isinstance(c.value, bool) else num(c.value),
+                          None, None, f"No verified {label} on file for this product.")
         verified = p.specs[c.attr]
         if c.attr == "touchscreen":
             ext, ver = str(c.value).lower(), str(verified).lower()
@@ -319,7 +341,8 @@ def check(c: Extracted, catalog: Catalog) -> Result:
 def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[str, str]:
     if rule_id in C.PRICE_RULES:
         pct = pct_off or 0.0
-        severity = next(sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit)
+        # Anything beyond the last band (including an infinite or NaN gap) is "high".
+        severity = next((sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit), "high")
         return severity, ("human_approval" if severity == "high" else "auto_fix")
     return C.SEVERITY_AND_HANDLING[rule_id]
 
@@ -331,12 +354,15 @@ def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[s
 
 def audit(db, actor: str, actor_type: str, action: str, target_id: str, details: str, at: str | None = None):
     db.add(AuditEntry(audit_id=next_id(db, AuditEntry.audit_id, "aud"), timestamp=at or now_iso(), actor=actor,
-                      actor_type=actor_type, action=action, target_id=target_id, details=details))
+                      actor_type=actor_type, action=action, target_id=target_id, details=details,
+                      brand_id=brand_of_target(db, target_id)))  # v1.3: the entry follows its target's brand
     db.flush()
 
 
-def owner_for(db, rule_id: str) -> Owner:
-    owners = db.scalars(select(Owner).order_by(Owner.owner_id)).all()
+def owner_for(db, rule_id: str, brand_id: str = C.DEFAULT_BRAND_ID) -> Owner:
+    """The brand's owner for this rule; if none covers it, the brand's first owner (v1.3 section 7b)."""
+    owners = db.scalars(select(Owner).where(Owner.brand_id == brand_id).order_by(Owner.owner_id)).all() or \
+        db.scalars(select(Owner).order_by(Owner.owner_id)).all()
     return next((o for o in owners if rule_id in o.incident_types), owners[0])
 
 
@@ -385,7 +411,10 @@ def describe(c: Extracted, r: Result, product: Product | None, assistant: str) -
 def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistant_name: str) -> Incident:
     severity, handling = severity_and_handling(r.rule_id, r.pct_off)
     summary, ai_said, verified_fact, fix = describe(c, r, product, assistant_name)
-    owner = owner_for(db, r.rule_id)
+    # v1.3: the incident belongs to the brand that owns the product mentioned, else the answer's brand.
+    answer = db.get(Answer, claim.answer_id)
+    brand_id = product.brand_id if product else (answer.brand_id if answer and answer.brand_id else C.DEFAULT_BRAND_ID)
+    owner = owner_for(db, r.rule_id, brand_id)
     created = now_iso()
     status = {"auto_fix": "auto_fixed", "human_approval": "pending_approval", "escalate": "escalated"}[handling]
     incident = Incident(
@@ -393,7 +422,8 @@ def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistan
         product_id=claim.product_id, rule_id=r.rule_id, severity=severity, handling=handling, status=status,
         summary=summary, ai_said=ai_said, verified_fact=verified_fact, proposed_fix=None if handling == "escalate" else fix,
         owner_id=owner.owner_id, owner_name=owner.name, false_alarm=False, created_at=created,
-        resolved_at=created if handling == "auto_fix" else None, resolved_by="system" if handling == "auto_fix" else None)
+        resolved_at=created if handling == "auto_fix" else None, resolved_by="system" if handling == "auto_fix" else None,
+        brand_id=brand_id)
     db.add(incident)
     db.flush()
     audit(db, "system", "system", "incident_created", incident.incident_id,
@@ -423,9 +453,14 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
         extracted = extract_claims(answer.answer_text, catalog)
     actor, actor_type = extracted_by
     how = "by the AI model (extraction only)" if actor_type == "ai" else "with plain regex and keyword rules"
-    audit(db, actor, actor_type, "claim_extracted", answer.answer_id, f"Extracted {len(extracted)} claim(s) {how}.")
+    found, limit_note = len(extracted), ""
+    if found > C.MAX_CLAIMS_PER_ANSWER:  # keeps one request from tying up the server
+        limit_note = f" Only the first {C.MAX_CLAIMS_PER_ANSWER} were checked."
+        extracted = extracted[:C.MAX_CLAIMS_PER_ANSWER]
+    audit(db, actor, actor_type, "claim_extracted", answer.answer_id,
+          f"Extracted {found} claim(s) {how}.{limit_note}")
 
-    new_incidents = []
+    new_incidents, new_claims, opened = [], [], []
     for c in extracted:
         if (c.text.strip().lower(), c.claim_type) in seen:
             continue  # already checked when the answer was first captured
@@ -437,11 +472,15 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
                       rule_id=r.rule_id, fact_id=r.fact_id, reason=r.reason, checked_at=now_iso())
         db.add(claim)
         db.flush()
+        new_claims.append(claim)
         audit(db, "system", "system", "claim_checked", claim.claim_id, f"{r.rule_id or 'correct'}: {r.reason}")
         if r.rule_id and r.rule_id not in C.RULES_WITHOUT_INCIDENT:
             product = catalog.by_id.get(c.product_id) if c.product_id else None
-            new_incidents.append(create_incident(db, claim, c, r, product, assistant_name).incident_id)
+            incident = create_incident(db, claim, c, r, product, assistant_name)
+            new_incidents.append(incident.incident_id)
+            opened.append(incident)
 
+    record_activity(db, new_claims, opened)  # today's trend point moves with real use
     db.commit()
     claims = db.scalars(select(Claim).where(Claim.answer_id == answer.answer_id).order_by(Claim.claim_id)).all()
     return claims, new_incidents

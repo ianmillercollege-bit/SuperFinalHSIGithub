@@ -30,6 +30,8 @@ import type {
   LoginRequest,
   LoginResponse,
   DemoAccountsResponse,
+  OnboardRequest,
+  OnboardResponse,
   ConnectorQueryResponse,
   ClaimFilters,
   ClaimsResponse,
@@ -85,6 +87,7 @@ export const MOCK_FILES = {
   demoAccounts: "demo_accounts",
   /** v1.4. No file in shared/mock/, so mock mode reports NOT_FOUND. */
   authLogin: "auth_login",
+  brandsOnboard: "brands_onboard",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -249,6 +252,12 @@ export function login(body: LoginRequest): Promise<LoginResponse> {
 // POST /api/v1/auth/logout  (v1.4). Best effort: the browser forgets the token either way.
 export function logoutRequest(): Promise<{ ok: boolean }> {
   return request("POST", "/api/v1/auth/logout", {}, {}, MOCK_FILES.authLogin);
+}
+
+// POST /api/v1/brands/onboard  (v1.3: "Connect your catalog"). 201 on success; 409 CONFLICT for a
+// duplicate brand name; 422 VALIDATION_ERROR. Nothing is stored in mock mode, so it always fails there.
+export function onboardBrand(body: OnboardRequest): Promise<OnboardResponse> {
+  return request("POST", "/api/v1/brands/onboard", {}, body, MOCK_FILES.brandsOnboard);
 }
 
 // GET /api/v1/owners

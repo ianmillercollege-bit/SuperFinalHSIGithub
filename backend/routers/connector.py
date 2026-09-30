@@ -14,14 +14,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 
 import constants as C
-from db import Answer, Assistant, Brand, Claim, DailyMetric, Product, get_db
+from db import Answer, Assistant, Brand, Claim, Product, get_db
 from ids import next_id
 from routers.shopper import reasons_for, to_rankable
 from schemas import ConnectorQueryIn, ConnectorQueryOut
 from services.ai_client import source_label
-from services.checker import Catalog, audit, brand_mentions, check, extract_claims, human_availability, num
+from services.checker import (Catalog, audit, brand_mentions, check, extract_claims, human_availability, num,
+                              usable_number)
+from services.activity import record_activity
 from services.ranking import rank
-from timeutil import now_iso, today
+from timeutil import now_iso
 
 router = APIRouter(prefix="/connector", tags=["Connector"])
 
@@ -38,21 +40,21 @@ def manifest() -> dict:
 def price_from_question(question: str) -> float | None:
     m = DOLLARS.search(question)
     value = float(m.group(1).replace(",", "")) if m else None
-    return value if value and value > 0 else None
+    # A number too big to be a price ("$999...9") is ignored rather than used as a budget.
+    return value if value and value > 0 and usable_number(value) else None
 
 
 def compose_sentences(top: Product, brand: str, alternatives: list[Product], must_have: list[str]) -> list[str]:
     """The answer, one verifiable fact per sentence, from the verified catalog only."""
-    s, name = top.specs, top.name
+    s, name = {k: v for k, v in top.specs.items() if v is not None}, top.name  # only facts on file
     sentences = [
-        f"Based on verified data, the {name} (${top.price:.2f}, {human_availability(top.availability)}) fits best.",
-        f"The {name} is rated for {num(s['batteryHours'])} hours of battery life.",
-        f"The {name} weighs {num(s['weightLb'])} lb.",
-        f"The {name} has {num(s['ramGb'])} GB of RAM.",
-        f"The {name} comes with {num(s['storageGb'])} GB of storage.",
-        f"The {name} has a {num(s['screenInches'])}-inch display.",
-    ]
-    if "touch" in must_have:
+        f"Based on verified data, the {name} (${top.price:.2f}, {human_availability(top.availability)}) fits best."]
+    templates = [("batteryHours", "The {name} is rated for {v} hours of battery life."),
+                 ("weightLb", "The {name} weighs {v} lb."), ("ramGb", "The {name} has {v} GB of RAM."),
+                 ("storageGb", "The {name} comes with {v} GB of storage."),
+                 ("screenInches", "The {name} has a {v}-inch display.")]
+    sentences += [t.format(name=name, v=num(s[key])) for key, t in templates if key in s]
+    if "touch" in must_have and "touchscreen" in s:
         sentences.append(f"The {name} has a touchscreen." if s["touchscreen"] else f"The {name} has no touchscreen.")
     sentences.append(f"{brand} offers a {top.return_policy_days}-day return policy on the {name}.")
     for alt in alternatives:
@@ -66,21 +68,6 @@ def no_match_sentence(max_price: float | None, use_case: str | None, must_have: 
     suffix = f" ({', '.join(details)})" if details else ""
     return (f"No product in the verified catalog matches this request{suffix}. "
             "CIRQO does not guess when verified data has no match.")
-
-
-def record_in_daily_metrics(db, claims: list[Claim]) -> None:
-    """Fold today's checked claims into today's trust-metric row (accuracy and hallucination are re-weighted)."""
-    row = db.get(DailyMetric, today().isoformat())
-    if row is None or not claims:
-        return
-    n, k = row.claims_checked, len(claims)
-    judged = [c for c in claims if c.status != "unverifiable"]
-    correct = sum(c.status == "correct" for c in judged)
-    invented = sum(c.rule_id == "INVENTED_FEATURE" for c in claims)
-    if judged:
-        row.accuracy_rate = round((row.accuracy_rate * n + correct) / (n + len(judged)), 3)
-    row.hallucination_rate = round((row.hallucination_rate * n + invented) / (n + k), 3)
-    row.claims_checked = n + k
 
 
 @router.post("/query", response_model=ConnectorQueryOut)
@@ -139,7 +126,7 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
         db.add(claim)
         db.flush()
         claims.append(claim)
-    record_in_daily_metrics(db, claims)
+    record_activity(db, claims)  # today's trend point for each product's brand
 
     picked = f"recommended the {top.name}" if top else "found no matching product"
     audit(db, assistant.name, "ai", "connector_query", answer.answer_id,

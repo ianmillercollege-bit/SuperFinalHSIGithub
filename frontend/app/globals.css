@@ -1726,3 +1726,55 @@ details > summary {
     margin: 0 24px 24px;
   }
 }
+
+/* ---- Connect your catalog ---- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.file-button {
+  position: relative;
+  cursor: pointer;
+}
+
+.file-button input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-button:focus-within {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+.key-box {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--bg-raised);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  user-select: all;
+}
+
+.notes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+}
+
+.table-wrap td input,
+.table-wrap td select {
+  width: 100%;
+  min-width: 90px;
+}

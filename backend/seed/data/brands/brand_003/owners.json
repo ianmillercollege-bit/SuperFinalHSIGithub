@@ -1,0 +1,26 @@
+{
+  "owners": [
+    {
+      "ownerId": "own_06",
+      "name": "Lena Ortiz",
+      "role": "Brand Data Owner",
+      "incidentTypes": [
+        "PRICE_MISMATCH",
+        "PRICE_OUTDATED",
+        "AVAILABILITY_MISMATCH",
+        "SPEC_MISMATCH",
+        "POLICY_MISMATCH"
+      ]
+    },
+    {
+      "ownerId": "own_07",
+      "name": "Marcus Webb",
+      "role": "CIRQO Trust and Safety Lead",
+      "incidentTypes": [
+        "INVENTED_FEATURE",
+        "UNFAIR_COMPARISON",
+        "SAFETY_LEGAL"
+      ]
+    }
+  ]
+}

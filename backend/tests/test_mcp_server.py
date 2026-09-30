@@ -1,9 +1,10 @@
-"""backend/mcp_server.py: the stdio MCP server that wraps POST /api/v1/connector/query.
+"""backend/mcp_server.py: the stdio MCP server that wraps POST /api/v1/connector/search and /query.
 
-The HTTP call is mocked with httpx.MockTransport, so nothing here touches the network or needs an AI key.
+Both HTTP calls are mocked with httpx.MockTransport, so nothing here touches the network or needs an AI key.
 """
 
 import asyncio
+import copy
 import json
 import sys
 from pathlib import Path
@@ -17,51 +18,226 @@ from mcp import ClientSession
 from mcp.client.stdio import StdioServerParameters, stdio_client
 from mcp.server.mcpserver.exceptions import ToolError
 
+API = "https://frontdoor-api-hiel.onrender.com"
 QUERY = {"question": "What is the best laptop under $500 for school?", "assistantId": "ast_01",
          "constraints": {"maxPrice": 500, "useCase": "school", "mustHave": ["battery", "light"]}}
+SEARCH = {"question": "I want headphones for the gym", "assistantId": "ast_01",
+          "constraints": {"category": "headphones", "maxPrice": 150, "mustHave": ["wireless"]}}
 
 
 @pytest.fixture
 def mock_api(monkeypatch):
-    """Replace the network with a fake CIRQO. Returns the requests seen, and lets a test choose the reply."""
+    """Replace the network with a fake CIRQO that serves both connector endpoints.
+
+    Returns the requests seen and a dict of replies keyed by path, so a test can change either reply.
+    """
     seen = []
-    reply = {"status": 200, "json": load_mock("connector_query.json")}
+    replies = {
+        mcp_server.SEARCH_PATH: {"status": 200, "json": load_mock("connector_search.json")},
+        mcp_server.QUERY_PATH: {"status": 200, "json": load_mock("connector_query.json")},
+    }
 
     def handler(request: httpx.Request) -> httpx.Response:
         seen.append(request)
+        reply = replies[request.url.path]
         return httpx.Response(reply["status"], json=reply["json"])
 
     def fake_client():
         return httpx.AsyncClient(base_url=mcp_server.api_url(), transport=httpx.MockTransport(handler))
 
     monkeypatch.setattr(mcp_server, "make_client", fake_client)
-    return seen, reply
+    return seen, replies
 
 
-def call(arguments: dict):
-    return asyncio.run(mcp_server.server.call_tool("cirqo_query", arguments))
+def call(tool: str, arguments: dict):
+    return asyncio.run(mcp_server.server.call_tool(tool, arguments))
 
 
-def test_exposes_one_tool_with_the_connector_schema():
-    tools = asyncio.run(mcp_server.server.list_tools())
-    assert [t.name for t in tools] == ["cirqo_query"]
-    schema = tools[0].input_schema
-    assert schema["required"] == ["question", "assistantId"]
-    assert set(schema["properties"]) == {"question", "assistantId", "constraints"}
-    constraints = schema["$defs"]["Constraints"]["properties"]
-    assert set(constraints) == {"maxPrice", "useCase", "mustHave"}
+def tool_schemas() -> dict:
+    return {t.name: t for t in asyncio.run(mcp_server.server.list_tools())}
 
+
+# --- tool list and descriptions -------------------------------------------------------------------------------
+
+def test_exposes_search_and_query_tools():
+    tools = tool_schemas()
+    assert list(tools) == ["cirqo_search", "cirqo_query"]
+
+    query = tools["cirqo_query"].input_schema
+    assert query["required"] == ["question", "assistantId"]
+    assert set(query["properties"]) == {"question", "assistantId", "constraints"}
+    assert set(query["$defs"]["Constraints"]["properties"]) == {"maxPrice", "useCase", "mustHave"}
+
+    search = tools["cirqo_search"].input_schema
+    assert search["required"] == ["question", "assistantId"]
+    assert set(search["properties"]) == {"question", "assistantId", "constraints"}
+    search_constraints = search["$defs"]["SearchConstraints"]["properties"]
+    assert set(search_constraints) == {"category", "maxPrice", "useCase", "mustHave"}
+    assert set(search_constraints["category"]["anyOf"][0]["enum"]) == {
+        "laptops", "headphones", "smart_home", "monitors", "accessories"}
+
+
+def test_descriptions_teach_the_funnel():
+    """An assistant only sees the descriptions and instructions, so the funnel must be spelled out there."""
+    tools = tool_schemas()
+    search, query = tools["cirqo_search"].description, tools["cirqo_query"].description
+    assert "FIRST" in search and "narrowingHints" in search and "ONE hint question" in search
+    assert "one or two options" in search and "cirqo_query" in search
+    assert "never invent" in search.lower()
+    assert "one pick" in query and "after cirqo_search" in query
+    assert "neutral-ranking" in query and "Never add a fact" in query
+
+    instructions = mcp_server.server.instructions
+    assert "Start with cirqo_search" in instructions
+    assert "ONE hint question at a time" in instructions
+    assert "cirqo_search again" in instructions
+    assert "one or two options remain" in instructions and "cirqo_query" in instructions
+    assert "Never state a fact that is not in the results" in instructions
+
+
+# --- cirqo_search --------------------------------------------------------------------------------------------
+
+def test_search_posts_to_connector_and_returns_options_and_hints(mock_api):
+    seen, _ = mock_api
+    result = call("cirqo_search", SEARCH)
+    assert not result.is_error
+
+    assert len(seen) == 1
+    req = seen[0]
+    assert req.method == "POST"
+    assert str(req.url) == f"{API}/api/v1/connector/search"
+    assert json.loads(req.content) == SEARCH
+
+    expected = load_mock("connector_search.json")
+    out = result.structured_content
+    assert out["searchId"] == "srch_12"
+    assert out["category"] == "headphones"
+    assert out["optionCount"] == 5
+    assert out["options"] == expected["options"]
+    assert [o["name"] for o in out["options"]] == [
+        "Lumen Buds 2", "Tidewave Pulse", "Orbell Sport Fit", "Lumen Buds Pro", "Tidewave Run Lite"]
+    # Options come back in CIRQO's neutral order; the server does not reorder.
+    scores = [o["matchScore"] for o in out["options"]]
+    assert scores == sorted(scores, reverse=True)
+    assert all(f["claimStatus"] == "correct" for o in out["options"] for f in o["facts"])
+    assert out["narrowingHints"] == expected["narrowingHints"]
+    assert out["narrowingHints"][0]["question"] == "Do you want noise cancelling?"
+    assert out["rankingNote"] == "Neutral ranking. No brand can pay for placement."
+    assert json.loads(result.content[0].text)["searchId"] == "srch_12"
+
+
+def test_search_next_step_says_ask_a_hint_when_the_field_is_wide(mock_api):
+    out = call("cirqo_search", SEARCH).structured_content
+    assert out["optionCount"] == 5 and out["narrowingHints"]
+    assert out["nextStep"].startswith("Ask the shopper the first narrowingHints question")
+    assert "cirqo_search again" in out["nextStep"]
+
+
+def test_search_next_step_says_query_when_two_or_fewer_remain(mock_api):
+    _, replies = mock_api
+    narrowed = copy.deepcopy(load_mock("connector_search.json"))
+    narrowed["options"] = narrowed["options"][:2]
+    narrowed["optionCount"] = 2
+    narrowed["narrowingHints"] = [{"attribute": "price", "question": "Is $20 more worth it?", "splits": {}}]
+    replies[mcp_server.SEARCH_PATH]["json"] = narrowed
+
+    out = call("cirqo_search", SEARCH).structured_content
+    assert out["optionCount"] == 2
+    assert "Call cirqo_query" in out["nextStep"]
+
+
+def test_search_next_step_says_query_when_no_hints_remain(mock_api):
+    _, replies = mock_api
+    no_hints = copy.deepcopy(load_mock("connector_search.json"))
+    no_hints["narrowingHints"] = []
+    replies[mcp_server.SEARCH_PATH]["json"] = no_hints
+
+    out = call("cirqo_search", SEARCH).structured_content
+    assert out["optionCount"] == 5
+    assert "Call cirqo_query" in out["nextStep"]
+
+
+def test_search_with_no_match_says_so(mock_api):
+    _, replies = mock_api
+    replies[mcp_server.SEARCH_PATH]["json"] = {
+        "searchId": "srch_13", "category": "headphones", "optionCount": 0, "options": [], "narrowingHints": [],
+        "rankingNote": "Neutral ranking. No brand can pay for placement.", "verifiedAt": "x", "source": "mock"}
+
+    out = call("cirqo_search", SEARCH).structured_content
+    assert out["options"] == [] and out["optionCount"] == 0
+    assert "No verified option matches" in out["nextStep"] and "Do not guess" in out["nextStep"]
+
+
+def test_search_constraints_are_optional(mock_api):
+    seen, _ = mock_api
+    call("cirqo_search", {"question": "headphones for the gym", "assistantId": "ast_03"})
+    assert json.loads(seen[0].content) == {"question": "headphones for the gym", "assistantId": "ast_03"}
+    call("cirqo_search", {"question": "headphones for the gym", "assistantId": "ast_03", "constraints": {}})
+    assert "constraints" not in json.loads(seen[1].content)
+
+
+def test_search_rejects_an_unknown_category(mock_api):
+    seen, _ = mock_api
+    with pytest.raises(ToolError, match="category"):
+        call("cirqo_search", {"question": "x", "assistantId": "ast_01", "constraints": {"category": "cars"}})
+    assert seen == []
+
+
+def test_search_backend_errors_become_tool_errors(mock_api):
+    _, replies = mock_api
+    replies[mcp_server.SEARCH_PATH] = {
+        "status": 404, "json": {"error": {"code": "NOT_FOUND", "message": "Assistant ast_99 does not exist."}}}
+    with pytest.raises(ToolError, match="HTTP 404 .*Assistant ast_99 does not exist."):
+        call("cirqo_search", {"question": "x", "assistantId": "ast_99"})
+
+
+# --- the funnel end to end -----------------------------------------------------------------------------------
+
+def test_funnel_search_ask_search_again_then_query(mock_api):
+    """The sequence the descriptions ask an assistant to run: search, add the answered hint, search, query."""
+    seen, replies = mock_api
+
+    # 1. Wide search from what the shopper said. Five options and two hints come back.
+    first = call("cirqo_search", SEARCH).structured_content
+    assert first["optionCount"] == 5
+    hint = first["narrowingHints"][0]
+    assert hint["attribute"] == "noiseCancelling"
+    assert "Ask the shopper" in first["nextStep"]
+
+    # 2. The shopper answered yes to the hint. Search again with the attribute added. CIRQO narrows to two.
+    narrowed = copy.deepcopy(load_mock("connector_search.json"))
+    narrowed["options"] = [o for o in narrowed["options"] if o["name"] in ("Tidewave Pulse", "Lumen Buds Pro")]
+    narrowed["optionCount"] = 2
+    narrowed["narrowingHints"] = [{"attribute": "price", "question": "Is $1 more worth it?", "splits": {}}]
+    replies[mcp_server.SEARCH_PATH]["json"] = narrowed
+    with_answer = {**SEARCH, "constraints": {**SEARCH["constraints"], "mustHave": ["wireless", hint["attribute"]]}}
+    second = call("cirqo_search", with_answer).structured_content
+    assert second["optionCount"] == 2
+    assert "Call cirqo_query" in second["nextStep"]
+
+    # 3. Narrow enough: the one pick.
+    pick = call("cirqo_query", {"question": SEARCH["question"], "assistantId": "ast_01"}).structured_content
+    assert pick["recommendation"]["productId"] == "prod_001"
+    assert pick["claims"] and all(c["status"] == "correct" for c in pick["claims"])
+    assert pick["rankingNote"] == "Neutral ranking. No brand can pay for placement."
+
+    # Exactly three HTTP calls, in funnel order, and the second search carried the answered hint.
+    assert [r.url.path for r in seen] == [mcp_server.SEARCH_PATH, mcp_server.SEARCH_PATH, mcp_server.QUERY_PATH]
+    assert json.loads(seen[1].content)["constraints"]["mustHave"] == ["wireless", "noiseCancelling"]
+
+
+# --- cirqo_query (unchanged) ---------------------------------------------------------------------------------
 
 def test_query_posts_to_connector_and_returns_answer_and_claims(mock_api):
     seen, _ = mock_api
-    result = call(QUERY)
+    result = call("cirqo_query", QUERY)
     assert not result.is_error
 
     # Exactly one POST to the connector endpoint on the default host, with the body the contract expects.
     assert len(seen) == 1
     req = seen[0]
     assert req.method == "POST"
-    assert str(req.url) == "https://frontdoor-api-hiel.onrender.com/api/v1/connector/query"
+    assert str(req.url) == f"{API}/api/v1/connector/query"
     assert json.loads(req.content) == QUERY
 
     # The tool returns the answer text plus the checked claims, unchanged from CIRQO.
@@ -78,44 +254,49 @@ def test_query_posts_to_connector_and_returns_answer_and_claims(mock_api):
     assert json.loads(result.content[0].text)["answerText"] == expected["answerText"]
 
 
-def test_constraints_are_optional(mock_api):
+def test_query_constraints_are_optional(mock_api):
     seen, _ = mock_api
-    call({"question": "Best laptop under $400?", "assistantId": "ast_03"})
+    call("cirqo_query", {"question": "Best laptop under $400?", "assistantId": "ast_03"})
     assert json.loads(seen[0].content) == {"question": "Best laptop under $400?", "assistantId": "ast_03"}
     # An empty constraints object is not sent either.
-    call({"question": "Best laptop under $400?", "assistantId": "ast_03", "constraints": {}})
+    call("cirqo_query", {"question": "Best laptop under $400?", "assistantId": "ast_03", "constraints": {}})
     assert "constraints" not in json.loads(seen[1].content)
 
 
 def test_api_url_comes_from_the_environment(mock_api, monkeypatch):
     seen, _ = mock_api
     monkeypatch.setenv("CIRQO_API_URL", "http://localhost:8000/")
-    call(QUERY)
+    call("cirqo_query", QUERY)
+    call("cirqo_search", SEARCH)
     assert str(seen[0].url) == "http://localhost:8000/api/v1/connector/query"
+    assert str(seen[1].url) == "http://localhost:8000/api/v1/connector/search"
 
 
-def test_backend_errors_become_tool_errors(mock_api):
-    _, reply = mock_api
-    reply["status"], reply["json"] = 404, {"error": {"code": "NOT_FOUND", "message": "Assistant ast_99 does not exist."}}
+def test_query_backend_errors_become_tool_errors(mock_api):
+    _, replies = mock_api
+    replies[mcp_server.QUERY_PATH] = {
+        "status": 404, "json": {"error": {"code": "NOT_FOUND", "message": "Assistant ast_99 does not exist."}}}
     # MCPServer turns a ToolError into an isError result for the client; at this layer it is raised.
     with pytest.raises(ToolError, match="HTTP 404 .*Assistant ast_99 does not exist."):
-        call({"question": "x", "assistantId": "ast_99"})
+        call("cirqo_query", {"question": "x", "assistantId": "ast_99"})
 
 
-def test_network_failure_is_a_tool_error(monkeypatch):
+@pytest.mark.parametrize("tool, args", [("cirqo_query", QUERY), ("cirqo_search", SEARCH)])
+def test_network_failure_is_a_tool_error(monkeypatch, tool, args):
     def handler(request):
         raise httpx.ConnectError("connection refused")
 
     monkeypatch.setattr(mcp_server, "make_client", lambda: httpx.AsyncClient(
         base_url=mcp_server.api_url(), transport=httpx.MockTransport(handler)))
     with pytest.raises(ToolError, match="Could not reach CIRQO"):
-        call(QUERY)
+        call(tool, args)
 
 
-def test_missing_arguments_are_rejected(mock_api):
+@pytest.mark.parametrize("tool", ["cirqo_query", "cirqo_search"])
+def test_missing_arguments_are_rejected(mock_api, tool):
     seen, _ = mock_api
     with pytest.raises(ToolError, match="assistantId"):
-        call({"question": "x"})
+        call(tool, {"question": "x"})
     assert seen == []
 
 
@@ -130,4 +311,4 @@ def test_speaks_mcp_over_stdio():
                 tools = await session.list_tools()
                 return init.server_info.name, [t.name for t in tools.tools]
 
-    assert asyncio.run(handshake()) == ("cirqo", ["cirqo_query"])
+    assert asyncio.run(handshake()) == ("cirqo", ["cirqo_search", "cirqo_query"])

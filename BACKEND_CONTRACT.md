@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.3** (approved by lead engineer, 2026-09-29; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, section 7b). Any change to a path,
+Status: **FINAL v1.4.1** (approved by lead engineer, 2026-09-30; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -285,7 +285,7 @@ Rules for all three:
   "action": "auto_fix_applied", "targetId": "inc_12", "details": "Published verified price $449.99."}]}
 ```
 `actorType`: `system` | `human` | `ai`.
-`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded`.
+`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded` | `connector_search` | `login`.
 
 ### Trust metrics
 **`GET /api/v1/metrics/trust?days=30`**
@@ -375,6 +375,107 @@ and their own 30-day daily metrics (accuracy improving, but different start and 
 `test_brand_scope` (Arcton view shows Arcton's incidents only and lists Kestrel as a competitor; unknown brandId → 404;
 default equals Kestrel), `test_onboard` (201 shape, new brand appears in `GET /products` and in a `connector/query`
 result when it fits, duplicate → 409, 0 products → 422, audit entry written, `isClient` never in any response).
+
+## 7c. Login, company profiles, catalog at scale, connector search (v1.4)
+
+**Backward compatible.** Every v1.3 call keeps working unchanged. `brandId` query parameters still work; a login token is a
+second way to choose the brand. All 354 existing tests must pass unchanged.
+
+### Login (username and password)
+Demo users are seeded (section 9). **Every demo password is `cirqo-demo`**, and the login page prints the demo usernames.
+Passwords are stored hashed (any standard hash). Tokens live in the database and die on restart, like everything else.
+
+**`POST /api/v1/auth/login`** body `{"username": "maria.lopez@kestrel.example", "password": "cirqo-demo"}`
+Response:
+```json
+{"token": "tok_9f3a...", "expiresAt": "2026-09-30T12:00:00Z",
+ "user": {"userId": "usr_001", "name": "Maria Lopez", "role": "Brand Data Owner", "username": "maria.lopez@kestrel.example"},
+ "brand": {"brandId": "brand_001", "brandName": "Kestrel"}}
+```
+Wrong username or password: 401 `UNAUTHORIZED` with message "Wrong username or password." (same message for both).
+**`GET /api/v1/auth/me`** (header `Authorization: Bearer <token>`) → same shape without `token`. 401 if missing or expired.
+**`POST /api/v1/auth/logout`** → `{"ok": true}`.
+
+**Token scoping:** every dashboard endpoint in 7b accepts `Authorization: Bearer <token>`. When present, the brand is the
+token's brand and `brandId` is ignored. When absent, v1.3 behaviour (query `brandId`, default Kestrel). Roles:
+`Brand Data Owner`, `Trust and Safety Lead`, `Viewer` (viewer gets 403 `FORBIDDEN` on approve, reject, resolve),
+`CIRQO Staff` (see below). `POST /incidents/{id}/approve|reject|resolve`: when a token is present, `approverName` /
+`resolverName` may be omitted and defaults to the token user's name; the owner-match rule still applies.
+
+### Company profile
+**`GET /api/v1/brands/{brandId}`** (no auth, or token)
+```json
+{"brandId": "brand_001", "brandName": "Kestrel", "tagline": "Thin laptops for students and travelers",
+ "categories": ["laptops"], "hqCity": "Austin, TX", "founded": 2016, "employees": 140,
+ "ceo": {"name": "Priya Natarajan"}, "website": "https://www.kestrel.example",
+ "admins": [{"userId": "usr_001", "name": "Maria Lopez", "role": "Brand Data Owner"}],
+ "productCount": 40, "plan": "growth"}
+```
+`plan` is the brand's own subscription tier (`starter` | `growth` | `enterprise`) and is shown only on the brand's own
+profile (403 for another brand's token). **Ranking code must never read it** (section 8 test still applies; `plan` is the
+public name of the seed field `billingTier`). Never returns `isClient`.
+**`GET /api/v1/brands`** (CIRQO Staff token only, else 403) → `{"brands": [{brandId, brandName, categories, productCount,
+visibilityRate, openIncidents, escalatedIncidents, accuracyRate}]}` for every brand: the cross-company oversight view.
+
+### Product category (v1.4.1: categories follow the source data)
+Product gains `"category": "headphones" | "laptops" | "phones_tablets" | "computer_hardware"` and `"subcategory"` (the
+sheet's Product Category, e.g. `Earbuds`, `Headset`, `Graphics Card`). `specs` holds the sheet's columns that are not `N/A`,
+camelCased: `processor`, `graphics`, `displayType`, `resolution`, `ports`, `operatingSystem`, `batteryHours`, `weightG`,
+plus `warranty`, `certifications` (list), `useCaseTags` (list), `otherNames` (list of short names the checker also matches).
+Laptops keep the existing spec keys where they apply (`batteryHours`, `weightLb` derived from `weightG`, `screenInches`
+parsed from `displayType` when present). `GET /api/v1/products?category=headphones&brandId=...` filters (both optional).
+`POST /brands/onboard` products accept `category` (default `laptops`).
+
+**Verified comparison facts:** the sheet's "Verified Comparisons" column ("Lighter than Nereus Drift Plus") is loaded as
+comparison facts (`fact_` ids). The checker's `UNFAIR_COMPARISON` rule already says a comparison is `incorrect` only when
+no verified comparison fact supports it; a claim matching one of these facts is `correct`.
+
+### Connector search (the funnel)
+**`POST /api/v1/connector/search`**
+Request: `{"question": "I want headphones for the gym", "assistantId": "ast_01",
+ "constraints": {"category": "headphones", "maxPrice": 150, "mustHave": ["wireless"]}}` (`constraints` optional; the
+backend infers `category` and `maxPrice` from the question when missing).
+Response:
+```json
+{"searchId": "srch_12", "category": "headphones", "optionCount": 5,
+ "options": [{"productId": "prod_310", "name": "Lumen Buds 2", "brandName": "Lumen Audio", "price": 129.0,
+   "availability": "in_stock", "matchScore": 0.88, "facts": [{"text": "8-hour battery", "claimStatus": "correct", "factId": "fact_9001"}]}],
+ "narrowingHints": [{"attribute": "noiseCancelling", "question": "Do you want noise cancelling?", "splits": {"yes": 2, "no": 3}},
+                    {"attribute": "weightOz", "question": "Does weight matter? Two are under 1 oz.", "splits": {"under1oz": 2, "over1oz": 3}}],
+ "rankingNote": "Neutral ranking. No brand can pay for placement.", "verifiedAt": "...", "source": "mock"}
+```
+Rules: up to 5 options ordered by `matchScore` (same neutral ranking as `/connector/query`); every fact passes the checker;
+`narrowingHints` name the attributes on which the options differ most (at most 3), phrased as a question an assistant can
+ask; the search is recorded as an answer (`brandMentioned` per option's brand) and audited `connector_search`.
+`/connector/query` is unchanged and remains the "one pick" call. Manifest (`GET /connector/manifest`) lists both tools and
+describes the funnel: search first, ask the hints, then query for one pick.
+
+### Seed at scale (section 9 additions, v1.4.1)
+Source of truth for the catalog: **`backend/seed/source/greek_god_tech_companies.xlsx`** (committed; the backend engineer's
+file). `generate.py` reads it (or a CSV export of its sheets) deterministically. **Database rebuild under 10 seconds** (test).
+- **150 companies** across the 4 categories (sheet "Companies"): fictional Greek-god names, no real brands. Each gets a
+  profile from the sheet (other names, warranty, certifications, use-case focus) plus generated: tagline, HQ, founded,
+  employees, CEO, website on a `.example` domain, a `plan`, and **admins from the sheet's "Login Credentials"**
+  (`username` = the sheet's Login Email, role Brand Admin maps to `Brand Data Owner`). **Every demo password is
+  `cirqo-demo`; the sheet's temporary passwords are ignored.** Kestrel, Arcton and Novex stay as they are (laptops) and keep
+  all their data, so every existing test holds; that makes 153 brands.
+- **1,500 products** from the sheet "Product Details" (`SKU` becomes the `prod_` id suffix), each with `category`,
+  `subcategory`, specs, `priceHistory` (one earlier price generated), and Verified Data Layer fields.
+- **Dashboard data:** every company gets an improving 30-day trend and at least 8 answers, 20 claims and 4 incidents
+  covering `auto_fixed`, `pending_approval`, `approved`, `rejected`. If the 10-second rebuild test fails at 150, the 30
+  companies with the lowest sheet ids plus Kestrel, Arcton and Novex keep full data (12+ answers, 30+ claims, 8+ incidents)
+  and the rest keep the trend and 4 incidents. At least 5 companies have an `escalated` incident.
+- **CIRQO Staff:** 2 users (`grace.kim@cirqo.example` Trust and Safety Lead, `dev.patel@cirqo.example` Product Owner),
+  role `CIRQO Staff`, not tied to a brand. Grace Kim stays the owner of Kestrel's safety incidents.
+- `GET /auth/demo-accounts` returns the three original brands' accounts plus the first 5 sheet companies, each with
+  `username`, and the shared demo password note. `GET /brands` (staff) lists all 153.
+
+### Tests
+`test_auth` (login ok, wrong password 401 with the neutral message, `me`, logout, token scopes a dashboard call, viewer 403
+on approve, staff `GET /brands` 200 and brand token 403, approve without `approverName` uses the token user),
+`test_brand_profile`, `test_connector_search` (5 options max, hints name real differing attributes, all facts correct,
+recorded and audited, category inferred from "headphones"), `test_seed_scale` (153 brands, 1,500 sheet products plus the originals, every
+brand has at least one admin, a trend and incidents, rebuild under 10 s, no real brand names in company names), and the existing `test_ranking_neutral` extended to flip `plan`.
 
 ## 8. Neutral ranking (required test)
 
