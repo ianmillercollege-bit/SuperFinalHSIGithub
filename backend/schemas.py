@@ -45,6 +45,13 @@ class Specs(CamelModel):
     touchscreen: bool | None
 
 
+class CommunityPledge(CamelModel):
+    units_pledged: int
+    units_placed: int
+    condition_notes: str | None
+    warranty_months: int | None
+
+
 class ProductOut(CamelModel):
     product_id: str
     brand_id: str
@@ -64,6 +71,9 @@ class ProductOut(CamelModel):
     fact_source: Literal["Brand product feed", "Brand website", "Manufacturer spec sheet"]
     fact_source_url: str
     verified_at: str
+    # v1.6 Community program.
+    condition: Literal["new", "refurbished", "surplus"] = "new"
+    community_pledge: CommunityPledge | None = None
 
 
 class ClaimOut(CamelModel):
@@ -178,6 +188,8 @@ class ConnectorConstraints(CamelModel):
     max_price: float | None = Field(None, gt=0, allow_inf_nan=False)
     use_case: Literal["school", "work", "travel", "media"] | None = None
     must_have: list[Literal["battery", "light", "screen", "touch"]] = []
+    # v1.6: refurbished and surplus products are left out unless the assistant asks for them.
+    include_refurbished: bool = False
 
 
 class ConnectorQueryIn(CamelModel):
@@ -431,7 +443,8 @@ class AuditOut(CamelModel):
     actor_type: Literal["system", "human", "ai"]
     action: Literal["claim_extracted", "claim_checked", "incident_created", "auto_fix_applied", "approved",
                     "rejected", "escalated", "resolved", "connector_query", "brand_onboarded",
-                    "connector_search"]
+                    "connector_search",
+                    "community_request", "community_approved", "community_rejected"]
     target_id: str
     details: str
 

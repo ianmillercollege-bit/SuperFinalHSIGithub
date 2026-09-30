@@ -23,15 +23,18 @@ from timeutil import now_iso
 
 # Stable fact IDs: fact_<product number><attribute index>, e.g. prod_001 price -> fact_010.
 FACT_ATTRS = ["price", "availability", "returnPolicyDays", "ramGb", "storageGb", "screenInches",
-              "batteryHours", "weightLb", "touchscreen"]
+              "batteryHours", "weightLb", "touchscreen", "condition"]
 
 SPEC_LABELS = {"ramGb": "RAM", "storageGb": "storage", "screenInches": "screen size",
-               "batteryHours": "battery life", "weightLb": "weight", "touchscreen": "touchscreen"}
+               "batteryHours": "battery life", "weightLb": "weight", "touchscreen": "touchscreen",
+               "condition": "condition", "warrantyMonths": "community pledge warranty"}
 SPEC_UNITS = {"ramGb": "GB RAM", "storageGb": "GB storage", "screenInches": "in screen",
-              "batteryHours": "h battery", "weightLb": "lb"}
+              "batteryHours": "h battery", "weightLb": "lb", "warrantyMonths": "months of pledge coverage"}
 
 
 def fact_id(product_id: str | None, attr: str) -> str | None:
+    if product_id and attr == "warrantyMonths":  # v1.6: the pledge's warranty, e.g. fact_004-warranty
+        return f"fact_{product_id.split('_', 1)[1].lower()}-warranty"
     if not product_id or attr not in FACT_ATTRS:
         return None
     suffix = product_id.split("_", 1)[1]
@@ -130,6 +133,11 @@ SPEC_PATTERNS = [
 ]
 NO_TOUCH = re.compile(r"\b(no|without(?: a)?|lacks(?: a)?)\s+touch\s?screen", re.I)
 HAS_TOUCH = re.compile(r"touch\s?screen|touch display|\bhas touch\b|\balso has touch\b", re.I)
+# v1.6 Community program: condition and the pledge's warranty are checked like any spec. The warranty is
+# phrased "covered for 12 months under the brand's community pledge": the word "warranty" itself stays a
+# safety/legal keyword (DECISIONS.md #8), so "a 12-month warranty" is still escalated, never auto-judged.
+CONDITION = re.compile(r"\b(refurbished|surplus)\b", re.I)
+WARRANTY_MONTHS = re.compile(r"covered for (\d+) months? under the brand's community pledge", re.I)
 AVAILABILITY_PATTERNS = [
     ("out_of_stock", re.compile(r"out of stock|sold out|unavailable", re.I)),
     ("low_stock", re.compile(r"low stock|limited stock|few left|almost gone", re.I)),
@@ -230,6 +238,12 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
             if not usable_number(value):
                 continue  # too big to be a real spec
             claims.append(Extracted(sentence, "feature", "spec", subject, value=value, attr=attr))
+        m = CONDITION.search(masked)
+        if m:
+            claims.append(Extracted(sentence, "feature", "spec", subject, value=m.group(1).lower(), attr="condition"))
+        m = WARRANTY_MONTHS.search(masked)
+        if m and usable_number(m.group(1)):
+            claims.append(Extracted(sentence, "feature", "spec", subject, value=float(m.group(1)), attr="warrantyMonths"))
         if NO_TOUCH.search(masked):
             claims.append(Extracted(sentence, "feature", "spec", subject, value=False, attr="touchscreen"))
         elif HAS_TOUCH.search(masked):
@@ -350,6 +364,19 @@ def check(c: Extracted, catalog: Catalog) -> Result:
     if c.kind == "spec":
         label = SPEC_LABELS[c.attr]
         fid = fact_id(p.product_id, c.attr)
+        if c.attr == "condition":
+            if c.value == p.condition:
+                return Result("correct", None, c.value, p.condition, fid, f"Matches the verified condition ({p.condition}).")
+            return Result("incorrect", "SPEC_MISMATCH", c.value, p.condition, fid, f"Verified condition is {p.condition}.")
+        if c.attr == "warrantyMonths":
+            months = (p.community_pledge or {}).get("warrantyMonths")
+            if months is None:
+                return Result("unverifiable", "NO_FACT", num(c.value), None, None,
+                              "No community pledge warranty on file for this product.")
+            ext, ver = num(c.value), num(float(months))
+            if abs(float(c.value) - float(months)) < 0.05:
+                return Result("correct", None, ext, ver, fid, f"Matches the verified {ver}-month pledge warranty.")
+            return Result("incorrect", "SPEC_MISMATCH", ext, ver, fid, f"Verified pledge warranty is {ver} months.")
         if p.specs.get(c.attr) is None:
             # No verified value on file (onboarded products may omit specs): nothing to judge against.
             return Result("unverifiable", "NO_FACT", str(c.value).lower() if isinstance(c.value, bool) else num(c.value),

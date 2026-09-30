@@ -1,0 +1,3428 @@
+{
+ "note": "Community program seed (contract v1.6 section 7e). Written by seed/community.py.",
+ "orgs": [
+  {
+   "orgId": "org_01",
+   "name": "Bexar Valley School District",
+   "kind": "school_district"
+  },
+  {
+   "orgId": "org_02",
+   "name": "Lone Star Veterans Network",
+   "kind": "veterans_group"
+  },
+  {
+   "orgId": "org_03",
+   "name": "Bridgeway Community Tech",
+   "kind": "nonprofit"
+  }
+ ],
+ "users": [
+  {
+   "userId": "usr_901",
+   "name": "Rosa Delgado",
+   "role": "Community Partner",
+   "title": "Technology Coordinator",
+   "orgId": "org_01",
+   "username": "rosa.delgado@bexar-valley-school-district.example"
+  },
+  {
+   "userId": "usr_902",
+   "name": "Marcus Webb",
+   "role": "Community Partner",
+   "title": "Program Director",
+   "orgId": "org_02",
+   "username": "marcus.webb@lone-star-veterans-network.example"
+  },
+  {
+   "userId": "usr_903",
+   "name": "Tessa Nguyen",
+   "role": "Community Partner",
+   "title": "Operations Lead",
+   "orgId": "org_03",
+   "username": "tessa.nguyen@bridgeway-community-tech.example"
+  }
+ ],
+ "products": [
+  {
+   "productId": "prod_004",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 15,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_ADR-094-02",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_AEO-031-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 2,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_AEO-031-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AMP-065-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 4,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AMP-065-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_APA-110-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 11,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_APA-110-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 0,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_APO-109-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 5,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_APO-109-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 1,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_APO-109-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_APO-109-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 2,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARE-054-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 15,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARE-054-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARE-054-05",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 7,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARE-054-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARI-027-03",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 60,
+    "unitsPlaced": 12,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARI-027-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ARI-027-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 5,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_ASC-024-01",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_AST-006-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 135,
+    "unitsPlaced": 75,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AST-006-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 125,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AST-006-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 95,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AST-146-02",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_ATH-064-01",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 5,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ATH-064-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ATR-035-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 2,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ATR-035-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ATR-035-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 5,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AUR-015-08",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 9,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AUR-015-10",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 145,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AUX-038-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 4,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AUX-038-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_AUX-038-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_AUX-038-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_BIA-107-03",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 5,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_BIA-107-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 3,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_CAL-040-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 3,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_CAR-002-01",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 80,
+    "unitsPlaced": 15,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_CAR-002-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 95,
+    "unitsPlaced": 14,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_CHR-050-10",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_CLO-062-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 4,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_CLO-062-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 6,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_CLO-062-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_CLO-062-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_CLO-062-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_CLY-067-10",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_CRO-105-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 6,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_DEI-005-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 70,
+    "unitsPlaced": 21,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_DEI-005-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 135,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_DEI-005-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 130,
+    "unitsPlaced": 21,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_DEM-028-03",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 2,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_DEM-028-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_DEM-028-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_DIO-128-07",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_DIO-128-08",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_DOR-004-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 130,
+    "unitsPlaced": 81,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_DOR-004-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 130,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_EIR-112-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 5,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ELP-074-03",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_ENY-114-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 10,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_ENY-114-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EOS-111-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 4,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EOS-111-08",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ERI-148-01",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_EUN-056-06",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 21,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EUN-056-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EUP-019-05",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_EUP-084-07",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_EUR-104-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 5,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EUR-104-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 6,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EUR-104-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 5,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_EUR-104-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 5,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_EUR-104-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 3,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_GLA-012-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 60,
+    "unitsPlaced": 13,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_GLA-012-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 125,
+    "unitsPlaced": 42,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_GLA-012-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 95,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_GLA-012-08",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 125,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAD-119-09",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_HAR-106-03",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 8,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAR-106-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 5,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAR-106-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAR-106-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAR-106-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 6,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAR-106-08",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HAR-106-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HEB-011-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 14,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HEB-011-03",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 110,
+    "unitsPlaced": 32,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HEB-011-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 70,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HEB-011-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 75,
+    "unitsPlaced": 16,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HEC-052-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 4,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_HEC-052-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HED-010-01",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 75,
+    "unitsPlaced": 8,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HED-010-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HED-010-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HED-010-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-037-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 14,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-037-05",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 4,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-037-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 60,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-103-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 3,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_HER-103-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 9,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-103-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 8,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-103-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-103-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HER-103-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 4,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_HIM-003-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 150,
+    "unitsPlaced": 36,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HIM-003-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 95,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HOM-033-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 6,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HOM-033-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 10,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HYG-048-07",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_HYP-059-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 6,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_HYP-059-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 9,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_HYP-059-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_HYP-123-10",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_IRI-130-03",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_LAC-071-04",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_MEN-008-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 9,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_MEN-008-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_MEN-008-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 60,
+    "unitsPlaced": 7,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_MEN-008-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_MEN-008-10",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_MET-029-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 9,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_MET-029-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 4,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_MNE-061-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 3,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_MNE-061-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_MOR-001-06",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 80,
+    "unitsPlaced": 17,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_MOR-001-09",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 120,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_NEM-051-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 9,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_NIK-132-04",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_NOT-108-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 11,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_NOT-108-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_NYX-115-01",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 5,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_NYX-115-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 5,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_OCE-060-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 8,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_OCE-060-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_OCE-060-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PAL-057-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 4,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PAL-057-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PAL-057-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_PAL-057-05",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PAL-057-06",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_PAL-057-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PAL-057-10",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PAN-069-10",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_PAN-097-10",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_PER-036-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 8,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_PER-101-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 4,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHA-138-06",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_PHE-102-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 4,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHE-102-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHE-102-09",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 0,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHE-102-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_PHO-009-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 80,
+    "unitsPlaced": 19,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_PHO-009-05",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 130,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHO-009-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 120,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHO-009-10",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHO-053-04",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 4,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PHO-053-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_POL-041-04",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_PON-063-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 23,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_PON-063-06",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_PON-063-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 35,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_RHE-047-09",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_SEL-034-02",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 6,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_SEL-034-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SEL-034-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 10,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SOT-014-01",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 22,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SOT-014-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SOT-014-05",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SOT-014-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 65,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SOT-014-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 90,
+    "unitsPlaced": 0,
+    "conditionNotes": "New in box, prior-season stock",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_SOT-014-09",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_STY-058-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 15,
+    "unitsPlaced": 7,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_TAR-017-09",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_TER-039-03",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 15,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_TER-039-07",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 12,
+    "conditionNotes": "Overstock, sealed",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_TET-007-09",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 40,
+    "unitsPlaced": 20,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_THA-030-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 26,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_THA-030-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 45,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_THA-046-10",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_THA-126-01",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_THE-093-07",
+   "condition": "refurbished",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_THE-093-09",
+   "condition": "surplus",
+   "communityPledge": null
+  },
+  {
+   "productId": "prod_TYC-055-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 55,
+    "unitsPlaced": 10,
+    "conditionNotes": "Grade B, minor scratches on the case",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_TYC-055-04",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, light cosmetic wear",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_URA-113-01",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 10,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_URA-113-07",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_URA-113-08",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 20,
+    "unitsPlaced": 0,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ZEP-032-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 30,
+    "unitsPlaced": 5,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 6
+   }
+  },
+  {
+   "productId": "prod_ZEP-032-03",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 25,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 24
+   }
+  },
+  {
+   "productId": "prod_ZEP-032-06",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 50,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ZEU-013-02",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 140,
+    "unitsPlaced": 51,
+    "conditionNotes": "Grade A, new battery",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ZEU-013-06",
+   "condition": "refurbished",
+   "communityPledge": {
+    "unitsPledged": 115,
+    "unitsPlaced": 0,
+    "conditionNotes": "Factory refurbished, new charger and cable",
+    "warrantyMonths": 12
+   }
+  },
+  {
+   "productId": "prod_ZEU-013-09",
+   "condition": "surplus",
+   "communityPledge": {
+    "unitsPledged": 135,
+    "unitsPlaced": 0,
+    "conditionNotes": "New, open box",
+    "warrantyMonths": 12
+   }
+  }
+ ],
+ "requests": [
+  {
+   "requestId": "creq_001",
+   "productId": "prod_TYC-055-02",
+   "brandId": "brand_058",
+   "orgId": "org_02",
+   "units": 10,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "approved",
+   "createdAt": "2026-08-20T03:57:00Z",
+   "decidedAt": "2026-08-21T05:57:00Z",
+   "decidedBy": "Bruno Zimmer",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_002",
+   "productId": "prod_NOT-108-03",
+   "brandId": "brand_111",
+   "orgId": "org_01",
+   "units": 6,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-08-20T04:17:00Z",
+   "decidedAt": "2026-08-22T04:17:00Z",
+   "decidedBy": "Dmitri Moreau",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_003",
+   "productId": "prod_ARI-027-10",
+   "brandId": "brand_030",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-08-20T04:21:00Z",
+   "decidedAt": "2026-08-21T06:21:00Z",
+   "decidedBy": "Mateo Duarte",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_004",
+   "productId": "prod_HEB-011-05",
+   "brandId": "brand_014",
+   "orgId": "org_03",
+   "units": 16,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-08-20T08:07:00Z",
+   "decidedAt": "2026-08-22T11:07:00Z",
+   "decidedBy": "Farid Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_005",
+   "productId": "prod_MEN-008-02",
+   "brandId": "brand_011",
+   "orgId": "org_03",
+   "units": 9,
+   "purpose": "Refurbished device library for local families",
+   "status": "approved",
+   "createdAt": "2026-08-21T03:43:00Z",
+   "decidedAt": "2026-08-23T05:43:00Z",
+   "decidedBy": "Farid Fischer",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_006",
+   "productId": "prod_NYX-115-01",
+   "brandId": "brand_118",
+   "orgId": "org_03",
+   "units": 5,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-08-21T03:59:00Z",
+   "decidedAt": "2026-08-22T03:59:00Z",
+   "decidedBy": "Esme Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_007",
+   "productId": "prod_EUR-104-01",
+   "brandId": "brand_107",
+   "orgId": "org_01",
+   "units": 5,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-08-21T10:00:00Z",
+   "decidedAt": "2026-08-23T10:00:00Z",
+   "decidedBy": "Amara Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_008",
+   "productId": "prod_PHO-009-01",
+   "brandId": "brand_012",
+   "orgId": "org_02",
+   "units": 19,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-08-22T02:22:00Z",
+   "decidedAt": "2026-08-23T07:22:00Z",
+   "decidedBy": "Rosa Lindqvist",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_009",
+   "productId": "prod_PHO-009-10",
+   "brandId": "brand_012",
+   "orgId": "org_02",
+   "units": 18,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "rejected",
+   "createdAt": "2026-08-22T08:36:00Z",
+   "decidedAt": "2026-08-24T09:36:00Z",
+   "decidedBy": "Rosa Lindqvist",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_010",
+   "productId": "prod_HEB-011-03",
+   "brandId": "brand_014",
+   "orgId": "org_01",
+   "units": 32,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-08-23T03:16:00Z",
+   "decidedAt": "2026-08-24T06:16:00Z",
+   "decidedBy": "Farid Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_011",
+   "productId": "prod_HEC-052-04",
+   "brandId": "brand_055",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Units for 4 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-08-23T07:48:00Z",
+   "decidedAt": "2026-08-24T10:48:00Z",
+   "decidedBy": "Ava Bauer",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_012",
+   "productId": "prod_EUR-104-10",
+   "brandId": "brand_107",
+   "orgId": "org_01",
+   "units": 3,
+   "purpose": "Units for 3 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-08-24T02:11:00Z",
+   "decidedAt": "2026-08-26T02:11:00Z",
+   "decidedBy": "Amara Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_013",
+   "productId": "prod_ATH-064-01",
+   "brandId": "brand_067",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-08-24T04:31:00Z",
+   "decidedAt": "2026-08-26T05:31:00Z",
+   "decidedBy": "Celia Jensen",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_014",
+   "productId": "prod_AUR-015-08",
+   "brandId": "brand_018",
+   "orgId": "org_03",
+   "units": 9,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-08-24T09:03:00Z",
+   "decidedAt": "2026-08-25T11:03:00Z",
+   "decidedBy": "Victor Chen",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_015",
+   "productId": "prod_HAR-106-07",
+   "brandId": "brand_109",
+   "orgId": "org_01",
+   "units": 6,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-08-24T10:07:00Z",
+   "decidedAt": "2026-08-26T11:07:00Z",
+   "decidedBy": "Tara Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_016",
+   "productId": "prod_PER-101-02",
+   "brandId": "brand_104",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-08-24T10:56:00Z",
+   "decidedAt": "2026-08-25T10:56:00Z",
+   "decidedBy": "Tara Duarte",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_017",
+   "productId": "prod_ATR-035-04",
+   "brandId": "brand_038",
+   "orgId": "org_02",
+   "units": 2,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-08-25T10:29:00Z",
+   "decidedAt": "2026-08-26T14:29:00Z",
+   "decidedBy": "Victor Garcia",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_018",
+   "productId": "prod_PON-063-02",
+   "brandId": "brand_066",
+   "orgId": "org_03",
+   "units": 8,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-08-27T04:28:00Z",
+   "decidedAt": "2026-08-29T08:28:00Z",
+   "decidedBy": "Rosa Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_019",
+   "productId": "prod_AEO-031-04",
+   "brandId": "brand_034",
+   "orgId": "org_03",
+   "units": 2,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-08-27T06:49:00Z",
+   "decidedAt": "2026-08-29T11:49:00Z",
+   "decidedBy": "Elena Castro",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_020",
+   "productId": "prod_AUX-038-02",
+   "brandId": "brand_041",
+   "orgId": "org_01",
+   "units": 2,
+   "purpose": "Units for 2 students in the fall cohort",
+   "status": "rejected",
+   "createdAt": "2026-08-27T07:50:00Z",
+   "decidedAt": "2026-08-29T09:50:00Z",
+   "decidedBy": "Uma Dubois",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_021",
+   "productId": "prod_MEN-008-05",
+   "brandId": "brand_011",
+   "orgId": "org_02",
+   "units": 7,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-08-27T09:19:00Z",
+   "decidedAt": "2026-08-29T09:19:00Z",
+   "decidedBy": "Farid Fischer",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_022",
+   "productId": "prod_HYP-059-05",
+   "brandId": "brand_062",
+   "orgId": "org_02",
+   "units": 9,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-08-27T10:35:00Z",
+   "decidedAt": "2026-08-29T13:35:00Z",
+   "decidedBy": "Quinn Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_023",
+   "productId": "prod_APO-109-02",
+   "brandId": "brand_112",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-08-28T02:06:00Z",
+   "decidedAt": "2026-08-30T07:06:00Z",
+   "decidedBy": "Celia Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_024",
+   "productId": "prod_STY-058-07",
+   "brandId": "brand_061",
+   "orgId": "org_03",
+   "units": 4,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-08-28T06:04:00Z",
+   "decidedAt": "2026-08-30T08:04:00Z",
+   "decidedBy": "Farid Ito",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_025",
+   "productId": "prod_PON-063-09",
+   "brandId": "brand_066",
+   "orgId": "org_02",
+   "units": 10,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "rejected",
+   "createdAt": "2026-08-28T06:50:00Z",
+   "decidedAt": "2026-08-29T06:50:00Z",
+   "decidedBy": "Rosa Rossi",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_026",
+   "productId": "prod_CAL-040-10",
+   "brandId": "brand_043",
+   "orgId": "org_01",
+   "units": 3,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-08-29T02:45:00Z",
+   "decidedAt": "2026-08-30T03:45:00Z",
+   "decidedBy": "Gia Young",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_027",
+   "productId": "prod_EUN-056-07",
+   "brandId": "brand_059",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "rejected",
+   "createdAt": "2026-08-29T03:50:00Z",
+   "decidedAt": "2026-08-30T08:50:00Z",
+   "decidedBy": "Priya Moreau",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_028",
+   "productId": "prod_STY-058-07",
+   "brandId": "brand_061",
+   "orgId": "org_01",
+   "units": 3,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-08-29T04:39:00Z",
+   "decidedAt": "2026-08-31T06:39:00Z",
+   "decidedBy": "Farid Ito",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_029",
+   "productId": "prod_HIM-003-02",
+   "brandId": "brand_006",
+   "orgId": "org_03",
+   "units": 36,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-08-29T04:56:00Z",
+   "decidedAt": "2026-08-31T07:56:00Z",
+   "decidedBy": "Chloe Castro",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_030",
+   "productId": "prod_GLA-012-02",
+   "brandId": "brand_015",
+   "orgId": "org_02",
+   "units": 17,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "rejected",
+   "createdAt": "2026-08-29T05:00:00Z",
+   "decidedAt": "2026-08-31T06:00:00Z",
+   "decidedBy": "Ines Ito",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_031",
+   "productId": "prod_EOS-111-07",
+   "brandId": "brand_114",
+   "orgId": "org_03",
+   "units": 4,
+   "purpose": "Refurbished device library for local families",
+   "status": "approved",
+   "createdAt": "2026-08-29T08:02:00Z",
+   "decidedAt": "2026-08-30T13:02:00Z",
+   "decidedBy": "Esme Quintero",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_032",
+   "productId": "prod_URA-113-01",
+   "brandId": "brand_116",
+   "orgId": "org_01",
+   "units": 10,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-08-29T08:39:00Z",
+   "decidedAt": "2026-08-30T13:39:00Z",
+   "decidedBy": "Ava Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_033",
+   "productId": "prod_HEB-011-01",
+   "brandId": "brand_014",
+   "orgId": "org_01",
+   "units": 14,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-08-29T09:02:00Z",
+   "decidedAt": "2026-08-31T12:02:00Z",
+   "decidedBy": "Farid Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_034",
+   "productId": "prod_EUN-056-06",
+   "brandId": "brand_059",
+   "orgId": "org_02",
+   "units": 10,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-08-30T06:12:00Z",
+   "decidedAt": "2026-09-01T09:12:00Z",
+   "decidedBy": "Priya Moreau",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_035",
+   "productId": "prod_CLO-062-04",
+   "brandId": "brand_065",
+   "orgId": "org_01",
+   "units": 6,
+   "purpose": "Units for 6 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-08-30T06:33:00Z",
+   "decidedAt": "2026-08-31T09:33:00Z",
+   "decidedBy": "Yara Ito",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_036",
+   "productId": "prod_PAL-057-01",
+   "brandId": "brand_060",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-08-30T09:16:00Z",
+   "decidedAt": "2026-09-01T14:16:00Z",
+   "decidedBy": "Ines Adeyemi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_037",
+   "productId": "prod_BIA-107-03",
+   "brandId": "brand_110",
+   "orgId": "org_01",
+   "units": 5,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-08-31T03:38:00Z",
+   "decidedAt": "2026-09-01T08:38:00Z",
+   "decidedBy": "Victor Park",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_038",
+   "productId": "prod_DEM-028-03",
+   "brandId": "brand_031",
+   "orgId": "org_02",
+   "units": 1,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-08-31T11:56:00Z",
+   "decidedAt": "2026-09-02T16:56:00Z",
+   "decidedBy": "Kai Xu",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_039",
+   "productId": "prod_GLA-012-04",
+   "brandId": "brand_015",
+   "orgId": "org_01",
+   "units": 42,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-09-01T11:16:00Z",
+   "decidedAt": "2026-09-03T11:16:00Z",
+   "decidedBy": "Ines Ito",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_040",
+   "productId": "prod_HER-103-03",
+   "brandId": "brand_106",
+   "orgId": "org_02",
+   "units": 9,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-02T10:50:00Z",
+   "decidedAt": "2026-09-03T10:50:00Z",
+   "decidedBy": "Hugo Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_041",
+   "productId": "prod_GLA-012-02",
+   "brandId": "brand_015",
+   "orgId": "org_02",
+   "units": 13,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-02T11:29:00Z",
+   "decidedAt": "2026-09-03T11:29:00Z",
+   "decidedBy": "Ines Ito",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_042",
+   "productId": "prod_AST-006-02",
+   "brandId": "brand_009",
+   "orgId": "org_03",
+   "units": 40,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-03T02:49:00Z",
+   "decidedAt": "2026-09-04T05:49:00Z",
+   "decidedBy": "Dmitri Moreau",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_043",
+   "productId": "prod_PHO-053-04",
+   "brandId": "brand_056",
+   "orgId": "org_02",
+   "units": 4,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-03T09:33:00Z",
+   "decidedAt": "2026-09-04T11:33:00Z",
+   "decidedBy": "Ben Hale",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_044",
+   "productId": "prod_ENY-114-01",
+   "brandId": "brand_117",
+   "orgId": "org_01",
+   "units": 3,
+   "purpose": "Units for 3 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-09-03T10:39:00Z",
+   "decidedAt": "2026-09-05T13:39:00Z",
+   "decidedBy": "Uma Chen",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_045",
+   "productId": "prod_ZEU-013-02",
+   "brandId": "brand_016",
+   "orgId": "org_02",
+   "units": 26,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-03T11:26:00Z",
+   "decidedAt": "2026-09-04T11:26:00Z",
+   "decidedBy": "Celia Evans",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_046",
+   "productId": "prod_TER-039-03",
+   "brandId": "brand_042",
+   "orgId": "org_01",
+   "units": 15,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-09-04T02:32:00Z",
+   "decidedAt": "2026-09-05T05:32:00Z",
+   "decidedBy": "Quinn Evans",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_047",
+   "productId": "prod_MOR-001-06",
+   "brandId": "brand_004",
+   "orgId": "org_01",
+   "units": 17,
+   "purpose": "Units for 17 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-09-04T04:49:00Z",
+   "decidedAt": "2026-09-05T08:49:00Z",
+   "decidedBy": "Farid Dubois",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_048",
+   "productId": "prod_TET-007-09",
+   "brandId": "brand_010",
+   "orgId": "org_03",
+   "units": 8,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-05T02:46:00Z",
+   "decidedAt": "2026-09-06T02:46:00Z",
+   "decidedBy": "Ines Alvarez",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_049",
+   "productId": "prod_HER-037-05",
+   "brandId": "brand_040",
+   "orgId": "org_03",
+   "units": 4,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-05T04:36:00Z",
+   "decidedAt": "2026-09-06T05:36:00Z",
+   "decidedBy": "Quinn Brooks",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_050",
+   "productId": "prod_SOT-014-01",
+   "brandId": "brand_017",
+   "orgId": "org_01",
+   "units": 15,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-05T08:49:00Z",
+   "decidedAt": "2026-09-07T13:49:00Z",
+   "decidedBy": "Nadia Khan",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_051",
+   "productId": "prod_THA-030-02",
+   "brandId": "brand_033",
+   "orgId": "org_03",
+   "units": 15,
+   "purpose": "Refurbished device library for local families",
+   "status": "approved",
+   "createdAt": "2026-09-06T02:20:00Z",
+   "decidedAt": "2026-09-08T04:20:00Z",
+   "decidedBy": "Hugo Walsh",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_052",
+   "productId": "prod_DEI-005-07",
+   "brandId": "brand_008",
+   "orgId": "org_02",
+   "units": 21,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-06T03:15:00Z",
+   "decidedAt": "2026-09-08T08:15:00Z",
+   "decidedBy": "Diego Park",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_053",
+   "productId": "prod_ATR-035-09",
+   "brandId": "brand_038",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "approved",
+   "createdAt": "2026-09-06T10:31:00Z",
+   "decidedAt": "2026-09-07T13:31:00Z",
+   "decidedBy": "Victor Garcia",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_054",
+   "productId": "prod_ARI-027-03",
+   "brandId": "brand_030",
+   "orgId": "org_01",
+   "units": 12,
+   "purpose": "Units for 12 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-09-07T07:32:00Z",
+   "decidedAt": "2026-09-09T07:32:00Z",
+   "decidedBy": "Mateo Duarte",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_055",
+   "productId": "prod_DOR-004-02",
+   "brandId": "brand_007",
+   "orgId": "org_01",
+   "units": 42,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-07T08:22:00Z",
+   "decidedAt": "2026-09-09T13:22:00Z",
+   "decidedBy": "Bruno Khan",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_056",
+   "productId": "prod_DEM-028-03",
+   "brandId": "brand_031",
+   "orgId": "org_02",
+   "units": 1,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-07T11:38:00Z",
+   "decidedAt": "2026-09-09T14:38:00Z",
+   "decidedBy": "Kai Xu",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_057",
+   "productId": "prod_HYP-059-02",
+   "brandId": "brand_062",
+   "orgId": "org_02",
+   "units": 3,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-07T11:39:00Z",
+   "decidedAt": "2026-09-09T16:39:00Z",
+   "decidedBy": "Quinn Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_058",
+   "productId": "prod_ARE-054-02",
+   "brandId": "brand_057",
+   "orgId": "org_01",
+   "units": 15,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-08T08:10:00Z",
+   "decidedAt": "2026-09-09T12:10:00Z",
+   "decidedBy": "Amara Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_059",
+   "productId": "prod_PON-063-02",
+   "brandId": "brand_066",
+   "orgId": "org_02",
+   "units": 15,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-08T08:56:00Z",
+   "decidedAt": "2026-09-10T13:56:00Z",
+   "decidedBy": "Rosa Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_060",
+   "productId": "prod_PHE-102-01",
+   "brandId": "brand_105",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-08T09:50:00Z",
+   "decidedAt": "2026-09-10T11:50:00Z",
+   "decidedBy": "Yara Quintero",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_061",
+   "productId": "prod_NOT-108-03",
+   "brandId": "brand_111",
+   "orgId": "org_03",
+   "units": 5,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-09T04:16:00Z",
+   "decidedAt": "2026-09-11T08:16:00Z",
+   "decidedBy": "Dmitri Moreau",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_062",
+   "productId": "prod_HER-103-10",
+   "brandId": "brand_106",
+   "orgId": "org_03",
+   "units": 4,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-09T04:43:00Z",
+   "decidedAt": "2026-09-10T05:43:00Z",
+   "decidedBy": "Hugo Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_063",
+   "productId": "prod_SEL-034-02",
+   "brandId": "brand_037",
+   "orgId": "org_02",
+   "units": 6,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-10T03:52:00Z",
+   "decidedAt": "2026-09-12T08:52:00Z",
+   "decidedBy": "Hugo Duarte",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_064",
+   "productId": "prod_HYP-059-02",
+   "brandId": "brand_062",
+   "orgId": "org_02",
+   "units": 3,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-10T11:45:00Z",
+   "decidedAt": "2026-09-11T14:45:00Z",
+   "decidedBy": "Quinn Nakamura",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_065",
+   "productId": "prod_OCE-060-04",
+   "brandId": "brand_063",
+   "orgId": "org_03",
+   "units": 8,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-12T02:23:00Z",
+   "decidedAt": "2026-09-14T03:23:00Z",
+   "decidedBy": "Rosa Brooks",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_066",
+   "productId": "prod_THA-030-02",
+   "brandId": "brand_033",
+   "orgId": "org_03",
+   "units": 11,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-12T03:04:00Z",
+   "decidedAt": "2026-09-13T05:04:00Z",
+   "decidedBy": "Hugo Walsh",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_067",
+   "productId": "prod_CLO-062-02",
+   "brandId": "brand_065",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Units for 4 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-09-12T06:28:00Z",
+   "decidedAt": "2026-09-14T09:28:00Z",
+   "decidedBy": "Yara Ito",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_068",
+   "productId": "prod_TER-039-07",
+   "brandId": "brand_042",
+   "orgId": "org_02",
+   "units": 12,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-12T06:46:00Z",
+   "decidedAt": "2026-09-13T06:46:00Z",
+   "decidedBy": "Quinn Evans",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_069",
+   "productId": "prod_HAR-106-06",
+   "brandId": "brand_109",
+   "orgId": "org_02",
+   "units": 6,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "rejected",
+   "createdAt": "2026-09-12T07:21:00Z",
+   "decidedAt": "2026-09-14T10:21:00Z",
+   "decidedBy": "Tara Ueda",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_070",
+   "productId": "prod_CRO-105-02",
+   "brandId": "brand_108",
+   "orgId": "org_02",
+   "units": 6,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-12T10:17:00Z",
+   "decidedAt": "2026-09-13T12:17:00Z",
+   "decidedBy": "Amara Young",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_071",
+   "productId": "prod_AMP-065-02",
+   "brandId": "brand_068",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-09-13T02:31:00Z",
+   "decidedAt": "2026-09-15T05:31:00Z",
+   "decidedBy": "Ava Singh",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_072",
+   "productId": "prod_EIR-112-04",
+   "brandId": "brand_115",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-13T05:12:00Z",
+   "decidedAt": "2026-09-14T08:12:00Z",
+   "decidedBy": "Samir Lindqvist",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_073",
+   "productId": "prod_ENY-114-01",
+   "brandId": "brand_117",
+   "orgId": "org_03",
+   "units": 7,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-13T05:23:00Z",
+   "decidedAt": "2026-09-14T05:23:00Z",
+   "decidedBy": "Uma Chen",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_074",
+   "productId": "prod_TET-007-09",
+   "brandId": "brand_010",
+   "orgId": "org_02",
+   "units": 12,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-14T04:13:00Z",
+   "decidedAt": "2026-09-15T04:13:00Z",
+   "decidedBy": "Ines Alvarez",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_075",
+   "productId": "prod_SOT-014-01",
+   "brandId": "brand_017",
+   "orgId": "org_01",
+   "units": 7,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-09-14T08:28:00Z",
+   "decidedAt": "2026-09-15T13:28:00Z",
+   "decidedBy": "Nadia Khan",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_076",
+   "productId": "prod_ZEP-032-02",
+   "brandId": "brand_035",
+   "orgId": "org_01",
+   "units": 5,
+   "purpose": "Units for 5 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-09-14T10:03:00Z",
+   "decidedAt": "2026-09-16T13:03:00Z",
+   "decidedBy": "Lila Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_077",
+   "productId": "prod_BIA-107-06",
+   "brandId": "brand_110",
+   "orgId": "org_02",
+   "units": 3,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-14T11:05:00Z",
+   "decidedAt": "2026-09-16T12:05:00Z",
+   "decidedBy": "Victor Park",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_078",
+   "productId": "prod_HED-010-01",
+   "brandId": "brand_013",
+   "orgId": "org_02",
+   "units": 8,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-16T02:56:00Z",
+   "decidedAt": "2026-09-17T07:56:00Z",
+   "decidedBy": "Ava Dubois",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_079",
+   "productId": "prod_CAR-002-02",
+   "brandId": "brand_005",
+   "orgId": "org_03",
+   "units": 14,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-16T03:49:00Z",
+   "decidedAt": "2026-09-17T08:49:00Z",
+   "decidedBy": "Farid Castro",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_080",
+   "productId": "prod_AUX-038-02",
+   "brandId": "brand_041",
+   "orgId": "org_02",
+   "units": 4,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "approved",
+   "createdAt": "2026-09-16T08:13:00Z",
+   "decidedAt": "2026-09-18T12:13:00Z",
+   "decidedBy": "Uma Dubois",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_081",
+   "productId": "prod_HER-103-06",
+   "brandId": "brand_106",
+   "orgId": "org_01",
+   "units": 8,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "approved",
+   "createdAt": "2026-09-16T10:18:00Z",
+   "decidedAt": "2026-09-17T14:18:00Z",
+   "decidedBy": "Hugo Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_082",
+   "productId": "prod_CAR-002-01",
+   "brandId": "brand_005",
+   "orgId": "org_01",
+   "units": 15,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-16T10:21:00Z",
+   "decidedAt": "2026-09-18T10:21:00Z",
+   "decidedBy": "Farid Castro",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_083",
+   "productId": "prod_HER-103-02",
+   "brandId": "brand_106",
+   "orgId": "org_02",
+   "units": 3,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-17T02:25:00Z",
+   "decidedAt": "2026-09-19T04:25:00Z",
+   "decidedBy": "Hugo Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_084",
+   "productId": "prod_HAR-106-03",
+   "brandId": "brand_109",
+   "orgId": "org_02",
+   "units": 8,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-17T06:34:00Z",
+   "decidedAt": "2026-09-18T08:34:00Z",
+   "decidedBy": "Tara Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_085",
+   "productId": "prod_MNE-061-06",
+   "brandId": "brand_064",
+   "orgId": "org_03",
+   "units": 3,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-18T03:07:00Z",
+   "decidedAt": "2026-09-20T03:07:00Z",
+   "decidedBy": "Ava Castro",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_086",
+   "productId": "prod_HOM-033-05",
+   "brandId": "brand_036",
+   "orgId": "org_03",
+   "units": 10,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-18T08:33:00Z",
+   "decidedAt": "2026-09-20T10:33:00Z",
+   "decidedBy": "Omar Zimmer",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_087",
+   "productId": "prod_APA-110-05",
+   "brandId": "brand_113",
+   "orgId": "org_02",
+   "units": 11,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-18T08:50:00Z",
+   "decidedAt": "2026-09-20T08:50:00Z",
+   "decidedBy": "Ines Castro",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_088",
+   "productId": "prod_DEI-005-03",
+   "brandId": "brand_008",
+   "orgId": "org_03",
+   "units": 21,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-19T09:00:00Z",
+   "decidedAt": "2026-09-21T14:00:00Z",
+   "decidedBy": "Diego Park",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_089",
+   "productId": "prod_GLA-012-07",
+   "brandId": "brand_015",
+   "orgId": "org_03",
+   "units": 22,
+   "purpose": "Refurbished device library for local families",
+   "status": "rejected",
+   "createdAt": "2026-09-20T02:48:00Z",
+   "decidedAt": "2026-09-21T02:48:00Z",
+   "decidedBy": "Ines Ito",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_090",
+   "productId": "prod_EUN-056-06",
+   "brandId": "brand_059",
+   "orgId": "org_02",
+   "units": 11,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-20T06:12:00Z",
+   "decidedAt": "2026-09-21T10:12:00Z",
+   "decidedBy": "Priya Moreau",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_091",
+   "productId": "prod_MET-029-02",
+   "brandId": "brand_032",
+   "orgId": "org_02",
+   "units": 9,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-20T07:22:00Z",
+   "decidedAt": "2026-09-22T08:22:00Z",
+   "decidedBy": "Ines Jensen",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_092",
+   "productId": "prod_APO-109-03",
+   "brandId": "brand_112",
+   "orgId": "org_02",
+   "units": 1,
+   "purpose": "Training lab for the certification course",
+   "status": "approved",
+   "createdAt": "2026-09-20T11:08:00Z",
+   "decidedAt": "2026-09-21T15:08:00Z",
+   "decidedBy": "Celia Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_093",
+   "productId": "prod_HER-037-02",
+   "brandId": "brand_040",
+   "orgId": "org_03",
+   "units": 14,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-21T04:04:00Z",
+   "decidedAt": "2026-09-23T05:04:00Z",
+   "decidedBy": "Quinn Brooks",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_094",
+   "productId": "prod_EUR-104-07",
+   "brandId": "brand_107",
+   "orgId": "org_02",
+   "units": 5,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "approved",
+   "createdAt": "2026-09-21T06:05:00Z",
+   "decidedAt": "2026-09-22T10:05:00Z",
+   "decidedBy": "Amara Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_095",
+   "productId": "prod_HOM-033-04",
+   "brandId": "brand_036",
+   "orgId": "org_02",
+   "units": 6,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-21T08:00:00Z",
+   "decidedAt": "2026-09-23T10:00:00Z",
+   "decidedBy": "Omar Zimmer",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_096",
+   "productId": "prod_AST-006-02",
+   "brandId": "brand_009",
+   "orgId": "org_03",
+   "units": 35,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-21T10:48:00Z",
+   "decidedAt": "2026-09-23T11:48:00Z",
+   "decidedBy": "Dmitri Moreau",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_097",
+   "productId": "prod_DOR-004-02",
+   "brandId": "brand_007",
+   "orgId": "org_03",
+   "units": 39,
+   "purpose": "Public computer lab at the community center",
+   "status": "approved",
+   "createdAt": "2026-09-22T02:16:00Z",
+   "decidedAt": "2026-09-24T05:16:00Z",
+   "decidedBy": "Bruno Khan",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_098",
+   "productId": "prod_MET-029-03",
+   "brandId": "brand_032",
+   "orgId": "org_02",
+   "units": 4,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-22T03:59:00Z",
+   "decidedAt": "2026-09-24T06:59:00Z",
+   "decidedBy": "Ines Jensen",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_099",
+   "productId": "prod_PER-036-07",
+   "brandId": "brand_039",
+   "orgId": "org_01",
+   "units": 8,
+   "purpose": "Units for 8 students in the fall cohort",
+   "status": "approved",
+   "createdAt": "2026-09-22T04:57:00Z",
+   "decidedAt": "2026-09-24T08:57:00Z",
+   "decidedBy": "Gia Lindqvist",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_100",
+   "productId": "prod_APO-109-06",
+   "brandId": "brand_112",
+   "orgId": "org_02",
+   "units": 2,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "approved",
+   "createdAt": "2026-09-22T05:21:00Z",
+   "decidedAt": "2026-09-23T10:21:00Z",
+   "decidedBy": "Celia Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_101",
+   "productId": "prod_EUR-104-02",
+   "brandId": "brand_107",
+   "orgId": "org_02",
+   "units": 6,
+   "purpose": "Devices for the telehealth check-in room",
+   "status": "approved",
+   "createdAt": "2026-09-22T06:00:00Z",
+   "decidedAt": "2026-09-24T07:00:00Z",
+   "decidedBy": "Amara Ueda",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_102",
+   "productId": "prod_ARE-054-05",
+   "brandId": "brand_057",
+   "orgId": "org_01",
+   "units": 7,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-22T07:49:00Z",
+   "decidedAt": "2026-09-23T12:49:00Z",
+   "decidedBy": "Amara Rossi",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_103",
+   "productId": "prod_004",
+   "brandId": "brand_001",
+   "orgId": "org_01",
+   "units": 15,
+   "purpose": "Loaner pool for students without a device at home",
+   "status": "approved",
+   "createdAt": "2026-09-22T10:35:00Z",
+   "decidedAt": "2026-09-23T10:35:00Z",
+   "decidedBy": "Maria Lopez",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_104",
+   "productId": "prod_NEM-051-08",
+   "brandId": "brand_054",
+   "orgId": "org_03",
+   "units": 9,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-22T11:50:00Z",
+   "decidedAt": "2026-09-24T14:50:00Z",
+   "decidedBy": "Dmitri Singh",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_105",
+   "productId": "prod_ZEU-013-02",
+   "brandId": "brand_016",
+   "orgId": "org_03",
+   "units": 25,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "approved",
+   "createdAt": "2026-09-24T03:44:00Z",
+   "decidedAt": "2026-09-25T07:44:00Z",
+   "decidedBy": "Celia Evans",
+   "note": "Approved. Pickup scheduled with the partner."
+  },
+  {
+   "requestId": "creq_106",
+   "productId": "prod_CLO-062-07",
+   "brandId": "brand_065",
+   "orgId": "org_01",
+   "units": 4,
+   "purpose": "Units for 4 students in the fall cohort",
+   "status": "rejected",
+   "createdAt": "2026-09-24T06:48:00Z",
+   "decidedAt": "2026-09-25T10:48:00Z",
+   "decidedBy": "Yara Ito",
+   "note": "Those units are committed to an earlier request."
+  },
+  {
+   "requestId": "creq_107",
+   "productId": "prod_HOM-033-04",
+   "brandId": "brand_036",
+   "orgId": "org_03",
+   "units": 9,
+   "purpose": "Public computer lab at the community center",
+   "status": "pending_approval",
+   "createdAt": "2026-09-25T03:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_108",
+   "productId": "prod_MNE-061-08",
+   "brandId": "brand_064",
+   "orgId": "org_02",
+   "units": 11,
+   "purpose": "Job-search kits for the veterans transition program",
+   "status": "pending_approval",
+   "createdAt": "2026-09-25T04:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_109",
+   "productId": "prod_004",
+   "brandId": "brand_001",
+   "orgId": "org_02",
+   "units": 15,
+   "purpose": "Training lab for the certification course",
+   "status": "pending_approval",
+   "createdAt": "2026-09-25T06:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_110",
+   "productId": "prod_PER-101-02",
+   "brandId": "brand_104",
+   "orgId": "org_01",
+   "units": 10,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "pending_approval",
+   "createdAt": "2026-09-25T06:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_111",
+   "productId": "prod_URA-113-07",
+   "brandId": "brand_116",
+   "orgId": "org_01",
+   "units": 7,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "pending_approval",
+   "createdAt": "2026-09-25T07:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_112",
+   "productId": "prod_PAL-057-05",
+   "brandId": "brand_060",
+   "orgId": "org_01",
+   "units": 2,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "pending_approval",
+   "createdAt": "2026-09-25T09:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_113",
+   "productId": "prod_HED-010-04",
+   "brandId": "brand_013",
+   "orgId": "org_03",
+   "units": 5,
+   "purpose": "Public computer lab at the community center",
+   "status": "pending_approval",
+   "createdAt": "2026-09-26T03:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_114",
+   "productId": "prod_EOS-111-07",
+   "brandId": "brand_114",
+   "orgId": "org_01",
+   "units": 3,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "pending_approval",
+   "createdAt": "2026-09-26T05:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_115",
+   "productId": "prod_HED-010-09",
+   "brandId": "brand_013",
+   "orgId": "org_01",
+   "units": 10,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "pending_approval",
+   "createdAt": "2026-09-26T11:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_116",
+   "productId": "prod_PAL-057-10",
+   "brandId": "brand_060",
+   "orgId": "org_01",
+   "units": 8,
+   "purpose": "Classroom set for a middle school computer lab",
+   "status": "pending_approval",
+   "createdAt": "2026-09-27T03:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_117",
+   "productId": "prod_ZEU-013-09",
+   "brandId": "brand_016",
+   "orgId": "org_02",
+   "units": 23,
+   "purpose": "Training lab for the certification course",
+   "status": "pending_approval",
+   "createdAt": "2026-09-27T07:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_118",
+   "productId": "prod_CLO-062-09",
+   "brandId": "brand_065",
+   "orgId": "org_03",
+   "units": 14,
+   "purpose": "Digital skills workshop for adult learners",
+   "status": "pending_approval",
+   "createdAt": "2026-09-27T09:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_119",
+   "productId": "prod_PHO-053-04",
+   "brandId": "brand_056",
+   "orgId": "org_02",
+   "units": 2,
+   "purpose": "Training lab for the certification course",
+   "status": "pending_approval",
+   "createdAt": "2026-09-27T10:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_120",
+   "productId": "prod_NYX-115-01",
+   "brandId": "brand_118",
+   "orgId": "org_03",
+   "units": 4,
+   "purpose": "Public computer lab at the community center",
+   "status": "pending_approval",
+   "createdAt": "2026-09-27T11:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  },
+  {
+   "requestId": "creq_121",
+   "productId": "prod_PON-063-06",
+   "brandId": "brand_066",
+   "orgId": "org_03",
+   "units": 3,
+   "purpose": "Public computer lab at the community center",
+   "status": "pending_approval",
+   "createdAt": "2026-09-27T11:00:00Z",
+   "decidedAt": null,
+   "decidedBy": null,
+   "note": null
+  }
+ ]
+}

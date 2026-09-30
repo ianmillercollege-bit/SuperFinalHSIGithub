@@ -14,7 +14,7 @@ from fastapi import Depends, HTTPException, Query
 from sqlalchemy import or_, select
 
 import constants as C
-from db import Answer, Brand, Claim, Incident, User, get_db
+from db import Answer, Brand, Claim, CommunityRequest, Incident, User, get_db
 from services.session import optional_user
 
 
@@ -52,6 +52,9 @@ def brand_of_target(db, target_id: str) -> str | None:
     if head == "ans":
         answer = db.get(Answer, target_id)
         return answer.brand_id if answer else None
+    if head == "creq":  # v1.6 community request: the pledging brand's
+        request = db.get(CommunityRequest, target_id)
+        return request.brand_id if request else None
     if head == "brand":
         return target_id if db.get(Brand, target_id) else None
     return None

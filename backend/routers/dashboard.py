@@ -42,7 +42,8 @@ def product_out(p: Product, brands: dict[str, str]) -> dict:
             "category": p.category, "subcategory": p.subcategory,
             "specs": product_specs(p),
             "returnPolicyDays": p.return_policy_days, "updatedAt": p.updated_at,
-            "factSource": p.fact_source, "factSourceUrl": p.fact_source_url, "verifiedAt": p.verified_at}
+            "factSource": p.fact_source, "factSourceUrl": p.fact_source_url, "verifiedAt": p.verified_at,
+            "condition": p.condition, "communityPledge": p.community_pledge}
 
 
 @router.get("/products", response_model=ProductsOut)

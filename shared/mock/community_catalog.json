@@ -1,0 +1,136 @@
+{
+  "items": [
+    {
+      "productId": "prod_AUR-015-10",
+      "name": "Aurai Drift Studio Monitor Headphones",
+      "brandId": "brand_018",
+      "brandName": "Aurai",
+      "category": "headphones",
+      "condition": "refurbished",
+      "price": 497.99,
+      "verified": true,
+      "communityPledge": {
+        "unitsPledged": 145,
+        "unitsPlaced": 0,
+        "conditionNotes": "Grade A, light cosmetic wear",
+        "warrantyMonths": 12
+      },
+      "facts": [
+        {
+          "text": "Price: $497.99.",
+          "claimStatus": "correct",
+          "factId": "fact_aur-015-10-0"
+        },
+        {
+          "text": "Condition: refurbished.",
+          "claimStatus": "correct",
+          "factId": "fact_aur-015-10-9"
+        },
+        {
+          "text": "Covered for 12 months under the brand's community pledge.",
+          "claimStatus": "correct",
+          "factId": "fact_aur-015-10-warranty"
+        }
+      ]
+    },
+    {
+      "productId": "prod_DEI-005-04",
+      "name": "Deimos Lumen X True Wireless Earbuds",
+      "brandId": "brand_008",
+      "brandName": "Deimos",
+      "category": "headphones",
+      "condition": "refurbished",
+      "price": 111.99,
+      "verified": true,
+      "communityPledge": {
+        "unitsPledged": 135,
+        "unitsPlaced": 0,
+        "conditionNotes": "Factory refurbished, new charger and cable",
+        "warrantyMonths": 6
+      },
+      "facts": [
+        {
+          "text": "Price: $111.99.",
+          "claimStatus": "correct",
+          "factId": "fact_dei-005-04-0"
+        },
+        {
+          "text": "Condition: refurbished.",
+          "claimStatus": "correct",
+          "factId": "fact_dei-005-04-9"
+        },
+        {
+          "text": "Covered for 6 months under the brand's community pledge.",
+          "claimStatus": "correct",
+          "factId": "fact_dei-005-04-warranty"
+        }
+      ]
+    },
+    {
+      "productId": "prod_ZEU-013-09",
+      "name": "Zeus Volt Max True Wireless Earbuds",
+      "brandId": "brand_016",
+      "brandName": "Zeus",
+      "category": "headphones",
+      "condition": "surplus",
+      "price": 289.99,
+      "verified": true,
+      "communityPledge": {
+        "unitsPledged": 135,
+        "unitsPlaced": 0,
+        "conditionNotes": "New, open box",
+        "warrantyMonths": 12
+      },
+      "facts": [
+        {
+          "text": "Price: $289.99.",
+          "claimStatus": "correct",
+          "factId": "fact_zeu-013-09-0"
+        },
+        {
+          "text": "Condition: surplus.",
+          "claimStatus": "correct",
+          "factId": "fact_zeu-013-09-9"
+        },
+        {
+          "text": "Covered for 12 months under the brand's community pledge.",
+          "claimStatus": "correct",
+          "factId": "fact_zeu-013-09-warranty"
+        }
+      ]
+    },
+    {
+      "productId": "prod_DOR-004-08",
+      "name": "Doris Pulse SE ANC Over-Ear Headphones",
+      "brandId": "brand_007",
+      "brandName": "Doris",
+      "category": "headphones",
+      "condition": "refurbished",
+      "price": 342.99,
+      "verified": true,
+      "communityPledge": {
+        "unitsPledged": 130,
+        "unitsPlaced": 0,
+        "conditionNotes": "Grade B, minor scratches on the case",
+        "warrantyMonths": 6
+      },
+      "facts": [
+        {
+          "text": "Price: $342.99.",
+          "claimStatus": "correct",
+          "factId": "fact_dor-004-08-0"
+        },
+        {
+          "text": "Condition: refurbished.",
+          "claimStatus": "correct",
+          "factId": "fact_dor-004-08-9"
+        },
+        {
+          "text": "Covered for 6 months under the brand's community pledge.",
+          "claimStatus": "correct",
+          "factId": "fact_dor-004-08-warranty"
+        }
+      ]
+    }
+  ]
+}

@@ -50,6 +50,10 @@ class Product(Base):
     # v1.4.1: categories follow the source spreadsheet.
     category: Mapped[str] = mapped_column(String, default="laptops")  # laptops | headphones | phones_tablets | computer_hardware
     subcategory: Mapped[str] = mapped_column(String, default="Laptop")  # the sheet's Product Category
+    # v1.6 Community program: new | refurbished | surplus, and the brand's pledge (null when not pledged):
+    # {"unitsPledged", "unitsPlaced", "conditionNotes", "warrantyMonths"}.
+    condition: Mapped[str] = mapped_column(String, default="new")
+    community_pledge: Mapped[dict | None] = mapped_column(JSON(none_as_null=True), nullable=True)
 
 
 class ComparisonFact(Base):
@@ -74,7 +78,34 @@ class User(Base):
     role: Mapped[str] = mapped_column(String)  # Brand Data Owner | Trust and Safety Lead | Viewer | CIRQO Staff
     title: Mapped[str | None] = mapped_column(String, nullable=True)  # e.g. staff job title
     brand_id: Mapped[str | None] = mapped_column(String, nullable=True)  # None for CIRQO Staff
+    org_id: Mapped[str | None] = mapped_column(String, nullable=True)  # v1.6: Community Partner organization
     password_hash: Mapped[str] = mapped_column(String)
+
+
+class CommunityOrg(Base):
+    """A Community Partner organization (v1.6): fictional schools, nonprofits, veterans groups."""
+
+    __tablename__ = "community_orgs"
+    org_id: Mapped[str] = mapped_column(String, primary_key=True)
+    name: Mapped[str] = mapped_column(String)
+    kind: Mapped[str] = mapped_column(String)  # school_district | veterans_group | nonprofit
+
+
+class CommunityRequest(Base):
+    """A partner's request for pledged units (v1.6). No data about the people who receive them, ever."""
+
+    __tablename__ = "community_requests"
+    request_id: Mapped[str] = mapped_column(String, primary_key=True)
+    product_id: Mapped[str] = mapped_column(String, index=True)
+    brand_id: Mapped[str] = mapped_column(String, index=True)
+    org_id: Mapped[str] = mapped_column(String, index=True)
+    units: Mapped[int] = mapped_column(Integer)
+    purpose: Mapped[str] = mapped_column(String)
+    status: Mapped[str] = mapped_column(String)  # pending_approval | approved | rejected
+    created_at: Mapped[str] = mapped_column(String)
+    decided_at: Mapped[str | None] = mapped_column(String, nullable=True)
+    decided_by: Mapped[str | None] = mapped_column(String, nullable=True)
+    note: Mapped[str | None] = mapped_column(String, nullable=True)
 
 
 class Assistant(Base):

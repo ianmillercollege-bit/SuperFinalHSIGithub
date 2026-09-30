@@ -1,0 +1,55 @@
+{
+  "requests": [
+    {
+      "requestId": "creq_122",
+      "status": "pending_approval",
+      "productId": "prod_004",
+      "productName": "Kestrel Studio 15",
+      "brandId": "brand_001",
+      "partner": {
+        "orgId": "org_01",
+        "orgName": "Bexar Valley School District"
+      },
+      "units": 10,
+      "purpose": "Laptops for 10 students in the fall cohort",
+      "createdAt": "2026-09-30T03:23:47Z",
+      "decidedAt": null,
+      "decidedBy": null,
+      "note": null
+    },
+    {
+      "requestId": "creq_109",
+      "status": "pending_approval",
+      "productId": "prod_004",
+      "productName": "Kestrel Studio 15",
+      "brandId": "brand_001",
+      "partner": {
+        "orgId": "org_02",
+        "orgName": "Lone Star Veterans Network"
+      },
+      "units": 15,
+      "purpose": "Training lab for the certification course",
+      "createdAt": "2026-09-25T15:42:44Z",
+      "decidedAt": null,
+      "decidedBy": null,
+      "note": null
+    },
+    {
+      "requestId": "creq_103",
+      "status": "approved",
+      "productId": "prod_004",
+      "productName": "Kestrel Studio 15",
+      "brandId": "brand_001",
+      "partner": {
+        "orgId": "org_01",
+        "orgName": "Bexar Valley School District"
+      },
+      "units": 15,
+      "purpose": "Loaner pool for students without a device at home",
+      "createdAt": "2026-09-22T20:17:44Z",
+      "decidedAt": "2026-09-23T20:17:44Z",
+      "decidedBy": "Maria Lopez",
+      "note": "Approved. Pickup scheduled with the partner."
+    }
+  ]
+}

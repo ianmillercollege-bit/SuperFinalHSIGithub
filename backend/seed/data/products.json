@@ -22,6 +22,8 @@
       "factSource": "Brand product feed",
       "factSourceUrl": "https://www.kestrel.example/aero-14",
       "verifiedAt": "2026-09-28T12:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 479.99,
@@ -57,6 +59,8 @@
       "factSource": "Brand product feed",
       "factSourceUrl": "https://www.kestrel.example/aero-13-lite",
       "verifiedAt": "2026-09-28T12:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 339.0,
@@ -92,6 +96,8 @@
       "factSource": "Brand product feed",
       "factSourceUrl": "https://www.kestrel.example/flex-14-touch",
       "verifiedAt": "2026-09-28T12:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 499.99,
@@ -127,6 +133,13 @@
       "factSource": "Brand product feed",
       "factSourceUrl": "https://www.kestrel.example/studio-15",
       "verifiedAt": "2026-09-28T12:00:00Z",
+      "condition": "refurbished",
+      "communityPledge": {
+        "unitsPledged": 55,
+        "unitsPlaced": 15,
+        "conditionNotes": "Factory refurbished, new charger and cable",
+        "warrantyMonths": 6
+      },
       "priceHistory": [
         {
           "price": 649.99,
@@ -162,6 +175,8 @@
       "factSource": "Brand product feed",
       "factSourceUrl": "https://www.kestrel.example/aero-14-plus",
       "verifiedAt": "2026-09-28T12:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 579.0,
@@ -197,6 +212,8 @@
       "factSource": "Brand product feed",
       "factSourceUrl": "https://www.kestrel.example/pocket-12",
       "verifiedAt": "2026-09-27T09:30:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 399.0,
@@ -232,6 +249,8 @@
       "factSource": "Manufacturer spec sheet",
       "factSourceUrl": "https://www.novex.example/slate-14",
       "verifiedAt": "2026-09-27T15:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 499.0,
@@ -267,6 +286,8 @@
       "factSource": "Manufacturer spec sheet",
       "factSourceUrl": "https://www.novex.example/go-13",
       "verifiedAt": "2026-09-27T15:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 369.0,
@@ -302,6 +323,8 @@
       "factSource": "Manufacturer spec sheet",
       "factSourceUrl": "https://www.novex.example/canvas-15",
       "verifiedAt": "2026-09-27T15:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 549.0,
@@ -337,6 +360,8 @@
       "factSource": "Brand website",
       "factSourceUrl": "https://www.arcton.example/swift-14",
       "verifiedAt": "2026-09-26T18:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 489.0,
@@ -372,6 +397,8 @@
       "factSource": "Brand website",
       "factSourceUrl": "https://www.arcton.example/vista-15",
       "verifiedAt": "2026-09-26T18:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 529.0,
@@ -407,6 +434,8 @@
       "factSource": "Brand website",
       "factSourceUrl": "https://www.arcton.example/titan-16",
       "verifiedAt": "2026-09-26T18:00:00Z",
+      "condition": "new",
+      "communityPledge": null,
       "priceHistory": [
         {
           "price": 749.0,
