@@ -92,7 +92,7 @@ export const prompts: VisibilityPrompt[] = [
   },
   {
     "id": "prm_03",
-    "text": "how long does the Harbor 12 Cooler keep ice",
+    "text": "how long does the Alpine 12 Cooler keep ice",
     "category": "Coolers",
     "results": [
       {
@@ -343,7 +343,7 @@ export const prompts: VisibilityPrompt[] = [
 export const market: MarketEntry[] = [
   {
     "id": "biz_you",
-    "name": "Kestrel",
+    "name": "Your business",
     "group": "you",
     "score": 63,
     "averageRank": null,
