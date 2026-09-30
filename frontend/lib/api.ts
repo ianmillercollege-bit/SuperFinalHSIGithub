@@ -27,7 +27,11 @@ import type {
   AuditResponse,
   CheckerRunRequest,
   CheckerRunResponse,
+  BrandProfile,
+  BrandsResponse,
   ConnectorQueryRequest,
+  ConnectorSearchRequest,
+  ConnectorSearchResponse,
   LoginRequest,
   LoginResponse,
   DemoAccountsResponse,
@@ -88,6 +92,9 @@ export const MOCK_FILES = {
   demoAccounts: "demo_accounts",
   /** v1.4. No file in shared/mock/, so mock mode reports NOT_FOUND. */
   authLogin: "auth_login",
+  brandProfile: "brand_profile",
+  brands: "brands",
+  connectorSearch: "connector_search",
   brandsOnboard: "brands_onboard",
 } as const;
 
@@ -124,9 +131,24 @@ export function recommend(body: RecommendRequest): Promise<RecommendResponse> {
   return request("POST", "/api/v1/shopper/recommend", {}, body, MOCK_FILES.shopperRecommend);
 }
 
-// GET /api/v1/products
-export function getProducts(): Promise<ProductsResponse> {
-  return request("GET", "/api/v1/products", {}, undefined, MOCK_FILES.products);
+// GET /api/v1/products?category=&brandId=  (both optional; v1.4.1 filters, older backends ignore them)
+export function getProducts(filters: { category?: string; brandId?: string } = {}): Promise<ProductsResponse> {
+  return request("GET", "/api/v1/products", { ...filters }, undefined, MOCK_FILES.products);
+}
+
+// GET /api/v1/brands/{brandId}  (v1.4: the company profile)
+export function getBrand(brandId: string): Promise<BrandProfile> {
+  return request("GET", `/api/v1/brands/${encodeURIComponent(brandId)}`, {}, undefined, MOCK_FILES.brandProfile);
+}
+
+// GET /api/v1/brands  (v1.4, CIRQO Staff token only: 403 FORBIDDEN otherwise)
+export function getBrands(): Promise<BrandsResponse> {
+  return request("GET", "/api/v1/brands", {}, undefined, MOCK_FILES.brands);
+}
+
+// POST /api/v1/connector/search  (v1.4: the funnel; up to 5 options and narrowing questions)
+export function connectorSearch(body: ConnectorSearchRequest): Promise<ConnectorSearchResponse> {
+  return request("POST", "/api/v1/connector/search", {}, body, MOCK_FILES.connectorSearch, CONNECTOR_TIMEOUT_MS);
 }
 
 // GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)

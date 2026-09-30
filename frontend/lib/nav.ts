@@ -5,6 +5,8 @@ export interface NavItem {
   href: string;
   /** Shows a live count badge. */
   count?: "openIncidents";
+  /** Shown only to CIRQO Staff logins (contract v1.4). */
+  staffOnly?: boolean;
 }
 
 export interface NavGroup {
@@ -22,6 +24,9 @@ export const NAV: NavGroup[] = [
       { label: "Dashboard", href: "/dashboard" },
       { label: "AI Visibility", href: "/visibility" },
       { label: "Market Position", href: "/market" },
+      { label: "Company", href: "/company" },
+      { label: "Products", href: "/products" },
+      { label: "All companies", href: "/companies", staffOnly: true },
       // Sample-only pages allowed by DECISIONS.md #28: frontend sample data about the demo business.
       { label: "Preview as shopper", href: "/preview" },
       { label: "Growth Simulator", href: "/growth-simulator" },

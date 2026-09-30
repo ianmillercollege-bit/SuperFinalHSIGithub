@@ -47,7 +47,7 @@ export default function AppSidebar() {
   const groups: KitNavGroup[] = NAV.map((group) => ({
     title: group.title,
     tone: group.tone,
-    items: group.items.map((item) => ({
+    items: group.items.filter((item) => !item.staffOnly || user?.staff).map((item) => ({
       label: item.label,
       href: item.href,
       ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
