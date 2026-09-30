@@ -37,6 +37,18 @@ Find the item you just approved at the top.
 ## 6. Scale, one line (10 seconds)
 "153 companies, 1,500 products, a dashboard for each. Every company here is fictional." Click **All companies** if logged in as CIRQO Staff.
 
+## 6b. The plugin in a real assistant (45 seconds, if Claude Desktop is set up)
+In Claude Desktop, new chat: "I want headphones for the gym, budget around $150." Claude calls `cirqo_search`, shows
+five options with **Verified by brand** or **Not verified by the brand** on each, and asks one narrowing question.
+Answer it; Claude calls `cirqo_query` and gives one pick built only from checked facts.
+"This is what the shopper sees. They never open CIRQO. Their assistant does."
+
+## 6c. Community program (30 seconds)
+Sign out, sign in as `rosa.delgado@bexar-valley-school-district.example` (password `cirqo-demo`). **Community catalog**
+shows pledged surplus and refurbished units from every brand at once. Request a few units; the brand's owner sees
+it under **Community requests**. "Brands pledge units they'd otherwise write off. Schools, nonprofits and veterans
+groups get them. CIRQO never checks anyone's income."
+
 ## 7. Close (15 seconds)
 "Brands pay a quarterly subscription for the dashboard and the connector. Shoppers pay nothing. AI platforms pay
 nothing; they're partners, because CIRQO makes their answers accurate. Never for ranking."
