@@ -38,6 +38,10 @@ check "connector query"     200 answerText    -X POST -H "Content-Type: applicat
   -d '{"question":"What is the best laptop under $500 for school?","assistantId":"ast_01"}' \
   "$BASE/api/v1/connector/query"
 check "connector 422"       422 error         -X POST -H "Content-Type: application/json" -d '{"question":"x"}' "$BASE/api/v1/connector/query"
+check "demo accounts"       200 accounts      "$BASE/api/v1/auth/demo-accounts"
+check "arcton scope"        200 competitors   "$BASE/api/v1/visibility/summary?brandId=brand_002"
+check "unknown brand 404"   404 error         "$BASE/api/v1/visibility/summary?brandId=brand_999"
+check "onboard 422"         422 error         -X POST -H "Content-Type: application/json" -d '{"brandName":"X","ownerName":"Y","products":[]}' "$BASE/api/v1/brands/onboard"
 check "products"            200 products      "$BASE/api/v1/products"
 check "visibility summary"  200 visibilityRate "$BASE/api/v1/visibility/summary"
 check "answers"             200 answers       "$BASE/api/v1/answers"
