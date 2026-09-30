@@ -442,7 +442,7 @@ def test_details_gets_the_product_and_labels_it(mock_api):
     assert not result.is_error
     out = result.structured_content
     assert out["verificationLabel"] == "Not verified by the brand" and out["specs"] == {"ramGb": 16}
-    assert out["comparisons"][0]["attribute"] == "weight" and "only source" in out["presentation"]
+    assert out["comparisons"][0]["attribute"] == "weight" and "presentation" not in out
 
 
 def test_details_unknown_product_is_a_tool_error(mock_api):
@@ -450,3 +450,14 @@ def test_details_unknown_product_is_a_tool_error(mock_api):
     replies["/api/v1/products/prod_nope"] = {"status": 404, "json": {"error": {"code": "NOT_FOUND", "message": "no"}}}
     with pytest.raises(ToolError, match="HTTP 404"):
         call("cirqo_details", {"productId": "prod_nope"})
+
+
+def test_search_and_query_label_every_product(mock_api):
+    out = call("cirqo_search", SEARCH).structured_content
+    for o in out["options"]:
+        assert o["verificationLabel"] == ("Verified by brand" if o["verified"] else "Not verified by the brand")
+    assert "presentation" not in out  # results carry data only; guidance lives in the descriptions
+    pick = call("cirqo_query", QUERY).structured_content
+    assert pick["recommendation"]["verificationLabel"] == "Verified by brand"
+    assert all("verificationLabel" in a for a in pick["alternatives"])
+    assert "at most ONE narrowing question" in mcp_server.server.instructions
