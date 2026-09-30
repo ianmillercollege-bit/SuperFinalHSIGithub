@@ -7,6 +7,8 @@ export interface NavItem {
   count?: "openIncidents";
   /** Shown only to CIRQO Staff logins (contract v1.4). */
   staffOnly?: boolean;
+  /** Shown only to Community Partner logins and CIRQO Staff (contract v1.6). */
+  partnerOrStaff?: boolean;
 }
 
 export interface NavGroup {
@@ -14,12 +16,15 @@ export interface NavGroup {
   /** "claims" renders as the solid orange block. */
   tone: "default" | "claims";
   items: NavItem[];
+  /** Brand pages: hidden from Community Partner logins, who have no brand (contract v1.6). */
+  brandOnly?: boolean;
 }
 
 export const NAV: NavGroup[] = [
   {
     title: "Insights",
     tone: "default",
+    brandOnly: true,
     items: [
       { label: "Dashboard", href: "/dashboard" },
       { label: "AI Visibility", href: "/visibility" },
@@ -36,15 +41,25 @@ export const NAV: NavGroup[] = [
   {
     title: "Setup",
     tone: "default",
+    brandOnly: true,
     items: [{ label: "Connect your catalog", href: "/connect" }],
   },
   {
     title: "Claims",
     tone: "claims",
+    brandOnly: true,
     items: [
       { label: "File a Claim", href: "/claims/new" },
       { label: "Outstanding Claims", href: "/claims/outstanding", count: "openIncidents" },
       { label: "Claims Reviewed", href: "/claims/reviewed" },
+    ],
+  },
+  {
+    title: "Community",
+    tone: "default",
+    items: [
+      { label: "Community catalog", href: "/community", partnerOrStaff: true },
+      { label: "Community requests", href: "/community/requests" },
     ],
   },
 ];

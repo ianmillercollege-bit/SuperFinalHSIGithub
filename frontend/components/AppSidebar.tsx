@@ -44,10 +44,11 @@ export default function AppSidebar() {
     };
   }, []);
 
-  const groups: KitNavGroup[] = NAV.map((group) => ({
+  const partner = Boolean(user?.partner);
+  const groups: KitNavGroup[] = NAV.filter((group) => !(partner && group.brandOnly)).map((group) => ({
     title: group.title,
     tone: group.tone,
-    items: group.items.filter((item) => !item.staffOnly || user?.staff).map((item) => ({
+    items: group.items.filter((item) => (!item.staffOnly || user?.staff) && (!item.partnerOrStaff || partner || user?.staff)).map((item) => ({
       label: item.label,
       href: item.href,
       ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
@@ -71,7 +72,7 @@ export default function AppSidebar() {
             ? user.title ?? (user.role === "owner" ? "Owner" : "Viewer")
             : `${user.title?.split(" · ")[0] ?? (user.role === "owner" ? "Owner" : "Viewer")} (sample sign-in)`
           : "Guest",
-        business: brand?.brandName ?? BUSINESS.name,
+        business: user?.partner ? user.partner.orgName : (brand?.brandName ?? BUSINESS.name),
       }}
       backend={backend}
       // Sign out exists (decision 32): it marks the browser signed out and opens the sign-in page.

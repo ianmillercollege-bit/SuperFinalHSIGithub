@@ -14,6 +14,8 @@
 // These functions are meant to be called from the browser (client components).
 
 import { brandScope, signOutBrand } from "./auth/brandSession";
+import { getUserSession } from "./auth/userSession";
+import { SAMPLE_PREFIX, SampleError, sampleCatalog, sampleCreateRequest, sampleDecide, sampleImpact, sampleRequests } from "./community/sample";
 import { clearToken, getToken } from "./auth/token";
 import { resetUserSession } from "./auth/userSession";
 import { USE_MOCK } from "./config";
@@ -57,6 +59,13 @@ import type {
   SourcesResponse,
   TrustMetrics,
   VisibilitySummary,
+  CommunityCatalogFilters,
+  CommunityCatalogResponse,
+  CommunityImpact,
+  CommunityRequest,
+  CommunityRequestBody,
+  CommunityRequestStatus,
+  CommunityRequestsResponse,
 } from "./types";
 
 export { USE_MOCK };
@@ -291,6 +300,75 @@ export function logoutRequest(): Promise<{ ok: boolean }> {
 // duplicate brand name; 422 VALIDATION_ERROR. Nothing is stored in mock mode, so it always fails there.
 export function onboardBrand(body: OnboardRequest): Promise<OnboardResponse> {
   return request("POST", "/api/v1/brands/onboard", {}, body, MOCK_FILES.brandsOnboard);
+}
+
+// ---- Community program (contract v1.6, section 7e) ----
+// The live backend does not have these yet. While it answers NOT_FOUND (or mock mode is on), each call returns the
+// contract-shaped sample data in lib/community/sample.ts and says `sample: true`, so the screen can label it.
+
+export interface Community<T> {
+  data: T;
+  sample: boolean;
+}
+
+async function community<T>(real: () => Promise<T>, sample: () => T): Promise<Community<T>> {
+  if (USE_MOCK) return { data: sample(), sample: true };
+  try {
+    return { data: await real(), sample: false };
+  } catch (error) {
+    if (error instanceof ApiError && error.code === "NOT_FOUND") return { data: sample(), sample: true };
+    throw error;
+  }
+}
+
+/** Sample failures carry contract error codes, so screens describe them like backend errors. */
+function asApiError<T>(run: () => T): T {
+  try {
+    return run();
+  } catch (error) {
+    if (error instanceof SampleError) throw new ApiError(error.message, error.code);
+    throw error;
+  }
+}
+
+// GET /api/v1/community/catalog?category=&brandId=&condition=&limit=  (Community Partner or CIRQO Staff token; 403 otherwise)
+export function getCommunityCatalog(filters: CommunityCatalogFilters = {}): Promise<Community<CommunityCatalogResponse>> {
+  return community(
+    () => request<CommunityCatalogResponse>("GET", "/api/v1/community/catalog", { ...filters }, undefined, "community_catalog"),
+    () => sampleCatalog(filters),
+  );
+}
+
+// POST /api/v1/community/requests  (partner token). 201; 422 if units < 1 or above units available; 403 if not pledged.
+export async function createCommunityRequest(body: CommunityRequestBody): Promise<Community<CommunityRequest>> {
+  if (body.productId.startsWith(SAMPLE_PREFIX)) {
+    const partner = getUserSession().user?.partner ?? { orgId: "org_sample_1", orgName: "Bexar Valley School District" };
+    return { data: asApiError(() => sampleCreateRequest(body, partner)), sample: true };
+  }
+  return { data: await request<CommunityRequest>("POST", "/api/v1/community/requests", {}, body, "community_request"), sample: false };
+}
+
+// GET /api/v1/community/requests?status=  (partner: own; brand: for its products; staff: all)
+export function getCommunityRequests(status?: CommunityRequestStatus): Promise<Community<CommunityRequestsResponse>> {
+  const user = getUserSession().user;
+  return community(
+    () => request<CommunityRequestsResponse>("GET", "/api/v1/community/requests", { status }, undefined, "community_requests"),
+    () => sampleRequests(user?.partner ? { orgId: user.partner.orgId } : user?.staff ? {} : { brandId: brandScope() ?? "brand_001" }, status),
+  );
+}
+
+// POST /api/v1/community/requests/{requestId}/approve|reject  (brand token, Brand Data Owner). 403 other brand, 409 if not pending.
+export async function decideCommunityRequest(requestId: string, decision: "approve" | "reject", note: string): Promise<Community<CommunityRequest>> {
+  if (requestId.includes(SAMPLE_PREFIX)) return { data: asApiError(() => sampleDecide(requestId, decision)), sample: true };
+  return { data: await request<CommunityRequest>("POST", `/api/v1/community/requests/${encodeURIComponent(requestId)}/${decision}`, {}, { note }, "community_decision"), sample: false };
+}
+
+// GET /api/v1/community/impact?brandId=  (brand token, or brandId)
+export function getCommunityImpact(brandId: string): Promise<Community<CommunityImpact>> {
+  return community(
+    () => request<CommunityImpact>("GET", "/api/v1/community/impact", { brandId }, undefined, "community_impact"),
+    () => sampleImpact(brandId),
+  );
 }
 
 // GET /api/v1/owners
