@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import CommunityImpactTile from "@/components/screens/CommunityImpactTile";
+import StorefrontRevenue from "@/components/dashboard/StorefrontRevenue";
 import DashboardView from "@/components/dashboard/DashboardView";
 import { ErrorNotice, Loading } from "@/components/LoadState";
 import { getAudit, getIncidents, getTrustMetrics } from "@/lib/api";
@@ -49,7 +50,7 @@ export default function DashboardScreen() {
   });
   return (
     <>
-      <DashboardView vm={vm} />
+      <DashboardView vm={vm} afterOpportunities={vm.storefront ? <StorefrontRevenue data={vm.storefront} /> : undefined} />
       <CommunityImpactTile />
       {claims.error !== undefined && <ErrorNotice error={claims.error} onRetry={claims.reload} />}
       {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}

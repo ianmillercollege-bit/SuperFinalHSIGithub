@@ -20,6 +20,16 @@ export interface ListCardData { id: string; title: string; rows: ListRow[]; empt
 export type SeriesKind = 'percent' | 'hours';
 export interface TrustSeries { key: string; label: string; title?: string; kind: SeriesKind; values: number[] } // percent values are 0..1; title defaults to "<n>-day <label>"
 
+/** Shopify storefront revenue, oldest day first. Sample-only: the contract has no sales data (see sampleDashboard.ts). */
+export interface StorefrontRevenueData {
+  currency: string;
+  /** Daily revenue and orders for the previous period followed by the current one (equal lengths, at least 2 x the longest window). */
+  days: { revenue: number; orders: number }[];
+  /** Share of revenue that came from AI shopping assistants, 0..1. */
+  aiShare: number;
+  sample?: boolean;
+}
+
 export interface DashboardViewModel {
   firstName: string;
   businessName: string;
@@ -30,5 +40,6 @@ export interface DashboardViewModel {
   weeklyScores?: number[];                       // oldest first
   trust?: { series: TrustSeries[]; badge?: string };
   lists: ListCardData[];
+  storefront?: StorefrontRevenueData;
   links?: { opportunities?: string; simulator?: string };   // optional buttons in the opportunity panel
 }

@@ -68,6 +68,7 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
     businessName: input.businessName,
     score: { value: score, changeVsLastWeek: weekAgo ? score - Math.round(weekAgo.visibilityRate * 100) : 0 },
     stats,
+    ...(showSampleSections && sampleDashboard.storefront ? { storefront: sampleDashboard.storefront } : {}),
     ...(showSampleSections
       ? { opportunities: sampleDashboard.opportunities, opportunitiesAreSample: true, links: { simulator: "/growth-simulator" } }
       : {}),
