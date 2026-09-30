@@ -1,4 +1,4 @@
-import AppFrame from "@/components/dashboard/AppFrame";
+import AppShell from "@/components/AppShell";
 import AppSidebar from "@/components/AppSidebar";
 import SampleDataBar from "@/components/SampleDataBar";
 
@@ -6,9 +6,9 @@ import SampleDataBar from "@/components/SampleDataBar";
 // The sign-in page has its own layout.
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppFrame sidebar={<AppSidebar />}>
+    <AppShell sidebar={<AppSidebar />}>
       <SampleDataBar />
       {children}
-    </AppFrame>
+    </AppShell>
   );
 }

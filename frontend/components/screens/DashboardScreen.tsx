@@ -7,7 +7,7 @@ import { getAudit, getIncidents, getTrustMetrics } from "@/lib/api";
 import { useBrandSession } from "@/lib/auth/brandSession";
 import { useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
-import { buildDashboard } from "@/lib/dashboard/buildDashboard";
+import { toViewModel } from "@/lib/dashboard/toViewModel";
 import { useApi } from "@/lib/useApi";
 
 const DAYS = 30;
@@ -39,7 +39,7 @@ export default function DashboardScreen() {
   if (trust.loading) return <Loading what="the dashboard" />;
   if (trust.error !== undefined) return <ErrorNotice error={trust.error} onRetry={trust.reload} />;
 
-  const vm = buildDashboard({
+  const vm = toViewModel({
     firstName: user && user.role === "owner" ? user.name.split(/\s+/)[0] : "there",
     businessName: brand?.brandName ?? BUSINESS.name,
     trust: trust.data!,

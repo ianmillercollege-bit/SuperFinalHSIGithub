@@ -51,5 +51,5 @@ export const sampleDashboard: DashboardViewModel = {
       { title: 'Safety concern escalated', detail: 'Sent for review. No automatic fix.' },
     ] },
   ],
-  links: { simulator: '/simulator' },  // no /opportunities page in this app, so no button for it
+  links: { simulator: '/growth-simulator' },  // no /opportunities page in this app, so no button for it
 };

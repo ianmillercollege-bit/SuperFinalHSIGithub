@@ -6,6 +6,7 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import type { NavGroup as KitNavGroup } from "@/components/dashboard/Sidebar";
 import { API_URL, checkHealth, getIncidents } from "@/lib/api";
 import { useBrandSession } from "@/lib/auth/brandSession";
+import { forgetLogin } from "@/lib/auth/signIn";
 import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
 import { onIncidentsChanged } from "@/lib/events";
@@ -46,7 +47,7 @@ export default function AppSidebar() {
   const groups: KitNavGroup[] = NAV.map((group) => ({
     title: group.title,
     tone: group.tone,
-    items: group.items.map((item) => ({
+    items: group.items.filter((item) => !item.staffOnly || user?.staff).map((item) => ({
       label: item.label,
       href: item.href,
       ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
@@ -64,8 +65,12 @@ export default function AppSidebar() {
       groups={groups}
       user={{
         name: user ? user.name : "Signed out",
-        // Decision 32: the user chip carries the sample-sign-in label.
-        role: user ? `${user.role === "owner" ? "Owner" : "Viewer"} (sample sign-in)` : "Sample sign-in",
+        // A backend login shows the user's real role; the local sample check keeps its label (decision 32).
+        role: user
+          ? user.backend
+            ? user.title ?? (user.role === "owner" ? "Owner" : "Viewer")
+            : `${user.title?.split(" · ")[0] ?? (user.role === "owner" ? "Owner" : "Viewer")} (sample sign-in)`
+          : "Guest",
         business: brand?.brandName ?? BUSINESS.name,
       }}
       backend={backend}
@@ -73,6 +78,7 @@ export default function AppSidebar() {
       onSignOut={
         user
           ? () => {
+              forgetLogin();
               signOutUser();
               router.push("/login");
             }

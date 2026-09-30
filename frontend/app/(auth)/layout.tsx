@@ -1,11 +1,14 @@
-import SampleDataBar from "@/components/SampleDataBar";
+import ThemeToggle from "@/components/ThemeToggle";
 
-// The sign-in page stands alone: no sidebar, no dashboard. It still shows the "Sample data" bar.
+// The sign-in page stands alone: no sidebar, no dashboard. The kit's LoginView carries the one
+// "Sample data" badge; the night/light switch floats in the corner.
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="auth-shell">
-      <SampleDataBar />
+    <>
       {children}
-    </div>
+      <div className="auth-theme">
+        <ThemeToggle />
+      </div>
+    </>
   );
 }

@@ -178,6 +178,13 @@ export interface Product {
   specs: ProductSpecs;
   returnPolicyDays: number;
   updatedAt: Timestamp;
+  /** v1.4.1. Older backends omit it; those products are laptops. */
+  category?: ProductCategory;
+  subcategory?: string;
+  /** v1.2 Verified Data Layer. */
+  factSource?: string;
+  factSourceUrl?: string;
+  verifiedAt?: Timestamp;
 }
 
 export interface ProductsResponse {
@@ -421,6 +428,7 @@ export interface RecommendResponse {
 // ---- Connector (v1.1): POST /api/v1/connector/query ----
 
 import type { ConnectorMustHave, ConnectorUseCase } from "./connectorOptions";
+import type { ProductCategory } from "./categories";
 export type { ConnectorMustHave, ConnectorUseCase };
 
 export interface ConnectorQueryRequest {
@@ -471,10 +479,27 @@ export interface DemoAccount {
   brandName: string;
   role: "owner" | "viewer";
   apiKey: string;
+  /** v1.4: the login username, when the backend sends one. */
+  username?: string;
 }
 
 export interface DemoAccountsResponse {
   accounts: DemoAccount[];
+}
+
+// ---- Login (v1.4, section 7c): POST /api/v1/auth/login ----
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  expiresAt: Timestamp;
+  user: { userId: string; name: string; role: string; username: string };
+  /** Staff are not tied to a brand, so this may be missing. */
+  brand?: { brandId: string; brandName: string } | null;
 }
 
 // ---- Onboarding (v1.3, section 7b): POST /api/v1/brands/onboard ----
@@ -502,4 +527,66 @@ export interface OnboardResponse {
   owners: { ownerId: string; name: string; role: string }[];
   connectorReady: boolean;
   note: string;
+}
+
+// ---- Companies (v1.4, section 7c) ----
+
+/** GET /api/v1/brands/{brandId} */
+export interface BrandProfile {
+  brandId: string;
+  brandName: string;
+  tagline: string;
+  categories: ProductCategory[];
+  hqCity: string;
+  founded: number;
+  employees: number;
+  ceo: { name: string };
+  website: string;
+  admins: { userId: string; name: string; role: string }[];
+  productCount: number;
+  /** Only on the company's own profile. */
+  plan?: "starter" | "growth" | "enterprise";
+}
+
+/** One row of GET /api/v1/brands (CIRQO Staff token only). */
+export interface BrandSummary {
+  brandId: string;
+  brandName: string;
+  categories: ProductCategory[];
+  productCount: number;
+  visibilityRate: Rate;
+  openIncidents: number;
+  escalatedIncidents: number;
+  accuracyRate: Rate;
+}
+
+export interface BrandsResponse {
+  brands: BrandSummary[];
+}
+
+// ---- Connector search (v1.4): POST /api/v1/connector/search ----
+
+export interface ConnectorSearchRequest {
+  question: string;
+  assistantId: string;
+  constraints?: { category?: ProductCategory; maxPrice?: number };
+}
+
+export interface ConnectorSearchResponse {
+  searchId: string;
+  category: string;
+  optionCount: number;
+  options: {
+    productId: string;
+    name: string;
+    brandName: string;
+    price: number;
+    availability: Availability;
+    matchScore: Rate;
+    facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
+  }[];
+  narrowingHints: { attribute: string; question: string; splits: Record<string, number> }[];
+  rankingNote: string;
+  verifiedAt: Timestamp;
+  source: AiSource;
 }

@@ -6,13 +6,13 @@ export const metadata: Metadata = { title: "Connect your catalog · CIRQO" };
 
 export default function Page() {
   return (
-    <main className="page">
+    <div className="stack">
       <PageHeader
         eyebrow="Setup"
         title="Connect your catalog"
         intro="Tell CIRQO about your brand and products. AI assistants can then get verified answers about them from the connector."
       />
       <ConnectCatalog />
-    </main>
+    </div>
   );
 }

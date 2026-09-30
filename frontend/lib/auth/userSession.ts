@@ -19,6 +19,10 @@ export interface SignedInUser {
   role: UserRole;
   /** The owner's job title from GET /api/v1/owners, for display. */
   title?: string;
+  /** Signed in through POST /auth/login (a real token), not the local sample check. */
+  backend?: boolean;
+  /** Role "CIRQO Staff" (contract v1.4): sees the cross-company pages. */
+  staff?: boolean;
 }
 
 /** Signed in as this owner on a first visit (a seeded owner, contract section 9). */
@@ -75,6 +79,16 @@ function write(value: SignedInUser | "signed-out"): void {
 
 export function signInUser(user: SignedInUser): void {
   write(user);
+}
+
+/** Back to the first-visit state: the default owner, no sign-out marker (the guest path, DECISIONS.md #33). */
+export function resetUserSession(): void {
+  try {
+    window.localStorage.removeItem(KEY);
+  } catch {
+    // Nothing to clear.
+  }
+  window.dispatchEvent(new Event(CHANGED));
 }
 
 export function signOutUser(): void {

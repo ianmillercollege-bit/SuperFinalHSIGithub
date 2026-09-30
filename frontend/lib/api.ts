@@ -13,7 +13,9 @@
 //
 // These functions are meant to be called from the browser (client components).
 
-import { brandScope } from "./auth/brandSession";
+import { brandScope, signOutBrand } from "./auth/brandSession";
+import { clearToken, getToken } from "./auth/token";
+import { resetUserSession } from "./auth/userSession";
 import { USE_MOCK } from "./config";
 import type {
   AnswerFilters,
@@ -25,7 +27,13 @@ import type {
   AuditResponse,
   CheckerRunRequest,
   CheckerRunResponse,
+  BrandProfile,
+  BrandsResponse,
   ConnectorQueryRequest,
+  ConnectorSearchRequest,
+  ConnectorSearchResponse,
+  LoginRequest,
+  LoginResponse,
   DemoAccountsResponse,
   OnboardRequest,
   OnboardResponse,
@@ -82,6 +90,11 @@ export const MOCK_FILES = {
   connectorManifest: "connector_manifest",
   /** v1.3. No file in shared/mock/ yet; mock mode falls back to the contract example on screen. */
   demoAccounts: "demo_accounts",
+  /** v1.4. No file in shared/mock/, so mock mode reports NOT_FOUND. */
+  authLogin: "auth_login",
+  brandProfile: "brand_profile",
+  brands: "brands",
+  connectorSearch: "connector_search",
   brandsOnboard: "brands_onboard",
 } as const;
 
@@ -118,9 +131,24 @@ export function recommend(body: RecommendRequest): Promise<RecommendResponse> {
   return request("POST", "/api/v1/shopper/recommend", {}, body, MOCK_FILES.shopperRecommend);
 }
 
-// GET /api/v1/products
-export function getProducts(): Promise<ProductsResponse> {
-  return request("GET", "/api/v1/products", {}, undefined, MOCK_FILES.products);
+// GET /api/v1/products?category=&brandId=  (both optional; v1.4.1 filters, older backends ignore them)
+export function getProducts(filters: { category?: string; brandId?: string } = {}): Promise<ProductsResponse> {
+  return request("GET", "/api/v1/products", { ...filters }, undefined, MOCK_FILES.products);
+}
+
+// GET /api/v1/brands/{brandId}  (v1.4: the company profile)
+export function getBrand(brandId: string): Promise<BrandProfile> {
+  return request("GET", `/api/v1/brands/${encodeURIComponent(brandId)}`, {}, undefined, MOCK_FILES.brandProfile);
+}
+
+// GET /api/v1/brands  (v1.4, CIRQO Staff token only: 403 FORBIDDEN otherwise)
+export function getBrands(): Promise<BrandsResponse> {
+  return request("GET", "/api/v1/brands", {}, undefined, MOCK_FILES.brands);
+}
+
+// POST /api/v1/connector/search  (v1.4: the funnel; up to 5 options and narrowing questions)
+export function connectorSearch(body: ConnectorSearchRequest): Promise<ConnectorSearchResponse> {
+  return request("POST", "/api/v1/connector/search", {}, body, MOCK_FILES.connectorSearch, CONNECTOR_TIMEOUT_MS);
 }
 
 // GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)
@@ -239,6 +267,16 @@ export function getDemoAccounts(): Promise<DemoAccountsResponse> {
   return request("GET", "/api/v1/auth/demo-accounts", {}, undefined, MOCK_FILES.demoAccounts);
 }
 
+// POST /api/v1/auth/login  (v1.4). 401 UNAUTHORIZED "Wrong username or password." for either mistake.
+export function login(body: LoginRequest): Promise<LoginResponse> {
+  return request("POST", "/api/v1/auth/login", {}, body, MOCK_FILES.authLogin);
+}
+
+// POST /api/v1/auth/logout  (v1.4). Best effort: the browser forgets the token either way.
+export function logoutRequest(): Promise<{ ok: boolean }> {
+  return request("POST", "/api/v1/auth/logout", {}, {}, MOCK_FILES.authLogin);
+}
+
 // POST /api/v1/brands/onboard  (v1.3: "Connect your catalog"). 201 on success; 409 CONFLICT for a
 // duplicate brand name; 422 VALIDATION_ERROR. Nothing is stored in mock mode, so it always fails there.
 export function onboardBrand(body: OnboardRequest): Promise<OnboardResponse> {
@@ -299,14 +337,27 @@ async function request<T>(
   if (!API_URL) {
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
-  return readJson<T>(
-    await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
-      method,
-      headers: body === undefined ? undefined : { "Content-Type": "application/json" },
-      body: body === undefined ? undefined : JSON.stringify(body),
-      cache: "no-store",
-    }, timeoutMs),
-  );
+  const hadToken = getToken() !== null;
+  try {
+    return await readJson<T>(
+      await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
+        method,
+        headers: requestHeaders(body !== undefined),
+        body: body === undefined ? undefined : JSON.stringify(body),
+        cache: "no-store",
+      }, timeoutMs),
+    );
+  } catch (error) {
+    // A 401 while signed in means the token ended (tokens die when the demo server restarts). Drop back to the
+    // guest path so the app keeps working, and say so.
+    if (hadToken && path !== "/api/v1/auth/login" && error instanceof ApiError && error.code === "UNAUTHORIZED") {
+      clearToken();
+      signOutBrand();
+      resetUserSession();
+      throw new ApiError("Your sign-in ended (the demo server restarted). You are now a guest. Sign in again to continue.", "UNAUTHORIZED", error.status);
+    }
+    throw error;
+  }
 }
 
 // Contract v1.3, section 7b: these dashboard endpoints accept `brandId`. With no account chosen
@@ -327,6 +378,12 @@ function withBrand(path: string, query: Query): Query {
   const brandId = brandScope();
   if (!brandId || query.brandId !== undefined || !BRAND_SCOPED_PATHS.includes(path)) return query;
   return { ...query, brandId };
+}
+
+function requestHeaders(hasBody: boolean): Record<string, string> | undefined {
+  const token = getToken();
+  if (!hasBody && !token) return undefined;
+  return { ...(hasBody ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 }
 
 async function readMock<T>(mockFile: string): Promise<T> {

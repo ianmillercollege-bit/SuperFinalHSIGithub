@@ -1,5 +1,6 @@
 "use client";
 
+import Dropdown from "@/components/Dropdown";
 import { useCallback, useState } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
 import SourceChip from "@/components/SourceChip";
@@ -71,17 +72,13 @@ export default function AiVisibility() {
             Recent AI answers{" "}
             {answers.data?.answers[0] && <SourceChip source={answers.data.answers[0].source} />}
           </h2>
-          <label>
-            Assistant
-            <select value={assistantId} onChange={(e) => setAssistantId(e.target.value)}>
-              <option value="">All</option>
-              {summary.data?.byAssistant.map((a) => (
-                <option key={a.assistantId} value={a.assistantId}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <Dropdown
+            label="Assistant"
+            compact
+            value={assistantId}
+            onChange={setAssistantId}
+            options={[{ value: "", label: "All assistants" }, ...(summary.data?.byAssistant ?? []).map((a) => ({ value: a.assistantId, label: a.name }))]}
+          />
         </div>
         {answers.loading && <Loading what="answers" />}
         {answers.error !== undefined && <ErrorNotice error={answers.error} onRetry={answers.reload} />}

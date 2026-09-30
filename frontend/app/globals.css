@@ -7,6 +7,7 @@
 }
 
 html {
+  color-scheme: var(--color-scheme);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -952,7 +953,7 @@ tbody tr:last-child td {
 .bar-fill {
   height: 100%;
   border-radius: 999px;
-  background: var(--navy);
+  background: var(--ink);
 }
 
 .bar-fill-you {
@@ -1383,49 +1384,119 @@ details > summary {
   }
 }
 
-/* ---- Styled dropdowns (sign-in form): avatar on the left, chevron on the right ---- */
-
-.select-field {
-  position: relative;
-  display: block;
+.login-form .field {
+  font-weight: 700;
+  gap: 6px;
 }
 
-.select-field select {
+/* ---- Night / light switch (in the top bar) ---- */
+
+.theme-toggle {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg-raised);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.theme-toggle:hover:not(:disabled) {
+  border-color: var(--orange);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
+/* ---- Dropdown (components/Dropdown.tsx): trigger, floating list, keyboard highlight ---- */
+
+.dd {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.dd-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.dd-trigger {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  appearance: none;
-  -webkit-appearance: none;
-  padding: 12px 40px 12px 54px;
+  min-height: 48px;
+  padding: 8px 14px;
   border: 1px solid var(--border-strong);
   border-radius: 10px;
   background: var(--bg-card);
   color: var(--fg);
+  font: inherit;
   font-weight: 600;
-  text-overflow: ellipsis;
+  text-align: left;
   cursor: pointer;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.select-field select:hover:not(:disabled) {
+.dd-compact .dd-trigger {
+  min-height: 40px;
+  padding: 6px 12px;
+}
+
+.dd-trigger:hover:not(:disabled) {
   border-color: var(--orange);
 }
 
-.select-field select:focus-visible {
+.dd-trigger:focus-visible,
+.dd-trigger[aria-expanded="true"] {
   outline: none;
   border-color: var(--orange);
   box-shadow: 0 0 0 3px var(--orange-tint);
 }
 
-.select-field select:disabled {
+.dd-trigger:disabled {
   background: var(--bg-raised);
   color: var(--muted);
   cursor: default;
 }
 
-.select-avatar {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+.dd-value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dd-value.is-placeholder {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.dd-chevron {
+  flex: none;
+  color: var(--ink);
+  transition: transform 0.15s;
+}
+
+.dd-trigger[aria-expanded="true"] .dd-chevron {
+  transform: rotate(180deg);
+}
+
+.dd-avatar {
+  flex: none;
   width: 30px;
   height: 30px;
   display: flex;
@@ -1437,25 +1508,225 @@ details > summary {
   font-family: var(--font-display);
   font-size: 0.72rem;
   font-weight: 800;
-  pointer-events: none;
 }
 
-.select-field::after {
-  content: "";
+.dd-avatar-sm {
+  width: 26px;
+  height: 26px;
+  font-size: 0.65rem;
+}
+
+.dd-list {
   position: absolute;
-  right: 17px;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--navy);
-  border-bottom: 2px solid var(--navy);
-  transform: translateY(-70%) rotate(45deg);
-  pointer-events: none;
+  z-index: 20;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  max-height: 264px;
+  overflow-y: auto;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--bg-card);
+  box-shadow: 0 12px 28px var(--shadow);
 }
 
-.login-form .field {
+.dd-list.is-up {
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+
+.dd-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: var(--fg);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.dd-option.is-active {
+  background: var(--bg-raised);
+}
+
+.dd-option.is-selected {
   font-weight: 700;
-  gap: 6px;
+  color: var(--orange-text);
+}
+
+.dd-option-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.dd-hint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.dd-check {
+  flex: none;
+}
+
+/* ---- Type-to-search field (components/Autocomplete.tsx), shares the dropdown list styles ---- */
+
+.ac-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-card);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ac-box:hover {
+  border-color: var(--orange);
+}
+
+.ac-box:focus-within {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-tint);
+}
+
+.ac-box.has-error {
+  border-color: var(--bad);
+}
+
+.ac-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  outline: none;
+}
+
+.ac-input::placeholder {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.ac-input:disabled {
+  color: var(--muted);
+}
+
+.ac-error {
+  color: var(--bad);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---- Toast (components/Toast.tsx) and the reject dialog on Outstanding Claims ---- */
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: min(520px, calc(100vw - 32px));
+  padding: 12px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--fg);
+  box-shadow: 0 12px 28px var(--shadow);
+  font-weight: 600;
+}
+
+.toast-ok {
+  border-color: var(--good);
+}
+
+.toast-error {
+  border-color: var(--bad);
+}
+
+.toast-close {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--shadow);
+}
+
+.dialog {
+  width: 100%;
+  max-width: 460px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--bg-card);
+  color: var(--fg);
+}
+
+.claim-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  list-style: none;
+}
+
+/* ---- Login page extras: the guest link and theme switch float over the kit's LoginView ---- */
+
+.guest-link {
+  position: fixed;
+  right: 40px;
+  bottom: 24px;
+  z-index: 5;
+}
+
+.auth-theme {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 5;
+}
+
+.auth-theme .theme-toggle {
+  margin-left: 0;
+}
+
+@media (max-width: 900px) {
+  .guest-link {
+    position: static;
+    margin: 0 24px 24px;
+  }
+}
+
 /* ---- Connect your catalog ---- */
 
 .visually-hidden {
