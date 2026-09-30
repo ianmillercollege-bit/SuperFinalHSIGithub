@@ -67,6 +67,7 @@ class Owner(Base):
     name: Mapped[str] = mapped_column(String)
     role: Mapped[str] = mapped_column(String)
     incident_types: Mapped[list] = mapped_column(JSON)
+    brand_id: Mapped[str] = mapped_column(String, default="brand_001")  # v1.3: owners belong to a brand
 
 
 class Answer(Base):
@@ -80,6 +81,9 @@ class Answer(Base):
     source_ids: Mapped[list] = mapped_column(JSON, default=list)
     captured_at: Mapped[str] = mapped_column(String)
     source: Mapped[str] = mapped_column(String, default="mock")
+    # v1.3: the brand whose tracked prompt produced this answer. None = brand-neutral (connector and
+    # "File a claim" answers), visible to every brand.
+    brand_id: Mapped[str | None] = mapped_column(String, nullable=True)
 
 
 class Claim(Base):
@@ -118,6 +122,7 @@ class Incident(Base):
     created_at: Mapped[str] = mapped_column(String)
     resolved_at: Mapped[str | None] = mapped_column(String, nullable=True)
     resolved_by: Mapped[str | None] = mapped_column(String, nullable=True)
+    brand_id: Mapped[str] = mapped_column(String, default="brand_001")  # v1.3: the product's brand
 
 
 class AuditEntry(Base):
@@ -131,16 +136,27 @@ class AuditEntry(Base):
     action: Mapped[str] = mapped_column(String)
     target_id: Mapped[str] = mapped_column(String)
     details: Mapped[str] = mapped_column(String)
+    brand_id: Mapped[str | None] = mapped_column(String, nullable=True)  # v1.3: None = brand-neutral target
 
 
 class DailyMetric(Base):
     __tablename__ = "daily_metrics"
+    brand_id: Mapped[str] = mapped_column(String, primary_key=True, default="brand_001")  # v1.3
     date: Mapped[str] = mapped_column(String, primary_key=True)  # "2026-09-29"
     accuracy_rate: Mapped[float] = mapped_column(Float)
     hallucination_rate: Mapped[float] = mapped_column(Float)
     claims_checked: Mapped[int] = mapped_column(Integer)
     incidents_opened: Mapped[int] = mapped_column(Integer)
     visibility_rate: Mapped[float] = mapped_column(Float)
+
+
+class ApiKey(Base):
+    """Client API keys (v1.3): each key belongs to one brand. Demo keys are seeded; onboarding adds more."""
+
+    __tablename__ = "api_keys"
+    api_key: Mapped[str] = mapped_column(String, primary_key=True)
+    brand_id: Mapped[str] = mapped_column(String)
+    role: Mapped[str] = mapped_column(String)  # owner | viewer
 
 
 def get_db():

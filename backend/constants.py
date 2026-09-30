@@ -110,6 +110,21 @@ BUDGET_LIMITS = {"b_400": 400.0, "b_500": 500.0, "b_700": 700.0}  # price must b
 
 RANKING_NOTE = "Ranking is neutral. No brand can pay for placement."
 
+# ---- BACKEND_CONTRACT.md v1.3 section 7b: brand accounts ---------------------------------------
+
+DEFAULT_BRAND_ID = "brand_001"  # Kestrel: used when no brandId is given (v1.2 behaviour)
+
+# Demo-only keys for seeded data (DECISIONS.md #6, CLIENT_API_CONTRACT.md v1.1). Unrelated to the AI key.
+DEMO_ACCOUNTS = [
+    {"brandId": "brand_001", "role": "owner", "apiKey": "fd_demo_owner_2026"},
+    {"brandId": "brand_001", "role": "viewer", "apiKey": "fd_demo_viewer_2026"},
+    {"brandId": "brand_002", "role": "owner", "apiKey": "fd_demo_arcton_2026"},
+    {"brandId": "brand_003", "role": "owner", "apiKey": "fd_demo_novex_2026"},
+]
+
+INCIDENT_RULE_IDS = ["PRICE_MISMATCH", "PRICE_OUTDATED", "SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH",
+                     "POLICY_MISMATCH", "UNFAIR_COMPARISON", "SAFETY_LEGAL"]
+
 # ---- Input limits (hardening) ----------------------------------------------------------------
 # Longer input gets a 422 VALIDATION_ERROR. Generous for real use, small enough that one request
 # cannot tie up the server.

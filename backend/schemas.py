@@ -441,3 +441,17 @@ class ReportOut(CamelModel):
     open_high_risk: list[str]
     governance: Governance
 
+
+
+# ---- Brand accounts (v1.3 section 7b) ----------------------------------------------------------
+
+
+class DemoAccount(CamelModel):
+    brand_id: str
+    brand_name: str
+    role: Literal["owner", "viewer"]
+    api_key: str
+
+
+class DemoAccountsOut(CamelModel):
+    accounts: list[DemoAccount]

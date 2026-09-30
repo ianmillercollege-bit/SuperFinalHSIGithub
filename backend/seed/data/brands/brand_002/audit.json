@@ -1,0 +1,697 @@
+{
+  "entries": [
+    {
+      "auditId": "aud_601",
+      "timestamp": "2026-09-01T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_401",
+      "details": "correct: Matches the verified battery life of 9 h battery."
+    },
+    {
+      "auditId": "aud_602",
+      "timestamp": "2026-09-01T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_402",
+      "details": "PRICE_MISMATCH: Stated price is 3.0% below the verified price."
+    },
+    {
+      "auditId": "aud_603",
+      "timestamp": "2026-09-01T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_403",
+      "details": "correct: Matches the verified battery life of 12 h battery."
+    },
+    {
+      "auditId": "aud_604",
+      "timestamp": "2026-09-01T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_201",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_605",
+      "timestamp": "2026-09-01T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_50",
+      "details": "PRICE_MISMATCH (low) from clm_402. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_606",
+      "timestamp": "2026-09-01T10:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_50",
+      "details": "Publish verified price $469.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_607",
+      "timestamp": "2026-09-03T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_404",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_608",
+      "timestamp": "2026-09-03T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_405",
+      "details": "SPEC_MISMATCH: Verified RAM is 8 GB RAM."
+    },
+    {
+      "auditId": "aud_609",
+      "timestamp": "2026-09-03T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_406",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_610",
+      "timestamp": "2026-09-03T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_202",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_611",
+      "timestamp": "2026-09-03T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_51",
+      "details": "SPEC_MISMATCH (medium) from clm_405. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_612",
+      "timestamp": "2026-09-03T14:35:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_51",
+      "details": "Publish verified RAM (8 GB RAM) to the product feed."
+    },
+    {
+      "auditId": "aud_613",
+      "timestamp": "2026-09-05T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_407",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_614",
+      "timestamp": "2026-09-05T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_408",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no fingerprint reader."
+    },
+    {
+      "auditId": "aud_615",
+      "timestamp": "2026-09-05T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_409",
+      "details": "correct: Matches the verified screen size of 14 in screen."
+    },
+    {
+      "auditId": "aud_616",
+      "timestamp": "2026-09-05T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_203",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_617",
+      "timestamp": "2026-09-05T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_52",
+      "details": "INVENTED_FEATURE (high) from clm_408. Owner: Tom Becker."
+    },
+    {
+      "auditId": "aud_618",
+      "timestamp": "2026-09-05T12:58:00Z",
+      "actor": "Tom Becker",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_52",
+      "details": "Approved. Fix applied: Add an explicit 'no fingerprint reader' line to the Arcton Titan 16 product page and feed."
+    },
+    {
+      "auditId": "aud_619",
+      "timestamp": "2026-09-07T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_410",
+      "details": "correct: Matches the verified weight of 3.1 lb."
+    },
+    {
+      "auditId": "aud_620",
+      "timestamp": "2026-09-07T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_411",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_621",
+      "timestamp": "2026-09-07T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_204",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_622",
+      "timestamp": "2026-09-09T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_412",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_623",
+      "timestamp": "2026-09-09T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_413",
+      "details": "POLICY_MISMATCH: Verified return policy is 15 days."
+    },
+    {
+      "auditId": "aud_624",
+      "timestamp": "2026-09-09T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_414",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_625",
+      "timestamp": "2026-09-09T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_205",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_626",
+      "timestamp": "2026-09-09T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_53",
+      "details": "POLICY_MISMATCH (high) from clm_413. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_627",
+      "timestamp": "2026-09-09T16:30:00Z",
+      "actor": "Priya Shah",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_53",
+      "details": "Rejected. No fix applied. Note: Low impact; source already corrected."
+    },
+    {
+      "auditId": "aud_628",
+      "timestamp": "2026-09-11T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_415",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_629",
+      "timestamp": "2026-09-11T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_416",
+      "details": "AVAILABILITY_MISMATCH: Verified availability is low_stock."
+    },
+    {
+      "auditId": "aud_630",
+      "timestamp": "2026-09-11T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_417",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_631",
+      "timestamp": "2026-09-11T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_206",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_632",
+      "timestamp": "2026-09-11T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_54",
+      "details": "AVAILABILITY_MISMATCH (medium) from clm_416. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_633",
+      "timestamp": "2026-09-11T14:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_54",
+      "details": "Publish verified availability (low stock) to the product feed."
+    },
+    {
+      "auditId": "aud_634",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_418",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_635",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_419",
+      "details": "PRICE_MISMATCH: Stated price is 20.0% below the verified price."
+    },
+    {
+      "auditId": "aud_636",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_420",
+      "details": "correct: Matches the verified weight of 2.9 lb."
+    },
+    {
+      "auditId": "aud_637",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_207",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_638",
+      "timestamp": "2026-09-13T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_55",
+      "details": "PRICE_MISMATCH (high) from clm_419. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_639",
+      "timestamp": "2026-09-13T13:57:00Z",
+      "actor": "Priya Shah",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_55",
+      "details": "Approved. Fix applied: Publish verified price $469.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_640",
+      "timestamp": "2026-09-15T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_421",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_641",
+      "timestamp": "2026-09-15T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_422",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_642",
+      "timestamp": "2026-09-15T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_208",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_643",
+      "timestamp": "2026-09-17T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_423",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_644",
+      "timestamp": "2026-09-17T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_424",
+      "details": "SAFETY_LEGAL: Contains safety/legal keyword(s): certified, child-safe. Escalated for human review."
+    },
+    {
+      "auditId": "aud_645",
+      "timestamp": "2026-09-17T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_425",
+      "details": "correct: Matches the verified weight of 3.1 lb."
+    },
+    {
+      "auditId": "aud_646",
+      "timestamp": "2026-09-17T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_209",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_647",
+      "timestamp": "2026-09-17T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_56",
+      "details": "SAFETY_LEGAL (critical) from clm_424. Owner: Tom Becker."
+    },
+    {
+      "auditId": "aud_648",
+      "timestamp": "2026-09-17T14:35:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "escalated",
+      "targetId": "inc_56",
+      "details": "Escalated to Tom Becker. No fix applied."
+    },
+    {
+      "auditId": "aud_649",
+      "timestamp": "2026-09-17T19:00:00Z",
+      "actor": "Tom Becker",
+      "actorType": "human",
+      "action": "resolved",
+      "targetId": "inc_56",
+      "details": "Resolved by a human. Note: Reviewed with Legal; no public claim to correct."
+    },
+    {
+      "auditId": "aud_650",
+      "timestamp": "2026-09-19T12:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_426",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_651",
+      "timestamp": "2026-09-19T12:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_427",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no stylus."
+    },
+    {
+      "auditId": "aud_652",
+      "timestamp": "2026-09-19T12:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_428",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_653",
+      "timestamp": "2026-09-19T12:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_210",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_654",
+      "timestamp": "2026-09-19T12:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_57",
+      "details": "INVENTED_FEATURE (high) from clm_427. Owner: Tom Becker."
+    },
+    {
+      "auditId": "aud_655",
+      "timestamp": "2026-09-19T15:19:00Z",
+      "actor": "Tom Becker",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_57",
+      "details": "Rejected as a false alarm. No fix applied."
+    },
+    {
+      "auditId": "aud_656",
+      "timestamp": "2026-09-21T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_429",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_657",
+      "timestamp": "2026-09-21T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_430",
+      "details": "PRICE_OUTDATED: Matches the previous price $529.00. The current price is $499.00."
+    },
+    {
+      "auditId": "aud_658",
+      "timestamp": "2026-09-21T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_431",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_659",
+      "timestamp": "2026-09-21T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_211",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_660",
+      "timestamp": "2026-09-21T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_58",
+      "details": "PRICE_OUTDATED (medium) from clm_430. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_661",
+      "timestamp": "2026-09-21T09:35:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_58",
+      "details": "Publish verified price $499.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_662",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_432",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_663",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_433",
+      "details": "POLICY_MISMATCH: Verified return policy is 15 days."
+    },
+    {
+      "auditId": "aud_664",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_434",
+      "details": "correct: Matches the verified storage of 128 GB storage."
+    },
+    {
+      "auditId": "aud_665",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_212",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_666",
+      "timestamp": "2026-09-24T15:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_59",
+      "details": "POLICY_MISMATCH (high) from clm_433. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_667",
+      "timestamp": "2026-09-26T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_435",
+      "details": "correct: Matches the verified screen size of 14 in screen."
+    },
+    {
+      "auditId": "aud_668",
+      "timestamp": "2026-09-26T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_436",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no 5g."
+    },
+    {
+      "auditId": "aud_669",
+      "timestamp": "2026-09-26T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_437",
+      "details": "correct: Matches the verified RAM of 4 GB RAM."
+    },
+    {
+      "auditId": "aud_670",
+      "timestamp": "2026-09-26T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_213",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_671",
+      "timestamp": "2026-09-26T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_60",
+      "details": "INVENTED_FEATURE (high) from clm_436. Owner: Tom Becker."
+    },
+    {
+      "auditId": "aud_672",
+      "timestamp": "2026-09-28T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_438",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_673",
+      "timestamp": "2026-09-28T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_439",
+      "details": "SPEC_MISMATCH: Verified battery life is 7 h battery."
+    },
+    {
+      "auditId": "aud_674",
+      "timestamp": "2026-09-28T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_440",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_675",
+      "timestamp": "2026-09-28T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_214",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_676",
+      "timestamp": "2026-09-28T15:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_61",
+      "details": "SPEC_MISMATCH (medium) from clm_439. Owner: Priya Shah."
+    },
+    {
+      "auditId": "aud_677",
+      "timestamp": "2026-09-28T15:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_61",
+      "details": "Publish verified battery life (7 h battery) to the product feed."
+    }
+  ]
+}

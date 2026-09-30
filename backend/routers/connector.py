@@ -72,7 +72,7 @@ def no_match_sentence(max_price: float | None, use_case: str | None, must_have: 
 
 def record_in_daily_metrics(db, claims: list[Claim]) -> None:
     """Fold today's checked claims into today's trust-metric row (accuracy and hallucination are re-weighted)."""
-    row = db.get(DailyMetric, today().isoformat())
+    row = db.get(DailyMetric, (C.DEFAULT_BRAND_ID, today().isoformat()))  # brand-neutral: default brand row
     if row is None or not claims:
         return
     n, k = row.claims_checked, len(claims)

@@ -13,6 +13,7 @@ from sqlalchemy import select
 import constants as C
 from db import Answer, Assistant, AuditEntry, Brand, Claim, Incident, Owner, Product
 from ids import next_id
+from services.scope import brand_of_target
 from timeutil import now_iso
 
 # ---------------------------------------------------------------------------------------------
@@ -351,12 +352,15 @@ def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[s
 
 def audit(db, actor: str, actor_type: str, action: str, target_id: str, details: str, at: str | None = None):
     db.add(AuditEntry(audit_id=next_id(db, AuditEntry.audit_id, "aud"), timestamp=at or now_iso(), actor=actor,
-                      actor_type=actor_type, action=action, target_id=target_id, details=details))
+                      actor_type=actor_type, action=action, target_id=target_id, details=details,
+                      brand_id=brand_of_target(db, target_id)))  # v1.3: the entry follows its target's brand
     db.flush()
 
 
-def owner_for(db, rule_id: str) -> Owner:
-    owners = db.scalars(select(Owner).order_by(Owner.owner_id)).all()
+def owner_for(db, rule_id: str, brand_id: str = C.DEFAULT_BRAND_ID) -> Owner:
+    """The brand's owner for this rule; if none covers it, the brand's first owner (v1.3 section 7b)."""
+    owners = db.scalars(select(Owner).where(Owner.brand_id == brand_id).order_by(Owner.owner_id)).all() or \
+        db.scalars(select(Owner).order_by(Owner.owner_id)).all()
     return next((o for o in owners if rule_id in o.incident_types), owners[0])
 
 
@@ -405,7 +409,10 @@ def describe(c: Extracted, r: Result, product: Product | None, assistant: str) -
 def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistant_name: str) -> Incident:
     severity, handling = severity_and_handling(r.rule_id, r.pct_off)
     summary, ai_said, verified_fact, fix = describe(c, r, product, assistant_name)
-    owner = owner_for(db, r.rule_id)
+    # v1.3: the incident belongs to the brand that owns the product mentioned, else the answer's brand.
+    answer = db.get(Answer, claim.answer_id)
+    brand_id = product.brand_id if product else (answer.brand_id if answer and answer.brand_id else C.DEFAULT_BRAND_ID)
+    owner = owner_for(db, r.rule_id, brand_id)
     created = now_iso()
     status = {"auto_fix": "auto_fixed", "human_approval": "pending_approval", "escalate": "escalated"}[handling]
     incident = Incident(
@@ -413,7 +420,8 @@ def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistan
         product_id=claim.product_id, rule_id=r.rule_id, severity=severity, handling=handling, status=status,
         summary=summary, ai_said=ai_said, verified_fact=verified_fact, proposed_fix=None if handling == "escalate" else fix,
         owner_id=owner.owner_id, owner_name=owner.name, false_alarm=False, created_at=created,
-        resolved_at=created if handling == "auto_fix" else None, resolved_by="system" if handling == "auto_fix" else None)
+        resolved_at=created if handling == "auto_fix" else None, resolved_by="system" if handling == "auto_fix" else None,
+        brand_id=brand_id)
     db.add(incident)
     db.flush()
     audit(db, "system", "system", "incident_created", incident.incident_id,
