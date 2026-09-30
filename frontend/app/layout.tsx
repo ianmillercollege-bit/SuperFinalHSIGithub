@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo, Public_Sans } from "next/font/google";
 import "@/styles/tokens.css";
 import "./globals.css";
+import "@/styles/cirqo-dashboard.css";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",
