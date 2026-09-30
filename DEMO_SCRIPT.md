@@ -60,3 +60,37 @@ because CIRQO makes their answers accurate. Brands pay for the service, never fo
 - "Backend offline": open the health link above, wait a minute, refresh.
 - The approve button refuses: the approver name must exactly match the owner shown on the incident.
 - Numbers reset overnight: the database rebuilds from seed data on every restart, by design, so the demo is repeatable.
+
+## Two-minute spoken pitch (for the deck and the judges' Q&A)
+
+**Problem (20 s).** "Shopping has moved into AI chat. People ask ChatGPT what to buy instead of opening ten tabs. The
+answers sound confident and are often wrong: made-up specs, stale prices, products that do not exist. Small brands are
+hurt twice: the AI rarely mentions them, and when it does, it gets them wrong."
+
+**Product (15 s).** "CIRQO is a plug-in a shopper turns on inside their AI assistant, and a dashboard the brand gets
+when it opts in. The assistant asks CIRQO instead of guessing. CIRQO answers from facts the brand verified, and every
+product carries a badge: CIRQO Verified, or Not CIRQO Verified."
+
+**Live demo, shopper side (45 s).** In ChatGPT or Claude with the connector on and web search off, type
+"i need new headphones". Point at three things: "One: it called CIRQO on its own, no special words. Two: every product
+has the badge. These five are Shopify stores that opted in; their facts were checked against their own data. This one is
+JBL, a household name that has not opted in, so its facts are labelled not verified. Three: the ranking is on fit, not
+fame. Nobody can pay to move up; a test in our code flips every brand's paid status and proves the order does not
+change." Answer the one narrowing question, show the single pick. "Same address works in Claude, ChatGPT and Google's
+Gemini tooling. One URL, three assistants, no app to download."
+
+**Live demo, brand side (30 s).** Switch to the dashboard. "This is what the brand sees: how often AI recommends them,
+what it said, and in Outstanding Claims every wrong price or policy statement waiting for a named human to approve the
+fix. Our plan's governance rule, any price change gets human review, is enforced in the code, not just written in the
+plan."
+
+**Business (15 s).** "Brands pay a quarterly subscription: Base $450, Pro $1,200, Enterprise $3,000, first quarter
+free. Shoppers pay nothing. Beachhead: 8,750 US consumer-electronics stores on Shopify with 25 or more products."
+
+**Close (10 s).** "The new front door to commerce is an AI answer. CIRQO makes that answer trustworthy for the shopper
+and visible for the brand. You can install it in your own ChatGPT in one minute. Here is the address:
+https://frontdoor-api-hiel.onrender.com/mcp"
+
+Presenter rules: web search off in the demo chat; open https://frontdoor-api-hiel.onrender.com/health five minutes
+before to wake the backend; if the Gemini question comes up, the honest line is "live in Claude and ChatGPT where
+shoppers chat today, working in Google's Gemini tooling now, ready for the Gemini app the day Google opens it."
