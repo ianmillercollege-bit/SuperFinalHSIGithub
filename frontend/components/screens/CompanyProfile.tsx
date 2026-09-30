@@ -62,7 +62,7 @@ export default function CompanyProfile() {
             </Link>
           </dd>
           <dt>Status</dt>
-          <dd>{p.optedIn === false ? "Not opted in: products come from public listings and are not verified by the brand" : "Opted in: verified by the brand"}</dd>
+          <dd>{p.optedIn === false ? "Not opted in: products come from public listings and are not CIRQO Verified" : "Opted in: CIRQO Verified"}</dd>
           {p.plan && (
             <>
               <dt>Plan</dt>
@@ -122,7 +122,7 @@ function ClaimCompany({ brandId, brandName, onDone }: { brandId: string; brandNa
       <section className="card stack" aria-live="polite">
         <h2>{claimed.brandName} is now opted in</h2>
         <p>
-          Its {claimed.productsCreated.toLocaleString("en-US")} products are verified by the brand, and {ownerName.trim()} is the Brand Data Owner.
+          Its {claimed.productsCreated.toLocaleString("en-US")} products are CIRQO Verified, and {ownerName.trim()} is the Brand Data Owner.
         </p>
         <div className="button-row">
           <button
@@ -148,7 +148,7 @@ function ClaimCompany({ brandId, brandName, onDone }: { brandId: string; brandNa
     <section className="card stack">
       <h2>Is this your company?</h2>
       <p className="muted">
-        {brandName} isn&apos;t opted in yet, so AI assistants show its products as &quot;not verified by the brand&quot;. Claim it to verify your products and get the
+        {brandName} isn&apos;t opted in yet, so AI assistants show its products as &quot;not CIRQO Verified&quot;. Claim it to verify your products and get the
         dashboard.
       </p>
       {!open ? (

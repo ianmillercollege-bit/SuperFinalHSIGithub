@@ -1,5 +1,5 @@
 {
- "about": "Public listings: real brands that have NOT opted into CIRQO. Facts come from public listings, are approximate, and are labelled 'Not verified by the brand' everywhere. No dashboard, no admins. Decision 46.",
+ "about": "Public listings: real brands that have NOT opted into CIRQO. Facts come from public listings, are approximate, and are labelled 'Not CIRQO Verified' everywhere. No dashboard, no admins. Decision 46.",
  "brands": [
   {
    "brandId": "brand_201",
@@ -89,7 +89,7 @@
  "profiles": [
   {
    "brandId": "brand_201",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "headphones",
     "laptops",
@@ -100,7 +100,7 @@
   },
   {
    "brandId": "brand_202",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "headphones",
     "phones_tablets",
@@ -111,7 +111,7 @@
   },
   {
    "brandId": "brand_203",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "headphones"
    ],
@@ -120,7 +120,7 @@
   },
   {
    "brandId": "brand_204",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "headphones"
    ],
@@ -129,7 +129,7 @@
   },
   {
    "brandId": "brand_205",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "laptops"
    ],
@@ -138,7 +138,7 @@
   },
   {
    "brandId": "brand_206",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "laptops"
    ],
@@ -147,7 +147,7 @@
   },
   {
    "brandId": "brand_207",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "laptops"
    ],
@@ -156,7 +156,7 @@
   },
   {
    "brandId": "brand_208",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "laptops"
    ],
@@ -165,7 +165,7 @@
   },
   {
    "brandId": "brand_209",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "phones_tablets"
    ],
@@ -174,7 +174,7 @@
   },
   {
    "brandId": "brand_210",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "headphones"
    ],
@@ -183,7 +183,7 @@
   },
   {
    "brandId": "brand_211",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "computer_hardware"
    ],
@@ -192,7 +192,7 @@
   },
   {
    "brandId": "brand_212",
-   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
     "computer_hardware"
    ],

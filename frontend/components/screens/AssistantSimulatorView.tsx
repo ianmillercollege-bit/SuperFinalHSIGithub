@@ -62,7 +62,7 @@ export default function AssistantSimulatorView({ defaultQuestion, maxLength = 50
                         {t.answer.options.map((o, i) => (
                           <div key={i} className="cq-fact-row">
                             <span>{o.name}{o.detail && <span className="cq-sub"> · {o.detail}</span>}</span>
-                            <span className={`cq-pill is-${o.verified ? 'ok' : 'warn'}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>{o.verified && <CheckIcon />}{o.verified ? 'Verified by brand' : 'Not verified by the brand'}</span>
+                            <span className={`cq-pill is-${o.verified ? 'ok' : 'warn'}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>{o.verified && <CheckIcon />}{o.verified ? 'CIRQO Verified' : 'Not CIRQO Verified'}</span>
                           </div>
                         ))}
                       </div>

@@ -159,7 +159,7 @@ def test_unverified_brands_are_labelled(seeded, monkeypatch):
     assert body["verifiedCount"] + body["unverifiedCount"] == body["optionCount"] and body["unverifiedCount"] >= 1
     with SessionLocal() as db:
         answer = db.get(Answer, "ans_" + body["searchId"].split("_", 1)[1])
-        assert f"Not verified by the brand: option 1 is the {top['name']}" in answer.answer_text
+        assert f"Not CIRQO Verified: option 1 is the {top['name']}" in answer.answer_text
 
 
 def test_search_validation(seeded):

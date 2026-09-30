@@ -108,7 +108,7 @@ export default function CommunityCatalog() {
                       </td>
                       <td className="nowrap">{i.communityPledge.warrantyMonths} months</td>
                       <td>
-                        <StatusPill tone={i.verified ? "good" : "warn"}>{i.verified ? "Verified by brand" : "Not verified by the brand"}</StatusPill>
+                        <StatusPill tone={i.verified ? "good" : "warn"}>{i.verified ? "CIRQO Verified" : "Not CIRQO Verified"}</StatusPill>
                         <ul className="small plain-list">
                           {i.facts.map((f) => (
                             <li key={f.factId}>{f.text}</li>

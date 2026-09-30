@@ -505,7 +505,7 @@ dashboard, and they see the interactions. The catalog therefore contains **both*
 - **`/connector/search` and `/connector/query`** rank every brand's products on fit alone, opted in or not (section 8;
   the neutrality test now also flips `optedIn` and asserts the order is unchanged). Each option carries `verified` and
   its facts carry `claimStatus` `correct` (verified) or `unverifiable` (not verified). `answerText` labels them honestly:
-  verified facts are stated; unverified ones are prefixed "Not verified by the brand:". Responses add
+  verified facts are stated; unverified ones are prefixed "Not CIRQO Verified:". Responses add
   `"verifiedCount"` and `"unverifiedCount"`.
 - **Claim your company:** `POST /api/v1/brands/{brandId}/claim` body `{"ownerName": "...", "email": "..."}` turns a
   not-opted-in brand into an opted-in one: creates a Brand Data Owner (password `cirqo-demo`), an API key, marks every

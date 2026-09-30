@@ -61,13 +61,13 @@ fields, and `backend/tests/test_ranking_neutral.py` proves the results are ident
 Add custom connector, name `CIRQO`, URL `https://frontdoor-api-hiel.onrender.com/mcp`, no authentication.
 Start a chat and ask the way you normally would: "I need headphones for the gym around $150." (For a clean demo, switch web search off in that chat so the assistant does not add web results after the catalog list.)
 The assistant searches the verified catalog, asks one narrowing question, and picks. Every product it names is
-labelled **Verified by brand** or **Not verified by the brand**. Any assistant that supports MCP can use the
+labelled **CIRQO Verified** or **Not CIRQO Verified**. Any assistant that supports MCP can use the
 same URL; `backend/connector/README.md` also covers a local install for Claude Desktop.
 
 **Brands (2 minutes).** Open https://utsa-tech-09302026.vercel.app, click **Connect your catalog**, enter the
 company name, the owner's name and a few products. The company gets a dashboard, an API key and verified facts
 in every assistant answer from that moment. A company already listed from public data claims its listing instead
-(`POST /api/v1/brands/{brandId}/claim`), which flips its products from "Not verified by the brand" to verified.
+(`POST /api/v1/brands/{brandId}/claim`), which flips its products from "Not CIRQO Verified" to verified.
 Launch segment: small Shopify stores; the dashboard's storefront revenue panel is where their sales appear.
 
 **Community partners.** Schools, nonprofits and veterans groups sign in (demo:
@@ -103,10 +103,10 @@ opted-in company; plus 12 real brands and 25 products listed as not verified.
 The whole database rebuilds from seed in under a second on every restart.
 
 **Opted in or not:** the catalog holds two kinds of company. The 153 fictional Shopify stores have all opted in: verified
-facts, a dashboard, a login, and every fact they publish is checked and marked **Verified by brand**. Alongside them sit
+facts, a dashboard, a login, and every fact they publish is checked and marked **CIRQO Verified**. Alongside them sit
 12 real brands that have not opted in (Apple, Samsung, Sony, Bose, Dell, HP, Lenovo, Microsoft, Google, JBL, Logitech,
-Corsair) with 25 well-known products listed from public data: approximate facts, every one marked **Not verified by the
-brand**, in the dashboard and in the assistant's answer, and no dashboard of their own. The assistant ranks both kinds on
+Corsair) with 25 well-known products listed from public data: approximate facts, every one marked **Not CIRQO
+Verified**, in the dashboard and in the assistant's answer, and no dashboard of their own. The assistant ranks both kinds on
 fit alone; nothing about a brand's status ever reaches the ranking code. That is the pitch in one search result: the
 opted-in store's facts carry the badge, the household name's do not.
 

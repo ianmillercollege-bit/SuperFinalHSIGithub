@@ -125,7 +125,7 @@ def load(db, folder: Path) -> dict:
     brands = read_list(folder, "brands", "brands") + (read_list(catalog, "brands", "brands") if catalog else [])
     # v1.5 section 7d, decision 46: every fictional company (the originals and the sheet's Shopify stores) has
     # opted in. The brands that have not are the real ones in public_listings.json: no dashboard, no admins,
-    # every fact labelled "Not verified by the brand".
+    # every fact labelled "Not CIRQO Verified".
     listings = json.loads((folder / "public_listings.json").read_text(encoding="utf-8")) \
         if (folder / "public_listings.json").exists() else {}
     for r in listings.get("profiles", []):

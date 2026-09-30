@@ -117,7 +117,7 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
             results.extend(checked)
     answer_text = " ".join(kept)
     if top and not top_verified and answer_text:
-        answer_text = "Not verified by the brand: " + answer_text
+        answer_text = "Not CIRQO Verified: " + answer_text
 
     at = now_iso()
     order = brand_mentions(answer_text, catalog)
@@ -257,7 +257,7 @@ def search(body: ConnectorSearchIn, db=Depends(get_db)):
     kept, results = [], []
     for i, p in enumerate(picked):
         if not verified[p.product_id]:
-            kept.append(f"Not verified by the brand: option {i + 1} is the {p.name} at ${p.price:.2f}.")
+            kept.append(f"Not CIRQO Verified: option {i + 1} is the {p.name} at ${p.price:.2f}.")
             continue
         sentence = f"Verified option {i + 1} is the {p.name} at ${p.price:.2f}."
         checked = [(c, check(c, catalog)) for c in extract_claims(sentence, catalog)]

@@ -176,9 +176,9 @@ def claim_company(brand_id: str, body: ClaimIn, db=Depends(get_db)):
     db.add(key)
     db.flush()
     audit(db, owner_name, "human", "brand_claimed", brand_id,
-          f"{owner_name} ({body.email.strip()}) claimed {brand.name}: {len(products)} product(s) now verified by the brand.", at)
+          f"{owner_name} ({body.email.strip()}) claimed {brand.name}: {len(products)} product(s) now CIRQO Verified.", at)
     db.commit()
     return {"brandId": brand_id, "brandName": brand.name, "apiKey": key.api_key, "productsCreated": len(products),
             "owners": [{"ownerId": owner.owner_id, "name": owner.name, "role": owner.role}],
             "connectorReady": True, "optedIn": True,
-            "note": f"{brand.name} has opted in. Its facts are now verified by the brand in every assistant answer."}
+            "note": f"{brand.name} has opted in. Its facts are now CIRQO Verified in every assistant answer."}

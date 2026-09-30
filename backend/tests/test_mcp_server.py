@@ -47,7 +47,7 @@ def query_reply_v15() -> dict:
     reply["answerText"] = (
         "Based on verified data, the Tidewave Pulse ($149.00, in stock) fits best. The Tidewave Pulse is rated "
         "for 10 hours of battery life. The Tidewave Pulse has active noise cancelling. The Tidewave Pulse weighs "
-        "0.5 oz per bud. Not verified by the brand: the Halcyon Buds Pro lists active noise cancelling at $148.00.")
+        "0.5 oz per bud. Not CIRQO Verified: the Halcyon Buds Pro lists active noise cancelling at $148.00.")
     reply["claims"] = [
         {"text": "The Tidewave Pulse is rated for 10 hours of battery life.", "claimType": "feature",
          "extractedValue": "10", "verifiedValue": "10", "status": "correct", "factId": "fact_9010"},
@@ -55,7 +55,7 @@ def query_reply_v15() -> dict:
          "extractedValue": "true", "verifiedValue": "true", "status": "correct", "factId": "fact_9012"},
         {"text": "The Tidewave Pulse weighs 0.5 oz per bud.", "claimType": "feature",
          "extractedValue": "0.5", "verifiedValue": "0.5", "status": "correct", "factId": "fact_9011"},
-        {"text": "Not verified by the brand: the Halcyon Buds Pro lists active noise cancelling at $148.00.",
+        {"text": "Not CIRQO Verified: the Halcyon Buds Pro lists active noise cancelling at $148.00.",
          "claimType": "feature", "extractedValue": "true", "verifiedValue": None, "status": "unverifiable",
          "factId": None}]
     reply["verifiedCount"], reply["unverifiedCount"] = 3, 1
@@ -134,14 +134,14 @@ def test_descriptions_teach_the_funnel():
 
 def test_descriptions_carry_the_verified_rule():
     """Both tools and the instructions say, word for word, how to treat facts a brand has not verified."""
-    rule = ("Tell the shopper which facts are verified by the brand and which are not. "
+    rule = ("Tell the shopper which facts are CIRQO Verified and which are not. "
             "Never present an unverified fact as verified.")
     assert mcp_server.VERIFIED_RULE == rule
     tools = tool_schemas()
     for text in (tools["cirqo_search"].description, tools["cirqo_query"].description, mcp_server.server.instructions):
         assert rule in text
         assert "verifiedCount" in text and "unverifiedCount" in text and "unverifiable" in text
-    assert "Not verified by the brand:" in tools["cirqo_query"].description
+    assert "Not CIRQO Verified:" in tools["cirqo_query"].description
 
 
 # --- cirqo_search --------------------------------------------------------------------------------------------
@@ -349,7 +349,7 @@ def test_query_passes_through_verified_flags_and_counts(mock_api):
     assert out["recommendation"]["verified"] is True
     assert out["alternatives"][0]["verified"] is False
     assert out["alternatives"][0]["facts"][0]["claimStatus"] == "unverifiable"
-    assert "Not verified by the brand: the Halcyon Buds Pro" in out["answerText"]
+    assert "Not CIRQO Verified: the Halcyon Buds Pro" in out["answerText"]
     assert [c["status"] for c in out["claims"]] == ["correct", "correct", "correct", "unverifiable"]
     assert out["claims"][-1]["verifiedValue"] is None
     assert out["verifiedCount"] == 3 and out["unverifiedCount"] == 1
@@ -442,7 +442,7 @@ def test_details_gets_the_product_and_labels_it(mock_api):
     result = call("cirqo_details", {"productId": "prod_001"})
     assert not result.is_error
     out = result.structured_content
-    assert out["verificationLabel"] == "Not verified by the brand" and out["specs"] == {"ramGb": 16}
+    assert out["verificationLabel"] == "Not CIRQO Verified" and out["specs"] == {"ramGb": 16}
     assert out["comparisons"][0]["attribute"] == "weight" and "presentation" not in out
 
 
@@ -456,9 +456,9 @@ def test_details_unknown_product_is_a_tool_error(mock_api):
 def test_search_and_query_label_every_product(mock_api):
     out = call("cirqo_search", SEARCH).structured_content
     for o in out["options"]:
-        assert o["verificationLabel"] == ("Verified by brand" if o["verified"] else "Not verified by the brand")
+        assert o["verificationLabel"] == ("CIRQO Verified" if o["verified"] else "Not CIRQO Verified")
     assert "presentation" not in out  # results carry data only; guidance lives in the descriptions
     pick = call("cirqo_query", QUERY).structured_content
-    assert pick["recommendation"]["verificationLabel"] == "Verified by brand"
+    assert pick["recommendation"]["verificationLabel"] == "CIRQO Verified"
     assert all("verificationLabel" in a for a in pick["alternatives"])
     assert "at most ONE narrowing question" in mcp_server.server.instructions
