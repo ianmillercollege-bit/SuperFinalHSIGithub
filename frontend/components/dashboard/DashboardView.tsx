@@ -88,7 +88,7 @@ function TrustCard({ series, badge }: { series: TrustSeries[]; badge?: string })
     <div className="cq-card cq-card-col cq-flex1">
       <div className="cq-chart-head">
         <h2 className="cq-h2">{current.title ?? `${values.length}-day ${current.label.toLowerCase()}`}</h2>
-        {badge && <span className="cq-pill is-warn">{badge}</span>}
+        {badge && <span className="cq-pill is-warn is-badge">{badge}</span>}
       </div>
       {series.length > 1 && <Chips options={series.map((s) => s.key)} value={current.key} onChange={setKey} format={(k) => series.find((s) => s.key === k)?.label ?? k} />}
       <TrendChart values={values} kind={kind} startLabel={`${values.length} days ago`} endLabel="Today"
