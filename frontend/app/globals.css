@@ -1271,7 +1271,7 @@ details > summary {
 /* ---- Sign-in page: its own screen, separate from the dashboard shell ---- */
 
 .auth-shell {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -1334,4 +1334,51 @@ details > summary {
 
 .auth-card .account-grid {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+/* One screen, no scrolling: the bar, then a row that fills the rest of the window. */
+.auth-main {
+  min-height: 0;
+}
+
+.auth-panel,
+.auth-form {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.login-form {
+  gap: 14px;
+}
+
+@media (max-width: 800px) {
+  .auth-shell {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .auth-main {
+    grid-template-rows: auto 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .auth-panel {
+    padding: 16px 20px;
+    gap: 10px;
+  }
+
+  .auth-sub {
+    display: none;
+  }
+
+  .auth-headline {
+    font-size: 1.3rem;
+    max-width: none;
+  }
+
+  .auth-form {
+    padding: 16px;
+    align-items: flex-start;
+  }
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import BrandLockup from "@/components/BrandLockup";
-import BrandLogin from "@/components/screens/BrandLogin";
-import SampleSignIn from "@/components/screens/SampleSignIn";
+import LoginForm from "@/components/screens/LoginForm";
 
 export const metadata: Metadata = { title: "Sign in · CIRQO" };
 
@@ -14,12 +13,8 @@ export default function Page() {
         <p className="auth-sub">See how assistants describe your products, fix what they get wrong, and prove it over time.</p>
       </section>
       <section className="auth-form">
-        <div className="card stack auth-card">
-          <SampleSignIn />
-          <section className="stack" aria-labelledby="brand-title">
-            <h2 id="brand-title">Brand</h2>
-            <BrandLogin />
-          </section>
+        <div className="card auth-card">
+          <LoginForm />
         </div>
       </section>
     </main>
