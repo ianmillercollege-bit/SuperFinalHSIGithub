@@ -9,6 +9,7 @@ For judges and for the pitch presenter. Everything shown is fictional sample dat
 "Kestrel is a fictional laptop brand using CIRQO. Thirty days ago, AI assistants got 62% of the claims about its
 products right. Today it's about 93%, and Kestrel shows up in 56% of relevant AI answers instead of 35%."
 Point at the trend chart and the four trust numbers: claim accuracy, hallucination rate, median time to resolve, false alarm rate.
+Optional: click **Download quarterly report** at the bottom; the file is the quarterly report every tier in the business plan includes.
 
 ## 2. Preview as shopper (60 seconds)
 "This is what happens inside a shopper's AI assistant once a brand is on CIRQO. Shoppers never see CIRQO; their assistant calls it."
@@ -16,7 +17,8 @@ Keep the pre-filled question ("best laptop under $500 for school"), pick an assi
 must-haves, and submit.
 "The assistant didn't guess. It called CIRQO's connector, got the brand's verified facts, and every sentence in this
 answer was checked by code before it came back. Ranking is neutral: a test in the repo proves no brand can pay for placement."
-Then click **AI Visibility** and show the new interaction at the top of the recorded answers.
+Then click **AI Visibility** and show the new interaction at the top of the recorded answers. Scroll to **Sources the AI relied on**:
+"This is the case's second question, what information the AI is using: which review sites, marketplaces and brand pages it cited, and how accurate each one was."
 
 ## 3. File a Claim (60 seconds)
 "Now the other direction: what AI assistants are saying about the brand out in the wild."

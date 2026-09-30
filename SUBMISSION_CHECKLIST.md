@@ -1,6 +1,6 @@
 # Tech submission checklist (lead), 9/30/2026
 
-Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 AM CT**. Cut anything unmerged at **1:30 AM CT**.
+Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 AM CT**, reopened by the lead for website fixes until **4:00 AM CT**; nothing after that. Cut anything unmerged at **1:30 AM CT**.
 
 ## 3:30 AM: freeze
 - [ ] Last merge to `main` done. CI green on `main` (Actions tab).
@@ -12,7 +12,8 @@ Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 A
 - [ ] Open https://frontdoor-api-hiel.onrender.com/health first (wakes the backend).
 - [ ] https://utsa-tech-09302026.vercel.app loads on the dashboard; every sidebar page opens; "Sample data" badge on each.
 - [ ] Log in as a demo admin (password `cirqo-demo`); company dashboard changes; "Continue as guest" works.
-- [ ] Preview as shopper returns a verified answer; the question appears in AI Visibility.
+- [ ] Preview as shopper returns a verified answer; the question appears in AI Visibility; the Sources panel lists sources.
+- [ ] Dashboard: Download quarterly report saves `cirqo-report.json`.
 - [ ] File a Claim on the example answer creates claims and incidents.
 - [ ] Approve one Outstanding Claim as its owner; it appears in Claims Reviewed.
 - [ ] Connect your catalog creates a brand; it appears in Preview as shopper.
@@ -32,7 +33,7 @@ Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 A
 
 ## 5:00 AM: package
 - [ ] Zip of the repo named `UTSA_TECH_09302026.zip` as a backup upload (GitHub link is the primary).
-- [ ] Screenshots folder `docs/screenshots/` committed (dashboard, preview, claims, Claude Desktop).
+- [x] Screenshots folder `docs/screenshots/` committed (Claude, ChatGPT and Gemini answering through the connector).
 - [ ] Executive summary and pitch deck received from the business team; they cite the live links and the demo numbers.
 
 ## 5:15 AM: upload

@@ -46,7 +46,8 @@ A brand connects its verified product facts, and CIRQO:
    - Safety and legal claims: escalated only. No automatic fix, ever.
 5. **Keeps an audit log** of every action by the system, the AI, and people. Every incident type has a named owner.
 6. **Measures trust over time**, using the success metrics from the business plan: AI-answer inclusion rate
-   (visibility), claim accuracy rate, hallucination rate, median time to resolve, and false alarm rate.
+   (visibility), claim accuracy rate, constraint-compliance rate (did the pick meet every hard constraint the shopper stated),
+   hallucination rate, median time to resolve, and false alarm rate. `GET /api/v1/metrics/trust` returns all of them.
    The 30-day sample trend shows claim accuracy rising from 62% to about 93% and AI-answer inclusion from 35% to 56%.
    `GET /api/v1/report` is the aggregated summary of errors and resolutions that the plan commits to publishing each quarter.
 7. **Answers the assistant from verified facts**: the connector composes its answer from checked facts only, with
@@ -91,10 +92,12 @@ their own company's dashboard. There is also a "Continue as guest" link, so nobo
 
 | Sidebar item | What to look at |
 |--------------|-----------------|
-| **Dashboard** | The company's trust numbers and the 30-day trend: claim accuracy rising, hallucination rate falling, AI-answer inclusion rising. The chart moves during a demo: every claim you check counts toward today. |
-| **AI Visibility** | How often the company appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. |
+| **Dashboard** | The company's trust numbers and the 30-day trend: claim accuracy rising, hallucination rate falling, AI-answer inclusion rising. The chart moves during a demo: every claim you check counts toward today. The **Download quarterly report** button saves the last 30 days of impact, incidents, governance and top sources as a file (`GET /api/v1/report`), the quarterly report the business plan sells with every tier. |
+| **AI Visibility** | How often the company appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. Below them, **Sources the AI relied on**: the review sites, marketplaces and brand pages the assistants cited, how often, and how accurate each one was (`GET /api/v1/sources`). This is the case's "what information the AI seems to rely on". |
 | **Market Position** | The company against its competitors on the same measures. |
 | **Company** and **Products** | Profile (CEO, admins, plan), and the verified catalog with its sources and timestamps: the Verified Data Layer. |
+| **Growth Simulator** | How the company improves results over time: each opportunity from the dashboard is a lever with a visibility lift. Slide how much of it is done and the visibility score and projected monthly revenue update at once, with the assumptions (shopper questions per month, conversion rate, order value) editable on the page. Pure, deterministic code. |
+| **AI Coach** | The dashboard's action plan and a chat about it. "AI proposes, code decides": with an AI key on the server the model drafts the advice, and plain code rejects any number that is not in the company's own dashboard data before it is shown. Without a key (the default) it answers from the seeded data. |
 | **Preview as shopper** | See what a shopper's AI assistant answers when it uses the verified catalog. Type a question as if you were in ChatGPT or Claude; every fact comes back checked. Shoppers never see CIRQO; their assistant calls it. |
 | **Connect your catalog** | Onboard a new company with a small product file. It is ranked by the connector immediately, and neutrally. |
 | **File a Claim** | Paste any AI answer about the company. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
