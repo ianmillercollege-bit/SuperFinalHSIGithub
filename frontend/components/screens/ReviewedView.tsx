@@ -19,7 +19,7 @@ export default function ReviewedView({ stats, rows, insights, pageSize = 5, head
   const pages = Math.max(1, Math.ceil(shown.length / pageSize));
   const slice = shown.slice(page * pageSize, page * pageSize + pageSize);
   const actors = Array.from(new Set(insights.map((i) => i.who.split(' · ')[0])));
-  const feed = actor === 'all' ? insights : insights.filter((i) => i.who.startsWith(actor));
+  const feed = actor === 'all' ? insights : insights.filter((i) => i.who.split(' · ')[0] === actor);
   return (
     <>
       <PageHeader claims eyebrow="Resolved incidents and the actions behind them" title="Claims reviewed"

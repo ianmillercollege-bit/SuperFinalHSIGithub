@@ -524,7 +524,9 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
     assistant = db.get(Assistant, answer.assistant_id)
     assistant_name = assistant.name if assistant else answer.assistant_id
     existing = db.scalars(select(Claim).where(Claim.answer_id == answer.answer_id)).all()
-    seen = {(e.text.strip().lower(), e.claim_type) for e in existing}
+    # A sentence can hold several claims of one type ("8 GB of RAM and a 256 GB SSD", two prices), so the
+    # key includes the value the checker extracted; the type alone would silently drop every claim after the first.
+    seen = {(e.text.strip().lower(), e.claim_type, e.extracted_value) for e in existing}
 
     if extracted is None:
         extracted = extract_claims(answer.answer_text, catalog)
@@ -539,10 +541,11 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
 
     new_incidents, new_claims, opened = [], [], []
     for c in extracted:
-        if (c.text.strip().lower(), c.claim_type) in seen:
-            continue  # already checked when the answer was first captured
-        seen.add((c.text.strip().lower(), c.claim_type))
         r = check(c, catalog)
+        key = (c.text.strip().lower(), c.claim_type, r.extracted_value)
+        if key in seen:
+            continue  # already checked when the answer was first captured
+        seen.add(key)
         claim = Claim(claim_id=next_id(db, Claim.claim_id, "clm"), answer_id=answer.answer_id,
                       product_id=c.product_id, text=c.text, claim_type=c.claim_type,
                       extracted_value=r.extracted_value, verified_value=r.verified_value, status=r.status,

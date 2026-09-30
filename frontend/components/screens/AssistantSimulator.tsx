@@ -130,7 +130,7 @@ export default function AssistantSimulator() {
       onClear={() => setTurns([])}
       onRetry={(id) => {
         const job = requests.current.get(id);
-        if (job) void run(id, job);
+        if (job && !sending) void run(id, job);
       }}
     />
   );

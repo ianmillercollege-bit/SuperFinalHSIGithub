@@ -2,7 +2,7 @@
 
 // The dashboard's numbers, in one place: live contract data first, plus the sample-only sections (toViewModel).
 // The dashboard and the AI Coach both read this, so they always show the same figures.
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { getAnswers, getAudit, getIncidents, getTrustMetrics, getVisibilitySummary } from "../api";
 import { ANSWERS_LIMIT } from "./liveVisibility";
 import { useBrandSession } from "../auth/brandSession";
@@ -41,16 +41,18 @@ export function useDashboardVm() {
   // The greeting and the header name come from the profile saved on this device (or its defaults).
   const identity = useProfileIdentity();
 
-  const vm = trust.data
+  const firstName = identity.firstName;
+  const businessName = user ? identity.businessName : (brand?.brandName ?? BUSINESS.name);
+  const vm = useMemo(() => trust.data
     ? toViewModel({
-        firstName: identity.firstName,
-        businessName: user ? identity.businessName : (brand?.brandName ?? BUSINESS.name),
+        firstName,
+        businessName,
         trust: trust.data,
         claims: claims.data ?? null,
         audit: audit.data?.entries ?? null,
         visibility: summary.data && answers.data ? { summary: summary.data, answers: answers.data.answers } : null,
       })
-    : null;
+    : null, [firstName, businessName, trust.data, claims.data, audit.data, summary.data, answers.data]);
   return { vm, trust, claims, audit, summary, answers };
 }
 

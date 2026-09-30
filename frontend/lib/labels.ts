@@ -87,5 +87,6 @@ export const ERROR_HINTS: Record<ApiErrorCode, string> = {
   NOT_FOUND: "Not found.",
   CONFLICT: "This incident is no longer in a state that allows this action.",
   VALIDATION_ERROR: "Some required information is missing or invalid.",
+  RATE_LIMITED: "Too many requests in a short time. Wait a minute and try again.",
   INTERNAL_ERROR: "The backend hit an unexpected error.",
 };

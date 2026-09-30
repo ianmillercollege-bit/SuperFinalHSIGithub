@@ -27,8 +27,9 @@ export function tickLabel(v: number, kind: ChartKind): string {
 
 // values are already in display units (percent series must be multiplied by 100 before calling).
 export function buildChart(values: number[], kind: ChartKind): ChartGeometry {
-  const { lo, hi, step } = domainFor(values, kind);
   const n = values.length;
+  if (n === 0) return { line: '', area: '', lastX: CHART.left, lastY: CHART.bottom, ticks: [] };
+  const { lo, hi, step } = domainFor(values, kind);
   const x = (i: number) => (n === 1 ? (CHART.left + CHART.right) / 2 : CHART.left + ((CHART.right - CHART.left) * i) / (n - 1));
   const y = (v: number) => CHART.top + (CHART.bottom - CHART.top) * (1 - (v - lo) / (hi - lo));
   const pts = values.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);

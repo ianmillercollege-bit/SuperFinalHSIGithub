@@ -49,8 +49,10 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
   // One visibility number for every screen: the recorded answers' 30-day rate. The seeded trend (metrics/trust) only
   // supplies the week-over-week change and the trend chart, and the chart says so.
   const score = live ? live.score : scoreFromRate(current.visibilityRate);
-  const weekAgo = daily.length > 7 ? daily[daily.length - 8] : undefined;
-  const change = weekAgo ? Math.round(current.visibilityRate * 100) - Math.round(weekAgo.visibilityRate * 100) : 0;
+  // current.visibilityRate is the mean of the last 7 days (contract 7b), so the comparison is the mean of the 7 days before.
+  const priorWeek = daily.length > 7 ? daily.slice(Math.max(0, daily.length - 14), daily.length - 7) : [];
+  const priorRate = priorWeek.reduce((sum, d) => sum + d.visibilityRate, 0) / priorWeek.length;
+  const change = priorWeek.length > 0 ? Math.round(current.visibilityRate * 100) - Math.round(priorRate * 100) : 0;
 
   const stats: StatCardData[] = [
     { id: "accuracy", label: "Description accuracy", value: percent(current.accuracyRate), note: "Correct claims, last 7 days" },

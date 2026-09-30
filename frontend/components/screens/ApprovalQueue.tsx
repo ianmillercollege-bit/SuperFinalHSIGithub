@@ -91,7 +91,7 @@ export default function ApprovalQueue() {
     }
   }
 
-  if (open.loading) return <Loading what="outstanding claims" />;
+  if (open.loading && open.data === undefined) return <Loading what="outstanding claims" />;
   if (open.error !== undefined) return <ErrorNotice error={open.error} onRetry={open.reload} />;
   const { pending, escalated } = open.data!;
   const incidents = [...pending, ...escalated];

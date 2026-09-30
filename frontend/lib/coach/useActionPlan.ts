@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { buildPlan } from './sampleCoach';
 import { PLAN_QUESTION, type ActionItem, type Coach, type CoachContext, type CoachMode } from './types';
 
@@ -10,7 +10,10 @@ export interface ActionPlan { actions: ActionItem[]; mode: CoachMode; verified: 
 // profileKey isolates each signed-in profile (same idea as the rest of the app's per-profile storage).
 export function useActionPlan(profileKey: string, context: CoachContext, coach: Coach) {
   const planKey = `cirqo:v1:${profileKey}:coachPlan`, checkKey = `cirqo:v1:${profileKey}:coachChecks`;
-  const [plan, setPlan] = useState<ActionPlan>(() => ({ actions: buildPlan(context), mode: 'sample', verified: true }));
+  // The built-in plan follows the context (live figures arrive after the first render); a saved or refreshed plan replaces it.
+  const builtIn = useMemo<ActionPlan>(() => ({ actions: buildPlan(context), mode: 'sample', verified: true }), [context]);
+  const [saved, setPlan] = useState<ActionPlan | null>(null);
+  const plan = saved ?? builtIn;
   const [checks, setChecks] = useState<Record<string, boolean>>({});
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | undefined>();

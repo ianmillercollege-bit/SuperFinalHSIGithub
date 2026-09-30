@@ -593,10 +593,16 @@ class BrandRef(CamelModel):
     brand_name: str
 
 
+class OrgRef(CamelModel):
+    org_id: str
+    org_name: str
+
+
 class MeOut(CamelModel):
     expires_at: str
     user: UserOut
     brand: BrandRef | None  # None for CIRQO Staff, who belong to no brand
+    org: OrgRef | None = None  # v1.6: a Community Partner's organization, instead of a brand
 
 
 class LoginOut(MeOut):
@@ -680,6 +686,19 @@ class OnboardProductIn(CamelModel):
                 raise ValueError(f"{key} must be a number >= 0")
         if v.get("touchscreen") is not None and not isinstance(v["touchscreen"], bool):
             raise ValueError("touchscreen must be true or false")
+        value = v.get("weightG")
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))
+                                  or not math.isfinite(value) or value < 0):
+            raise ValueError("weightG must be a number >= 0")
+        # The search reads these as lists of words and as text; a wrong type there would break every search.
+        for key in ("useCaseTags", "certifications", "otherNames"):
+            value = v.get(key)
+            if value is not None and (not isinstance(value, list) or not all(isinstance(x, str) for x in value)):
+                raise ValueError(f"{key} must be a list of strings")
+        for key in ("ports", "processor", "displayType", "subcategory"):
+            value = v.get(key)
+            if value is not None and not isinstance(value, str):
+                raise ValueError(f"{key} must be a string")
         return v
 
 
@@ -741,7 +760,7 @@ class CoachRequestIn(CamelModel):
     here, the rest is passed through to the coach as data."""
 
     question: str = Field(min_length=1, max_length=500)
-    history: list[CoachTurnIn] = Field(default_factory=list)
+    history: list[CoachTurnIn] = Field(default_factory=list, max_length=200)
     context: dict
 
     @field_validator("question")
@@ -759,6 +778,12 @@ class CoachRequestIn(CamelModel):
             raise ValueError("business.name is required")
         if not isinstance(value.get("asOf"), str) or not value["asOf"].strip():
             raise ValueError("asOf is required")
+        for key in ("visibility", "revenue", "market", "trust", "claims"):
+            if value.get(key) is not None and not isinstance(value[key], dict):
+                raise ValueError(f"{key} must be an object")
+        for key in ("opportunities", "competitors", "assistants", "derivedFacts", "weeklyScores", "topMissedQuestions"):
+            if value.get(key) is not None and not isinstance(value[key], list):
+                raise ValueError(f"{key} must be a list")
         if len(json.dumps(value, separators=(",", ":"))) > 20000:
             raise ValueError("is too large (20000 bytes max)")
         return value

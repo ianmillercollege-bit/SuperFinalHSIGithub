@@ -14,7 +14,7 @@ from schemas import ApproveIn, AuditListOut, IncidentOut, IncidentsOut, OwnersOu
 import constants as C
 from services.checker import audit
 from services.scope import brand_scope
-from services.session import VIEWER, optional_user
+from services.session import STAFF, VIEWER, optional_user
 from timeutil import now_iso
 
 router = APIRouter(tags=["Governance"])
@@ -66,6 +66,9 @@ def decide(db, incident_id: str, action: str, name: str | None, note: str | None
     incident = get_incident(db, incident_id)
     if user is not None and user.role == VIEWER:
         raise HTTPException(403, "Viewers can read incidents but cannot approve, reject or resolve them.")
+    if user is not None and user.role != STAFF and user.brand_id != incident.brand_id:
+        raise HTTPException(403, f"Incident {incident_id} belongs to another company. Only that company's owner "
+                                 f"can {action} it.")
     if not name:
         if user is None:
             field = "resolverName" if action == "resolve" else "approverName"

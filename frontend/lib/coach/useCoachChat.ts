@@ -26,7 +26,8 @@ export function useCoachChat(profileKey: string, context: CoachContext, coach: C
     const withUser: ChatMessage[] = [...messagesRef.current, { id: `u${Date.now()}`, role: 'user', text: q }];
     setMessages(withUser); messagesRef.current = withUser; save(withUser);
     try {
-      const history = withUser.slice(0, -1).filter((m) => m.id !== 'g').map((m) => ({ role: m.role, text: m.text }));
+      // The backend accepts up to 200 turns and reads the last few; a long chat sends only its tail.
+      const history = withUser.slice(0, -1).filter((m) => m.id !== 'g').slice(-40).map((m) => ({ role: m.role, text: m.text }));
       const r = await coach.ask({ question: q, history, context });
       const reply: ChatMessage = { id: `c${Date.now()}`, role: 'coach', text: r.answer, sources: r.sources.map((s) => `${s.label}: ${s.value}`), actions: r.actions, meta: { mode: r.mode, verified: r.verified, note: r.note } };
       const next = [...withUser, reply]; setMessages(next); messagesRef.current = next; save(next);
@@ -42,5 +43,5 @@ export function useCoachChat(profileKey: string, context: CoachContext, coach: C
 
   const clear = useCallback(() => { const g: ChatMessage[] = [{ id: 'g', role: 'coach', text: greeting }]; setMessages(g); setError(undefined); try { sessionStorage.removeItem(key); } catch { /* ignore */ } }, [greeting, key]);
   const retry = useCallback(() => { if (lastQ.current) void send(lastQ.current); }, [send]);
-  return { messages, sending, error, send, clear, retry, regenerate, lastQuestion: lastQ.current };
+  return { messages, sending, error, send, clear, retry, regenerate };
 }

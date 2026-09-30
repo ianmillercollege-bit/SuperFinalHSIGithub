@@ -35,5 +35,8 @@ export function useApi<T>(load: () => Promise<T>): ApiState<T> {
 
   const reload = useCallback(() => setNonce((n) => n + 1), []);
   const current = result && result.load === load && result.nonce === nonce ? result : null;
-  return { data: current?.data, error: current?.error, loading: current === null, reload };
+  // While a reload() is in flight, the previous data for the same loader is still returned (loading is true), so a
+  // screen can keep showing its list instead of unmounting everything.
+  const previous = result && result.load === load ? result : null;
+  return { data: current?.data ?? previous?.data, error: current?.error, loading: current === null, reload };
 }

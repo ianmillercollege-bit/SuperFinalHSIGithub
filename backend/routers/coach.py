@@ -28,9 +28,11 @@ def reset_limits() -> None:
 
 
 def _caller(request: Request) -> str:
+    # A caller can write its own X-Forwarded-For; the proxy appends the real address last, so the last entry
+    # is the one to trust (the first would let anyone pick a fresh "caller" per request).
     forwarded = request.headers.get("x-forwarded-for", "")
     if forwarded:
-        return forwarded.split(",")[0].strip()
+        return forwarded.split(",")[-1].strip()
     return request.client.host if request.client else "local"
 
 
@@ -43,6 +45,8 @@ def limited(caller: str) -> bool:
     if len(recent) >= settings.coach_rate_per_min or _day["count"] >= settings.coach_daily_cap:
         _recent[caller] = recent
         return True
+    for stale in [k for k, times in _recent.items() if k != caller and all(now - t >= 60 for t in times)]:
+        del _recent[stale]  # callers with nothing in the last minute do not pile up
     recent.append(now)
     _recent[caller] = recent
     _day["count"] += 1

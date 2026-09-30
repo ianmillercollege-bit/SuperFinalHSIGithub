@@ -17,6 +17,7 @@ from db import ApiKey, Brand, DailyMetric, Incident, Owner, Product, User, get_d
 from ids import next_id
 from schemas import BrandProfileOut, BrandsOut, ClaimIn, ClaimOut, OnboardIn, OnboardOut
 from services.checker import audit
+from services.passwords import hash_password
 from services.session import STAFF, VIEWER, optional_user, required_user
 from timeutil import now_iso
 
@@ -136,7 +137,7 @@ def brand_profile(brand_id: str, user: User | None = Depends(optional_user), db=
     if brand is None:
         raise HTTPException(404, f"Brand {brand_id} does not exist.")
     own = user is not None and (user.brand_id == brand_id or user.role == STAFF)
-    if user is not None and not own:
+    if user is not None and user.brand_id and not own:
         raise HTTPException(403, "A brand's token can only open its own profile.")
     profile = brand.profile or {}
     admins = db.scalars(select(User).where(User.brand_id == brand_id, User.role != VIEWER).order_by(User.user_id)).all()
@@ -161,6 +162,9 @@ def claim_company(brand_id: str, body: ClaimIn, db=Depends(get_db)):
     if brand.opted_in:
         raise HTTPException(409, f"{brand.name} has already opted in.")
     owner_name = body.owner_name.strip()
+    username = body.email.strip().lower()
+    if db.scalars(select(User).where(User.username == username)).first() is not None:
+        raise HTTPException(409, f"An account for {username} already exists. Sign in with it instead.")
     at = now_iso()
     brand.opted_in = True
     brand.is_client = True
@@ -174,6 +178,9 @@ def claim_company(brand_id: str, body: ClaimIn, db=Depends(get_db)):
     db.add(owner)
     key = ApiKey(api_key=new_api_key(db, brand.name), brand_id=brand_id, role="owner")
     db.add(key)
+    # 7d: the claimant can sign in to the new dashboard (contract: a Brand Data Owner with the demo password).
+    db.add(User(user_id=next_id(db, User.user_id, "usr"), username=username, name=owner_name,
+                role="Brand Data Owner", brand_id=brand_id, password_hash=hash_password(C.DEMO_PASSWORD)))
     db.flush()
     audit(db, owner_name, "human", "brand_claimed", brand_id,
           f"{owner_name} ({body.email.strip()}) claimed {brand.name}: {len(products)} product(s) now CIRQO Verified.", at)

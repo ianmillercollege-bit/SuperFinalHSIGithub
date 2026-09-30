@@ -438,7 +438,7 @@ async function request<T>(
   } catch (error) {
     // A 401 while signed in means the token ended (tokens die when the demo server restarts). Drop back to the
     // guest path so the app keeps working, and say so.
-    if (hadToken && path !== "/api/v1/auth/login" && error instanceof ApiError && error.code === "UNAUTHORIZED") {
+    if (hadToken && path !== "/api/v1/auth/login" && path !== "/api/v1/auth/logout" && error instanceof ApiError && error.code === "UNAUTHORIZED") {
       clearToken();
       signOutBrand();
       resetUserSession();
@@ -525,6 +525,7 @@ const ERROR_CODES: readonly string[] = [
   "NOT_FOUND",
   "CONFLICT",
   "VALIDATION_ERROR",
+  "RATE_LIMITED",
   "INTERNAL_ERROR",
 ];
 

@@ -6,6 +6,8 @@ people use the product. Accuracy and hallucination are re-weighted by the number
 counted that day; nothing else in the seeded history changes.
 """
 
+from sqlalchemy import select
+
 import constants as C
 from db import Answer, Claim, DailyMetric, Incident, Product
 from timeutil import today
@@ -20,6 +22,24 @@ def claim_brand(db, claim: Claim) -> str:
     return answer.brand_id if answer and answer.brand_id else C.DEFAULT_BRAND_ID
 
 
+def today_row(db, brand_id: str, day: str) -> DailyMetric | None:
+    """The brand's row for today. The seed ends on the startup day, so after UTC midnight the row does not exist
+    yet: it is opened from the latest one (same rates, nothing counted). A brand with no trend at all gets None."""
+    row = db.get(DailyMetric, (brand_id, day))
+    if row is not None:
+        return row
+    last = db.scalars(select(DailyMetric).where(DailyMetric.brand_id == brand_id)
+                      .order_by(DailyMetric.date.desc())).first()
+    if last is None or last.date > day:
+        return None
+    row = DailyMetric(brand_id=brand_id, date=day, accuracy_rate=last.accuracy_rate,
+                      hallucination_rate=last.hallucination_rate, claims_checked=0, incidents_opened=0,
+                      visibility_rate=last.visibility_rate)
+    db.add(row)
+    db.flush()
+    return row
+
+
 def record_activity(db, claims: list[Claim] = (), incidents: list[Incident] = ()) -> None:
     by_brand: dict[str, list[Claim]] = {}
     for claim in claims:
@@ -27,7 +47,7 @@ def record_activity(db, claims: list[Claim] = (), incidents: list[Incident] = ()
     day = today().isoformat()
 
     for brand_id, brand_claims in by_brand.items():
-        row = db.get(DailyMetric, (brand_id, day))
+        row = today_row(db, brand_id, day)
         if row is None:  # a brand with no trend yet (e.g. just onboarded)
             continue
         n, k = row.claims_checked, len(brand_claims)
@@ -40,6 +60,6 @@ def record_activity(db, claims: list[Claim] = (), incidents: list[Incident] = ()
         row.claims_checked = n + k
 
     for incident in incidents:
-        row = db.get(DailyMetric, (incident.brand_id, day))
+        row = today_row(db, incident.brand_id, day)
         if row is not None:
             row.incidents_opened += 1

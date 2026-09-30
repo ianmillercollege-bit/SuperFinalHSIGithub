@@ -23,6 +23,7 @@ from services.checker import (Catalog, Extracted, audit, brand_mentions, check, 
                               usable_number)
 from services.activity import record_activity
 from services.categories import infer_category
+from services.community import condition_sentences
 from services.ranking import TaggedProduct, rank, rank_tagged
 from services.search import (brand_verified, matches_must_have, narrowing_hints, product_tags, subcategories_in, use_case_in,
                              wanted_tags)
@@ -52,6 +53,7 @@ def compose_sentences(top: Product, brand: str, alternatives: list[Product], mus
     s, name = {k: v for k, v in top.specs.items() if v is not None}, top.name  # only facts on file
     sentences = [
         f"Based on verified data, the {name} (${top.price:.2f}, {human_availability(top.availability)}) fits best."]
+    sentences += condition_sentences(top)  # v1.6: a refurbished or surplus pick says so, and its pledge warranty
     templates = [("batteryHours", "The {name} is rated for {v} hours of battery life."),
                  ("weightLb", "The {name} weighs {v} lb."), ("ramGb", "The {name} has {v} GB of RAM."),
                  ("storageGb", "The {name} comes with {v} GB of storage."),
@@ -62,6 +64,7 @@ def compose_sentences(top: Product, brand: str, alternatives: list[Product], mus
     sentences.append(f"{brand} offers a {top.return_policy_days}-day return policy on the {name}.")
     for alt in alternatives:
         sentences.append(f"Another verified option is the {alt.name} at ${alt.price:.2f}.")
+        sentences += condition_sentences(alt)
     return sentences
 
 
@@ -103,8 +106,12 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
     # v1.5 section 7d: a pick from a brand that has not opted in is said so, in the text and in the flags.
     top_verified = top is not None and brand_verified(brand_rows.get(top.brand_id))
 
+    # v1.5 section 7d: an alternative from a brand that has not opted in is labelled, and its price is not a verified
+    # claim (same as /connector/search), so only verified alternatives go through the composer and the checker.
+    alt_verified = {p.product_id: brand_verified(brand_rows.get(p.brand_id)) for p, _ in alt_rows}
     if top:
-        sentences = compose_sentences(top, brands.get(top.brand_id, ""), [p for p, _ in alt_rows], must_have)
+        sentences = compose_sentences(top, brands.get(top.brand_id, ""),
+                                      [p for p, _ in alt_rows if alt_verified[p.product_id]], must_have)
     else:
         sentences = [no_match_sentence(max_price, use_case, must_have)]
 
@@ -115,6 +122,8 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
         if all(r.status == "correct" for _, r in checked):
             kept.append(sentence)
             results.extend(checked)
+    kept += [f"Not CIRQO Verified: another option is the {p.name} at ${p.price:.2f}."
+             for p, _ in alt_rows if not alt_verified[p.product_id]]
     answer_text = " ".join(kept)
     if top and not top_verified and answer_text:
         answer_text = "Not CIRQO Verified: " + answer_text
@@ -134,10 +143,15 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
 
     claims = []
     for c, r in results:
+        # 7d: a claim about a product whose brand has not opted in is unverifiable (public data), never correct.
+        unverified = not top_verified and top is not None and c.product_id == top.product_id
         claim = Claim(claim_id=next_id(db, Claim.claim_id, "clm"), answer_id=answer.answer_id,
                       product_id=c.product_id, text=c.text, claim_type=c.claim_type,
-                      extracted_value=r.extracted_value, verified_value=r.verified_value, status=r.status,
-                      rule_id=r.rule_id, fact_id=r.fact_id, reason=r.reason, checked_at=at)
+                      extracted_value=r.extracted_value, verified_value=None if unverified else r.verified_value,
+                      status="unverifiable" if unverified else r.status,
+                      rule_id="NO_FACT" if unverified else r.rule_id, fact_id=None if unverified else r.fact_id,
+                      reason=("Not CIRQO Verified: the brand has not opted in, so this comes from public data."
+                              if unverified else r.reason), checked_at=at)
         db.add(claim)
         db.flush()
         claims.append(claim)
@@ -154,10 +168,11 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
             "productId": top.product_id, "name": top.name, "brandName": brands.get(top.brand_id, ""),
             "price": top.price, "currency": top.currency, "availability": top.availability,
             "matchScore": round(ranked[0][1], 2), "returnPolicyDays": top.return_policy_days,
-            "facts": reasons_for(top, max_price, C.USE_CASES.get(use_case),
-                                 [C.MUST_HAVES[m] for m in must_have], catalog),
+            "facts": [f if top_verified else {**f, "claimStatus": "unverifiable"}  # 7d: never "correct" unverified
+                      for f in reasons_for(top, max_price, C.USE_CASES.get(use_case),
+                                           [C.MUST_HAVES[m] for m in must_have], catalog)],
             "verifiedAt": top.verified_at, "verified": top_verified}
-    alt_flags = [brand_verified(brand_rows.get(p.brand_id)) for p, _ in alt_rows]
+    alt_flags = [alt_verified[p.product_id] for p, _ in alt_rows]
     named_flags = ([top_verified] if top else []) + alt_flags
     return {
         "answerId": answer.answer_id, "question": body.question, "assistantId": assistant.assistant_id,

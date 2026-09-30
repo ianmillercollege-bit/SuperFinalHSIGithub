@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy import select
 
 import constants as C
-from db import ApiKey, Brand, LoginAlias, Token, User, get_db
+from db import ApiKey, Brand, CommunityOrg, LoginAlias, Token, User, get_db
 from schemas import DemoAccountsOut, LoginIn, LoginOut, MeOut, OkOut
 from services.passwords import verify_password
 from services.session import new_token, required_user, token_and_user
@@ -20,9 +20,11 @@ WRONG = "Wrong username or password."  # the same message for both, so usernames
 
 def me_body(db, user: User, token: Token) -> dict:
     brand = db.get(Brand, user.brand_id) if user.brand_id else None
+    org = db.get(CommunityOrg, user.org_id) if user.org_id else None  # v1.6: a Community Partner's organization
     return {"expiresAt": token.expires_at,
             "user": {"userId": user.user_id, "name": user.name, "role": user.role, "username": user.username},
-            "brand": {"brandId": brand.brand_id, "brandName": brand.name} if brand else None}
+            "brand": {"brandId": brand.brand_id, "brandName": brand.name} if brand else None,
+            "org": {"orgId": org.org_id, "orgName": org.name} if org else None}
 
 
 def find_user(db, username: str) -> User | None:
@@ -63,7 +65,10 @@ def me(authorization: str | None = Header(None), db=Depends(get_db)):
 
 @router.post("/logout", response_model=OkOut)
 def logout(authorization: str | None = Header(None), db=Depends(get_db)):
-    found = token_and_user(db, authorization) if authorization else None
+    try:
+        found = token_and_user(db, authorization) if authorization else None
+    except HTTPException:
+        found = None  # a malformed or ended token: there is nothing to end, and logout still succeeds
     if found:
         db.delete(found[0])
         db.commit()

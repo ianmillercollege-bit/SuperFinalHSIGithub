@@ -11,19 +11,20 @@ const score = (rate: number) => Math.round(rate * 100);
 
 export function liveVisibilityProps(summary: VisibilitySummary, answers: Answer[]) {
   const assistants = summary.byAssistant.map((a) => a.name);
+  const assistantIds = summary.byAssistant.map((a) => a.assistantId);
   const byQuestion = new Map<string, Answer[]>();
   for (const a of answers) byQuestion.set(a.queryText, [...(byQuestion.get(a.queryText) ?? []), a]);
 
   // A question only becomes a row when every assistant has an answer recorded for it, so no cell is ever guessed.
   const prompts: PromptRow[] = [];
   for (const [text, list] of byQuestion) {
-    const cells = assistants.map((name) => list.find((a) => a.assistantName === name));
+    const cells = assistantIds.map((id) => list.find((a) => a.assistantId === id));
     if (cells.some((c) => c === undefined)) continue;
     prompts.push({
       id: list[0].answerId,
       text,
       category: "Shopper question",
-      cells: cells.map((c) => ({ assistant: c!.assistantName, rank: c!.brandMentioned ? c!.rank : null })),
+      cells: cells.map((c, i) => ({ assistant: assistants[i], rank: c!.brandMentioned ? c!.rank : null })),
     });
   }
 

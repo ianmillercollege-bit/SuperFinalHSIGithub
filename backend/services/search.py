@@ -9,10 +9,22 @@ from statistics import median
 
 from db import Brand, Product
 
+def spec_number(s: dict, key: str, default: float = 0) -> float:
+    """A numeric spec, or the default when it is missing or not a number."""
+    value = s.get(key)
+    return float(value) if isinstance(value, (int, float)) and not isinstance(value, bool) else default
+
+
+def spec_words(s: dict, key: str) -> list[str]:
+    """A list-of-strings spec, or [] when it is missing or has another shape."""
+    value = s.get(key)
+    return [str(x) for x in value] if isinstance(value, list) else []
+
+
 LEGACY_MUST_HAVES = {  # the laptop words shared with /connector/query
-    "battery": lambda s: (s.get("batteryHours") or 0) >= 10,
-    "light": lambda s: (s.get("weightLb") or (s.get("weightG") or 99999) / 453.592) < 3,
-    "screen": lambda s: (s.get("screenInches") or 0) >= 15,
+    "battery": lambda s: spec_number(s, "batteryHours") >= 10,
+    "light": lambda s: (spec_number(s, "weightLb") or spec_number(s, "weightG", 99999) / 453.592) < 3,
+    "screen": lambda s: spec_number(s, "screenInches") >= 15,
     "touch": lambda s: bool(s.get("touchscreen")) or "touch" in str(s.get("displayType", "")).lower(),
 }
 BOOLEAN_QUESTIONS = {"noiseCancelling": "Do you want noise cancelling?",
@@ -75,9 +87,9 @@ def matches_must_have(p: Product, term: str) -> bool:
     if key.lower() in booleans:
         return booleans[key.lower()]
     s = p.specs or {}
-    haystack = " ".join([p.name, p.subcategory, " ".join(s.get("useCaseTags", [])), str(s.get("ports", "")),
-                         str(s.get("processor", "")), str(s.get("displayType", "")),
-                         " ".join(s.get("certifications", []))]).lower()
+    haystack = " ".join([p.name, p.subcategory or "", " ".join(spec_words(s, "useCaseTags")), str(s.get("ports") or ""),
+                         str(s.get("processor") or ""), str(s.get("displayType") or ""),
+                         " ".join(spec_words(s, "certifications"))]).lower()
     return key.lower() in haystack
 
 
@@ -121,8 +133,8 @@ def use_case_in(question: str) -> str | None:
 def product_tags(p: Product) -> frozenset[str]:
     """The words of the product's verified use-case tags."""
     words = set()
-    for tag in (p.specs or {}).get("useCaseTags", []):
-        words.update(re.findall(r"[a-z]+", str(tag).lower()))
+    for tag in spec_words(p.specs or {}, "useCaseTags"):
+        words.update(re.findall(r"[a-z]+", tag.lower()))
     return frozenset(words)
 
 

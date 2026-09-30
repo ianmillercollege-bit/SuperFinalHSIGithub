@@ -10,6 +10,18 @@ import { COMMUNITY_LOGINS, DEMO_LOGINS, DEMO_PASSWORD } from "@/lib/auth/demoAcc
 import { continueAsGuest, signInWithPassword } from "@/lib/auth/signIn";
 import { useApi } from "@/lib/useApi";
 
+/** The `?next=` path when it stays on this site; anything that resolves elsewhere (including "//x" and "/\\x") is dropped. */
+function sameSitePath(next: string | null): string | undefined {
+  if (!next || !next.startsWith("/")) return undefined;
+  try {
+    const url = new URL(next, window.location.origin);
+    if (url.origin !== window.location.origin) return undefined;
+    return url.pathname + url.search + url.hash;
+  } catch {
+    return undefined;
+  }
+}
+
 /**
  * /login, built from the kit's login layout. The demo usernames come from GET /auth/demo-accounts (contract v1.4)
  * when the backend sends them, on top of the seeded users the contract prints; the page shows them at once and
@@ -54,7 +66,7 @@ export default function LoginScreen() {
     setSubmitting(false);
     if (result.error) return setError(result.error);
     // A full load, so every page starts fresh for the signed-in person and company. Only same-site paths are followed.
-    window.location.assign(next && next.startsWith("/") && !next.startsWith("//") ? next : (result.landing ?? "/dashboard"));
+    window.location.assign(sameSitePath(next) ?? result.landing ?? "/dashboard");
   }
 
   return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import CoachStudio, { type QuestionGroup, type SnapshotItem, type StarterCard } from './CoachStudio';
 import { createCoach } from '../../lib/coach/liveCoach';
 import { buildPlan } from '../../lib/coach/sampleCoach';
@@ -47,12 +47,15 @@ export default function CoachPage({ profileKey, firstName, businessName, context
   const [added, setAdded] = useState<string[]>([]);
   useEffect(() => setAdded(planTitles(profileKey)), [profileKey]);   // after mount, so server and browser markup match
   const [toast, setToast] = useState('');
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(toastTimer.current), []);
   const base = useMemo(() => buildPlan(context), [context]);
   const add = (a: ActionItem) => {
     const r = addActionToPlan(profileKey, a, base);
     setAdded(planTitles(profileKey).length ? planTitles(profileKey) : [a.title]);
     setToast(r === 'added' ? 'Added to your action plan on the dashboard.' : r === 'exists' ? 'Already in your plan.' : 'Your plan is full (8 actions). Finish some steps first.');
-    setTimeout(() => setToast(''), 2600);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(''), 2600);
   };
   return (
     <>

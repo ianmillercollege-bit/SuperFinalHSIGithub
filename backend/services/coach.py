@@ -206,7 +206,7 @@ def allowed_numbers(ctx: dict) -> list[float]:
             add(score + lift)
         prev, tested, missed = _num(vis.get("previousScore")), _num(vis.get("answersTested")), _num(vis.get("answersMissed"))
         if prev is not None:
-            add(score - prev)
+            add(abs(score - prev))  # quoted as "up 7" or "down 7" points
         if tested is not None and missed is not None:
             add(tested - missed)
     estimate = _num(rev.get("estimatePerMonth"))
@@ -232,10 +232,10 @@ def allowed_numbers(ctx: dict) -> list[float]:
                 add(abs(c_score - closed))
     acc, start = _num(trust.get("accuracyRate")), _num(trust.get("accuracyRateStart"))
     if acc is not None and start is not None:
-        add(acc - start)
+        add(abs(acc - start))
     weekly = [w for w in (ctx.get("weeklyScores") or []) if _num(w) is not None]
     if len(weekly) > 1:
-        add(float(weekly[-1]) - float(weekly[0]))
+        add(abs(float(weekly[-1]) - float(weekly[0])))
     return sorted(allowed)
 
 
@@ -434,6 +434,7 @@ def answer(question: str, history: list[dict], context: dict) -> dict:
     deadline = time.monotonic() + TOTAL_BUDGET_SECONDS
     correction: str | None = None
     numbers_failed = False
+    usable: dict | None = None  # a verified reply that was only too generic: better than the built-in fallback
     for attempt in range(2):
         if attempt and deadline - time.monotonic() < RETRY_NEEDS_SECONDS:
             break
@@ -453,10 +454,13 @@ def answer(question: str, history: list[dict], context: dict) -> dict:
             continue
         # Vague advice gets one nudge; a second vague reply is accepted (safe, just less sharp).
         if attempt == 0 and is_generic(reply, context):
+            usable = reply
             correction = ("That was too generic. Name at least 2 specific items from <context> (assistants, competitors, "
                           "miss reasons, opportunities or real shopper questions) and quote at least 3 numbers from derivedFacts.")
             continue
         return _finish(reply, context, "live")
+    if usable is not None:
+        return _finish(usable, context, "live")
     note = ("The AI answer included numbers that could not be verified against your data, so this is the built-in answer."
             if numbers_failed else "The AI model was unavailable, so this is the built-in answer.")
     return _finish(plain_reply(question, context), context, "fallback", note)
