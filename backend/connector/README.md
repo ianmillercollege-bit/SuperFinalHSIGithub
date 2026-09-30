@@ -60,6 +60,21 @@ sleep 2 | .venv/bin/python backend/mcp_server.py; echo "exit code: $?"
 
 Silence followed by `exit code: 0` is the good outcome.
 
+## Option A (no install): add CIRQO as a custom connector
+
+The same two tools are served by the hosted backend as a remote MCP endpoint:
+
+```
+https://frontdoor-api-hiel.onrender.com/mcp
+```
+
+In claude.ai (web or desktop app, Pro or Max plan): **Settings, Connectors, Add custom connector**, name `CIRQO`,
+paste the URL above, no authentication, **Add**. Then in a new chat enable CIRQO under the tools menu and ask:
+"I want headphones for the gym, budget around $150." Nothing to install, no config file, no restart. The free-tier
+backend may take up to a minute to answer the first call while it wakes up.
+
+The rest of this page is Option B: running the connector locally for Claude Desktop.
+
 ## 2. Register it in Claude Desktop
 
 Open the Claude Desktop config file and add the `cirqo` entry. Create the file if it does not exist.

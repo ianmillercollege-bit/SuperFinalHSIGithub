@@ -1,9 +1,12 @@
 """CIRQO API. Run locally from backend/: uvicorn main:app --reload"""
 
+from contextlib import asynccontextmanager
+
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
+from mcp_http import MCP_PATH, mcp_asgi, session_manager
 from routers import auth, brands, client, community, connector, dashboard, governance, shopper
 from schemas import HealthResponse
 from seed_loader import rebuild_database
@@ -21,7 +24,16 @@ ALLOWED_ORIGINS = ["http://localhost:3000", *settings.frontend_origin_list]
 ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
 
 # DECISIONS.md #18: user-facing name is CIRQO. Paths, field names, demo keys and env vars are unchanged.
-app = FastAPI(title="CIRQO API", version=VERSION)
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    # The remote MCP endpoint (/mcp) needs its session manager running for the life of the app.
+    async with session_manager().run():
+        yield
+
+
+app = FastAPI(title="CIRQO API", version=VERSION, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -38,6 +50,10 @@ register_error_handlers(app)
 for module in (shopper, connector, dashboard, governance, client, auth, brands, community):
     gates = [Depends(connector_gate)] if module is connector else []
     app.include_router(module.router, prefix="/api/v1", dependencies=gates)
+
+
+# Remote MCP connector: POST https://<backend>/mcp (BACKEND_CONTRACT.md section 7 Connector, v1.7).
+app.add_route(MCP_PATH, mcp_asgi, methods=["GET", "POST", "DELETE"])
 
 
 @app.get("/health", response_model=HealthResponse)
