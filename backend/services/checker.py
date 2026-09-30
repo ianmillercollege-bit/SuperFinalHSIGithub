@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from sqlalchemy import select
 
 import constants as C
-from db import Answer, Assistant, AuditEntry, Brand, Claim, Incident, Owner, Product
+from db import Answer, Assistant, AuditEntry, Brand, Claim, ComparisonFact, Incident, Owner, Product
 from ids import next_id
 from services.activity import record_activity
 from services.scope import brand_of_target
@@ -34,8 +34,10 @@ SPEC_UNITS = {"ramGb": "GB RAM", "storageGb": "GB storage", "screenInches": "in 
 def fact_id(product_id: str | None, attr: str) -> str | None:
     if not product_id or attr not in FACT_ATTRS:
         return None
-    number = int(product_id.split("_")[1])
-    return f"fact_{number * 10 + FACT_ATTRS.index(attr):03d}"
+    suffix = product_id.split("_", 1)[1]
+    if not suffix.isdigit():  # catalog products use their SKU: prod_MOR-001-01 -> fact_mor-001-01-0
+        return f"fact_{suffix.lower()}-{FACT_ATTRS.index(attr)}"
+    return f"fact_{int(suffix) * 10 + FACT_ATTRS.index(attr):03d}"
 
 
 def num(value: float) -> str:
@@ -57,14 +59,35 @@ class Catalog:
         # The client brand is used to decide which brands are competitors (DECISIONS.md #8).
         # This is checker code, not ranking code.
         self.client_brand_ids = {b.brand_id for b in self.brands.values() if b.is_client}
-        # Match longer names first so "Kestrel Aero 14 Plus" wins over "Kestrel Aero 14".
-        names = []
+        # Every way a product can be named: full name, name without the brand ("Aero 14"), and the
+        # catalog's other names (v1.4.1). A name shared by two products is ambiguous and not used.
+        owners: dict[str, set[str]] = {}
+        spelled: dict[str, str] = {}
         for p in self.products:
-            names.append((p.name, p.product_id))
+            candidates = [p.name]
             brand = self.brands.get(p.brand_id)
             if brand and p.name.lower().startswith(brand.name.lower() + " "):
-                names.append((p.name[len(brand.name) + 1:], p.product_id))  # "Aero 14"
-        self.names = sorted(names, key=lambda n: len(n[0]), reverse=True)
+                candidates.append(p.name[len(brand.name) + 1:])  # "Aero 14"
+            candidates += [n for n in (p.specs or {}).get("otherNames", []) if isinstance(n, str)]
+            for name in candidates:
+                key = name.strip().lower()
+                if len(key) >= 3:
+                    owners.setdefault(key, set()).add(p.product_id)
+                    spelled.setdefault(key, name.strip())
+        unique = {key: next(iter(ids)) for key, ids in owners.items() if len(ids) == 1}
+        # Longer names first so "Kestrel Aero 14 Plus" wins over "Kestrel Aero 14".
+        self.names = sorted(((spelled[k], pid) for k, pid in unique.items()), key=lambda n: len(n[0]), reverse=True)
+        self.name_to_product = unique
+        # One combined pattern (one pass per sentence) instead of one search per name: fast at 1,500 products.
+        alternatives = "|".join(re.escape(name) for name, _ in self.names) or r"(?!x)x"
+        self.name_pattern = re.compile(r"(?<!\w)(?:" + alternatives + r")(?!\w)", re.I)
+        brand_alts = "|".join(re.escape(b.name) for b in sorted(self.brands.values(), key=lambda b: -len(b.name)))
+        self.brand_pattern = re.compile(r"\b(?:" + (brand_alts or r"(?!x)x") + r")\b", re.I)
+        self.brand_by_name = {b.name.lower(): b.brand_id for b in self.brands.values()}
+        # Verified comparison facts, keyed by (product, other product).
+        self.comparisons: dict[tuple[str, str], list] = {}
+        for f in db.scalars(select(ComparisonFact)).all():
+            self.comparisons.setdefault((f.product_id, f.other_product_id), []).append(f)
 
     def brand_name(self, product: Product | None) -> str | None:
         return self.brands[product.brand_id].name if product and product.brand_id in self.brands else None
@@ -130,15 +153,12 @@ def usable_number(value) -> bool:
 
 def find_products(sentence: str, catalog: Catalog) -> tuple[list[str], str]:
     """Product IDs in order of appearance, and the sentence with those names masked out."""
-    found, masked = [], sentence
-    for name, pid in catalog.names:
-        for m in re.finditer(re.escape(name), masked, re.I):
-            found.append((m.start(), pid))
-        masked = re.sub(re.escape(name), lambda m: "#" * len(m.group()), masked, flags=re.I)
     ordered = []
-    for _, pid in sorted(found):
+    for m in catalog.name_pattern.finditer(sentence):
+        pid = catalog.name_to_product[m.group().lower()]
         if pid not in ordered:
             ordered.append(pid)
+    masked = catalog.name_pattern.sub(lambda m: "#" * len(m.group()), sentence)
     return ordered, masked
 
 
@@ -237,11 +257,32 @@ class Result:
     extra: dict = field(default_factory=dict)
 
 
+COMPARISON_ATTRIBUTE_WORDS = [("price", ("cheaper", "price", "cost", "less expensive")),
+                              ("weight", ("lighter", "weight", "weighs")),
+                              ("battery", ("battery", "lasts", "outlasts"))]
+
+
+def comparison_fact(c: Extracted, catalog: Catalog):
+    """The verified comparison fact (v1.4.1, from the catalog sheet) that backs this claim, if any."""
+    products = c.value or []
+    if len(products) < 2 or c.phrase in ("worse than", "unlike", "more reliable than"):
+        return None  # the facts only say which product is better on price, weight or battery
+    text = c.text.lower()
+    wanted = ["price"] if c.phrase == "cheaper than" else \
+        [attr for attr, words in COMPARISON_ATTRIBUTE_WORDS if any(w in text for w in words)]
+    for f in catalog.comparisons.get((products[0], products[1]), []):
+        if f.attribute in wanted:
+            return f
+    return None
+
+
 def comparison_supported(c: Extracted, catalog: Catalog) -> bool:
     """True only when a verified fact backs the comparison (e.g. 'cheaper than' and it really is)."""
     products = c.value or []
     if len(products) < 2:
         return False
+    if comparison_fact(c, catalog):
+        return True
     a, b = catalog.by_id[products[0]], catalog.by_id[products[1]]
     text = c.text.lower()
     if c.phrase == "cheaper than":
@@ -267,7 +308,9 @@ def check(c: Extracted, catalog: Catalog) -> Result:
 
     if c.kind == "comparison":
         if comparison_supported(c, catalog):
-            return Result("correct", None, c.text, None, None, "A verified comparison fact supports this claim.")
+            fact = comparison_fact(c, catalog)
+            return Result("correct", None, c.text, fact.text if fact else None, fact.fact_id if fact else None,
+                          "A verified comparison fact supports this claim.")
         return Result("incorrect", "UNFAIR_COMPARISON", c.text, None, None,
                       f"Names a competitor with the comparative phrase '{c.phrase}' and no verified "
                       "comparison fact supports it.")
@@ -489,12 +532,9 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
 def brand_mentions(text: str, catalog: Catalog) -> list[str]:
     """Brand IDs mentioned in a text, in order of first mention (brand name or any of its products)."""
     positions = {}
-    lower = text.lower()
-    for brand in catalog.brands.values():
-        spots = [m.start() for m in re.finditer(rf"\b{re.escape(brand.name.lower())}\b", lower)]
-        for name, pid in catalog.names:
-            if catalog.by_id[pid].brand_id == brand.brand_id:
-                spots += [m.start() for m in re.finditer(re.escape(name.lower()), lower)]
-        if spots:
-            positions[brand.brand_id] = min(spots)
+    for m in catalog.brand_pattern.finditer(text):
+        positions.setdefault(catalog.brand_by_name[m.group().lower()], m.start())
+    for m in catalog.name_pattern.finditer(text):
+        brand_id = catalog.by_id[catalog.name_to_product[m.group().lower()]].brand_id
+        positions[brand_id] = min(positions.get(brand_id, m.start()), m.start())
     return sorted(positions, key=positions.get)

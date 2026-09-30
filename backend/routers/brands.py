@@ -68,6 +68,8 @@ def onboard(body: OnboardIn, db=Depends(get_db)):
     for p in body.products:
         db.add(Product(product_id=next_id(db, Product.product_id, "prod"), brand_id=brand.brand_id,
                        name=p.name.strip(), price=p.price, currency="USD", availability=p.availability,
+                       category=p.category,
+                       subcategory=p.subcategory or C.CATEGORY_DEFAULT_SUBCATEGORY[p.category],
                        specs=dict(p.specs), return_policy_days=p.return_policy_days, updated_at=at,
                        fact_source=p.fact_source,
                        fact_source_url=p.fact_source_url or default_page(brand_name, p.name),

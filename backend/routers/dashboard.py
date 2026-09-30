@@ -27,20 +27,37 @@ DAYS = Query(30, ge=1, le=30)
 LIMIT = Query(50, ge=1, le=100)
 
 
+def product_specs(p: Product) -> dict:
+    """Laptops: the six contract specs (null when not on file) plus any extra keys. Other categories:
+    the catalog's own spec columns (v1.4.1), only those on file."""
+    if p.category != "laptops":
+        return dict(p.specs)
+    return {**{k: p.specs.get(k) for k in SPEC_KEYS}, **{k: v for k, v in p.specs.items() if k not in SPEC_KEYS}}
+
+
 def product_out(p: Product, brands: dict[str, str]) -> dict:
     # Built field by field so seed-only fields (isClient, billingTier, priceHistory) can never leak.
     return {"productId": p.product_id, "brandId": p.brand_id, "brandName": brands.get(p.brand_id, ""),
             "name": p.name, "price": p.price, "currency": p.currency, "availability": p.availability,
-            # The six contract specs (null when not on file) plus any extra keys a brand sent at onboarding.
-            "specs": {**{k: p.specs.get(k) for k in SPEC_KEYS}, **{k: v for k, v in p.specs.items() if k not in SPEC_KEYS}},
+            "category": p.category, "subcategory": p.subcategory,
+            "specs": product_specs(p),
             "returnPolicyDays": p.return_policy_days, "updatedAt": p.updated_at,
             "factSource": p.fact_source, "factSourceUrl": p.fact_source_url, "verifiedAt": p.verified_at}
 
 
 @router.get("/products", response_model=ProductsOut)
-def products(db=Depends(get_db)):
+def products(category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"] | None = None,
+             brand_id: str | None = Query(None, alias="brandId"), db=Depends(get_db)):
+    # v1.4.1: both filters optional. An unknown brandId is a 404 like every other brand filter.
+    if brand_id is not None and db.get(Brand, brand_id) is None:
+        raise HTTPException(404, f"Brand {brand_id} does not exist.")
     brands = {b.brand_id: b.name for b in db.scalars(select(Brand)).all()}
-    rows = db.scalars(select(Product).order_by(Product.product_id)).all()
+    q = select(Product).order_by(Product.product_id)
+    if category:
+        q = q.where(Product.category == category)
+    if brand_id:
+        q = q.where(Product.brand_id == brand_id)
+    rows = db.scalars(q).all()
     return {"products": [product_out(p, brands) for p in rows]}
 
 

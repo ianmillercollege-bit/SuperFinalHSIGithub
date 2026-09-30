@@ -79,7 +79,9 @@ def recommend(body: RecommendIn, db=Depends(get_db)):
 
     budget = C.BUDGET_LIMITS.get(chosen.get("q_budget"))
     use = chosen.get("q_use")
-    products = {p.product_id: p for p in db.scalars(select(Product)).all()}
+    # The legacy quiz is laptop-only and ranks the original demo catalog it was designed for (v1.4.1).
+    products = {p.product_id: p for p in db.scalars(select(Product).where(
+        Product.category == "laptops", Product.brand_id.in_(C.LEGACY_SHOPPER_BRANDS))).all()}
     ranked = rank([to_rankable(p) for p in products.values()], budget, use, liked)
 
     brands = {b.brand_id: b.name for b in db.scalars(select(Brand)).all()}

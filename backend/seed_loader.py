@@ -19,8 +19,11 @@ from datetime import date
 from pathlib import Path
 
 import constants as C
-from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, DailyMetric, Incident, Owner, Product,
-                SessionLocal, Source, engine)
+from sqlalchemy import insert
+
+from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, ComparisonFact, DailyMetric, Incident,
+                Owner, Product, SessionLocal, Source, User, engine)
+from services.passwords import hash_password
 from timeutil import now, parse_iso, shift_date, shift_iso_seconds, today
 
 BACKEND_DIR = Path(__file__).resolve().parent
@@ -91,6 +94,13 @@ def event_offset(folders: list[Path]) -> float:
     return (now() - max(stamps)).total_seconds() - 60
 
 
+def catalog_folder(folder: Path) -> Path | None:
+    """The catalog at scale (contract v1.4.1): brands, profiles, products, comparisons, users and dashboard
+    data for the spreadsheet's companies. Every dashboard row carries its brandId."""
+    path = folder / "catalog"
+    return path if (path / "brands.json").exists() else None
+
+
 def load(db, folder: Path) -> dict:
     daily_rows = read_list(folder, "daily_metrics", "daily")
     shift = 0
@@ -98,38 +108,56 @@ def load(db, folder: Path) -> dict:
         last = max(date.fromisoformat(r["date"]) for r in daily_rows)
         shift = (today() - last).days
 
-    accounts = [(C.DEFAULT_BRAND_ID, folder)] + brand_folders(folder)
+    catalog = catalog_folder(folder)
+    accounts = [(C.DEFAULT_BRAND_ID, folder)] + brand_folders(folder) + ([(C.DEFAULT_BRAND_ID, catalog)] if catalog else [])
     offset = event_offset([path for _, path in accounts])
 
     def moved(value):
         return shift_iso_seconds(value, offset)
 
-    brands = read_list(folder, "brands", "brands")
+    rows = {table: [] for table in (Brand, Product, Assistant, Source, ComparisonFact, User, Owner, Answer, Claim,
+                                    Incident, AuditEntry, DailyMetric, ApiKey)}
+    profiles = {r["brandId"]: {k: v for k, v in r.items() if k != "brandId"}
+                for r in (read_list(catalog, "profiles", "profiles") if catalog else [])}
+    brands = read_list(folder, "brands", "brands") + (read_list(catalog, "brands", "brands") if catalog else [])
     for r in brands:
-        db.add(Brand(brand_id=r["brandId"], name=pick(r, "name", "brandName"),
-                     is_client=bool(pick(r, "isClient", default=False)), billing_tier=pick(r, "billingTier")))
+        rows[Brand].append(dict(brand_id=r["brandId"], name=pick(r, "name", "brandName"),
+                                is_client=bool(pick(r, "isClient", default=False)), billing_tier=pick(r, "billingTier"),
+                                profile=profiles.get(r["brandId"], {})))
     brand_ids = {r["brandId"] for r in brands}
 
     product_brand = {}
-    for r in read_list(folder, "products", "products"):
+    products = read_list(folder, "products", "products") + (read_list(catalog, "products", "products") if catalog else [])
+    for r in products:
         product_brand[r["productId"]] = r["brandId"]
-        db.add(Product(product_id=r["productId"], brand_id=r["brandId"], name=r["name"], price=float(r["price"]),
-                       currency=pick(r, "currency", default="USD"), availability=r["availability"],
-                       specs=r["specs"], return_policy_days=int(r["returnPolicyDays"]),
-                       updated_at=moved(r["updatedAt"]), fact_source=r["factSource"],
-                       fact_source_url=r["factSourceUrl"], verified_at=moved(r["verifiedAt"]),
-                       price_history=previous_prices(r),
-                       features=[f.lower() for f in pick(r, "features", default=[])]))
+        rows[Product].append(dict(
+            product_id=r["productId"], brand_id=r["brandId"], name=r["name"], price=float(r["price"]),
+            currency=pick(r, "currency", default="USD"), availability=r["availability"], specs=r["specs"],
+            return_policy_days=int(r["returnPolicyDays"]), updated_at=moved(r["updatedAt"]),
+            fact_source=r["factSource"], fact_source_url=r["factSourceUrl"], verified_at=moved(r["verifiedAt"]),
+            price_history=previous_prices(r), features=[f.lower() for f in pick(r, "features", default=[])],
+            category=pick(r, "category", default="laptops"), subcategory=pick(r, "subcategory", default="Laptop")))
 
     for r in read_list(folder, "assistants", "assistants"):
-        db.add(Assistant(assistant_id=r["assistantId"], name=r["name"]))
-
+        rows[Assistant].append(dict(assistant_id=r["assistantId"], name=r["name"]))
     for r in read_list(folder, "sources", "sources"):
-        db.add(Source(source_id=r["sourceId"], name=r["name"], domain=r["domain"], type=r["type"]))
+        rows[Source].append(dict(source_id=r["sourceId"], name=r["name"], domain=r["domain"], type=r["type"]))
+
+    if catalog:
+        for r in read_list(catalog, "comparisons", "comparisons"):
+            rows[ComparisonFact].append(dict(fact_id=r["factId"], product_id=r["productId"],
+                                             other_product_id=r["otherProductId"], attribute=r["attribute"],
+                                             text=r["text"]))
+        # Every demo password is cirqo-demo (DECISIONS.md #34): hashed once per rebuild, never stored in plain text.
+        demo_hash = hash_password(C.DEMO_PASSWORD)
+        for r in read_list(catalog, "users", "users"):
+            rows[User].append(dict(user_id=r["userId"], username=r["username"].lower(), name=r["name"],
+                                   role=r["role"], title=pick(r, "title"), brand_id=pick(r, "brandId"),
+                                   password_hash=demo_hash))
 
     answer_brand, incident_brand, claim_answer = {}, {}, {}
     for brand_id, path in accounts:
-        load_account(db, path, brand_id, moved, product_brand, answer_brand, incident_brand, claim_answer)
+        load_account(rows, path, brand_id, moved, product_brand, answer_brand, incident_brand, claim_answer)
 
     def audit_brand(target_id: str, fallback: str) -> str | None:
         """An audit entry belongs to the brand of what it is about."""
@@ -143,63 +171,65 @@ def load(db, folder: Path) -> dict:
 
     for brand_id, path in accounts:
         for r in read_list(path, "audit", "entries"):
-            db.add(AuditEntry(audit_id=r["auditId"], timestamp=moved(r["timestamp"]), actor=r["actor"],
-                              actor_type=r["actorType"], action=r["action"], target_id=r["targetId"],
-                              details=pick(r, "details", default=""),
-                              brand_id=pick(r, "brandId", default=audit_brand(r["targetId"], brand_id))))
-        rows = daily_rows if path == folder else read_list(path, "daily_metrics", "daily")
-        for r in rows:
-            db.add(DailyMetric(brand_id=brand_id, date=shift_date(r["date"], shift),
-                               accuracy_rate=r["accuracyRate"], hallucination_rate=r["hallucinationRate"],
-                               claims_checked=r["claimsChecked"], incidents_opened=r["incidentsOpened"],
-                               visibility_rate=r["visibilityRate"]))
+            rows[AuditEntry].append(dict(audit_id=r["auditId"], timestamp=moved(r["timestamp"]), actor=r["actor"],
+                                         actor_type=r["actorType"], action=r["action"], target_id=r["targetId"],
+                                         details=pick(r, "details", default=""),
+                                         brand_id=pick(r, "brandId", default=audit_brand(r["targetId"], brand_id))))
+        for r in (daily_rows if path == folder else read_list(path, "daily_metrics", "daily")):
+            rows[DailyMetric].append(dict(brand_id=pick(r, "brandId", default=brand_id),
+                                          date=shift_date(r["date"], shift), accuracy_rate=r["accuracyRate"],
+                                          hallucination_rate=r["hallucinationRate"], claims_checked=r["claimsChecked"],
+                                          incidents_opened=r["incidentsOpened"], visibility_rate=r["visibilityRate"]))
 
     # Client API keys (CLIENT_API_CONTRACT.md v1.1): the demo keys of the brands that exist.
     for account in C.DEMO_ACCOUNTS:
         if account["brandId"] in brand_ids:
-            db.add(ApiKey(api_key=account["apiKey"], brand_id=account["brandId"], role=account["role"]))
+            rows[ApiKey].append(dict(api_key=account["apiKey"], brand_id=account["brandId"], role=account["role"]))
 
+    # Bulk inserts: about 25,000 rows at catalog scale, well inside the 10-second rebuild (contract v1.4.1).
+    for table, table_rows in rows.items():
+        if table_rows:
+            db.execute(insert(table), table_rows)
     db.commit()
     return {"folder": str(folder), "shiftDays": shift, "shiftSeconds": offset,
-            "brandAccounts": [brand_id for brand_id, _ in accounts]}
+            "brandAccounts": [brand_id for brand_id, _ in accounts], "catalog": bool(catalog)}
 
 
-def load_account(db, path: Path, brand_id: str, moved, product_brand: dict, answer_brand: dict,
+def load_account(rows: dict, path: Path, brand_id: str, moved, product_brand: dict, answer_brand: dict,
                  incident_brand: dict, claim_answer: dict) -> None:
-    """Owners, answers, claims and incidents of one brand account."""
+    """Owners, answers, claims and incidents of one brand account (or of many, when rows carry brandId)."""
     for r in read_list(path, "owners", "owners"):
-        db.add(Owner(owner_id=r["ownerId"], name=r["name"], role=r["role"], incident_types=r["incidentTypes"],
-                     brand_id=pick(r, "brandId", default=brand_id)))
+        rows[Owner].append(dict(owner_id=r["ownerId"], name=r["name"], role=r["role"],
+                                incident_types=r["incidentTypes"], brand_id=pick(r, "brandId", default=brand_id)))
 
     for r in read_list(path, "answers", "answers"):
         answer_brand[r["answerId"]] = pick(r, "brandId", default=brand_id)
-        db.add(Answer(answer_id=r["answerId"], query_text=r["queryText"], assistant_id=r["assistantId"],
-                      answer_text=r["answerText"], brand_mentioned=bool(pick(r, "brandMentioned", default=False)),
-                      rank=pick(r, "rank"), source_ids=pick(r, "sourceIds", default=[]),
-                      captured_at=moved(r["capturedAt"]), source=pick(r, "source", default="mock"),
-                      brand_id=answer_brand[r["answerId"]]))
+        rows[Answer].append(dict(answer_id=r["answerId"], query_text=r["queryText"], assistant_id=r["assistantId"],
+                                 answer_text=r["answerText"],
+                                 brand_mentioned=bool(pick(r, "brandMentioned", default=False)),
+                                 rank=pick(r, "rank"), source_ids=pick(r, "sourceIds", default=[]),
+                                 captured_at=moved(r["capturedAt"]), source=pick(r, "source", default="mock"),
+                                 brand_id=answer_brand[r["answerId"]]))
 
     for r in read_list(path, "claims", "claims"):
         claim_answer[r["claimId"]] = r["answerId"]
-        db.add(Claim(claim_id=r["claimId"], answer_id=r["answerId"], product_id=pick(r, "productId"), text=r["text"],
-                     claim_type=r["claimType"], extracted_value=pick(r, "extractedValue"),
-                     verified_value=pick(r, "verifiedValue"), status=r["status"], rule_id=pick(r, "ruleId"),
-                     fact_id=pick(r, "factId"), reason=pick(r, "reason", default=""),
-                     checked_at=moved(r["checkedAt"])))
+        rows[Claim].append(dict(claim_id=r["claimId"], answer_id=r["answerId"], product_id=pick(r, "productId"),
+                                text=r["text"], claim_type=r["claimType"], extracted_value=pick(r, "extractedValue"),
+                                verified_value=pick(r, "verifiedValue"), status=r["status"],
+                                rule_id=pick(r, "ruleId"), fact_id=pick(r, "factId"),
+                                reason=pick(r, "reason", default=""), checked_at=moved(r["checkedAt"])))
 
     for r in read_list(path, "incidents", "incidents"):
         # An incident belongs to the brand that owns the product (v1.3 section 7b).
         owner_brand = pick(r, "brandId", default=product_brand.get(pick(r, "productId"), brand_id))
         incident_brand[r["incidentId"]] = owner_brand
-        db.add(Incident(incident_id=r["incidentId"], claim_id=r["claimId"], answer_id=r["answerId"],
-                        product_id=pick(r, "productId"), rule_id=r["ruleId"], severity=r["severity"],
-                        handling=r["handling"], status=r["status"], summary=r["summary"], ai_said=pick(r, "aiSaid"),
-                        verified_fact=pick(r, "verifiedFact"), proposed_fix=pick(r, "proposedFix"),
-                        owner_id=r["ownerId"], owner_name=r["ownerName"],
-                        false_alarm=bool(pick(r, "falseAlarm", default=False)),
-                        created_at=moved(r["createdAt"]),
-                        resolved_at=moved(pick(r, "resolvedAt")), resolved_by=pick(r, "resolvedBy"),
-                        brand_id=owner_brand))
+        rows[Incident].append(dict(
+            incident_id=r["incidentId"], claim_id=r["claimId"], answer_id=r["answerId"],
+            product_id=pick(r, "productId"), rule_id=r["ruleId"], severity=r["severity"], handling=r["handling"],
+            status=r["status"], summary=r["summary"], ai_said=pick(r, "aiSaid"), verified_fact=pick(r, "verifiedFact"),
+            proposed_fix=pick(r, "proposedFix"), owner_id=r["ownerId"], owner_name=r["ownerName"],
+            false_alarm=bool(pick(r, "falseAlarm", default=False)), created_at=moved(r["createdAt"]),
+            resolved_at=moved(pick(r, "resolvedAt")), resolved_by=pick(r, "resolvedBy"), brand_id=owner_brand))
 
 
 def rebuild_database() -> dict:

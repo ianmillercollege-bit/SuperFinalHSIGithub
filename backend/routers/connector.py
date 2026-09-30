@@ -22,6 +22,7 @@ from services.ai_client import source_label
 from services.checker import (Catalog, audit, brand_mentions, check, extract_claims, human_availability, num,
                               usable_number)
 from services.activity import record_activity
+from services.categories import infer_category
 from services.ranking import rank
 from timeutil import now_iso
 
@@ -85,7 +86,11 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
 
     # Same neutral ranking as the shopper endpoint; maxPrice means "at most".
     products = {p.product_id: p for p in db.scalars(select(Product)).all()}
-    eligible = [to_rankable(p) for p in products.values() if max_price is None or p.price <= max_price]
+    # v1.4.1: compare like with like. The question's category (laptops if it names none) decides which
+    # products are ranked; if nothing in that category fits, every category is ranked, as before.
+    category = infer_category(body.question) or "laptops"
+    in_budget = [p for p in products.values() if max_price is None or p.price <= max_price]
+    eligible = [to_rankable(p) for p in in_budget if p.category == category] or [to_rankable(p) for p in in_budget]
     ranked = rank(eligible, None, C.USE_CASES.get(use_case), [C.MUST_HAVES[m] for m in must_have])
 
     brands = {b.brand_id: b.name for b in db.scalars(select(Brand)).all()}
