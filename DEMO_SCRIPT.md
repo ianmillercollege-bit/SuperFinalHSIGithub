@@ -37,10 +37,12 @@ Find the item you just approved at the top.
 ## 6. Scale, one line (10 seconds)
 "153 companies, 1,500 products, a dashboard for each. Every company here is fictional." Click **All companies** if logged in as CIRQO Staff.
 
-## 6b. The plugin in a real assistant (45 seconds, if Claude Desktop is set up)
-In Claude Desktop, new chat: "I want headphones for the gym, budget around $150." Claude calls `cirqo_search`, shows
-five options with **Verified by brand** or **Not verified by the brand** on each, and asks one narrowing question.
-Answer it; Claude calls `cirqo_query` and gives one pick built only from checked facts.
+## 6b. The plugin in a real assistant (45 seconds)
+In Claude (any device, CIRQO added as a custom connector, **web search switched off** in the chat), new chat:
+"Using CIRQO only, I need headphones for the gym around $150." Claude calls `cirqo_search`, shows five options
+with **Verified by brand** or **Not verified by the brand** on each, and asks one narrowing question. Answer it;
+Claude calls `cirqo_query` and gives one pick built only from checked facts. Then "tell me more about the first
+one": Claude calls `cirqo_details` for specs and comparisons instead of guessing.
 "This is what the shopper sees. They never open CIRQO. Their assistant does."
 
 ## 6c. Community program (30 seconds)

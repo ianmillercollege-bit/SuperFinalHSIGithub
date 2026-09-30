@@ -55,6 +55,25 @@ A brand connects its verified product facts, and CIRQO:
 **Neutral ranking:** brands can never pay for placement. The ranking code never receives the client or billing
 fields, and `backend/tests/test_ranking_neutral.py` proves the results are identical when those fields change.
 
+## Get CIRQO: two ways in
+
+**Shoppers (30 seconds, nothing to install).** In Claude (web, desktop or phone): Settings, Connectors,
+Add custom connector, name `CIRQO`, URL `https://frontdoor-api-hiel.onrender.com/mcp`, no authentication.
+Start a chat with web search off and say "Using CIRQO only, I need headphones for the gym around $150."
+The assistant searches the verified catalog, asks one narrowing question, and picks. Every product it names is
+labelled **Verified by brand** or **Not verified by the brand**. Any assistant that supports MCP can use the
+same URL; `backend/connector/README.md` also covers a local install for Claude Desktop.
+
+**Brands (2 minutes).** Open https://utsa-tech-09302026.vercel.app, click **Connect your catalog**, enter the
+company name, the owner's name and a few products. The company gets a dashboard, an API key and verified facts
+in every assistant answer from that moment. A company already listed from public data claims its listing instead
+(`POST /api/v1/brands/{brandId}/claim`), which flips its products from "Not verified by the brand" to verified.
+Launch segment: small Shopify stores; the dashboard's storefront revenue panel is where their sales appear.
+
+**Community partners.** Schools, nonprofits and veterans groups sign in (demo:
+`rosa.delgado@bexar-valley-school-district.example`, password `cirqo-demo`) and request pledged surplus and
+refurbished units from every brand at once.
+
 ## How a judge should navigate it
 
 Open https://utsa-tech-09302026.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
