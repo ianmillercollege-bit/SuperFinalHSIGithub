@@ -1229,3 +1229,41 @@ details > summary {
   flex-direction: column;
   gap: 2px;
 }
+
+.sample-signin-label {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.user-signout {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--on-navy-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.user-signout:hover,
+.user-signout:focus-visible {
+  color: var(--on-navy);
+}
+
+.user-note {
+  color: var(--on-navy-muted);
+  font-size: 0.72rem;
+}
+
+.user-links {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}

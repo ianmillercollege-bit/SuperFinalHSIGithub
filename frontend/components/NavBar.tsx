@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import BackendStatus from "@/components/BackendStatus";
 import { getIncidents } from "@/lib/api";
 import { onIncidentsChanged } from "@/lib/events";
 import { NAV, isActive } from "@/lib/nav";
 import { useBrandSession } from "@/lib/auth/brandSession";
+import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
 import { useApi } from "@/lib/useApi";
 
@@ -25,6 +26,8 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
   const pathname = usePathname();
   const session = useBrandSession();
   const brandName = session?.brandName ?? BUSINESS.name;
+  const { user } = useUserSession();
+  const router = useRouter();
   const open = useApi(useCallback(() => countOpenIncidents(), []));
   const { reload } = open;
   useEffect(() => onIncidentsChanged(reload), [reload]);
@@ -38,14 +41,31 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
 
       <div className="user-chip">
         <span className="user-initials" aria-hidden>
-          {brandName.slice(0, 2).toUpperCase()}
+          {(user?.name ?? "?").split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
         </span>
         <span className="user-text">
-          <span className="user-name">{brandName}</span>
-          <span className="user-meta">{session ? `${session.role} account` : "Default account"}</span>
-          <Link href="/login" className="user-switch">
-            Switch account
-          </Link>
+          <span className="user-name">{user ? user.name : "Signed out"}</span>
+          <span className="user-meta">
+            {user ? `${user.role === "owner" ? "Owner" : "Viewer"} · ${brandName}` : brandName}
+          </span>
+          <span className="user-note">Sample sign-in. No real authentication.</span>
+          <span className="user-links">
+            <Link href="/login" className="user-switch">
+              {user ? "Switch account" : "Sign in"}
+            </Link>
+            {user && (
+              <button
+                type="button"
+                className="user-signout"
+                onClick={() => {
+                  signOutUser();
+                  router.push("/login");
+                }}
+              >
+                Sign out
+              </button>
+            )}
+          </span>
         </span>
       </div>
 

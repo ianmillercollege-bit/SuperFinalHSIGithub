@@ -6,6 +6,7 @@ import AuditTable from "@/components/AuditTable";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
 import StatusPill from "@/components/StatusPill";
 import { approveIncident, getAudit, getIncident, rejectIncident, resolveIncident } from "@/lib/api";
+import { canAct, useUserSession } from "@/lib/auth/userSession";
 import { describeError } from "@/lib/errors";
 import { notifyIncidentsChanged } from "@/lib/events";
 import { formatDateTime } from "@/lib/format";
@@ -89,7 +90,12 @@ export default function IncidentDetail({ incidentId }: { incidentId: string }) {
 type Action = "approve" | "reject" | "resolve";
 
 function ActionPanel({ incident, onDone }: { incident: Incident; onDone: (incident: Incident) => void }) {
-  const [name, setName] = useState("");
+  const session = useUserSession();
+  // Decision 32: the name starts as the signed-in owner. It stays editable, so a mismatch shows the
+  // backend's 403 (the demo of accountability).
+  const [typed, setTyped] = useState<string | null>(null);
+  const name = typed ?? (session.user?.role === "owner" ? session.user.name : "");
+  const setName = (value: string) => setTyped(value);
   const [note, setNote] = useState("");
   const [falseAlarm, setFalseAlarm] = useState(false);
   const [sending, setSending] = useState<Action | null>(null);
@@ -97,6 +103,18 @@ function ActionPanel({ incident, onDone }: { incident: Incident; onDone: (incide
 
   const canApproveOrReject = incident.status === "pending_approval" && incident.severity !== "critical";
   const canResolve = incident.status === "escalated";
+
+  // Viewer or signed out: read-only. A frontend hide, not security (decision 32).
+  if ((canApproveOrReject || canResolve) && !canAct(session)) {
+    return (
+      <section className="card">
+        <p className="muted">
+          {session.user ? "Your role is read-only, so approve, reject and resolve are hidden." : "Sign in as an owner to approve, reject or resolve."} Owner of this
+          claim: {incident.ownerName}.
+        </p>
+      </section>
+    );
+  }
 
   if (!canApproveOrReject && !canResolve) {
     return (
