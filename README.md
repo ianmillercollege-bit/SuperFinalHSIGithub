@@ -97,14 +97,18 @@ their own company's dashboard. There is also a "Continue as guest" link, so nobo
 | **Community catalog** and **Community requests** (Community Partner login, for example `rosa.delgado@bexar-valley-school-district.example`) | The Community program: brands pledge surplus and refurbished units; schools, nonprofits and veterans groups browse one cross-company catalog and request units. The brand's owner approves or rejects. CIRQO never verifies anyone's income and stores no recipient data. |
 | **All companies** (CIRQO Staff login) | Cross-company oversight: inclusion, open incidents and escalations for every company. |
 
-**Scale:** 153 fictional companies (Greek-god names, no real brands) across headphones, laptops, phones and tablets, and
-computer hardware; 1,500 products with real spec sheets; 2,946 verified comparison facts; a dashboard for every company.
+**Scale:** 153 fictional opted-in companies (Greek-god names) across headphones, laptops, phones and tablets, and
+computer hardware; 1,500 verified products with real spec sheets; 2,946 verified comparison facts; a dashboard for every
+opted-in company; plus 12 real brands and 25 products listed as not verified.
 The whole database rebuilds from seed in under a second on every restart.
 
-**Opted in or not:** the catalog holds two kinds of company. Opted-in brands have verified facts, a dashboard and a
-login; every fact they publish is checked and marked **Verified by brand**. The rest are listed from public data and
-every one of their facts is marked **Not verified by the brand**, in the dashboard and in the assistant's answer. Nothing
-about a brand's paid status ever reaches the ranking code.
+**Opted in or not:** the catalog holds two kinds of company. The 153 fictional Shopify stores have all opted in: verified
+facts, a dashboard, a login, and every fact they publish is checked and marked **Verified by brand**. Alongside them sit
+12 real brands that have not opted in (Apple, Samsung, Sony, Bose, Dell, HP, Lenovo, Microsoft, Google, JBL, Logitech,
+Corsair) with 25 well-known products listed from public data: approximate facts, every one marked **Not verified by the
+brand**, in the dashboard and in the assistant's answer, and no dashboard of their own. The assistant ranks both kinds on
+fit alone; nothing about a brand's status ever reaches the ranking code. That is the pitch in one search result: the
+opted-in store's facts carry the badge, the household name's do not.
 
 **For shoppers (the plugin):** `backend/connector/README.md` explains how to enable CIRQO in Claude Desktop as an MCP
 plugin. The assistant then runs the shopping funnel itself: `cirqo_search` from whatever the shopper said, one

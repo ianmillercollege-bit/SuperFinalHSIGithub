@@ -1,0 +1,1078 @@
+{
+ "about": "Public listings: real brands that have NOT opted into CIRQO. Facts come from public listings, are approximate, and are labelled 'Not verified by the brand' everywhere. No dashboard, no admins. Decision 46.",
+ "brands": [
+  {
+   "brandId": "brand_201",
+   "name": "Apple",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_202",
+   "name": "Samsung",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_203",
+   "name": "Sony",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_204",
+   "name": "Bose",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_205",
+   "name": "Dell",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_206",
+   "name": "HP",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_207",
+   "name": "Lenovo",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_208",
+   "name": "Microsoft",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_209",
+   "name": "Google",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_210",
+   "name": "JBL",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_211",
+   "name": "Logitech",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  },
+  {
+   "brandId": "brand_212",
+   "name": "Corsair",
+   "isClient": false,
+   "billingTier": null,
+   "optedIn": false
+  }
+ ],
+ "profiles": [
+  {
+   "brandId": "brand_201",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "headphones",
+    "laptops",
+    "phones_tablets"
+   ],
+   "hqCity": "Cupertino, CA",
+   "website": "https://public-listings.example/brand_201"
+  },
+  {
+   "brandId": "brand_202",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "headphones",
+    "phones_tablets",
+    "computer_hardware"
+   ],
+   "hqCity": "Suwon, South Korea",
+   "website": "https://public-listings.example/brand_202"
+  },
+  {
+   "brandId": "brand_203",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Tokyo, Japan",
+   "website": "https://public-listings.example/brand_203"
+  },
+  {
+   "brandId": "brand_204",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Framingham, MA",
+   "website": "https://public-listings.example/brand_204"
+  },
+  {
+   "brandId": "brand_205",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Round Rock, TX",
+   "website": "https://public-listings.example/brand_205"
+  },
+  {
+   "brandId": "brand_206",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Palo Alto, CA",
+   "website": "https://public-listings.example/brand_206"
+  },
+  {
+   "brandId": "brand_207",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Beijing, China",
+   "website": "https://public-listings.example/brand_207"
+  },
+  {
+   "brandId": "brand_208",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Redmond, WA",
+   "website": "https://public-listings.example/brand_208"
+  },
+  {
+   "brandId": "brand_209",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Mountain View, CA",
+   "website": "https://public-listings.example/brand_209"
+  },
+  {
+   "brandId": "brand_210",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Los Angeles, CA",
+   "website": "https://public-listings.example/brand_210"
+  },
+  {
+   "brandId": "brand_211",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Lausanne, Switzerland",
+   "website": "https://public-listings.example/brand_211"
+  },
+  {
+   "brandId": "brand_212",
+   "tagline": "Public listing. Not opted into CIRQO: facts are not verified by the brand.",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Milpitas, CA",
+   "website": "https://public-listings.example/brand_212"
+  }
+ ],
+ "products": [
+  {
+   "productId": "prod_9001",
+   "brandId": "brand_201",
+   "name": "Apple AirPods Pro 2 Wireless Noise Cancelling Earbuds",
+   "price": 249.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 6,
+    "weightG": 5,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gym",
+     "commute",
+     "travel"
+    ],
+    "otherNames": [
+     "AirPods Pro"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9001",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9002",
+   "brandId": "brand_201",
+   "name": "Apple AirPods 4 Wireless Earbuds",
+   "price": 129.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 5,
+    "weightG": 4,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "commute",
+     "calls"
+    ],
+    "otherNames": [
+     "AirPods"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9002",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9003",
+   "brandId": "brand_203",
+   "name": "Sony WH-1000XM5 Wireless Noise Cancelling Headphones",
+   "price": 399.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headphones",
+   "specs": {
+    "ports": "USB-C charging, 3.5mm",
+    "batteryHours": 30,
+    "weightG": 250,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "travel",
+     "commute",
+     "music"
+    ],
+    "otherNames": [
+     "Sony XM5"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_203/prod_9003",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9004",
+   "brandId": "brand_203",
+   "name": "Sony WF-C700N Wireless Noise Cancelling Earbuds",
+   "price": 119.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 7,
+    "weightG": 5,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gym",
+     "commute",
+     "budget"
+    ],
+    "otherNames": [
+     "Sony C700N"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_203/prod_9004",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9005",
+   "brandId": "brand_204",
+   "name": "Bose QuietComfort Ultra Wireless Noise Cancelling Earbuds",
+   "price": 299.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 6,
+    "weightG": 6,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "travel",
+     "commute"
+    ],
+    "otherNames": [
+     "Bose QC Ultra Earbuds"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_204/prod_9005",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9006",
+   "brandId": "brand_204",
+   "name": "Bose QuietComfort Wireless Noise Cancelling Headphones",
+   "price": 349.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headphones",
+   "specs": {
+    "ports": "USB-C charging, 3.5mm",
+    "batteryHours": 24,
+    "weightG": 240,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "travel",
+     "work"
+    ],
+    "otherNames": [
+     "Bose QC Headphones"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_204/prod_9006",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9007",
+   "brandId": "brand_210",
+   "name": "JBL Tune 510BT Wireless On-Ear Headphones",
+   "price": 49.95,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headphones",
+   "specs": {
+    "ports": "USB-C charging",
+    "batteryHours": 40,
+    "weightG": 160,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "budget",
+     "school",
+     "commute"
+    ],
+    "otherNames": [
+     "JBL 510BT"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_210/prod_9007",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9008",
+   "brandId": "brand_210",
+   "name": "JBL Endurance Peak 3 Wireless Sport Earbuds",
+   "price": 99.95,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 10,
+    "weightG": 8,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gym",
+     "running"
+    ],
+    "otherNames": [
+     "JBL Endurance Peak"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_210/prod_9008",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9009",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy Buds3 Pro Wireless Noise Cancelling Earbuds",
+   "price": 249.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 6,
+    "weightG": 5,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gym",
+     "commute",
+     "calls"
+    ],
+    "otherNames": [
+     "Galaxy Buds 3 Pro"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9009",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9010",
+   "brandId": "brand_201",
+   "name": "Apple MacBook Air 13-inch (M3)",
+   "price": 1099.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Apple M3",
+    "graphics": "Apple M3 8-core GPU",
+    "displayType": "Liquid Retina IPS, 60Hz",
+    "resolution": "2560x1664",
+    "ports": "2x Thunderbolt/USB 4, MagSafe 3, 3.5mm",
+    "operatingSystem": "macOS",
+    "batteryHours": 18,
+    "weightG": 1240,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "work",
+     "travel"
+    ],
+    "otherNames": [
+     "MacBook Air M3"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9010",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9011",
+   "brandId": "brand_205",
+   "name": "Dell XPS 13 (9350)",
+   "price": 999.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core Ultra 7",
+    "graphics": "Intel Arc Graphics",
+    "displayType": "IPS, 60Hz",
+    "resolution": "1920x1200",
+    "ports": "2x Thunderbolt 4",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 14,
+    "weightG": 1190,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "travel"
+    ],
+    "otherNames": [
+     "XPS 13"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_205/prod_9011",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9012",
+   "brandId": "brand_205",
+   "name": "Dell Inspiron 15 3530",
+   "price": 549.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core i5-1334U",
+    "graphics": "Intel Iris Xe",
+    "displayType": "IPS, 120Hz",
+    "resolution": "1920x1080",
+    "ports": "2x USB-A, 1x USB-C, HDMI 1.4, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 7,
+    "weightG": 1650,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "budget",
+     "home"
+    ],
+    "otherNames": [
+     "Inspiron 15"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_205/prod_9012",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9013",
+   "brandId": "brand_206",
+   "name": "HP Pavilion Laptop 15",
+   "price": 649.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "AMD Ryzen 5 7530U",
+    "graphics": "AMD Radeon Graphics",
+    "displayType": "IPS, 60Hz",
+    "resolution": "1920x1080",
+    "ports": "2x USB-A, 1x USB-C, HDMI 2.1, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 8,
+    "weightG": 1750,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "home",
+     "budget"
+    ],
+    "otherNames": [
+     "Pavilion 15"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_206/prod_9013",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9014",
+   "brandId": "brand_207",
+   "name": "Lenovo IdeaPad Slim 3i 15",
+   "price": 499.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core i5-13420H",
+    "graphics": "Intel UHD Graphics",
+    "displayType": "IPS, 60Hz",
+    "resolution": "1920x1080",
+    "ports": "2x USB-A, 1x USB-C, HDMI 1.4, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 9,
+    "weightG": 1620,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "budget"
+    ],
+    "otherNames": [
+     "IdeaPad Slim 3"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_207/prod_9014",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9015",
+   "brandId": "brand_207",
+   "name": "Lenovo ThinkPad E14 Gen 6",
+   "price": 899.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "AMD Ryzen 7 7735HS",
+    "graphics": "AMD Radeon 680M",
+    "displayType": "IPS, 60Hz",
+    "resolution": "1920x1200",
+    "ports": "2x USB-A, 2x USB-C, HDMI 2.1, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 10,
+    "weightG": 1440,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "school"
+    ],
+    "otherNames": [
+     "ThinkPad E14"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_207/prod_9015",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9016",
+   "brandId": "brand_208",
+   "name": "Microsoft Surface Laptop 7 13.8-inch",
+   "price": 999.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Snapdragon X Plus",
+    "graphics": "Qualcomm Adreno",
+    "displayType": "PixelSense touchscreen, 120Hz",
+    "resolution": "2304x1536",
+    "ports": "2x USB-C 4, 1x USB-A, Surface Connect",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 20,
+    "weightG": 1340,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "travel",
+     "school"
+    ],
+    "otherNames": [
+     "Surface Laptop 7"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_208/prod_9016",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9017",
+   "brandId": "brand_201",
+   "name": "Apple iPad (10th generation) 10.9-inch",
+   "price": 349.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Apple A14 Bionic",
+    "graphics": "Integrated",
+    "displayType": "Liquid Retina IPS, 60Hz",
+    "resolution": "2360x1640",
+    "ports": "USB-C",
+    "operatingSystem": "iPadOS",
+    "batteryHours": 10,
+    "weightG": 477,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "reading",
+     "travel"
+    ],
+    "otherNames": [
+     "iPad 10"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9017",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9018",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy Tab S9 FE 10.9-inch",
+   "price": 449.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Samsung Exynos 1380",
+    "graphics": "Integrated",
+    "displayType": "IPS LCD, 90Hz",
+    "resolution": "2304x1440",
+    "ports": "USB-C, microSD slot",
+    "operatingSystem": "Android",
+    "batteryHours": 12,
+    "weightG": 523,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "reading",
+     "media"
+    ],
+    "otherNames": [
+     "Tab S9 FE"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9018",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9019",
+   "brandId": "brand_209",
+   "name": "Google Pixel 8a",
+   "price": 499.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Google Tensor G3",
+    "graphics": "Integrated",
+    "displayType": "OLED, 120Hz",
+    "resolution": "2400x1080",
+    "ports": "USB-C",
+    "operatingSystem": "Android",
+    "batteryHours": 24,
+    "weightG": 188,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "photos",
+     "daily",
+     "budget"
+    ],
+    "otherNames": [
+     "Pixel 8a"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_209/prod_9019",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9020",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy A35 5G",
+   "price": 399.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Samsung Exynos 1380",
+    "graphics": "Integrated",
+    "displayType": "Super AMOLED, 120Hz",
+    "resolution": "2340x1080",
+    "ports": "USB-C, microSD slot",
+    "operatingSystem": "Android",
+    "batteryHours": 24,
+    "weightG": 209,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "daily",
+     "budget"
+    ],
+    "otherNames": [
+     "Galaxy A35"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9020",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9021",
+   "brandId": "brand_211",
+   "name": "Logitech MX Master 3S Wireless Mouse",
+   "price": 99.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Mouse",
+   "specs": {
+    "processor": "Darkfield 8000 DPI sensor",
+    "ports": "USB-C charging, Bolt receiver, Bluetooth",
+    "weightG": 141,
+    "warranty": "2 year limited",
+    "certifications": [
+     "FCC",
+     "CE",
+     "RoHS"
+    ],
+    "useCaseTags": [
+     "work",
+     "PC building"
+    ],
+    "otherNames": [
+     "MX Master 3S"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9021",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9022",
+   "brandId": "brand_211",
+   "name": "Logitech C920s HD Pro Webcam",
+   "price": 69.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Webcam",
+   "specs": {
+    "processor": "1080p 30fps sensor",
+    "ports": "USB-A",
+    "weightG": 162,
+    "warranty": "2 year limited",
+    "certifications": [
+     "FCC",
+     "CE",
+     "RoHS"
+    ],
+    "useCaseTags": [
+     "work",
+     "streaming"
+    ],
+    "otherNames": [
+     "C920"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9022",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9023",
+   "brandId": "brand_212",
+   "name": "Corsair Vengeance DDR5 32GB (2x16GB) 6000MHz",
+   "price": 109.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Memory",
+   "specs": {
+    "processor": "DDR5-6000 CL36",
+    "ports": "DIMM 288-pin",
+    "weightG": 90,
+    "warranty": "2 year limited",
+    "certifications": [
+     "FCC",
+     "CE",
+     "RoHS"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "Vengeance DDR5"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9023",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9024",
+   "brandId": "brand_212",
+   "name": "Corsair RM850e 850W Power Supply",
+   "price": 129.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Power Supply",
+   "specs": {
+    "processor": "850W, 80 Plus Gold",
+    "ports": "ATX 3.0, PCIe 5.0 12VHPWR",
+    "weightG": 1500,
+    "warranty": "2 year limited",
+    "certifications": [
+     "FCC",
+     "CE",
+     "RoHS"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "RM850e"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9024",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9025",
+   "brandId": "brand_202",
+   "name": "Samsung 990 PRO 1TB NVMe SSD",
+   "price": 119.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Storage",
+   "specs": {
+    "processor": "Samsung Pascal controller",
+    "ports": "M.2 2280, PCIe 4.0 x4",
+    "weightG": 9,
+    "warranty": "2 year limited",
+    "certifications": [
+     "FCC",
+     "CE",
+     "RoHS"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building",
+     "work"
+    ],
+    "otherNames": [
+     "990 Pro"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9025",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  }
+ ]
+}

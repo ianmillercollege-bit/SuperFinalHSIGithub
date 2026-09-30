@@ -67,7 +67,7 @@ def test_auth(seeded):
     # Staff: GET /brands 200 with all 153; a brand token gets 403.
     staff = token_for(seeded, "grace.kim@cirqo.example")
     everyone = seeded.get("/api/v1/brands", headers=staff)
-    assert everyone.status_code == 200 and len(everyone.json()["brands"]) == 153
+    assert everyone.status_code == 200 and len(everyone.json()["brands"]) == 165  # 153 opted in + 12 public listings
     assert seeded.get("/api/v1/brands", headers=headers).status_code == 403
 
     # Approve without approverName uses the token user (Grace Kim owns inc_44).
