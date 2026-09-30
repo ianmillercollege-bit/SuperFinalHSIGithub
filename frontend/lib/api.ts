@@ -160,16 +160,26 @@ export function connectorSearch(body: ConnectorSearchRequest): Promise<Connector
   return request("POST", "/api/v1/connector/search", {}, body, MOCK_FILES.connectorSearch, CONNECTOR_TIMEOUT_MS);
 }
 
+// The backend names its assistants "Assistant A/B/C"; the dashboard shows these names instead.
+const ASSISTANT_DISPLAY: Record<string, string> = { "Assistant A": "Claude", "Assistant B": "ChatGPT", "Assistant C": "Gemini" };
+const shownAssistant = (name: string) => ASSISTANT_DISPLAY[name] ?? name;
+const renameInText = (text: string) => text.replace(/Assistant [ABC]\b/g, (m) => ASSISTANT_DISPLAY[m]);
+const shownIncident = (i: Incident): Incident => ({ ...i, summary: renameInText(i.summary) });
+
 // GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)
 export function getVisibilitySummary(days?: number): Promise<VisibilitySummary> {
-  return cached(`summary:${days ?? ""}`, () => request("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary));
+  return cached(`summary:${days ?? ""}`, async () => {
+    const data = await request<VisibilitySummary>("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary);
+    return { ...data, byAssistant: data.byAssistant.map((a) => ({ ...a, name: shownAssistant(a.name) })) };
+  });
 }
 
 // GET /api/v1/answers?assistantId=&limit=  (newest first)
 export async function getAnswers(filters: AnswerFilters = {}): Promise<AnswersResponse> {
-  const data = await cached(`answers:${JSON.stringify(filters)}`, () =>
-    request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers),
-  );
+  const data = await cached(`answers:${JSON.stringify(filters)}`, async () => {
+    const res = await request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers);
+    return { ...res, answers: res.answers.map((a) => ({ ...a, assistantName: shownAssistant(a.assistantName) })) };
+  });
   if (!USE_MOCK) return data;
   const { assistantId, limit = 50 } = filters;
   return { answers: data.answers.filter((a) => !assistantId || a.assistantId === assistantId).slice(0, limit) };
@@ -200,7 +210,8 @@ export async function getClaims(filters: ClaimFilters = {}): Promise<ClaimsRespo
 
 // GET /api/v1/incidents?status=&severity=&limit=  (filters optional, newest first)
 export async function getIncidents(filters: IncidentFilters = {}): Promise<IncidentsResponse> {
-  const data = await request<IncidentsResponse>("GET", "/api/v1/incidents", { ...filters }, undefined, MOCK_FILES.incidents);
+  const raw = await request<IncidentsResponse>("GET", "/api/v1/incidents", { ...filters }, undefined, MOCK_FILES.incidents);
+  const data = { ...raw, incidents: raw.incidents.map(shownIncident) };
   if (!USE_MOCK) return data;
   const { status, severity, limit = 50 } = filters;
   return {
@@ -212,8 +223,8 @@ export async function getIncidents(filters: IncidentFilters = {}): Promise<Incid
 }
 
 // GET /api/v1/incidents/{incidentId}
-export function getIncident(incidentId: string): Promise<Incident> {
-  return request("GET", `/api/v1/incidents/${encodeURIComponent(incidentId)}`, {}, undefined, MOCK_FILES.incidentDetail);
+export async function getIncident(incidentId: string): Promise<Incident> {
+  return shownIncident(await request<Incident>("GET", `/api/v1/incidents/${encodeURIComponent(incidentId)}`, {}, undefined, MOCK_FILES.incidentDetail));
 }
 
 // POST /api/v1/incidents/{incidentId}/approve
