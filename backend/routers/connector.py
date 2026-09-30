@@ -92,16 +92,21 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
     # products are ranked; if nothing in that category fits, every category is ranked, as before.
     category = infer_category(body.question) or "laptops"
     in_budget = [p for p in products.values() if max_price is None or p.price <= max_price]
+    if category == "laptops" and any(m not in C.MUST_HAVES for m in must_have):
+        # Contract: laptop must-haves are battery, light, screen, touch. Other categories take hint attributes.
+        raise HTTPException(422, f"Unknown mustHave for laptops: {', '.join(m for m in must_have if m not in C.MUST_HAVES)}.")
     legacy_must = [C.MUST_HAVES[m] for m in must_have if m in C.MUST_HAVES]
-    if category == "laptops":
-        eligible = [to_rankable(p) for p in in_budget if p.category == category] or [to_rankable(p) for p in in_budget]
-        ranked = rank(eligible, None, C.USE_CASES.get(use_case), legacy_must)
-    else:
+    fits = [p for p in in_budget if p.category == category and all(matches_must_have(p, m) for m in must_have)]
+    if category != "laptops" and fits:
         # v1.7: the one pick for headphones, phones, tablets and hardware uses the same neutral ranking as
         # /connector/search (tags and battery, then price), so the funnel's final answer is its top option,
         # never the cheapest item in the category.
-        fits = [p for p in in_budget if p.category == category and all(matches_must_have(p, m) for m in must_have)]
         ranked = ranked_options(fits, category, body.question, use_case, must_have)
+    else:
+        # Laptops (and any category with nothing in budget) keep the original ranking, falling back to every
+        # category as before.
+        eligible = [to_rankable(p) for p in in_budget if p.category == category] or [to_rankable(p) for p in in_budget]
+        ranked = rank(eligible, None, C.USE_CASES.get(use_case), legacy_must)
 
     brand_rows = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
     brands = {k: b.name for k, b in brand_rows.items()}
