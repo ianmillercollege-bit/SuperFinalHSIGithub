@@ -59,7 +59,6 @@ export const NAV: NavGroup[] = [
     tone: "default",
     items: [
       { label: "Community catalog", href: "/community", partnerOrStaff: true },
-      { label: "Community requests", href: "/community/requests" },
     ],
   },
 ];

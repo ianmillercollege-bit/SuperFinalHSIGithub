@@ -9,8 +9,6 @@ import type {
   CommunityItem,
   CommunityRequest,
   CommunityRequestBody,
-  CommunityRequestStatus,
-  CommunityRequestsResponse,
 } from "../types";
 
 /** Ids of sample rows all start with this, so a real request is never mistaken for one. */
@@ -88,26 +86,6 @@ export function sampleCreateRequest(body: CommunityRequestBody, partner: { orgId
   };
   requests = [made, ...requests];
   return made;
-}
-
-export function sampleRequests(role: { brandId?: string; orgId?: string }, status?: CommunityRequestStatus): CommunityRequestsResponse {
-  return {
-    requests: requests
-      .filter((r) => (!role.brandId || r.brandId === role.brandId) && (!role.orgId || r.partner.orgId === role.orgId) && (!status || r.status === status))
-      .map((r) => ({ ...r })),
-  };
-}
-
-export function sampleDecide(requestId: string, decision: "approve" | "reject"): CommunityRequest {
-  const found = requests.find((r) => r.requestId === requestId);
-  if (!found) throw new SampleError("NOT_FOUND", "No such request.");
-  if (found.status !== "pending_approval") throw new SampleError("CONFLICT", "This request was already decided.");
-  found.status = decision === "approve" ? "approved" : "rejected";
-  if (decision === "approve") {
-    const product = ITEMS.find((i) => i.productId === found.productId);
-    if (product) product.communityPledge.unitsPlaced += found.units;
-  }
-  return { ...found };
 }
 
 export function sampleImpact(brandId: string): CommunityImpact {

@@ -684,10 +684,6 @@ export interface CommunityRequest {
   createdAt: Timestamp;
 }
 
-export interface CommunityRequestsResponse {
-  requests: CommunityRequest[];
-}
-
 export interface CommunityImpact {
   unitsPledged: number;
   unitsPlaced: number;

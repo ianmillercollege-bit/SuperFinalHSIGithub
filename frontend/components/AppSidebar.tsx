@@ -63,7 +63,7 @@ export default function AppSidebar() {
       href: item.href,
       ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
     })),
-  }));
+  })).filter((group) => group.items.length > 0);
 
   // With nobody signed in there is no Sign out button, so the sidebar offers the way back to the sign-in page.
   if (!user) groups.push({ title: "Account", tone: "default", items: [{ label: "Sign in", href: "/login" }] });

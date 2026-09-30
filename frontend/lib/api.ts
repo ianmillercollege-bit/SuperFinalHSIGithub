@@ -15,7 +15,7 @@
 
 import { brandScope, signOutBrand } from "./auth/brandSession";
 import { getUserSession } from "./auth/userSession";
-import { SAMPLE_PREFIX, SampleError, sampleCatalog, sampleCreateRequest, sampleDecide, sampleImpact, sampleRequests } from "./community/sample";
+import { SAMPLE_PREFIX, SampleError, sampleCatalog, sampleCreateRequest, sampleImpact } from "./community/sample";
 import { clearToken, getToken } from "./auth/token";
 import { resetUserSession } from "./auth/userSession";
 import { USE_MOCK } from "./config";
@@ -64,8 +64,6 @@ import type {
   CommunityImpact,
   CommunityRequest,
   CommunityRequestBody,
-  CommunityRequestStatus,
-  CommunityRequestsResponse,
 } from "./types";
 
 export { USE_MOCK };
@@ -346,21 +344,6 @@ export async function createCommunityRequest(body: CommunityRequestBody): Promis
     return { data: asApiError(() => sampleCreateRequest(body, partner)), sample: true };
   }
   return { data: await request<CommunityRequest>("POST", "/api/v1/community/requests", {}, body, "community_request"), sample: false };
-}
-
-// GET /api/v1/community/requests?status=  (partner: own; brand: for its products; staff: all)
-export function getCommunityRequests(status?: CommunityRequestStatus): Promise<Community<CommunityRequestsResponse>> {
-  const user = getUserSession().user;
-  return community(
-    () => request<CommunityRequestsResponse>("GET", "/api/v1/community/requests", { status }, undefined, "community_requests"),
-    () => sampleRequests(user?.partner ? { orgId: user.partner.orgId } : user?.staff ? {} : { brandId: brandScope() ?? "brand_001" }, status),
-  );
-}
-
-// POST /api/v1/community/requests/{requestId}/approve|reject  (brand token, Brand Data Owner). 403 other brand, 409 if not pending.
-export async function decideCommunityRequest(requestId: string, decision: "approve" | "reject", note: string): Promise<Community<CommunityRequest>> {
-  if (requestId.includes(SAMPLE_PREFIX)) return { data: asApiError(() => sampleDecide(requestId, decision)), sample: true };
-  return { data: await request<CommunityRequest>("POST", `/api/v1/community/requests/${encodeURIComponent(requestId)}/${decision}`, {}, { note }, "community_decision"), sample: false };
 }
 
 // GET /api/v1/community/impact?brandId=  (brand token, or brandId)

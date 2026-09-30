@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback } from "react";
 import SampleNote from "@/components/screens/CommunitySampleNote";
 import { getCommunityImpact } from "@/lib/api";
@@ -23,14 +22,7 @@ export default function CommunityImpactTile() {
   const share = d.unitsPledged > 0 ? d.unitsPlaced / d.unitsPledged : 0;
   return (
     <section className="card stack" aria-labelledby="community-impact">
-      <div className="filters">
-        <h2 className="grow" id="community-impact">
-          Community impact
-        </h2>
-        <Link className="button" href="/community/requests">
-          {d.requestsPending > 0 ? `Review ${d.requestsPending} waiting` : "See requests"}
-        </Link>
-      </div>
+      <h2 id="community-impact">Community impact</h2>
       {impact.data.sample && <SampleNote />}
       {d.unitsPledged === 0 ? (
         <p className="muted">No units pledged yet. Pledged surplus and refurbished units reach schools and nonprofits through the Community catalog.</p>
@@ -48,11 +40,6 @@ export default function CommunityImpactTile() {
               <p className="eyebrow">Partners served</p>
               <p className="big-number">{d.partnersServed}</p>
               <p className="muted small">Organizations with an approved request</p>
-            </div>
-            <div className="card stat">
-              <p className="eyebrow">Waiting for you</p>
-              <p className="big-number">{d.requestsPending}</p>
-              <p className="muted small">Requests to approve or reject</p>
             </div>
           </div>
           <div className="bar-track" aria-hidden>
