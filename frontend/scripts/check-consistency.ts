@@ -4,7 +4,6 @@ import { getAnswers, getIncidents, getTrustMetrics, getVisibilitySummary } from 
 import { contextFromKit } from "../lib/coach/contextFromKit";
 import { liveCoachInputs, withLiveVisibility } from "../lib/coach/session";
 import { ANSWERS_LIMIT, liveVisibility } from "../lib/dashboard/liveVisibility";
-import { sampleDashboard } from "../lib/dashboard/sampleDashboard";
 import { toViewModel } from "../lib/dashboard/toViewModel";
 import { DEFAULT_ASSUMPTIONS, simulate } from "../lib/screens/simulate";
 import { liveMarketProps, liveVisibilityProps } from "../lib/screens/liveVisibilityMarket";
