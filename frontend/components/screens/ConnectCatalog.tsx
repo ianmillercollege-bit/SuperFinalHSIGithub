@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Dropdown from "@/components/Dropdown";
 import { ErrorNotice } from "@/components/LoadState";
 import { ApiError, onboardBrand } from "@/lib/api";
 import { signInAs } from "@/lib/auth/brandSession";
@@ -195,13 +196,14 @@ export default function ConnectCatalog() {
                     <input aria-label={`Product ${i + 1} price`} inputMode="decimal" value={row.price} onChange={(e) => update(i, { price: e.target.value })} />
                   </td>
                   <td>
-                    <select aria-label={`Product ${i + 1} availability`} value={row.availability} onChange={(e) => update(i, { availability: e.target.value as CatalogRow["availability"] })}>
-                      {AVAILABILITY_VALUES.map((v) => (
-                        <option key={v} value={v}>
-                          {AVAILABILITY_LABELS[v]}
-                        </option>
-                      ))}
-                    </select>
+                    <Dropdown
+                      label={`Product ${i + 1} availability`}
+                      hideLabel
+                      compact
+                      value={row.availability}
+                      onChange={(v) => update(i, { availability: v as CatalogRow["availability"] })}
+                      options={AVAILABILITY_VALUES.map((v) => ({ value: v, label: AVAILABILITY_LABELS[v] }))}
+                    />
                   </td>
                   <td>
                     <input aria-label={`Product ${i + 1} battery hours`} inputMode="decimal" value={row.batteryHours} onChange={(e) => update(i, { batteryHours: e.target.value })} />

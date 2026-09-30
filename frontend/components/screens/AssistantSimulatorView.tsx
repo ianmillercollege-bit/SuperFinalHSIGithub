@@ -1,5 +1,6 @@
 'use client';
 
+import Dropdown from '@/components/Dropdown';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { PageHeader } from './ui';
 
@@ -96,10 +97,10 @@ export default function AssistantSimulatorView({ defaultQuestion, maxLength = 50
         </div>
         <div className="cq-card cq-flex1 cq-card-col">
           <h2 className="cq-h2">Constraints</h2>
-          <div className="cq-field"><label className="cq-label" htmlFor="sim-assistant">Assistant</label>
-            <select id="sim-assistant" className="cq-select" value={assistant} onChange={(e) => setAssistant(e.target.value)}>{assistants.map((a) => <option key={a.value} value={a.value}>{a.label}</option>)}</select></div>
-          <div className="cq-field"><label className="cq-label" htmlFor="sim-use">Use case</label>
-            <select id="sim-use" className="cq-select" value={useCase} onChange={(e) => setUseCase(e.target.value)}>{useCases.map((a) => <option key={a.value} value={a.value}>{a.label}</option>)}</select></div>
+          <div className="cq-field"><span className="cq-label">Assistant</span>
+            <Dropdown label="Assistant" hideLabel value={assistant} onChange={setAssistant} options={assistants} /></div>
+          <div className="cq-field"><span className="cq-label">Use case</span>
+            <Dropdown label="Use case" hideLabel value={useCase} onChange={setUseCase} options={useCases} /></div>
           <fieldset className="cq-fieldset"><legend className="cq-label" style={{ marginBottom: 4 }}>Must have</legend>
             {mustHaves.map((m) => (
               <label key={m.value} className="cq-check"><input type="checkbox" checked={must.includes(m.value)} onChange={(e) => setMust((x) => (e.target.checked ? [...x, m.value] : x.filter((y) => y !== m.value)))} />{m.label}</label>

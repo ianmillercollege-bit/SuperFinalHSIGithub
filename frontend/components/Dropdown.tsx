@@ -25,6 +25,7 @@ export default function Dropdown({
   disabled,
   compact,
   showAvatar,
+  hideLabel,
 }: {
   label: string;
   value: string;
@@ -36,6 +37,8 @@ export default function Dropdown({
   compact?: boolean;
   /** Show the selected option's avatar in the trigger. */
   showAvatar?: boolean;
+  /** Keep the label for screen readers only, when the page already shows it. */
+  hideLabel?: boolean;
 }) {
   const uid = useId();
   const labelId = `${uid}-label`;
@@ -133,7 +136,7 @@ export default function Dropdown({
 
   return (
     <div className={`dd${compact ? " dd-compact" : ""}`} ref={root}>
-      <span className="dd-label" id={labelId}>
+      <span className={hideLabel ? "visually-hidden" : "dd-label"} id={labelId}>
         {label}
       </span>
       <button
