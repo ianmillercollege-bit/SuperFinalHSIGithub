@@ -116,7 +116,7 @@ a.cq-stat:focus-visible, .cq-btn:focus-visible, .cq-chip:focus-visible, .cq-opli
 .cq-btn { min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--cq-border-strong); background: var(--cq-card); color: var(--cq-navy); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
 .cq-chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .cq-chip { min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--cq-border-strong); background: var(--cq-card); color: var(--cq-navy); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
-.cq-chip[aria-pressed='true'] { background: var(--cq-navy); border-color: var(--cq-navy); color: var(--cq-on-navy); font-weight: 600; padding: 0 18px; }
+.cq-chip[aria-pressed='true'] { background: var(--cq-navy); border-color: var(--cq-navy); color: var(--cq-on-navy); font-weight: 600; padding: 0 18px; border-width: 0; }
 .cq-badge-sample { display: flex; align-items: center; gap: 8px; background: #E8EDF4; color: var(--cq-text-body); border-radius: 999px; font-size: 12px; font-weight: 500; padding: 8px 14px; }
 .cq-badge-sample i { width: 7px; height: 7px; border-radius: 50%; background: #7C8BA1; display: block; }
 
