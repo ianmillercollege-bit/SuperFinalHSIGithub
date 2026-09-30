@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.5** (approved by lead engineer, 2026-09-30; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
+Status: **FINAL v1.6** (approved by lead engineer, 2026-09-30; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -285,7 +285,7 @@ Rules for all three:
   "action": "auto_fix_applied", "targetId": "inc_12", "details": "Published verified price $449.99."}]}
 ```
 `actorType`: `system` | `human` | `ai`.
-`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded` | `connector_search` | `login` | `brand_claimed`.
+`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded` | `connector_search` | `login` | `brand_claimed` | `community_request` | `community_approved` | `community_rejected`.
 
 ### Trust metrics
 **`GET /api/v1/metrics/trust?days=30`**
@@ -503,6 +503,40 @@ dashboard, and they see the interactions. The catalog therefore contains **both*
   only opted-in companies. `GET /products?optedIn=false` filters.
 - **Privacy:** shopper preferences (budget, use, must-haves) live in the assistant conversation only. CIRQO stores the
   question, the constraints sent, and which products were returned. No shopper identity, ever.
+
+## 7e. Community program (v1.6, stretch: after catalog, login and search)
+
+Companies pledge surplus and refurbished units. **Community Partners** (schools, nonprofits, veterans groups, seeded as
+fictional organizations) log in, browse one cross-company catalog of pledged units with the same verified facts as
+everything else, and request units. Brands approve requests by a named owner. **CIRQO never verifies an individual's
+income or need**; partners do that under their own rules. No personal data about recipients is ever stored.
+
+- Product gains `condition: "new" | "refurbished" | "surplus"` (default `new`) and, when pledged,
+  `communityPledge: {"unitsPledged": 40, "unitsPlaced": 12, "conditionNotes": "Grade A, new battery", "warrantyMonths": 12}`
+  (otherwise `null`). Claims about condition are checked like any spec (`SPEC_MISMATCH`).
+- **Seed:** about 8% of products are `refurbished` or `surplus`; opted-in brands pledge units on roughly a third of those
+  (at least 150 pledged products overall). Three partner organizations: `Bexar Valley School District`,
+  `Lone Star Veterans Network`, `Bridgeway Community Tech` (fictional), each with one login (role `Community Partner`,
+  password `cirqo-demo`, usernames `<first>.<last>@<org-slug>.example`). Every brand with pledges has at least one placed
+  request in its history so the impact tile is not empty.
+- **`GET /api/v1/community/catalog?category=&brandId=&condition=&limit=`** (Community Partner or CIRQO Staff token)
+  → `{"items": [{productId, name, brandId, brandName, category, condition, price, verified, communityPledge, facts:[...]}]}`
+  across all brands, neutral order (by `unitsPledged - unitsPlaced` desc, then name). 403 for brand tokens and guests.
+- **`POST /api/v1/community/requests`** (partner token) body `{"productId": "prod_310", "units": 10, "purpose": "Laptops for 10 students in the fall cohort"}`
+  → 201 `{"requestId": "creq_12", "status": "pending_approval", "productId", "brandId", "partner": {"orgId", "orgName"}, "units", "purpose", "createdAt"}`.
+  422 if units < 1 or above units available; 403 if the product is not pledged.
+- **`GET /api/v1/community/requests?status=`** partner token: own requests; brand token: requests for its products; staff: all.
+- **`POST /api/v1/community/requests/{requestId}/approve|reject`** (brand token, Brand Data Owner) body `{"note": "..."}`
+  → the request with `status` `approved` (increments `unitsPlaced`) or `rejected`. 403 for other brands, 409 if not pending.
+  Audit actions `community_request`, `community_approved`, `community_rejected`.
+- **`GET /api/v1/community/impact?brandId=`** (brand token or `brandId`) → `{"unitsPledged", "unitsPlaced", "partnersServed", "requestsPending", "byCategory": [...]}`.
+- **Connector:** `constraints.includeRefurbished: true` lets `/connector/search` and `/connector/query` return
+  `refurbished` and `surplus` products (excluded by default); their `condition` and `communityPledge.warrantyMonths` are
+  stated in `answerText` and checked like any fact.
+- Login: partner usernames are listed on the login page under "Community partners". `GET /auth/me` returns
+  `"org": {"orgId", "orgName"}` instead of `brand` for partner users.
+- Tests: `test_community` (partner sees the catalog, brand token 403, request then approve increments `unitsPlaced`,
+  reject leaves it, 409 on double approve, impact numbers add up, `includeRefurbished` gates the connector).
 
 ## 8. Neutral ranking (required test)
 
