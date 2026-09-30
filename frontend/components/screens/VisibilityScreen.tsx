@@ -4,13 +4,14 @@ import { useCallback } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
 import VisibilityView from "@/components/screens/VisibilityView";
 import { getAnswers, getVisibilitySummary } from "@/lib/api";
+import { ANSWERS_LIMIT } from "@/lib/dashboard/liveVisibility";
 import { liveVisibilityProps } from "@/lib/screens/liveVisibilityMarket";
 import { useApi } from "@/lib/useApi";
 
 /** AI Visibility = GET /visibility/summary + GET /answers (DECISIONS.md #27), shown with the kit's VisibilityView. */
 export default function VisibilityScreen() {
   const summary = useApi(useCallback(() => getVisibilitySummary(30), []));
-  const answers = useApi(useCallback(() => getAnswers({ limit: 50 }), []));
+  const answers = useApi(useCallback(() => getAnswers({ limit: ANSWERS_LIMIT }), []));
 
   if (summary.loading || answers.loading) return <Loading what="AI visibility" />;
   const failed = summary.error ?? answers.error;

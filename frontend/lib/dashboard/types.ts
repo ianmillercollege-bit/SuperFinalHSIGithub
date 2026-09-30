@@ -38,6 +38,7 @@ export interface DashboardViewModel {
   opportunities?: OpportunityRow[];
   opportunitiesAreSample?: boolean;              // shows a "Sample" tag on the panel
   weeklyScores?: number[];                       // oldest first
+  weeklyBadge?: string;                          // e.g. "Seeded pilot data", shown on the weekly chart
   trust?: { series: TrustSeries[]; badge?: string };
   lists: ListCardData[];
   storefront?: StorefrontRevenueData;

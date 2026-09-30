@@ -7,7 +7,9 @@
 // counts, and the latest audit entries. Sample-only: everything marked `sample` in sampleDashboard.ts.
 import { showSampleSections } from "../config/dashboardSample";
 import { AUDIT_ACTION_LABELS } from "../labels";
-import type { AuditEntry, TrustMetrics } from "../types";
+import { DEFAULT_ASSUMPTIONS, simulate } from "../screens/simulate";
+import type { Answer, AuditEntry, TrustMetrics, VisibilitySummary } from "../types";
+import { liveVisibility, scoreFromRate } from "./liveVisibility";
 import type { DashboardViewModel, ListRow, StatCardData } from "./types";
 import { sampleDashboard } from "./sampleDashboard";
 
@@ -18,6 +20,8 @@ export interface LiveDashboardInput {
   /** Open = pending_approval + escalated; null while loading or if it failed. */
   claims: { open: number; pending: number; decided: number; decidedCapped: boolean } | null;
   audit: AuditEntry[] | null;
+  /** The recorded-answers visibility (GET /visibility/summary and /answers). When present it is the one visibility number on every screen. */
+  visibility?: { summary: VisibilitySummary; answers: Answer[] } | null;
 }
 
 const percent = (v: number, digits = 0) => `${(v * 100).toFixed(digits)}%`;
@@ -41,8 +45,12 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
   const { current, daily } = trust;
 
   const weekly = weeklyScores(daily);
-  const score = Math.round(current.visibilityRate * 100);
+  const live = input.visibility ? liveVisibility(input.visibility.summary, input.visibility.answers) : null;
+  // One visibility number for every screen: the recorded answers' 30-day rate. The seeded trend (metrics/trust) only
+  // supplies the week-over-week change and the trend chart, and the chart says so.
+  const score = live ? live.score : scoreFromRate(current.visibilityRate);
   const weekAgo = daily.length > 7 ? daily[daily.length - 8] : undefined;
+  const change = weekAgo ? Math.round(current.visibilityRate * 100) - Math.round(weekAgo.visibilityRate * 100) : 0;
 
   const stats: StatCardData[] = [
     { id: "accuracy", label: "Description accuracy", value: percent(current.accuracyRate), note: "Correct claims, last 7 days" },
@@ -55,7 +63,19 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
       { id: "reviewed", label: "Claims reviewed", value: `${claims.decided}${claims.decidedCapped ? "+" : ""}`, tone: "good", note: "Approved, rejected, resolved or auto-fixed", href: "/claims/reviewed" },
     );
   }
-  if (showSampleSections) stats.push(...sampleDashboard.stats.filter((s) => s.sample));
+  if (showSampleSections) {
+    // Recommendation frequency and the revenue estimate follow the live score instead of the sample's fixed 58% and $18,060.
+    const perPoint = simulate(score, [], {}, DEFAULT_ASSUMPTIONS).perPoint;
+    for (const sample of sampleDashboard.stats.filter((x) => x.sample)) {
+      if (sample.id === "frequency" && live) {
+        stats.push({ id: "frequency", label: "Recommendation frequency", value: `${Math.round(live.rate * 100)}%`, note: `${live.recommended} of ${live.tested} recorded answers, last ${live.periodDays} days` });
+      } else if (sample.id === "revenue") {
+        stats.push({ ...sample, value: `$${Math.round(score * perPoint).toLocaleString("en-US")}` });
+      } else {
+        stats.push(sample);
+      }
+    }
+  }
 
   const lists = [];
   if (showSampleSections) lists.push(...sampleDashboard.lists.filter((l) => l.sample));
@@ -66,13 +86,14 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
   return {
     firstName: input.firstName,
     businessName: input.businessName,
-    score: { value: score, changeVsLastWeek: weekAgo ? score - Math.round(weekAgo.visibilityRate * 100) : 0 },
+    score: { value: score, changeVsLastWeek: change },
     stats,
     ...(showSampleSections && sampleDashboard.storefront ? { storefront: sampleDashboard.storefront } : {}),
     ...(showSampleSections
       ? { opportunities: sampleDashboard.opportunities, opportunitiesAreSample: true, links: { simulator: "/growth-simulator" } }
       : {}),
     weeklyScores: weekly.length > 1 ? weekly : undefined,
+    weeklyBadge: "Seeded pilot data",
     trust: {
       badge: "Seeded pilot data",
       series: [

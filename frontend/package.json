@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:sample": "tsc --noEmit && tsx scripts/check-sample.ts",
+    "check:consistency": "tsx scripts/check-consistency.ts",
     "check:mock": "tsx scripts/check-mock.ts"
   },
   "dependencies": {

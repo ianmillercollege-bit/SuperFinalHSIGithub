@@ -3,7 +3,8 @@
 // The dashboard's numbers, in one place: live contract data first, plus the sample-only sections (toViewModel).
 // The dashboard and the AI Coach both read this, so they always show the same figures.
 import { useCallback } from "react";
-import { getAudit, getIncidents, getTrustMetrics } from "../api";
+import { getAnswers, getAudit, getIncidents, getTrustMetrics, getVisibilitySummary } from "../api";
+import { ANSWERS_LIMIT } from "./liveVisibility";
 import { useBrandSession } from "../auth/brandSession";
 import { useUserSession } from "../auth/userSession";
 import { BUSINESS } from "../business";
@@ -32,6 +33,8 @@ export function useDashboardVm() {
       };
     }, []),
   );
+  const summary = useApi(useCallback(() => getVisibilitySummary(30), []));
+  const answers = useApi(useCallback(() => getAnswers({ limit: ANSWERS_LIMIT }), []));
   const user = useUserSession().user;
   const brand = useBrandSession();
 
@@ -42,9 +45,10 @@ export function useDashboardVm() {
         trust: trust.data,
         claims: claims.data ?? null,
         audit: audit.data?.entries ?? null,
+        visibility: summary.data && answers.data ? { summary: summary.data, answers: answers.data.answers } : null,
       })
     : null;
-  return { vm, trust, claims, audit };
+  return { vm, trust, claims, audit, summary, answers };
 }
 
 export type DashboardData = ReturnType<typeof useDashboardVm>;
