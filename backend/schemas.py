@@ -206,7 +206,9 @@ class ConnectorConstraints(CamelModel):
     # Finite only: "Infinity", NaN and numbers too big for a float are a 422, not a crash.
     max_price: float | None = Field(None, gt=0, allow_inf_nan=False)
     use_case: Literal["school", "work", "travel", "media"] | None = None
-    must_have: list[Literal["battery", "light", "screen", "touch"]] = []
+    # Laptop words (battery, light, screen, touch) or, for other categories, a narrowing-hint attribute or a
+    # word from the verified facts (v1.7), so the funnel's answered hints can be passed to the one pick.
+    must_have: list[str] = Field(default_factory=list, max_length=10)
     # v1.6: refurbished and surplus products are left out unless the assistant asks for them.
     include_refurbished: bool = False
 

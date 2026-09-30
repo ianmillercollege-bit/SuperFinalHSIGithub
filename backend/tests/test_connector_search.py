@@ -211,3 +211,15 @@ def test_constraint_compliance_is_measured(seeded):
         row.constraints_met = False
         db.commit()
     assert seeded.get("/api/v1/metrics/trust").json()["current"]["constraintComplianceRate"] < 1.0
+
+
+def test_one_pick_matches_the_search_top_for_non_laptops(seeded):
+    """v1.7: cirqo_query on headphones returns the same product cirqo_search ranks first, with the same constraints."""
+    body = {"question": "headphones for the gym under $100", "assistantId": "ast_01"}
+    top = search(seeded, body)["options"][0]["productId"]
+    pick = seeded.post("/api/v1/connector/query", json=body).json()
+    assert pick["recommendation"]["productId"] == top
+    with_hint = {"question": "headphones for the gym under $100", "assistantId": "ast_01",
+                 "constraints": {"mustHave": ["wireless"]}}
+    res = seeded.post("/api/v1/connector/query", json=with_hint)
+    assert res.status_code == 200, res.text  # a hint attribute is a valid must-have for the pick
