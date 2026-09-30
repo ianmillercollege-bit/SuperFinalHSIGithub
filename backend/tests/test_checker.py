@@ -87,9 +87,9 @@ def test_incidents_follow_handling_rules(client):
                                   "The Kestrel Pocket 12 is certified child-safe. The Zephyr Book 13 is fine.")
     assert body["source"] == "mock"
     by_rule = {(i["ruleId"], i["severity"]): i for i in incidents}
-    low = by_rule[("PRICE_MISMATCH", "low")]  # 4.7% off
+    low = by_rule[("PRICE_MISMATCH", "low")]  # 4.7% off: still a person's call (business plan 5.1, decision 21)
     assert (low["handling"], low["status"], low["resolvedBy"], low["ownerName"]) == \
-        ("auto_fix", "auto_fixed", "system", "Maria Lopez")
+        ("human_approval", "pending_approval", None, "Maria Lopez")
     high = by_rule[("PRICE_MISMATCH", "high")]  # 16.8% off
     assert (high["handling"], high["status"], high["resolvedAt"]) == ("human_approval", "pending_approval", None)
     safety = by_rule[("SAFETY_LEGAL", "critical")]

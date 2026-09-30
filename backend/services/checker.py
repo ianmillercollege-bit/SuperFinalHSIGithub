@@ -408,13 +408,18 @@ def check(c: Extracted, catalog: Catalog) -> Result:
 # ---------------------------------------------------------------------------------------------
 
 
-def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[str, str]:
+def severity_and_handling(rule_id: str, pct_off: float | None = None, *,
+                          legacy_price_auto_fix: bool = False) -> tuple[str, str]:
     if rule_id in C.PRICE_RULES:
         pct = pct_off or 0.0
         # Anything beyond the last band (including an infinite or NaN gap) is "high".
         severity = next((sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit), "high")
         # Business plan 5.1 (decision 21, closed 1:00 AM): any modification to pricing requires human review
         # first, whatever the size. Severity still grades the queue; handling never auto-fixes a price.
+        # legacy_price_auto_fix is only for the seed generator: the seeded 30-day history was recorded under the
+        # earlier rule (low and medium auto-fixed) and stays as recorded.
+        if legacy_price_auto_fix and severity != "high":
+            return severity, "auto_fix"
         return severity, "human_approval"
     return C.SEVERITY_AND_HANDLING[rule_id]
 
