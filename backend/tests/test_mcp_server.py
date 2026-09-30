@@ -336,8 +336,8 @@ def test_query_posts_to_connector_and_returns_answer_and_claims(mock_api):
     assert out["rankingNote"] == "Neutral ranking. No brand can pay for placement."
     # The text content is the same JSON, for clients that ignore structured output.
     assert json.loads(result.content[0].text)["answerText"] == expected["answerText"]
-    # Today's backend sends no counts; they pass through as null, never made up.
-    assert out["verifiedCount"] is None and out["unverifiedCount"] is None
+    # v1.5: the counts pass through exactly as CIRQO sent them, never made up.
+    assert out["verifiedCount"] == expected["verifiedCount"] and out["unverifiedCount"] == expected["unverifiedCount"]
 
 
 def test_query_passes_through_verified_flags_and_counts(mock_api):

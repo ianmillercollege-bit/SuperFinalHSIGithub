@@ -51,7 +51,9 @@ def test_connector_search(seeded):
             assert all(f["claimStatus"] == "correct" and f["factId"].startswith("fact_") for f in option["facts"])
         else:  # not opted in: public-listing facts, labelled honestly
             assert all(f["claimStatus"] == "unverifiable" for f in option["facts"])
-    assert (body["verifiedCount"], body["unverifiedCount"]) == (body["optionCount"], 0)
+    # v1.5: the counts total the options' verified flags (the catalog mixes opted-in and not).
+    assert body["verifiedCount"] == sum(1 for o in body["options"] if o["verified"])
+    assert body["unverifiedCount"] == sum(1 for o in body["options"] if not o["verified"])
 
     # Recorded as an answer (with its claims) and audited connector_search.
     answer_id = "ans_" + body["searchId"].split("_", 1)[1]
