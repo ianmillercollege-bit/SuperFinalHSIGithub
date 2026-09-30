@@ -1382,3 +1382,78 @@ details > summary {
     align-items: flex-start;
   }
 }
+
+/* ---- Styled dropdowns (sign-in form): avatar on the left, chevron on the right ---- */
+
+.select-field {
+  position: relative;
+  display: block;
+}
+
+.select-field select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 12px 40px 12px 54px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--fg);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.select-field select:hover:not(:disabled) {
+  border-color: var(--orange);
+}
+
+.select-field select:focus-visible {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-tint);
+}
+
+.select-field select:disabled {
+  background: var(--bg-raised);
+  color: var(--muted);
+  cursor: default;
+}
+
+.select-avatar {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--on-navy);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.select-field::after {
+  content: "";
+  position: absolute;
+  right: 17px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--navy);
+  border-bottom: 2px solid var(--navy);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.login-form .field {
+  font-weight: 700;
+  gap: 6px;
+}

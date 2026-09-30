@@ -22,6 +22,14 @@ async function loadBrandAccounts(): Promise<{ accounts: DemoAccount[]; example: 
   }
 }
 
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
 const brandLabel = (a: DemoAccount) => `${a.brandName} ${a.role}`;
 
 /** One compact form: pick who you are and which brand to view, then one Sign in button. */
@@ -71,25 +79,35 @@ export default function LoginForm() {
       {error !== undefined && <ErrorNotice error={error} onRetry={() => { owners.reload(); brands.reload(); }} />}
       <label className="field">
         Sign in as
-        <select value={person ? personKey(person) : ""} onChange={(e) => setPersonPick(e.target.value)} disabled={loading || people.length === 0}>
-          {loading && <option value="">Loading…</option>}
-          {people.map((p) => (
-            <option key={personKey(p)} value={personKey(p)}>
-              {p.role === "viewer" ? "Viewer (read-only)" : `${p.name}${p.title ? `, ${p.title}` : ""}`}
-            </option>
-          ))}
-        </select>
+        <span className="select-field">
+          <span className="select-avatar" aria-hidden>
+            {person ? initials(person.name) : "…"}
+          </span>
+          <select value={person ? personKey(person) : ""} onChange={(e) => setPersonPick(e.target.value)} disabled={loading || people.length === 0}>
+            {loading && <option value="">Loading…</option>}
+            {people.map((p) => (
+              <option key={personKey(p)} value={personKey(p)}>
+                {p.role === "viewer" ? "Viewer (read-only)" : `${p.name}, ${p.title ?? "Owner"}`}
+              </option>
+            ))}
+          </select>
+        </span>
       </label>
       <label className="field">
         Brand
-        <select value={brand?.apiKey ?? ""} onChange={(e) => setBrandPick(e.target.value)} disabled={loading || accounts.length === 0}>
-          {loading && <option value="">Loading…</option>}
-          {accounts.map((a) => (
-            <option key={a.apiKey} value={a.apiKey}>
-              {brandLabel(a)}
-            </option>
-          ))}
-        </select>
+        <span className="select-field">
+          <span className="select-avatar" aria-hidden>
+            {brand ? brand.brandName.slice(0, 2).toUpperCase() : "…"}
+          </span>
+          <select value={brand?.apiKey ?? ""} onChange={(e) => setBrandPick(e.target.value)} disabled={loading || accounts.length === 0}>
+            {loading && <option value="">Loading…</option>}
+            {accounts.map((a) => (
+              <option key={a.apiKey} value={a.apiKey}>
+                {brandLabel(a)}
+              </option>
+            ))}
+          </select>
+        </span>
       </label>
       {brands.data?.example && <p className="muted small">Example brand list: the backend has not shipped the demo-accounts list yet.</p>}
       <button type="submit" className="button" disabled={loading || !person || !brand}>
