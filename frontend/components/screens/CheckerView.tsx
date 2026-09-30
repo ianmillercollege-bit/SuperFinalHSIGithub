@@ -1,5 +1,6 @@
 'use client';
 
+import Dropdown from '@/components/Dropdown';
 import { useState, type ReactNode } from 'react';
 import { Field, PageHeader, Pill, ToggleChips, type Tone } from './ui';
 
@@ -66,7 +67,7 @@ export default function CheckerView({ fields, onSubmit, submitting, disabled, di
               const id = `f-${f.name}`; const err = errors[f.name]; const v = values[f.name] ?? '';
               const help = f.maxLength ? <><span /><span>{v.length}/{f.maxLength}</span></> : undefined;
               const wrap = (child: ReactNode) => <div key={f.name} style={half(f) ? undefined : { gridColumn: '1 / -1' }}><Field id={id} label={f.label} error={err} help={help}>{child}</Field></div>;
-              if (f.type === 'select') return wrap(<select id={id} className="cq-select" value={v} disabled={disabled} aria-invalid={!!err} onChange={(e) => set(f.name, e.target.value)}>{f.options?.map((o) => <option key={o}>{o}</option>)}</select>);
+              if (f.type === 'select') return wrap(<Dropdown label={f.label} hideLabel value={v} disabled={disabled} onChange={(x) => set(f.name, x)} options={(f.options ?? []).map((o) => ({ value: o, label: o }))} />);
               if (f.type === 'textarea') return wrap(<textarea id={id} className="cq-textarea" value={v} disabled={disabled} placeholder={f.placeholder} maxLength={f.maxLength} aria-invalid={!!err} aria-describedby={err ? `${id}-err` : undefined} onChange={(e) => set(f.name, e.target.value)} />);
               if (f.type === 'chips') return (
                 <div key={f.name} style={{ gridColumn: '1 / -1' }} className="cq-field">

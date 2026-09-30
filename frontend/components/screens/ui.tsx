@@ -37,7 +37,7 @@ export function StatCards({ stats, columns }: { stats: StatData[]; columns: 3 | 
 
 export function ToggleChips({ options, value, onChange }: { options: { value: string; label: string }[]; value: string; onChange: (v: string) => void }) {
   return (
-    <div className="cq-chips" role="group">
+    <div className="cq-chips is-pill" role="group">
       {options.map((o) => (
         <button key={o.value} type="button" className="cq-chip" aria-pressed={o.value === value} onClick={() => onChange(o.value)}>{o.label}</button>
       ))}
@@ -57,3 +57,7 @@ export function Field({ id, label, error, help, children }: { id: string; label:
 }
 
 export const SampleBadge = () => <span className="cq-badge-sample"><i />Sample data</span>;
+
+export const TitleBlock = ({ title, sub }: { title: string; sub?: ReactNode }) => (
+  <div className="cq-title-block"><h2 className="cq-h2">{title}</h2>{sub && <span>{sub}</span>}</div>
+);

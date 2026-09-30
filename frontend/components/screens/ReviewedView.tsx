@@ -1,7 +1,8 @@
 'use client';
 
+import Dropdown from '@/components/Dropdown';
 import { useState, type ReactNode } from 'react';
-import { PageHeader, Pill, StatCards, ToggleChips, type StatData, type Tone } from './ui';
+import { PageHeader, Pill, StatCards, TitleBlock, ToggleChips, type StatData, type Tone } from './ui';
 
 export interface ReviewedRow { id: string; title: string; type: string; outcome: { label: string; tone: Tone }; detail: string; by: string; date: string }
 export interface InsightRow { who: string; what: string }
@@ -52,11 +53,8 @@ export default function ReviewedView({ stats, rows, insights, pageSize = 5, head
           </div>
         </div>
         <div className="cq-card cq-flex1 cq-card-col">
-          <div><h2 className="cq-h2">Insights</h2><span className="cq-sub">Every action, by a named person or the system</span></div>
-          <select className="cq-select" aria-label="Filter by actor" value={actor} onChange={(e) => setActor(e.target.value)}>
-            <option value="all">All actors</option>
-            {actors.map((a) => <option key={a} value={a}>{a}</option>)}
-          </select>
+          <TitleBlock title="Insights" sub="Every action, by a named person or the system" />
+          <Dropdown label="Filter by actor" hideLabel value={actor} onChange={setActor} options={[{ value: 'all', label: 'All actors' }, ...actors.map((a) => ({ value: a, label: a }))]} />
           {feed.map((i, k) => (
             <div key={k} className="cq-list-row"><span className="cq-sub">{i.who}</span><span style={{ fontSize: 14, lineHeight: 1.4 }}>{i.what}</span></div>
           ))}

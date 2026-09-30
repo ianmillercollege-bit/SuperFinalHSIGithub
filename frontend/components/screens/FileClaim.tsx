@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { ErrorNotice, Loading } from "@/components/LoadState";
 import CheckerView from "@/components/screens/CheckerView";
@@ -20,6 +21,7 @@ const NO_ANSWER = "None (I will paste an answer)";
 export default function FileClaim() {
   const summary = useApi(useCallback(() => getVisibilitySummary(), []));
   const answers = useApi(useCallback(() => getAnswers({ limit: 50 }), []));
+  const params = useSearchParams();
   const session = useUserSession();
   const canFile = canAct(session);
   const [sending, setSending] = useState(false);
@@ -33,12 +35,16 @@ export default function FileClaim() {
     [answers.data],
   );
 
+  // Opened from AI Visibility: ?assistant=<name>&question=<answerId>. Only the shopper's question is quoted, never an AI answer.
+  const askedAssistant = assistants.find((a) => a.name === params.get("assistant"))?.name;
+  const askedQuestion = answers.data?.answers.find((a) => a.answerId === params.get("question"))?.queryText;
+
   // The contract's request is either { answerId } or { answerText, assistantId, queryText }; the contract
   // sets no lengths, so no field has a maximum. Which fields are required depends on the form, so onSubmit checks it.
   const fields: FieldSpec[] = [
     { name: "answerText", label: "What the assistant said", type: "textarea", placeholder: "Paste the assistant's answer here." },
-    { name: "assistantId", label: "AI assistant", type: "select", options: [NO_ASSISTANT, ...assistants.map((a) => a.name)], half: true },
-    { name: "queryText", label: "Shopper's question", type: "text", placeholder: "best laptops under $500", half: true },
+    { name: "assistantId", label: "AI assistant", type: "select", options: [NO_ASSISTANT, ...assistants.map((a) => a.name)], defaultValue: askedAssistant, half: true },
+    { name: "queryText", label: "Shopper's question", type: "text", placeholder: "best laptops under $500", defaultValue: askedQuestion, half: true },
     ...(recorded.length > 0
       ? [{ name: "answerId", label: "Or check an answer CIRQO already recorded", type: "select" as const, options: [NO_ANSWER, ...recorded.map((r) => r.label)] }]
       : []),
@@ -89,7 +95,13 @@ export default function FileClaim() {
         setError(undefined);
         setRuns((n) => n + 1);
       }}
-      notice={answers.error !== undefined ? "Recorded answers could not be loaded, so only pasting an answer is available." : undefined}
+      notice={
+        answers.error !== undefined
+          ? "Recorded answers could not be loaded, so only pasting an answer is available."
+          : askedQuestion !== undefined
+            ? `From AI Visibility, question: "${askedQuestion}". Paste what the assistant said below.`
+            : undefined
+      }
       steps={[
         { title: "Claims are extracted", body: "CIRQO finds each factual claim in the answer." },
         { title: "Plain code checks them", body: "Each claim is compared with your verified product facts." },

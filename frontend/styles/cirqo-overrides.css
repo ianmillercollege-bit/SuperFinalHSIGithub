@@ -285,12 +285,7 @@ a.cq-stat:focus-visible,
   text-align: center;
 }
 
-.guest-slot {
-  display: flex;
-  justify-content: center;
-}
-
-.guest-slot .guest-link {
+.cq-login-card .guest-link {
   position: static;
   margin: 0;
   width: 100%;
@@ -379,4 +374,68 @@ a.cq-stat:focus-visible,
 
 .cq-badge-sample i {
   background: var(--cq-text-muted);
+}
+
+/* Sign-in name field: a type-ahead box that opens the same styled list as the other dropdowns. */
+.dd-combo {
+  gap: 0;
+}
+
+.dd-combo-box {
+  position: relative;
+}
+
+.dd-combo-box .cq-input {
+  padding-right: 44px;
+}
+
+.dd-combo-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.dd-combo-toggle[aria-expanded="true"] .dd-chevron {
+  transform: rotate(180deg);
+}
+
+.dd-empty {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* The sign-in list floats over the card instead of pushing it taller. */
+.cq-login-card .dd-list {
+  max-height: 232px;
+}
+
+/* Dropdowns inside the kit's cards match the kit's text boxes: same height, size, weight and corner. */
+.cq-card .dd-trigger,
+.cq-login-card .dd-trigger {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cq-card .dd-list,
+.cq-login-card .dd-list {
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.cq-card .dd-option,
+.cq-login-card .dd-option {
+  border-radius: 6px;
 }
