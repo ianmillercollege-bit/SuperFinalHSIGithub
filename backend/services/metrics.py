@@ -34,7 +34,7 @@ def _visibility(answers: list[Answer], mentions: dict[str, list[str]], brand_id:
 
 def visibility_summary(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dict:
     catalog = Catalog(db)
-    client = db.get(Brand, brand_id)  # the brand being viewed; competitors are all other brands
+    client = db.get(Brand, brand_id)  # the brand being viewed
     answers = answers_in_window(db, days, brand_id)
     mentions = {a.answer_id: brand_mentions(a.answer_text, catalog) for a in answers}
     stats = {b.brand_id: _visibility(answers, mentions, b.brand_id) for b in catalog.brands.values()}
@@ -52,7 +52,10 @@ def visibility_summary(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dic
         "competitors": [
             {"brandName": b.name, "visibilityRate": stats[b.brand_id]["visibilityRate"],
              "averageRank": stats[b.brand_id]["averageRank"], "shareOfVoice": share(b.brand_id)}
-            for b in sorted(catalog.brands.values(), key=lambda b: b.brand_id) if b.brand_id != client.brand_id],
+            # Competitors = the other brands AI assistants mention in this brand's answers (with 153 brands in
+            # the catalog, listing every one would drown the brands a shopper actually hears about).
+            for b in sorted(catalog.brands.values(), key=lambda b: b.brand_id)
+            if b.brand_id != client.brand_id and stats[b.brand_id]["mentions"] > 0],
         "byAssistant": [
             {"assistantId": a.assistant_id, "name": a.name,
              **{k: v for k, v in _visibility([x for x in answers if x.assistant_id == a.assistant_id], mentions,

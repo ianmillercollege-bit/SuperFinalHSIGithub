@@ -115,12 +115,34 @@ RANKING_NOTE = "Ranking is neutral. No brand can pay for placement."
 DEFAULT_BRAND_ID = "brand_001"  # Kestrel: used when no brandId is given (v1.2 behaviour)
 
 # Demo-only keys for seeded data (DECISIONS.md #6, CLIENT_API_CONTRACT.md v1.1). Unrelated to the AI key.
-DEMO_ACCOUNTS = [
-    {"brandId": "brand_001", "role": "owner", "apiKey": "fd_demo_owner_2026"},
-    {"brandId": "brand_001", "role": "viewer", "apiKey": "fd_demo_viewer_2026"},
-    {"brandId": "brand_002", "role": "owner", "apiKey": "fd_demo_arcton_2026"},
-    {"brandId": "brand_003", "role": "owner", "apiKey": "fd_demo_novex_2026"},
+DEMO_ACCOUNTS = [  # v1.4 adds the username that logs in with the shared demo password
+    {"brandId": "brand_001", "role": "owner", "apiKey": "fd_demo_owner_2026", "username": "maria.lopez@kestrel.example"},
+    {"brandId": "brand_001", "role": "viewer", "apiKey": "fd_demo_viewer_2026", "username": "sam.lee@kestrel.example"},
+    {"brandId": "brand_002", "role": "owner", "apiKey": "fd_demo_arcton_2026", "username": "priya.shah@arcton.example"},
+    {"brandId": "brand_003", "role": "owner", "apiKey": "fd_demo_novex_2026", "username": "lena.ortiz@novex.example"},
 ]
+SHEET_DEMO_COMPANIES = 5  # v1.4: the first five spreadsheet companies are listed as demo accounts too
+
+# ---- BACKEND_CONTRACT.md v1.4.1 section 7c: catalog at scale and login -------------------------
+
+CATEGORIES = ["laptops", "headphones", "phones_tablets", "computer_hardware"]
+CATEGORY_DEFAULT_SUBCATEGORY = {"laptops": "Laptop", "headphones": "Headphones", "phones_tablets": "Smartphone",
+                                "computer_hardware": "Computer Hardware"}
+# Words in a shopper's question that name a category (plain code, no AI). Laptops is the default.
+CATEGORY_WORDS = {
+    "headphones": ["headphone", "earbud", "earphone", "headset", "in-ear", "ear bud"],
+    "phones_tablets": ["phone", "smartphone", "tablet", "ipad"],
+    "computer_hardware": ["graphics card", "gpu", "motherboard", "power supply", "psu", "ssd", "hard drive",
+                          "storage drive", "ram stick", "memory kit", "monitor", "keyboard", "mouse", "webcam",
+                          "router", "docking station", "dock", "pc case", "case fan", "cooler", "cpu", "processor"],
+    "laptops": ["laptop", "notebook", "chromebook", "ultrabook"],
+}
+
+DEMO_PASSWORD = "cirqo-demo"  # DECISIONS.md #33/#34: every demo account, so judges are never locked out
+
+# The legacy shopper quiz (contract section 7, kept for compatibility) is laptop-only and ranks the
+# original demo catalog it was designed for; the connector ranks the whole catalog.
+LEGACY_SHOPPER_BRANDS = ["brand_001", "brand_002", "brand_003"]
 
 INCIDENT_RULE_IDS = ["PRICE_MISMATCH", "PRICE_OUTDATED", "SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH",
                      "POLICY_MISMATCH", "UNFAIR_COMPARISON", "SAFETY_LEGAL"]

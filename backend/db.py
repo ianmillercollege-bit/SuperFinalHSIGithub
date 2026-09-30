@@ -25,7 +25,9 @@ class Brand(Base):
     name: Mapped[str] = mapped_column(String)
     # Seed-only. Never returned by any endpoint and never read by ranking code (contract section 8).
     is_client: Mapped[bool] = mapped_column(Boolean, default=False)
-    billing_tier: Mapped[str | None] = mapped_column(String, nullable=True)
+    billing_tier: Mapped[str | None] = mapped_column(String, nullable=True)  # public name: "plan" (v1.4)
+    # v1.4 company profile: tagline, categories, hqCity, founded, employees, ceo, website, otherNames, ...
+    profile: Mapped[dict] = mapped_column(JSON, default=dict)
 
 
 class Product(Base):
@@ -45,6 +47,34 @@ class Product(Base):
     verified_at: Mapped[str] = mapped_column(String)
     price_history: Mapped[list] = mapped_column(JSON, default=list)  # previous prices, numbers only
     features: Mapped[list] = mapped_column(JSON, default=list)  # optional extra verified features
+    # v1.4.1: categories follow the source spreadsheet.
+    category: Mapped[str] = mapped_column(String, default="laptops")  # laptops | headphones | phones_tablets | computer_hardware
+    subcategory: Mapped[str] = mapped_column(String, default="Laptop")  # the sheet's Product Category
+
+
+class ComparisonFact(Base):
+    """A verified comparison between two products (the sheet's "Verified Comparisons" column, v1.4.1).
+    "a is <attribute>-better than b": price = cheaper, weight = lighter, battery = longer battery."""
+
+    __tablename__ = "comparison_facts"
+    fact_id: Mapped[str] = mapped_column(String, primary_key=True)
+    product_id: Mapped[str] = mapped_column(String, index=True)
+    other_product_id: Mapped[str] = mapped_column(String)
+    attribute: Mapped[str] = mapped_column(String)  # price | weight | battery
+    text: Mapped[str] = mapped_column(String)
+
+
+class User(Base):
+    """Demo users (v1.4 login). Passwords are stored hashed; every demo password is cirqo-demo."""
+
+    __tablename__ = "users"
+    user_id: Mapped[str] = mapped_column(String, primary_key=True)
+    username: Mapped[str] = mapped_column(String, unique=True, index=True)
+    name: Mapped[str] = mapped_column(String)
+    role: Mapped[str] = mapped_column(String)  # Brand Data Owner | Trust and Safety Lead | Viewer | CIRQO Staff
+    title: Mapped[str | None] = mapped_column(String, nullable=True)  # e.g. staff job title
+    brand_id: Mapped[str | None] = mapped_column(String, nullable=True)  # None for CIRQO Staff
+    password_hash: Mapped[str] = mapped_column(String)
 
 
 class Assistant(Base):
@@ -166,3 +196,12 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+class Token(Base):
+    """Login tokens (v1.4). Kept in the database, so they die on restart like everything else."""
+
+    __tablename__ = "tokens"
+    token: Mapped[str] = mapped_column(String, primary_key=True)
+    user_id: Mapped[str] = mapped_column(String)
+    expires_at: Mapped[str] = mapped_column(String)

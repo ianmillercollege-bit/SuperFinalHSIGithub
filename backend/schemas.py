@@ -53,7 +53,11 @@ class ProductOut(CamelModel):
     price: float
     currency: str
     availability: Availability
-    specs: Specs
+    # v1.4.1: categories follow the catalog sheet.
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"]
+    subcategory: str
+    # Laptops: the six contract specs (Specs) plus extras. Other categories: the sheet's spec columns.
+    specs: dict
     return_policy_days: int
     updated_at: str
     # v1.2 Verified Data Layer. factSource is not called "source": that word means live|mock|fallback.
@@ -307,14 +311,16 @@ class IncidentsOut(CamelModel):
     incidents: list[IncidentOut]
 
 
-def _not_blank(value: str) -> str:
+def _not_blank(value: str | None) -> str | None:
+    if value is None:
+        return None  # optional names (v1.4); required notes are enforced by their type
     if not value.strip():
         raise ValueError("must not be empty")
     return value.strip()
 
 
 class ApproveIn(CamelModel):
-    approver_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    approver_name: str | None = Field(None, max_length=C.MAX_NAME_CHARS)  # v1.4: optional with a token
     note: str | None = Field(None, max_length=C.MAX_NOTE_CHARS)
 
     @field_validator("approver_name")
@@ -324,7 +330,7 @@ class ApproveIn(CamelModel):
 
 
 class RejectIn(CamelModel):
-    approver_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    approver_name: str | None = Field(None, max_length=C.MAX_NAME_CHARS)  # v1.4: optional with a token
     note: str = Field(max_length=C.MAX_NOTE_CHARS)
     false_alarm: bool = False
 
@@ -335,7 +341,7 @@ class RejectIn(CamelModel):
 
 
 class ResolveIn(CamelModel):
-    resolver_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    resolver_name: str | None = Field(None, max_length=C.MAX_NAME_CHARS)  # v1.4: optional with a token
     note: str = Field(max_length=C.MAX_NOTE_CHARS)
 
     @field_validator("resolver_name", "note")
@@ -454,10 +460,86 @@ class DemoAccount(CamelModel):
     brand_name: str
     role: Literal["owner", "viewer"]
     api_key: str
+    username: str  # v1.4: log in with this and the shared demo password
 
 
 class DemoAccountsOut(CamelModel):
     accounts: list[DemoAccount]
+    password_note: str  # v1.4: every demo password is cirqo-demo
+
+
+# ---- Login and company profiles (v1.4 section 7c) ----------------------------------------------
+
+
+class LoginIn(CamelModel):
+    username: str = Field(max_length=C.MAX_NAME_CHARS)
+    password: str = Field(max_length=C.MAX_NAME_CHARS)
+
+
+class UserOut(CamelModel):
+    user_id: str
+    name: str
+    role: str
+    username: str
+
+
+class BrandRef(CamelModel):
+    brand_id: str
+    brand_name: str
+
+
+class MeOut(CamelModel):
+    expires_at: str
+    user: UserOut
+    brand: BrandRef | None  # None for CIRQO Staff, who belong to no brand
+
+
+class LoginOut(MeOut):
+    token: str
+
+
+class OkOut(CamelModel):
+    ok: bool
+
+
+class ProfileAdmin(CamelModel):
+    user_id: str
+    name: str
+    role: str
+
+
+class Ceo(CamelModel):
+    name: str
+
+
+class BrandProfileOut(CamelModel):
+    brand_id: str
+    brand_name: str
+    tagline: str | None = None
+    categories: list[str]
+    hq_city: str | None = None
+    founded: int | None = None
+    employees: int | None = None
+    ceo: Ceo | None = None
+    website: str | None = None
+    admins: list[ProfileAdmin]
+    product_count: int
+    plan: Literal["starter", "growth", "enterprise"] | None = None  # only on the brand's own profile
+
+
+class BrandSummary(CamelModel):
+    brand_id: str
+    brand_name: str
+    categories: list[str]
+    product_count: int
+    visibility_rate: float
+    open_incidents: int
+    escalated_incidents: int
+    accuracy_rate: float
+
+
+class BrandsOut(CamelModel):
+    brands: list[BrandSummary]
 
 
 # ---- Onboarding: "Connect your catalog" (v1.3 section 7b) ------------------------------------------
@@ -465,6 +547,8 @@ class DemoAccountsOut(CamelModel):
 
 class OnboardProductIn(CamelModel):
     name: str = Field(max_length=C.MAX_NAME_CHARS)
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"] = "laptops"  # v1.4.1
+    subcategory: str | None = Field(None, max_length=60)
     price: float = Field(gt=0, allow_inf_nan=False)
     availability: Availability = "in_stock"
     specs: dict = {}

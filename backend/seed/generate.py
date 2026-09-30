@@ -42,9 +42,9 @@ KESTREL_ANSWER_SHARE = 0.3
 # ---- Catalog additions that shared/mock does not carry ---------------------------------------
 
 BRANDS = [  # isClient / billingTier are seed-only: never returned, never read by ranking.
-    {"brandId": "brand_001", "name": "Kestrel", "isClient": True, "billingTier": "pro"},
-    {"brandId": "brand_002", "name": "Arcton", "isClient": False, "billingTier": None},
-    {"brandId": "brand_003", "name": "Novex", "isClient": False, "billingTier": None},
+    {"brandId": "brand_001", "name": "Kestrel", "isClient": True, "billingTier": "growth"},
+    {"brandId": "brand_002", "name": "Arcton", "isClient": False, "billingTier": "enterprise"},
+    {"brandId": "brand_003", "name": "Novex", "isClient": False, "billingTier": "starter"},
 ]
 # Contract v1.1 section 7: connector answers cite the brand's own verified feed.
 BRAND_FEED_SOURCE = {"sourceId": "src_brand", "name": "Kestrel Verified Feed (CIRQO Verified Data Layer)",
@@ -640,6 +640,11 @@ FILES = {"brands": "brands", "products": "products", "assistants": "assistants",
          "audit": "entries", "daily_metrics": "daily"}
 
 
+CATALOG_FILES = {"brands": "brands", "profiles": "profiles", "products": "products", "comparisons": "comparisons",
+                 "users": "users", "owners": "owners", "answers": "answers", "claims": "claims",
+                 "incidents": "incidents", "audit": "entries", "daily_metrics": "daily"}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--out", type=Path, default=SEED_DIR / "data")
@@ -659,6 +664,16 @@ def main() -> None:
             text = json.dumps({key: account[name]}, indent=2, ensure_ascii=False) + "\n"
             (folder / f"{name}.json").write_text(text, encoding="utf-8", newline="\n")
         print(f"Wrote {folder}: " + ", ".join(f"{len(account[n])} {n}" for n in BRAND_FILES))
+    # The sheet's 150 companies and 1,500 products, plus profiles and demo users for all brands.
+    import services.checker as checker_module
+    from seed.catalog import build_catalog
+    catalog = build_catalog(data, checker_module)
+    folder = args.out / "catalog"
+    folder.mkdir(parents=True, exist_ok=True)
+    for name, key in CATALOG_FILES.items():
+        text = json.dumps({key: catalog[name]}, indent=1, ensure_ascii=False) + "\n"
+        (folder / f"{name}.json").write_text(text, encoding="utf-8", newline="\n")
+    print(f"Wrote {folder}: " + ", ".join(f"{len(catalog[n])} {n}" for n in CATALOG_FILES))
 
 
 if __name__ == "__main__":

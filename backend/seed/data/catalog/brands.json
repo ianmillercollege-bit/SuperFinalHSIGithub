@@ -1,0 +1,904 @@
+{
+ "brands": [
+  {
+   "brandId": "brand_004",
+   "name": "Morpheus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_005",
+   "name": "Carpo",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_006",
+   "name": "Himeros",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_007",
+   "name": "Doris",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_008",
+   "name": "Deimos",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_009",
+   "name": "Asteria",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_010",
+   "name": "Tethys",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_011",
+   "name": "Menoetius",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_012",
+   "name": "Phosphorus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_013",
+   "name": "Hedone",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_014",
+   "name": "Hebe",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_015",
+   "name": "Glaucus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_016",
+   "name": "Zeus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_017",
+   "name": "Soteria",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_018",
+   "name": "Aurai",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_019",
+   "name": "Chaos",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_020",
+   "name": "Tartarus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_021",
+   "name": "Achelous",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_022",
+   "name": "Euphrosyne",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_023",
+   "name": "Nereus",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_024",
+   "name": "Poseidon",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_025",
+   "name": "Clio",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_026",
+   "name": "Ananke",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_027",
+   "name": "Asclepius",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_028",
+   "name": "Hesperus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_029",
+   "name": "Melpomene",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_030",
+   "name": "Aristaeus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_031",
+   "name": "Demeter",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_032",
+   "name": "Metis",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_033",
+   "name": "Thalia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_034",
+   "name": "Aeolus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_035",
+   "name": "Zephyrus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_036",
+   "name": "Homonoia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_037",
+   "name": "Selene",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_038",
+   "name": "Atropos",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_039",
+   "name": "Persephone",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_040",
+   "name": "Heracles",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_041",
+   "name": "Auxo",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_042",
+   "name": "Terpsichore",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_043",
+   "name": "Calliope",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_044",
+   "name": "Polyhymnia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_045",
+   "name": "Priapus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_046",
+   "name": "Momus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_047",
+   "name": "Boreas",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_048",
+   "name": "Dolos",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_049",
+   "name": "Thallo",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_050",
+   "name": "Rhea",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_051",
+   "name": "Hygieia",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_052",
+   "name": "Thanatos",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_053",
+   "name": "Chronos",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_054",
+   "name": "Nemesis",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_055",
+   "name": "Hecate",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_056",
+   "name": "Phobos",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_057",
+   "name": "Arete",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_058",
+   "name": "Tyche",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_059",
+   "name": "Eunomia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_060",
+   "name": "Pallas",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_061",
+   "name": "Styx",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_062",
+   "name": "Hypnos",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_063",
+   "name": "Oceanus",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_064",
+   "name": "Mnemosyne",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_065",
+   "name": "Clotho",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_066",
+   "name": "Pontus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_067",
+   "name": "Athena",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_068",
+   "name": "Amphitrite",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_069",
+   "name": "Paean",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_070",
+   "name": "Clymene",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_071",
+   "name": "Circe",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_072",
+   "name": "Panacea",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_073",
+   "name": "Proteus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_074",
+   "name": "Lachesis",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_075",
+   "name": "Pothos",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_076",
+   "name": "Helios",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_077",
+   "name": "Elpis",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_078",
+   "name": "Coeus",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_079",
+   "name": "Hephaestus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_080",
+   "name": "Leto",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_081",
+   "name": "Comus",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_082",
+   "name": "Aglaea",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_083",
+   "name": "Aether",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_084",
+   "name": "Theia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_085",
+   "name": "Alpheus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_086",
+   "name": "Peitho",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_087",
+   "name": "Eupheme",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_088",
+   "name": "Erato",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_089",
+   "name": "Lethe",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_090",
+   "name": "Phorcys",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_091",
+   "name": "Eurus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_092",
+   "name": "Aletheia",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_093",
+   "name": "Anteros",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_094",
+   "name": "Epimetheus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_095",
+   "name": "Triton",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_096",
+   "name": "Thetis",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_097",
+   "name": "Adrastea",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_098",
+   "name": "Leucothea",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_099",
+   "name": "Iapetus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_100",
+   "name": "Pan",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_101",
+   "name": "Erebus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_102",
+   "name": "Dike",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_103",
+   "name": "Plutus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_104",
+   "name": "Perses",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_105",
+   "name": "Pheme",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_106",
+   "name": "Herse",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_107",
+   "name": "Eurybia",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_108",
+   "name": "Cronus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_109",
+   "name": "Harmonia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_110",
+   "name": "Bia",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_111",
+   "name": "Notus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_112",
+   "name": "Delphyne",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_113",
+   "name": "Apate",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_114",
+   "name": "Eosphoros",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_115",
+   "name": "Eirene",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_116",
+   "name": "Uranus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_117",
+   "name": "Enyo",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_118",
+   "name": "Nykteis",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_119",
+   "name": "Hestia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_120",
+   "name": "Hemera",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_121",
+   "name": "Dionysus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_122",
+   "name": "Hades",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_123",
+   "name": "Euterpe",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_124",
+   "name": "Hymenaeus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_125",
+   "name": "Pleione",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_126",
+   "name": "Hyperion",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_127",
+   "name": "Eucleia",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_128",
+   "name": "Gaia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_129",
+   "name": "Thalassa",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_130",
+   "name": "Palaemon",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_131",
+   "name": "Dione",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_132",
+   "name": "Hera",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_133",
+   "name": "Thaumas",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_134",
+   "name": "Ceto",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_135",
+   "name": "Nikaia",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_136",
+   "name": "Geras",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_137",
+   "name": "Eros",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_138",
+   "name": "Aidos",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_139",
+   "name": "Urania",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_140",
+   "name": "Zelus",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_141",
+   "name": "Phanes",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_142",
+   "name": "Crius",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_143",
+   "name": "Ares",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_144",
+   "name": "Aphrodite",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_145",
+   "name": "Kairos",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_146",
+   "name": "Phoebe",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_147",
+   "name": "Psyche",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_148",
+   "name": "Themis",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_149",
+   "name": "Astraeus",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_150",
+   "name": "Alastor",
+   "isClient": false,
+   "billingTier": "growth"
+  },
+  {
+   "brandId": "brand_151",
+   "name": "Eris",
+   "isClient": false,
+   "billingTier": "starter"
+  },
+  {
+   "brandId": "brand_152",
+   "name": "Eileithyia",
+   "isClient": false,
+   "billingTier": "enterprise"
+  },
+  {
+   "brandId": "brand_153",
+   "name": "Artemis",
+   "isClient": false,
+   "billingTier": "growth"
+  }
+ ]
+}
