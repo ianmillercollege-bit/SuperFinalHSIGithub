@@ -165,6 +165,11 @@ score = share of liked swipe features met + use-case fit, ties broken by lower p
 Every reason passes through the checker; only reasons with status `correct` are returned.
 If no product fits, `recommendation` is `null` and `alternatives` is empty. Errors: 422 for unknown `questionId` or `optionId`.
 
+### Remote MCP endpoint (v1.7)
+`POST /mcp` (no `/api/v1` prefix) serves the two MCP tools `cirqo_search` and `cirqo_query` over Streamable HTTP,
+stateless, JSON responses; clients send `Accept: application/json, text/event-stream`. It is the same code as
+`backend/mcp_server.py` and calls the REST endpoints below over loopback. Test: `tools/list` returns both tools.
+
 ### Connector (what an AI assistant calls) - added in v1.1
 
 CIRQO is sold to brands as a plugin for AI assistants. When a shopper asks an assistant a shopping question, the

@@ -42,6 +42,8 @@ check "connector search"    200 narrowingHints -X POST -H "Content-Type: applica
   -d '{"question":"I want headphones for the gym, budget around $150","assistantId":"ast_01"}' \
   "$BASE/api/v1/connector/search"
 check "demo accounts"       200 accounts      "$BASE/api/v1/auth/demo-accounts"
+check "remote MCP tools"    200 result        -X POST -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' "$BASE/mcp"
 check "arcton scope"        200 competitors   "$BASE/api/v1/visibility/summary?brandId=brand_002"
 check "unknown brand 404"   404 error         "$BASE/api/v1/visibility/summary?brandId=brand_999"
 check "onboard 422"         422 error         -X POST -H "Content-Type: application/json" -d '{"brandName":"X","ownerName":"Y","products":[]}' "$BASE/api/v1/brands/onboard"
