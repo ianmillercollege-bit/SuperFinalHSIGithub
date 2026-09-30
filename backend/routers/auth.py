@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException
 from sqlalchemy import select
 
 import constants as C
-from db import ApiKey, Brand, Token, User, get_db
+from db import ApiKey, Brand, LoginAlias, Token, User, get_db
 from schemas import DemoAccountsOut, LoginIn, LoginOut, MeOut, OkOut
 from services.passwords import verify_password
 from services.session import new_token, required_user, token_and_user
@@ -25,10 +25,28 @@ def me_body(db, user: User, token: Token) -> dict:
             "brand": {"brandId": brand.brand_id, "brandName": brand.name} if brand else None}
 
 
+def find_user(db, username: str) -> User | None:
+    """By username, or (v1.7) by an alias: a renamed company's original sheet email."""
+    name = username.strip().lower()
+    user = db.scalars(select(User).where(User.username == name)).first()
+    if user is None:
+        alias = db.get(LoginAlias, name)
+        user = db.get(User, alias.user_id) if alias else None
+    return user
+
+
+def password_ok(user: User, password: str) -> bool:
+    """cirqo-demo works for every account (decision #41, condition 1); a sheet company's admin may also use
+    the company's own password from the sheet."""
+    if verify_password(password, user.password_hash):
+        return True
+    return bool(user.sheet_password_hash) and verify_password(password, user.sheet_password_hash)
+
+
 @router.post("/login", response_model=LoginOut)
 def login(body: LoginIn, db=Depends(get_db)):
-    user = db.scalars(select(User).where(User.username == body.username.strip().lower())).first()
-    if user is None or not verify_password(body.password, user.password_hash):
+    user = find_user(db, body.username)
+    if user is None or not password_ok(user, body.password):
         raise HTTPException(401, WRONG)
     token = new_token(db, user)
     return {"token": token.token, **me_body(db, user, token)}
