@@ -170,3 +170,11 @@ def test_search_validation(seeded):
         assert res.status_code == 422 and res.json()["error"]["code"] == "VALIDATION_ERROR", bad
     res = seeded.post("/api/v1/connector/search", json={**GYM, "assistantId": "ast_99"})
     assert res.status_code == 404 and res.json()["error"]["code"] == "NOT_FOUND"
+
+
+def test_budget_word_is_not_a_use_case(seeded):
+    """"budget around $150" must not reward products tagged "budget": the same options come back with or without it."""
+    plain = search(seeded, {"question": "I want headphones for the gym", "assistantId": "ast_01",
+                            "constraints": {"maxPrice": 150}})
+    worded = search(seeded, {"question": "I want headphones for the gym, budget around $150", "assistantId": "ast_01"})
+    assert [o["productId"] for o in plain["options"]] == [o["productId"] for o in worded["options"]]
