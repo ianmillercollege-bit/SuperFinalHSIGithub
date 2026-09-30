@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import Dropdown from "@/components/Dropdown";
+import Autocomplete, { resolveOption } from "@/components/Autocomplete";
 import { ErrorNotice } from "@/components/LoadState";
 import SampleSignInLabel from "@/components/SampleSignInLabel";
 import { ApiError, getDemoAccounts, getOwners } from "@/lib/api";
-import { signInAs, useBrandSession } from "@/lib/auth/brandSession";
+import { signInAs } from "@/lib/auth/brandSession";
 import { DEMO_ACCOUNTS_FALLBACK } from "@/lib/auth/demoAccountsFallback";
-import { VIEWER_USER, signInUser, useUserSession } from "@/lib/auth/userSession";
+import { VIEWER_USER, signInUser } from "@/lib/auth/userSession";
 import type { SignedInUser } from "@/lib/auth/userSession";
 import type { DemoAccount } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
@@ -37,10 +37,10 @@ const brandLabel = (a: DemoAccount) => `${a.brandName} ${a.role}`;
 export default function LoginForm() {
   const owners = useApi(useCallback(() => getOwners(), []));
   const brands = useApi(useCallback(() => loadBrandAccounts(), []));
-  const user = useUserSession().user;
-  const brandSession = useBrandSession();
-  const [personPick, setPersonPick] = useState<string | null>(null);
-  const [brandPick, setBrandPick] = useState<string | null>(null);
+  // Type-only: the fields start empty and the visitor types a name; suggestions complete it.
+  const [personText, setPersonText] = useState("");
+  const [brandText, setBrandText] = useState("");
+  const [errors, setErrors] = useState<{ person?: string; brand?: string }>({});
 
   const people: SignedInUser[] = [
     ...(owners.data?.owners ?? []).map((o) => ({ name: o.name, role: "owner" as const, title: o.role })),
@@ -48,21 +48,34 @@ export default function LoginForm() {
   ];
   const accounts = brands.data?.accounts ?? [];
 
-  // Selected values: what the visitor picked, else who is signed in now, else the first entry.
   const personKey = (p: SignedInUser) => `${p.role}:${p.name}`;
-  const person =
-    people.find((p) => personKey(p) === personPick) ?? people.find((p) => user && personKey(p) === personKey(user)) ?? people[0];
-  const brand =
-    accounts.find((a) => a.apiKey === brandPick) ??
-    accounts.find((a) => brandSession && a.apiKey === brandSession.apiKey) ??
-    accounts[0];
+  const personOptions = people.map((p) => ({
+    value: personKey(p),
+    label: p.role === "viewer" ? "Viewer" : p.name,
+    hint: p.role === "viewer" ? "Read-only: can look, not approve or file" : p.title ?? "Owner",
+    avatar: initials(p.name),
+  }));
+  const brandOptions = accounts.map((a) => ({
+    value: a.apiKey,
+    label: brandLabel(a),
+    hint: a.role === "owner" ? "Full access to this brand" : "Read-only view of this brand",
+    avatar: a.brandName.slice(0, 2).toUpperCase(),
+  }));
 
   const loading = owners.loading || brands.loading;
   const error = owners.error ?? brands.error;
 
   function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (!person || !brand) return;
+    const personOption = resolveOption(personOptions, personText);
+    const brandOption = resolveOption(brandOptions, brandText);
+    const next: { person?: string; brand?: string } = {};
+    if (!personOption) next.person = personText.trim() ? "No match. Pick a name from the suggestions." : "Type your name.";
+    if (!brandOption) next.brand = brandText.trim() ? "No match. Pick a brand from the suggestions." : "Type a brand name.";
+    setErrors(next);
+    if (!personOption || !brandOption) return;
+    const person = people.find((p) => personKey(p) === personOption.value)!;
+    const brand = accounts.find((a) => a.apiKey === brandOption.value)!;
     signInUser(person);
     signInAs(brand);
     // A full load, so every page starts fresh for the chosen person and brand.
@@ -78,39 +91,36 @@ export default function LoginForm() {
         </p>
       </div>
       {error !== undefined && <ErrorNotice error={error} onRetry={() => { owners.reload(); brands.reload(); }} />}
-      <Dropdown
+      <Autocomplete
         label="Sign in as"
-        showAvatar
-        value={person ? personKey(person) : ""}
-        onChange={setPersonPick}
+        text={personText}
+        onText={(t) => {
+          setPersonText(t);
+          setErrors((e) => ({ ...e, person: undefined }));
+        }}
+        options={personOptions}
+        placeholder={loading ? "Loading…" : "Type your name, for example Maria"}
         disabled={loading || people.length === 0}
-        placeholder={loading ? "Loading…" : "Choose who you are"}
-        options={people.map((p) => ({
-          value: personKey(p),
-          label: p.role === "viewer" ? "Viewer (read-only)" : p.name,
-          hint: p.role === "viewer" ? "Can look, not approve or file" : p.title ?? "Owner",
-          avatar: initials(p.name),
-        }))}
+        error={errors.person}
+        autoFocus
       />
-      <Dropdown
+      <Autocomplete
         label="Brand"
-        showAvatar
-        value={brand?.apiKey ?? ""}
-        onChange={setBrandPick}
+        text={brandText}
+        onText={(t) => {
+          setBrandText(t);
+          setErrors((e) => ({ ...e, brand: undefined }));
+        }}
+        options={brandOptions}
+        placeholder={loading ? "Loading…" : "Type a brand, for example Kestrel"}
         disabled={loading || accounts.length === 0}
-        placeholder={loading ? "Loading…" : "Choose a brand"}
-        options={accounts.map((a) => ({
-          value: a.apiKey,
-          label: brandLabel(a),
-          hint: a.role === "owner" ? "Full access to this brand" : "Read-only view of this brand",
-          avatar: a.brandName.slice(0, 2).toUpperCase(),
-        }))}
+        error={errors.brand}
       />
       {brands.data?.example && <p className="muted small">Example brand list: the backend has not shipped the demo-accounts list yet.</p>}
-      <button type="submit" className="button" disabled={loading || !person || !brand}>
+      <button type="submit" className="button" disabled={loading}>
         Sign in
       </button>
-      <p className="muted small">No password. Your choice is saved in this browser only.</p>
+      <p className="muted small">No password: just type a name. Your choice is saved in this browser only.</p>
     </form>
   );
 }

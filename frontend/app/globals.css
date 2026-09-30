@@ -1574,3 +1574,57 @@ details > summary {
 .dd-check {
   flex: none;
 }
+
+/* ---- Type-to-search field (components/Autocomplete.tsx), shares the dropdown list styles ---- */
+
+.ac-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-card);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.ac-box:hover {
+  border-color: var(--orange);
+}
+
+.ac-box:focus-within {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-tint);
+}
+
+.ac-box.has-error {
+  border-color: var(--bad);
+}
+
+.ac-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  outline: none;
+}
+
+.ac-input::placeholder {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.ac-input:disabled {
+  color: var(--muted);
+}
+
+.ac-error {
+  color: var(--bad);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
