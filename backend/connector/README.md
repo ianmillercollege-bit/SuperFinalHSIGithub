@@ -85,8 +85,12 @@ which wrap the same CIRQO endpoints; deep research mode uses them too.
 {"mcpServers": {"cirqo": {"httpUrl": "https://frontdoor-api-hiel.onrender.com/mcp"}}}
 ```
 
-then `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query` and `cirqo_details`. The Gemini consumer app does not
-yet take custom connectors; when it does, the same URL applies. Then in a new chat enable CIRQO under the tools menu and ask:
+then `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query`, `cirqo_details`, `search` and `fetch`. Two things
+we hit on the night: Google sign-in for individual accounts is closed in Gemini CLI 0.62, so authenticate with a free
+Gemini API key from https://aistudio.google.com/app/apikey (a personal Google account can create the project; a school
+account may not) via `export GEMINI_API_KEY=...`; and free keys are refused by the "pro-preview" models, so run `/model`
+and pick a Flash model before asking. The Gemini consumer app does not yet take custom connectors; when it does, the
+same URL applies. Then in a new chat enable CIRQO under the tools menu and ask:
 "I want headphones for the gym, budget around $150." Nothing to install, no config file, no restart. The free-tier
 backend may take up to a minute to answer the first call while it wakes up.
 
