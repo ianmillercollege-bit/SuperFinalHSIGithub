@@ -100,3 +100,8 @@ a.cq-stat:focus-visible,
 .cq-step .cq-stepnum {
   color: var(--cq-on-navy);
 }
+
+/* Suggested-question buttons use navy text, invisible on the night-mode card. */
+.cq-suggest {
+  color: var(--cq-text);
+}

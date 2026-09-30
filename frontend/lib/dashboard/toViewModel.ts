@@ -69,7 +69,7 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
     score: { value: score, changeVsLastWeek: weekAgo ? score - Math.round(weekAgo.visibilityRate * 100) : 0 },
     stats,
     ...(showSampleSections
-      ? { opportunities: sampleDashboard.opportunities, opportunitiesAreSample: true, links: sampleDashboard.links }
+      ? { opportunities: sampleDashboard.opportunities, opportunitiesAreSample: true, links: { simulator: "/growth-simulator" } }
       : {}),
     weeklyScores: weekly.length > 1 ? weekly : undefined,
     trust: {
