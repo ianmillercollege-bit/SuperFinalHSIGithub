@@ -53,3 +53,36 @@
 .cq-score {
   justify-content: center;
 }
+
+/* Theme-aware chart and control colors: navy on light, light blue on night (tokens in styles/tokens.css). */
+.cq-chart .line {
+  stroke: var(--chart-line);
+}
+
+.cq-chart .area {
+  fill: var(--chart-line);
+}
+
+.cq-ring .arc {
+  stroke: var(--chart-line);
+}
+
+.cq-chip {
+  color: var(--cq-text);
+}
+
+.cq-chip[aria-pressed="true"] {
+  background: var(--chart-line);
+  border-color: var(--chart-line);
+  color: var(--cq-bg);
+}
+
+a.cq-stat:focus-visible,
+.cq-chip:focus-visible {
+  outline-color: var(--chart-line);
+}
+
+/* The global heading color would make this title navy on the navy panel. */
+.cq-opps-title {
+  color: var(--cq-on-navy);
+}

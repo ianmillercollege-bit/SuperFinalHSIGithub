@@ -36,9 +36,66 @@
   --neutral: #3f4a56;
   --neutral-bg: #eef0f2;
 
+  /* Lines and fills that are navy on light surfaces and light on dark ones */
+  --ink: var(--navy);
+  --chart-line: var(--navy);
+  --color-scheme: light;
+
   /* Shape and type */
   --radius: 12px;
   --font-ui: var(--font-public-sans), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-display: var(--font-archivo), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* Night mode: set by the toggle in the top bar (data-theme="dark" on <html>). Brand navy panels stay navy. */
+:root[data-theme="dark"] {
+  --color-scheme: dark;
+  --ink: #eef3f9;
+  --chart-line: #9cc3ff;
+
+  --orange-text: #ff8a5c;
+  --orange-tint: #3a2218;
+  --orange-border: #7a3f26;
+
+  --bg: #08111e;
+  --bg-card: #101f35;
+  --bg-raised: #172a45;
+  --border: #22395a;
+  --border-strong: #33507a;
+
+  --fg: #eef3f9;
+  --text-body: #c8d3e0;
+  --muted: #9bacc0;
+
+  --good: #6fdca0;
+  --good-bg: #10301f;
+  --bad: #ff8d84;
+  --bad-bg: #3a1512;
+  --warn: #f5b94a;
+  --warn-bg: #3a2a0c;
+  --neutral: #b9c4d0;
+  --neutral-bg: #222c38;
+
+  /* The dashboard kit's own tokens (defined in its stylesheet), remapped for night mode. */
+  --cq-bg: #08111e;
+  --cq-card: #101f35;
+  --cq-muted-bg: #172a45;
+  --cq-border: #22395a;
+  --cq-border-strong: #33507a;
+  --cq-divider: #1c3150;
+  --cq-grid: #22395a;
+  --cq-text: #eef3f9;
+  --cq-text-body: #c8d3e0;
+  --cq-text-muted: #9bacc0;
+  --cq-orange-text: #ff8a5c;
+  --cq-orange-tint: #3a2218;
+  --cq-ok: #6fdca0;
+  --cq-ok-bg: #10301f;
+  --cq-bad: #ff8d84;
+  --cq-bad-bg: #3a1512;
+  --cq-warn: #f5b94a;
+  --cq-warn-bg: #3a2a0c;
+  --cq-neutral: #b9c4d0;
+  --cq-neutral-bg: #222c38;
 }
