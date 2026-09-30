@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export interface DropdownOption {
   value: string;
@@ -86,7 +87,8 @@ export default function Dropdown({
   useEffect(() => {
     if (!open) return;
     const away = (event: Event) => {
-      if (root.current && !root.current.contains(event.target as Node)) setOpen(false);
+      const inside = root.current?.contains(event.target as Node) || list.current?.contains(event.target as Node);
+      if (!inside) setOpen(false);
     };
     // The fixed list would drift from its trigger if the page moved under it, so any outside scroll or resize closes it.
     const moved = (event: Event) => {
@@ -186,7 +188,9 @@ export default function Dropdown({
           <path d="M2 4.5 6 8.5 10 4.5" />
         </svg>
       </button>
-      {open && (
+      {open &&
+        createPortal(
+        // Rendered at the top of the page so no card, table or transformed row around the trigger can hide or offset it.
         <ul className={`dd-list${up ? " is-up" : ""}`} role="listbox" id={listId} aria-labelledby={labelId} ref={list} style={place}>
           {options.map((o, i) => (
             <li
@@ -216,7 +220,8 @@ export default function Dropdown({
               )}
             </li>
           ))}
-        </ul>
+        </ul>,
+        document.body,
       )}
     </div>
   );
