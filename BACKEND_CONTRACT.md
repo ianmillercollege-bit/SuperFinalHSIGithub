@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.6** (approved by lead engineer, 2026-09-30; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
+Status: **FINAL v1.7** (approved by lead engineer, 2026-09-30; v1.7 accepts each sheet company's own password alongside `cirqo-demo`, section 7c Login; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -382,8 +382,10 @@ result when it fits, duplicate → 409, 0 products → 422, audit entry written,
 second way to choose the brand. All 354 existing tests must pass unchanged.
 
 ### Login (username and password)
-Demo users are seeded (section 9). **Every demo password is `cirqo-demo`**, and the login page prints the demo usernames.
-Passwords are stored hashed (any standard hash). Tokens live in the database and die on restart, like everything else.
+Demo users are seeded (section 9). **`cirqo-demo` works for every demo user**, and the login page prints the demo usernames.
+v1.7: each of the 150 sheet companies' admins **also** accepts the temporary password paired with their Login Email in the
+sheet's "Login Credentials" tab; the 9 renamed companies accept their original sheet emails too. Only hashes of those
+passwords are committed; the plaintext never enters the repository. Passwords are stored hashed (any standard hash). Tokens live in the database and die on restart, like everything else.
 
 **`POST /api/v1/auth/login`** body `{"username": "maria.lopez@kestrel.example", "password": "cirqo-demo"}`
 Response:
@@ -456,8 +458,8 @@ file). `generate.py` reads it (or a CSV export of its sheets) deterministically.
 - **150 companies** across the 4 categories (sheet "Companies"): fictional Greek-god names, no real brands. Each gets a
   profile from the sheet (other names, warranty, certifications, use-case focus) plus generated: tagline, HQ, founded,
   employees, CEO, website on a `.example` domain, a `plan`, and **admins from the sheet's "Login Credentials"**
-  (`username` = the sheet's Login Email, role Brand Admin maps to `Brand Data Owner`). **Every demo password is
-  `cirqo-demo`; the sheet's temporary passwords are ignored.** Kestrel, Arcton and Novex stay as they are (laptops) and keep
+  (`username` = the sheet's Login Email, role Brand Admin maps to `Brand Data Owner`). **`cirqo-demo` works for every account; v1.7 also
+  accepts each admin's sheet password (hashes only in the repo, see Login).** Kestrel, Arcton and Novex stay as they are (laptops) and keep
   all their data, so every existing test holds; that makes 153 brands.
 - **1,500 products** from the sheet "Product Details" (`SKU` becomes the `prod_` id suffix), each with `category`,
   `subcategory`, specs, `priceHistory` (one earlier price generated), and Verified Data Layer fields.
