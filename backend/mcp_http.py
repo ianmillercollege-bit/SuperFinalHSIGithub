@@ -1,6 +1,6 @@
 """CIRQO connector as a remote MCP endpoint, mounted inside the FastAPI app at /mcp.
 
-Same two tools as backend/mcp_server.py (cirqo_search, cirqo_query), served over Streamable HTTP so a shopper
+Same tools as backend/mcp_server.py (cirqo_search, cirqo_query, cirqo_details), served over Streamable HTTP so a shopper
 can enable CIRQO in claude.ai with "Add custom connector" and the URL https://<backend>/mcp. Nothing to install.
 
 The tools call the REST API over loopback (same process, same port), so the answer is the same one the

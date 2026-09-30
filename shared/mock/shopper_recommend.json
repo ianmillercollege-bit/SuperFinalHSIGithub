@@ -37,14 +37,16 @@
       "name": "Novex Slate 14",
       "brandName": "Novex",
       "price": 479.0,
-      "matchScore": 0.85
+      "matchScore": 0.85,
+      "verified": true
     },
     {
       "productId": "prod_002",
       "name": "Kestrel Aero 13 Lite",
       "brandName": "Kestrel",
       "price": 329.0,
-      "matchScore": 0.71
+      "matchScore": 0.71,
+      "verified": true
     }
   ],
   "rankingNote": "Ranking is neutral. No brand can pay for placement.",

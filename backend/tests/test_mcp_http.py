@@ -42,7 +42,7 @@ def test_lifespan_can_be_entered_more_than_once():
     for _ in range(3):
         with TestClient(app) as client:
             tools = rpc(client, "tools/list")
-            assert {t["name"] for t in tools["result"]["tools"]} == {"cirqo_search", "cirqo_query"}
+            assert {"cirqo_search", "cirqo_query"} <= {t["name"] for t in tools["result"]["tools"]}
 
 
 def test_importing_the_app_leaves_cirqo_api_url_alone():

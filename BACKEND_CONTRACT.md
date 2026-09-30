@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.7** (approved by lead engineer, 2026-09-30; v1.7 accepts each sheet company's own password alongside `cirqo-demo`, section 7c Login; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
+Status: **FINAL v1.7** (approved by lead engineer, 2026-09-30; v1.7 implements section 7d (optedIn, verified, claim), adds `GET /products/{id}`, the remote MCP endpoint and a third MCP tool `cirqo_details`, and accepts each sheet company's own password alongside `cirqo-demo`, section 7c Login; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -164,6 +164,12 @@ Rules: ranking lives in `backend/services/ranking.py`: products over budget are 
 score = share of liked swipe features met + use-case fit, ties broken by lower price then `productId`.
 Every reason passes through the checker; only reasons with status `correct` are returned.
 If no product fits, `recommendation` is `null` and `alternatives` is empty. Errors: 422 for unknown `questionId` or `optionId`.
+
+### Product detail (v1.7)
+`GET /api/v1/products/{productId}` → the `/products` row plus `"comparisons": [{factId, otherProductId,
+otherProductName, attribute, text}]` (the verified comparison facts). 404 for an unknown id. `GET /products` also
+takes `?optedIn=true|false` (section 7d). The MCP tool `cirqo_details` calls this so an assistant asked for depth
+quotes catalog facts instead of its memory.
 
 ### Remote MCP endpoint (v1.7)
 `POST /mcp` (no `/api/v1` prefix) serves the two MCP tools `cirqo_search` and `cirqo_query` over Streamable HTTP,
