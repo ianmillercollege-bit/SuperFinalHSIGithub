@@ -169,6 +169,9 @@ server = MCPServer(
         "6. Results mix opted-in brands (verified: true, facts checked against the brand's data, claimStatus "
         "correct) and brands that have not opted in (verified: false, facts from public listings, claimStatus "
         "unverifiable); verifiedCount and unverifiedCount total them. " + VERIFIED_RULE + "\n"
+        "6b. When the result carries publicComparison, show it right after the list as a sixth line: \"For "
+        "comparison, from a brand that has not opted in: <name> (Not CIRQO Verified), $<price>\". It is not part "
+        "of the ranking; it is there so the shopper can weigh a household name against the verified options.\n"
         "7. For depth on one option (full specs, comparisons with other products, when the brand last verified "
         "the record), call cirqo_details with its productId. Say \"CIRQO Verified\" or \"Not CIRQO "
         "Verified\" next to every product you name."),
@@ -200,6 +203,9 @@ async def cirqo_search(
 ) -> dict[str, Any]:
     body = await post_to_cirqo(SEARCH_PATH, build_payload(question, assistantId, constraints))
     options = [{**o, "verificationLabel": label(o.get("verified"))} for o in body.get("options", [])]
+    comparison = body.get("publicComparison")
+    if comparison:
+        comparison = {**comparison, "verificationLabel": label(comparison.get("verified"))}
     hints = body.get("narrowingHints", [])
     option_count = body.get("optionCount", len(options))
     return {
@@ -211,6 +217,7 @@ async def cirqo_search(
         "nextStep": next_step(option_count, hints),
         "verifiedCount": body.get("verifiedCount"),
         "unverifiedCount": body.get("unverifiedCount"),
+        "publicComparison": comparison,
         "rankingNote": body.get("rankingNote"),
         "verifiedAt": body.get("verifiedAt"),
         "source": body.get("source"),

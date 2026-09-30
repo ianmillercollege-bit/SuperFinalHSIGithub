@@ -239,13 +239,21 @@ def search(body: ConnectorSearchIn, db=Depends(get_db)):
     products = [p for p in products if p.subcategory in named] or products
     fits = [p for p in products if (max_price is None or p.price <= max_price)
             and all(matches_must_have(p, m) for m in must_have)]
-    ranked = ranked_options(fits, category, body.question, use_case, must_have)[:SEARCH_LIMIT]
+    all_ranked = ranked_options(fits, category, body.question, use_case, must_have)
+    ranked = all_ranked[:SEARCH_LIMIT]
     picked = [p for p, _ in ranked]
 
     brand_rows = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
     brands = {k: b.name for k, b in brand_rows.items()}
     verified = {p.product_id: brand_verified(brand_rows.get(p.brand_id)) for p in picked}
     catalog = Catalog(db)
+    # v1.7 (decision 49): the comparison slot. The five options above are the neutral ranking, untouched. When
+    # none of them comes from a brand that has not opted in, the best-ranked such product is returned separately,
+    # labelled, so the shopper always sees a household name next to the stores. It never changes the order.
+    comparison = None
+    if picked and all(verified.values()):
+        comparison = next(((p, s) for p, s in all_ranked[SEARCH_LIMIT:]
+                           if not brand_verified(brand_rows.get(p.brand_id))), None)
     options = [{"productId": p.product_id, "name": p.name, "brandName": brands.get(p.brand_id, ""),
                 "price": p.price, "currency": p.currency, "availability": p.availability,
                 "matchScore": round(score, 2), "verified": verified[p.product_id],
@@ -297,4 +305,9 @@ def search(body: ConnectorSearchIn, db=Depends(get_db)):
             "category": category, "optionCount": len(options), "options": options, "narrowingHints": hints,
             "verifiedCount": sum(o["verified"] for o in options),
             "unverifiedCount": sum(not o["verified"] for o in options),
+            "publicComparison": ({"productId": comparison[0].product_id, "name": comparison[0].name,
+                                  "brandName": brands.get(comparison[0].brand_id, ""), "price": comparison[0].price,
+                                  "currency": comparison[0].currency, "availability": comparison[0].availability,
+                                  "matchScore": round(comparison[1], 2), "verified": False,
+                                  "facts": option_facts(comparison[0], catalog, False)} if comparison else None),
             "rankingNote": C.CONNECTOR_RANKING_NOTE, "verifiedAt": at, "source": source_label()}
