@@ -161,12 +161,14 @@ export function connectorSearch(body: ConnectorSearchRequest): Promise<Connector
 
 // GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)
 export function getVisibilitySummary(days?: number): Promise<VisibilitySummary> {
-  return request("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary);
+  return cached(`summary:${days ?? ""}`, () => request("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary));
 }
 
 // GET /api/v1/answers?assistantId=&limit=  (newest first)
 export async function getAnswers(filters: AnswerFilters = {}): Promise<AnswersResponse> {
-  const data = await request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers);
+  const data = await cached(`answers:${JSON.stringify(filters)}`, () =>
+    request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers),
+  );
   if (!USE_MOCK) return data;
   const { assistantId, limit = 50 } = filters;
   return { answers: data.answers.filter((a) => !assistantId || a.assistantId === assistantId).slice(0, limit) };
@@ -381,6 +383,20 @@ const BRAND_SCOPED_PATHS = [
   "/api/v1/metrics/trust",
   "/api/v1/report",
 ];
+
+// The demo backend needs several seconds for the summary and answers. Pages share one recent copy (and one
+// request in flight) so moving between pages is instant. A failed request is never kept.
+const CACHE_MS = 60000;
+const cache = new Map<string, { at: number; value: Promise<unknown> }>();
+function cached<T>(key: string, load: () => Promise<T>): Promise<T> {
+  const full = `${brandScope() ?? ""}|${getToken() ? "in" : "out"}|${key}`;
+  const hit = cache.get(full);
+  if (hit && Date.now() - hit.at < CACHE_MS) return hit.value as Promise<T>;
+  const value = load();
+  cache.set(full, { at: Date.now(), value });
+  value.catch(() => cache.delete(full));
+  return value;
+}
 
 function withBrand(path: string, query: Query): Query {
   const brandId = brandScope();
