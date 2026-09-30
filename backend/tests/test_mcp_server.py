@@ -128,7 +128,7 @@ def test_descriptions_teach_the_funnel():
     assert "Start with cirqo_search" in instructions
     assert "ONE hint question at a time" in instructions
     assert "cirqo_search again" in instructions
-    assert "one or two options remain" in instructions and "cirqo_query" in instructions
+    assert "two or fewer options remain" in instructions and "cirqo_query" in instructions
     assert "Never state a fact that is not in the results" in instructions
 
 
@@ -162,7 +162,8 @@ def test_search_posts_to_connector_and_returns_options_and_hints(mock_api):
     assert out["searchId"] == "srch_12"
     assert out["category"] == "headphones"
     assert out["optionCount"] == 5
-    assert out["options"] == expected["options"]
+    # Options pass through unchanged, plus the human label derived from each option's verified flag.
+    assert [{k: v for k, v in o.items() if k != "verificationLabel"} for o in out["options"]] == expected["options"]
     assert [o["name"] for o in out["options"]] == [
         "Lumen Buds 2", "Tidewave Pulse", "Orbell Sport Fit", "Halcyon Buds Pro", "Tidewave Run Lite"]
     # Options come back in CIRQO's neutral order; the server does not reorder, opted in or not.
