@@ -5,7 +5,7 @@
 **UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
 Cover page: [`COVER_PAGE.md`](COVER_PAGE.md). Companion document: the CIRQO 5-Page Business and Marketing Plan (`UTSA_5PBP_09292026.pdf`).
 
-- **Live app:** https://super-final-hsi-github.vercel.app
+- **Live app:** https://utsa-tech-09302026.vercel.app
 - **Live API (interactive docs):** https://frontdoor-api-hiel.onrender.com/docs
 - **Repository:** https://github.com/ianmillercollege-bit/UTSA_TECH_09302026
 
@@ -24,11 +24,13 @@ Brands lose visibility, and the AI can state wrong prices, features, availabilit
 CIRQO is an **API plugin for AI assistants plus a brand dashboard**, for consumer technology brands. It is not a
 shopping app. A brand connects its product catalog to CIRQO. When a shopper asks an AI assistant a shopping question,
 the assistant calls CIRQO instead of guessing and gets verified facts back. CIRQO records what was asked and answered,
-checks every claim, and shows the brand the results. The three components from the business plan:
+checks every claim, and shows the brand the results. Shoppers never see CIRQO: they only talk to their AI assistant,
+and CIRQO works behind it. The dashboard is for brands; the Preview as shopper page stands in for the assistant so a
+judge can watch the exchange. The three components from the business plan:
 
 | Component (business plan) | Who it serves | Where it is in this repo |
 |---------------------------|---------------|--------------------------|
-| **Shopping Connector** | Consumers, inside their AI assistant | `POST /api/v1/connector/query`: the endpoint an assistant calls. Returns a verified recommendation, checked facts and alternatives, and records the interaction. `GET /api/v1/connector/manifest` describes the tool. The **Assistant simulator** page shows what the assistant receives. To call it from Claude Desktop as an MCP tool, see `backend/connector/README.md`. |
+| **Shopping Connector** | Consumers, inside their AI assistant | `POST /api/v1/connector/search` (the funnel: up to 5 options plus narrowing questions) and `POST /api/v1/connector/query` (one verified pick). `GET /api/v1/connector/manifest` describes both tools. The **Preview as shopper** page shows what the assistant receives. To enable it in Claude Desktop as an MCP plugin, see `backend/connector/README.md`. |
 | **Visibility and Accuracy Dashboard** | Technology brands | The dashboard site: AI inclusion, rankings, competitors, sources used, incorrect product information, claims to review, and the audit trail. |
 | **Verified Data Layer** | Both | The verified product facts (`GET /api/v1/products`) with timestamps, which every AI claim is checked against. |
 
@@ -53,20 +55,62 @@ A brand connects its verified product facts, and CIRQO:
 **Neutral ranking:** brands can never pay for placement. The ranking code never receives the client or billing
 fields, and `backend/tests/test_ranking_neutral.py` proves the results are identical when those fields change.
 
+## Get CIRQO: two ways in
+
+**Shoppers (30 seconds, nothing to install).** In Claude (web, desktop or phone): Settings, Connectors,
+Add custom connector, name `CIRQO`, URL `https://frontdoor-api-hiel.onrender.com/mcp`, no authentication.
+Start a chat and ask the way you normally would: "I need headphones for the gym around $150." (For a clean demo, switch web search off in that chat so the assistant does not add web results after the catalog list.)
+The assistant searches the verified catalog, asks one narrowing question, and picks. Every product it names is
+labelled **Verified by brand** or **Not verified by the brand**. Any assistant that supports MCP can use the
+same URL; `backend/connector/README.md` also covers a local install for Claude Desktop.
+
+**Brands (2 minutes).** Open https://utsa-tech-09302026.vercel.app, click **Connect your catalog**, enter the
+company name, the owner's name and a few products. The company gets a dashboard, an API key and verified facts
+in every assistant answer from that moment. A company already listed from public data claims its listing instead
+(`POST /api/v1/brands/{brandId}/claim`), which flips its products from "Not verified by the brand" to verified.
+Launch segment: small Shopify stores; the dashboard's storefront revenue panel is where their sales appear.
+
+**Community partners.** Schools, nonprofits and veterans groups sign in (demo:
+`rosa.delgado@bexar-valley-school-district.example`, password `cirqo-demo`) and request pledged surplus and
+refurbished units from every brand at once.
+
 ## How a judge should navigate it
 
-Open https://super-final-hsi-github.vercel.app (it opens on the Dashboard). The sidebar has two groups.
+Open https://utsa-tech-09302026.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
 A click-by-click script with talking points is in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md).
+
+**Logging in (optional):** the login page lists demo usernames. Every demo password is `cirqo-demo`. Each admin lands on
+their own company's dashboard. There is also a "Continue as guest" link, so nobody can be locked out. Sign-in is real
+(hashed passwords, server-side tokens), but every account is fictional and reset on restart.
 
 | Sidebar item | What to look at |
 |--------------|-----------------|
-| **Dashboard** | The brand's trust numbers and the 30-day trend: claim accuracy rising from 62% to about 93%, hallucination rate falling, AI-answer inclusion rising. This is the proof of impact. |
-| **AI Visibility** | How often the brand appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. |
-| **Market Position** | The brand against its competitors (Arcton, Novex) on the same measures. |
-| **Assistant Simulator** | Type a shopper question as if you were in ChatGPT or Claude. The "assistant" calls CIRQO's connector and returns a verified answer with every fact checked. The interaction is recorded and shows up in AI Visibility. |
-| **File a Claim** | Paste any AI answer about the brand. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
-| **Outstanding Claims** | Wrong claims waiting for a named person: high-risk fixes to approve or reject, and safety or legal claims that only a person can close. Try approving one (the approver must be the incident's owner). |
+| **Dashboard** | The company's trust numbers and the 30-day trend: claim accuracy rising, hallucination rate falling, AI-answer inclusion rising. The chart moves during a demo: every claim you check counts toward today. |
+| **AI Visibility** | How often the company appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. |
+| **Market Position** | The company against its competitors on the same measures. |
+| **Company** and **Products** | Profile (CEO, admins, plan), and the verified catalog with its sources and timestamps: the Verified Data Layer. |
+| **Preview as shopper** | See what a shopper's AI assistant answers when it uses the verified catalog. Type a question as if you were in ChatGPT or Claude; every fact comes back checked. Shoppers never see CIRQO; their assistant calls it. |
+| **Connect your catalog** | Onboard a new company with a small product file. It is ranked by the connector immediately, and neutrally. |
+| **File a Claim** | Paste any AI answer about the company. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
+| **Outstanding Claims** | Wrong claims waiting for a named person: high-risk fixes to approve or reject, and safety or legal claims that only a person can close. Try approving one as its owner. |
 | **Claims Reviewed** | Everything already decided, by the system or by a person, with the full audit trail. |
+| **Community catalog** and **Community requests** (Community Partner login, for example `rosa.delgado@bexar-valley-school-district.example`) | The Community program: brands pledge surplus and refurbished units; schools, nonprofits and veterans groups browse one cross-company catalog and request units. The brand's owner approves or rejects. CIRQO never verifies anyone's income and stores no recipient data. |
+| **All companies** (CIRQO Staff login) | Cross-company oversight: inclusion, open incidents and escalations for every company. |
+
+**Scale:** 153 fictional companies (Greek-god names, no real brands) across headphones, laptops, phones and tablets, and
+computer hardware; 1,500 products with real spec sheets; 2,946 verified comparison facts; a dashboard for every company.
+The whole database rebuilds from seed in under a second on every restart.
+
+**Opted in or not:** the catalog holds two kinds of company. Opted-in brands have verified facts, a dashboard and a
+login; every fact they publish is checked and marked **Verified by brand**. The rest are listed from public data and
+every one of their facts is marked **Not verified by the brand**, in the dashboard and in the assistant's answer. Nothing
+about a brand's paid status ever reaches the ranking code.
+
+**For shoppers (the plugin):** `backend/connector/README.md` explains how to enable CIRQO in Claude Desktop as an MCP
+plugin. The assistant then runs the shopping funnel itself: `cirqo_search` from whatever the shopper said, one
+narrowing question at a time, then `cirqo_query` for one pick, saying which facts the brand verified. Try:
+"I want headphones for the gym, budget around $150." The same connector shape works for any assistant that supports
+tools.
 
 To explore the API directly, open https://frontdoor-api-hiel.onrender.com/docs and click any endpoint, then "Try it out".
 The read-only client API needs the header `X-API-Key: fd_demo_owner_2026` (demo key, sample data only).

@@ -33,8 +33,20 @@ async def http_error(request: Request, exc: StarletteHTTPException) -> JSONRespo
 
 
 async def validation_error(request: Request, exc: RequestValidationError) -> JSONResponse:
+    errors = exc.errors()
+    whole_body = [e for e in errors if tuple(e.get("loc", ())) == ("body",)]
+    if whole_body:
+        # Explain the two common client mistakes plainly instead of Pydantic's wording.
+        content_type = (request.headers.get("content-type") or "").split(";")[0].strip().lower()
+        if whole_body[0].get("type") == "missing":
+            message = "Request body is missing. Send a JSON object with Content-Type: application/json."
+        elif content_type != "application/json" and not content_type.endswith("+json"):
+            message = "Request body must be JSON. Set the Content-Type header to application/json."
+        else:
+            message = "Request body must be a JSON object."
+        return error_response(422, "VALIDATION_ERROR", message)
     parts = []
-    for err in exc.errors():
+    for err in errors:
         where = ".".join(str(p) for p in err.get("loc", ()))
         parts.append(f"{where}: {err.get('msg', 'invalid')}")
     return error_response(422, "VALIDATION_ERROR", "; ".join(parts) or "Invalid request.")

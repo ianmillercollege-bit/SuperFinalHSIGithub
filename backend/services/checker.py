@@ -4,14 +4,17 @@ The AI never judges facts. In mock mode, claims are also *extracted* with plain 
 keyword rules. Every status, severity and handling decision below is ordinary code.
 """
 
+import math
 import re
 from dataclasses import dataclass, field
 
 from sqlalchemy import select
 
 import constants as C
-from db import Answer, Assistant, AuditEntry, Brand, Claim, Incident, Owner, Product
+from db import Answer, Assistant, AuditEntry, Brand, Claim, ComparisonFact, Incident, Owner, Product
 from ids import next_id
+from services.activity import record_activity
+from services.scope import brand_of_target
 from timeutil import now_iso
 
 # ---------------------------------------------------------------------------------------------
@@ -20,19 +23,24 @@ from timeutil import now_iso
 
 # Stable fact IDs: fact_<product number><attribute index>, e.g. prod_001 price -> fact_010.
 FACT_ATTRS = ["price", "availability", "returnPolicyDays", "ramGb", "storageGb", "screenInches",
-              "batteryHours", "weightLb", "touchscreen"]
+              "batteryHours", "weightLb", "touchscreen", "condition"]
 
 SPEC_LABELS = {"ramGb": "RAM", "storageGb": "storage", "screenInches": "screen size",
-               "batteryHours": "battery life", "weightLb": "weight", "touchscreen": "touchscreen"}
+               "batteryHours": "battery life", "weightLb": "weight", "touchscreen": "touchscreen",
+               "condition": "condition", "warrantyMonths": "community pledge warranty"}
 SPEC_UNITS = {"ramGb": "GB RAM", "storageGb": "GB storage", "screenInches": "in screen",
-              "batteryHours": "h battery", "weightLb": "lb"}
+              "batteryHours": "h battery", "weightLb": "lb", "warrantyMonths": "months of pledge coverage"}
 
 
 def fact_id(product_id: str | None, attr: str) -> str | None:
+    if product_id and attr == "warrantyMonths":  # v1.6: the pledge's warranty, e.g. fact_004-warranty
+        return f"fact_{product_id.split('_', 1)[1].lower()}-warranty"
     if not product_id or attr not in FACT_ATTRS:
         return None
-    number = int(product_id.split("_")[1])
-    return f"fact_{number * 10 + FACT_ATTRS.index(attr):03d}"
+    suffix = product_id.split("_", 1)[1]
+    if not suffix.isdigit():  # catalog products use their SKU: prod_MOR-001-01 -> fact_mor-001-01-0
+        return f"fact_{suffix.lower()}-{FACT_ATTRS.index(attr)}"
+    return f"fact_{int(suffix) * 10 + FACT_ATTRS.index(attr):03d}"
 
 
 def num(value: float) -> str:
@@ -54,14 +62,35 @@ class Catalog:
         # The client brand is used to decide which brands are competitors (DECISIONS.md #8).
         # This is checker code, not ranking code.
         self.client_brand_ids = {b.brand_id for b in self.brands.values() if b.is_client}
-        # Match longer names first so "Kestrel Aero 14 Plus" wins over "Kestrel Aero 14".
-        names = []
+        # Every way a product can be named: full name, name without the brand ("Aero 14"), and the
+        # catalog's other names (v1.4.1). A name shared by two products is ambiguous and not used.
+        owners: dict[str, set[str]] = {}
+        spelled: dict[str, str] = {}
         for p in self.products:
-            names.append((p.name, p.product_id))
+            candidates = [p.name]
             brand = self.brands.get(p.brand_id)
             if brand and p.name.lower().startswith(brand.name.lower() + " "):
-                names.append((p.name[len(brand.name) + 1:], p.product_id))  # "Aero 14"
-        self.names = sorted(names, key=lambda n: len(n[0]), reverse=True)
+                candidates.append(p.name[len(brand.name) + 1:])  # "Aero 14"
+            candidates += [n for n in (p.specs or {}).get("otherNames", []) if isinstance(n, str)]
+            for name in candidates:
+                key = name.strip().lower()
+                if len(key) >= 3:
+                    owners.setdefault(key, set()).add(p.product_id)
+                    spelled.setdefault(key, name.strip())
+        unique = {key: next(iter(ids)) for key, ids in owners.items() if len(ids) == 1}
+        # Longer names first so "Kestrel Aero 14 Plus" wins over "Kestrel Aero 14".
+        self.names = sorted(((spelled[k], pid) for k, pid in unique.items()), key=lambda n: len(n[0]), reverse=True)
+        self.name_to_product = unique
+        # One combined pattern (one pass per sentence) instead of one search per name: fast at 1,500 products.
+        alternatives = "|".join(re.escape(name) for name, _ in self.names) or r"(?!x)x"
+        self.name_pattern = re.compile(r"(?<!\w)(?:" + alternatives + r")(?!\w)", re.I)
+        brand_alts = "|".join(re.escape(b.name) for b in sorted(self.brands.values(), key=lambda b: -len(b.name)))
+        self.brand_pattern = re.compile(r"\b(?:" + (brand_alts or r"(?!x)x") + r")\b", re.I)
+        self.brand_by_name = {b.name.lower(): b.brand_id for b in self.brands.values()}
+        # Verified comparison facts, keyed by (product, other product).
+        self.comparisons: dict[tuple[str, str], list] = {}
+        for f in db.scalars(select(ComparisonFact)).all():
+            self.comparisons.setdefault((f.product_id, f.other_product_id), []).append(f)
 
     def brand_name(self, product: Product | None) -> str | None:
         return self.brands[product.brand_id].name if product and product.brand_id in self.brands else None
@@ -104,6 +133,11 @@ SPEC_PATTERNS = [
 ]
 NO_TOUCH = re.compile(r"\b(no|without(?: a)?|lacks(?: a)?)\s+touch\s?screen", re.I)
 HAS_TOUCH = re.compile(r"touch\s?screen|touch display|\bhas touch\b|\balso has touch\b", re.I)
+# v1.6 Community program: condition and the pledge's warranty are checked like any spec. The warranty is
+# phrased "covered for 12 months under the brand's community pledge": the word "warranty" itself stays a
+# safety/legal keyword (DECISIONS.md #8), so "a 12-month warranty" is still escalated, never auto-judged.
+CONDITION = re.compile(r"\b(refurbished|surplus)\b", re.I)
+WARRANTY_MONTHS = re.compile(r"covered for (\d+) months? under the brand's community pledge", re.I)
 AVAILABILITY_PATTERNS = [
     ("out_of_stock", re.compile(r"out of stock|sold out|unavailable", re.I)),
     ("low_stock", re.compile(r"low stock|limited stock|few left|almost gone", re.I)),
@@ -111,17 +145,28 @@ AVAILABILITY_PATTERNS = [
 ]
 
 
+def before(text: str, end: int, window: int = 40) -> str:
+    """The few words just before a match. Qualifiers like "under" sit right there, and looking at
+    only this window keeps extraction fast on very long sentences."""
+    return text[max(0, end - window):end]
+
+
+def usable_number(value) -> bool:
+    """True for a real, finite number. "9" * 400 is infinity as a float and cannot be checked."""
+    try:
+        return math.isfinite(float(value))
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+
 def find_products(sentence: str, catalog: Catalog) -> tuple[list[str], str]:
     """Product IDs in order of appearance, and the sentence with those names masked out."""
-    found, masked = [], sentence
-    for name, pid in catalog.names:
-        for m in re.finditer(re.escape(name), masked, re.I):
-            found.append((m.start(), pid))
-        masked = re.sub(re.escape(name), lambda m: "#" * len(m.group()), masked, flags=re.I)
     ordered = []
-    for _, pid in sorted(found):
+    for m in catalog.name_pattern.finditer(sentence):
+        pid = catalog.name_to_product[m.group().lower()]
         if pid not in ordered:
             ordered.append(pid)
+    masked = catalog.name_pattern.sub(lambda m: "#" * len(m.group()), sentence)
     return ordered, masked
 
 
@@ -170,8 +215,10 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
 
         # 4. Facts about a known product.
         for m in PRICE.finditer(masked):
-            if BUDGET_WORDS.search(masked[:m.start()]):
+            if BUDGET_WORDS.search(before(masked, m.start())):
                 continue  # "under $500" is a budget, not a price claim
+            if not usable_number(m.group(1).replace(",", "")):
+                continue  # a number too big to be a real price cannot be checked
             claims.append(Extracted(sentence, "price", "price", subject, value=m.group(1).replace(",", "")))
         for status, pattern in AVAILABILITY_PATTERNS:
             if pattern.search(masked):
@@ -182,13 +229,21 @@ def extract_claims(text: str, catalog: Catalog) -> list[Extracted]:
             claims.append(Extracted(sentence, "policy", "policy", subject, value=int(m.group(1) or m.group(2))))
         for attr, pattern, _ in SPEC_PATTERNS:
             m = pattern.search(masked)
-            if not m or SPEC_QUALIFIER.search(masked[:m.start()]):
+            if not m or SPEC_QUALIFIER.search(before(masked, m.start())):
                 continue  # "under 3 lb" is a range, not a stated value
             if attr == "storageGb":
                 value = float(m.group(1)) * (1024 if m.group(2).upper() == "TB" else 1)
             else:
                 value = float(m.group(1))
+            if not usable_number(value):
+                continue  # too big to be a real spec
             claims.append(Extracted(sentence, "feature", "spec", subject, value=value, attr=attr))
+        m = CONDITION.search(masked)
+        if m:
+            claims.append(Extracted(sentence, "feature", "spec", subject, value=m.group(1).lower(), attr="condition"))
+        m = WARRANTY_MONTHS.search(masked)
+        if m and usable_number(m.group(1)):
+            claims.append(Extracted(sentence, "feature", "spec", subject, value=float(m.group(1)), attr="warrantyMonths"))
         if NO_TOUCH.search(masked):
             claims.append(Extracted(sentence, "feature", "spec", subject, value=False, attr="touchscreen"))
         elif HAS_TOUCH.search(masked):
@@ -216,11 +271,32 @@ class Result:
     extra: dict = field(default_factory=dict)
 
 
+COMPARISON_ATTRIBUTE_WORDS = [("price", ("cheaper", "price", "cost", "less expensive")),
+                              ("weight", ("lighter", "weight", "weighs")),
+                              ("battery", ("battery", "lasts", "outlasts"))]
+
+
+def comparison_fact(c: Extracted, catalog: Catalog):
+    """The verified comparison fact (v1.4.1, from the catalog sheet) that backs this claim, if any."""
+    products = c.value or []
+    if len(products) < 2 or c.phrase in ("worse than", "unlike", "more reliable than"):
+        return None  # the facts only say which product is better on price, weight or battery
+    text = c.text.lower()
+    wanted = ["price"] if c.phrase == "cheaper than" else \
+        [attr for attr, words in COMPARISON_ATTRIBUTE_WORDS if any(w in text for w in words)]
+    for f in catalog.comparisons.get((products[0], products[1]), []):
+        if f.attribute in wanted:
+            return f
+    return None
+
+
 def comparison_supported(c: Extracted, catalog: Catalog) -> bool:
     """True only when a verified fact backs the comparison (e.g. 'cheaper than' and it really is)."""
     products = c.value or []
     if len(products) < 2:
         return False
+    if comparison_fact(c, catalog):
+        return True
     a, b = catalog.by_id[products[0]], catalog.by_id[products[1]]
     text = c.text.lower()
     if c.phrase == "cheaper than":
@@ -246,7 +322,9 @@ def check(c: Extracted, catalog: Catalog) -> Result:
 
     if c.kind == "comparison":
         if comparison_supported(c, catalog):
-            return Result("correct", None, c.text, None, None, "A verified comparison fact supports this claim.")
+            fact = comparison_fact(c, catalog)
+            return Result("correct", None, c.text, fact.text if fact else None, fact.fact_id if fact else None,
+                          "A verified comparison fact supports this claim.")
         return Result("incorrect", "UNFAIR_COMPARISON", c.text, None, None,
                       f"Names a competitor with the comparative phrase '{c.phrase}' and no verified "
                       "comparison fact supports it.")
@@ -286,9 +364,23 @@ def check(c: Extracted, catalog: Catalog) -> Result:
     if c.kind == "spec":
         label = SPEC_LABELS[c.attr]
         fid = fact_id(p.product_id, c.attr)
-        if c.attr not in p.specs:
-            return Result("incorrect", "INVENTED_FEATURE", str(c.value), None, None,
-                          f"The verified spec sheet has no {label}.")
+        if c.attr == "condition":
+            if c.value == p.condition:
+                return Result("correct", None, c.value, p.condition, fid, f"Matches the verified condition ({p.condition}).")
+            return Result("incorrect", "SPEC_MISMATCH", c.value, p.condition, fid, f"Verified condition is {p.condition}.")
+        if c.attr == "warrantyMonths":
+            months = (p.community_pledge or {}).get("warrantyMonths")
+            if months is None:
+                return Result("unverifiable", "NO_FACT", num(c.value), None, None,
+                              "No community pledge warranty on file for this product.")
+            ext, ver = num(c.value), num(float(months))
+            if abs(float(c.value) - float(months)) < 0.05:
+                return Result("correct", None, ext, ver, fid, f"Matches the verified {ver}-month pledge warranty.")
+            return Result("incorrect", "SPEC_MISMATCH", ext, ver, fid, f"Verified pledge warranty is {ver} months.")
+        if p.specs.get(c.attr) is None:
+            # No verified value on file (onboarded products may omit specs): nothing to judge against.
+            return Result("unverifiable", "NO_FACT", str(c.value).lower() if isinstance(c.value, bool) else num(c.value),
+                          None, None, f"No verified {label} on file for this product.")
         verified = p.specs[c.attr]
         if c.attr == "touchscreen":
             ext, ver = str(c.value).lower(), str(verified).lower()
@@ -319,7 +411,8 @@ def check(c: Extracted, catalog: Catalog) -> Result:
 def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[str, str]:
     if rule_id in C.PRICE_RULES:
         pct = pct_off or 0.0
-        severity = next(sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit)
+        # Anything beyond the last band (including an infinite or NaN gap) is "high".
+        severity = next((sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit), "high")
         return severity, ("human_approval" if severity == "high" else "auto_fix")
     return C.SEVERITY_AND_HANDLING[rule_id]
 
@@ -331,12 +424,15 @@ def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[s
 
 def audit(db, actor: str, actor_type: str, action: str, target_id: str, details: str, at: str | None = None):
     db.add(AuditEntry(audit_id=next_id(db, AuditEntry.audit_id, "aud"), timestamp=at or now_iso(), actor=actor,
-                      actor_type=actor_type, action=action, target_id=target_id, details=details))
+                      actor_type=actor_type, action=action, target_id=target_id, details=details,
+                      brand_id=brand_of_target(db, target_id)))  # v1.3: the entry follows its target's brand
     db.flush()
 
 
-def owner_for(db, rule_id: str) -> Owner:
-    owners = db.scalars(select(Owner).order_by(Owner.owner_id)).all()
+def owner_for(db, rule_id: str, brand_id: str = C.DEFAULT_BRAND_ID) -> Owner:
+    """The brand's owner for this rule; if none covers it, the brand's first owner (v1.3 section 7b)."""
+    owners = db.scalars(select(Owner).where(Owner.brand_id == brand_id).order_by(Owner.owner_id)).all() or \
+        db.scalars(select(Owner).order_by(Owner.owner_id)).all()
     return next((o for o in owners if rule_id in o.incident_types), owners[0])
 
 
@@ -385,7 +481,10 @@ def describe(c: Extracted, r: Result, product: Product | None, assistant: str) -
 def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistant_name: str) -> Incident:
     severity, handling = severity_and_handling(r.rule_id, r.pct_off)
     summary, ai_said, verified_fact, fix = describe(c, r, product, assistant_name)
-    owner = owner_for(db, r.rule_id)
+    # v1.3: the incident belongs to the brand that owns the product mentioned, else the answer's brand.
+    answer = db.get(Answer, claim.answer_id)
+    brand_id = product.brand_id if product else (answer.brand_id if answer and answer.brand_id else C.DEFAULT_BRAND_ID)
+    owner = owner_for(db, r.rule_id, brand_id)
     created = now_iso()
     status = {"auto_fix": "auto_fixed", "human_approval": "pending_approval", "escalate": "escalated"}[handling]
     incident = Incident(
@@ -393,7 +492,8 @@ def create_incident(db, claim: Claim, c: Extracted, r: Result, product, assistan
         product_id=claim.product_id, rule_id=r.rule_id, severity=severity, handling=handling, status=status,
         summary=summary, ai_said=ai_said, verified_fact=verified_fact, proposed_fix=None if handling == "escalate" else fix,
         owner_id=owner.owner_id, owner_name=owner.name, false_alarm=False, created_at=created,
-        resolved_at=created if handling == "auto_fix" else None, resolved_by="system" if handling == "auto_fix" else None)
+        resolved_at=created if handling == "auto_fix" else None, resolved_by="system" if handling == "auto_fix" else None,
+        brand_id=brand_id)
     db.add(incident)
     db.flush()
     audit(db, "system", "system", "incident_created", incident.incident_id,
@@ -423,9 +523,14 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
         extracted = extract_claims(answer.answer_text, catalog)
     actor, actor_type = extracted_by
     how = "by the AI model (extraction only)" if actor_type == "ai" else "with plain regex and keyword rules"
-    audit(db, actor, actor_type, "claim_extracted", answer.answer_id, f"Extracted {len(extracted)} claim(s) {how}.")
+    found, limit_note = len(extracted), ""
+    if found > C.MAX_CLAIMS_PER_ANSWER:  # keeps one request from tying up the server
+        limit_note = f" Only the first {C.MAX_CLAIMS_PER_ANSWER} were checked."
+        extracted = extracted[:C.MAX_CLAIMS_PER_ANSWER]
+    audit(db, actor, actor_type, "claim_extracted", answer.answer_id,
+          f"Extracted {found} claim(s) {how}.{limit_note}")
 
-    new_incidents = []
+    new_incidents, new_claims, opened = [], [], []
     for c in extracted:
         if (c.text.strip().lower(), c.claim_type) in seen:
             continue  # already checked when the answer was first captured
@@ -437,11 +542,15 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
                       rule_id=r.rule_id, fact_id=r.fact_id, reason=r.reason, checked_at=now_iso())
         db.add(claim)
         db.flush()
+        new_claims.append(claim)
         audit(db, "system", "system", "claim_checked", claim.claim_id, f"{r.rule_id or 'correct'}: {r.reason}")
         if r.rule_id and r.rule_id not in C.RULES_WITHOUT_INCIDENT:
             product = catalog.by_id.get(c.product_id) if c.product_id else None
-            new_incidents.append(create_incident(db, claim, c, r, product, assistant_name).incident_id)
+            incident = create_incident(db, claim, c, r, product, assistant_name)
+            new_incidents.append(incident.incident_id)
+            opened.append(incident)
 
+    record_activity(db, new_claims, opened)  # today's trend point moves with real use
     db.commit()
     claims = db.scalars(select(Claim).where(Claim.answer_id == answer.answer_id).order_by(Claim.claim_id)).all()
     return claims, new_incidents
@@ -450,12 +559,9 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
 def brand_mentions(text: str, catalog: Catalog) -> list[str]:
     """Brand IDs mentioned in a text, in order of first mention (brand name or any of its products)."""
     positions = {}
-    lower = text.lower()
-    for brand in catalog.brands.values():
-        spots = [m.start() for m in re.finditer(rf"\b{re.escape(brand.name.lower())}\b", lower)]
-        for name, pid in catalog.names:
-            if catalog.by_id[pid].brand_id == brand.brand_id:
-                spots += [m.start() for m in re.finditer(re.escape(name.lower()), lower)]
-        if spots:
-            positions[brand.brand_id] = min(spots)
+    for m in catalog.brand_pattern.finditer(text):
+        positions.setdefault(catalog.brand_by_name[m.group().lower()], m.start())
+    for m in catalog.name_pattern.finditer(text):
+        brand_id = catalog.by_id[catalog.name_to_product[m.group().lower()]].brand_id
+        positions[brand_id] = min(positions.get(brand_id, m.start()), m.start())
     return sorted(positions, key=positions.get)

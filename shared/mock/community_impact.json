@@ -1,0 +1,14 @@
+{
+  "brandId": "brand_001",
+  "unitsPledged": 55,
+  "unitsPlaced": 25,
+  "partnersServed": 1,
+  "requestsPending": 0,
+  "byCategory": [
+    {
+      "category": "laptops",
+      "unitsPledged": 55,
+      "unitsPlaced": 25
+    }
+  ]
+}

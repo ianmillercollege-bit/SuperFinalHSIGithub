@@ -1,0 +1,17 @@
+{
+  "requestId": "creq_122",
+  "status": "pending_approval",
+  "productId": "prod_004",
+  "productName": "Kestrel Studio 15",
+  "brandId": "brand_001",
+  "partner": {
+    "orgId": "org_01",
+    "orgName": "Bexar Valley School District"
+  },
+  "units": 10,
+  "purpose": "Laptops for 10 students in the fall cohort",
+  "createdAt": "2026-09-30T03:23:47Z",
+  "decidedAt": null,
+  "decidedBy": null,
+  "note": null
+}

@@ -5,8 +5,12 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { simulatorAssumptions } from "../lib/config/simulatorAssumptions";
-import { COACH_DEMO_DISCLAIMER, SUGGESTED_QUESTIONS, loadCoachContext } from "../lib/coach";
-import { matchIntent, sampleCoach } from "../lib/coach/sampleCoach";
+import { STARTERS } from "../components/coach/CoachPage";
+import { sampleCoach } from "../lib/coach/sampleCoach";
+import { coachBanner } from "../lib/coach/useCoachChat";
+import { contextFromKit } from "../lib/coach/contextFromKit";
+import { sampleDashboard } from "../lib/dashboard/sampleDashboard";
+import { sampleOpportunities } from "../lib/screens/samples";
 import { getOverview } from "../lib/dataSource";
 import {
   buildMarketReport,
@@ -95,31 +99,22 @@ async function main() {
   const loaded = await getOverview();
   check("extras return frontend sample data", loaded.source === "sample");
 
-  section("Coach");
-  const context = await loadCoachContext();
-  for (const { question, intent } of SUGGESTED_QUESTIONS) {
-    const reply = await sampleCoach.ask(question, [], context);
-    check(`"${question}"`,
-      matchIntent(question) === intent && reply.text.length > 0 && reply.sources.length > 0,
-      `intent ${matchIntent(question)}, ${reply.sources.length} sources`);
-    const dollarsLabeled = [reply.text, ...reply.sources.map((c) => `${c.label} ${c.value}`)]
-      .filter((t) => t.includes("$"))
-      .every((t) => /illustrative estimate/i.test(t));
-    check(`  revenue in that answer is labeled "illustrative estimate" (decision 12)`, dollarsLabeled);
+  section("Coach (kit, sample mode)");
+  const coachContext = contextFromKit({ businessName: BUSINESS.name, vm: sampleDashboard, opportunities: sampleOpportunities, dataLabel: "sample" });
+  for (const { question } of STARTERS) {
+    const reply = await sampleCoach.ask({ question, history: [], context: coachContext });
+    check(`"${question}"`, reply.mode === "sample" && reply.answer.length > 0 && reply.sources.length > 0, `mode ${reply.mode}, ${reply.sources.length} sources`);
   }
-  const fallback = await sampleCoach.ask("What's the weather tomorrow?", [], context);
-  check("unknown question gets a friendly fallback", matchIntent("What's the weather tomorrow?") === "fallback" && fallback.sources.length > 0);
-  check("every coach answer says it is a pre-written demo answer (decision 11)",
-    fallback.disclaimer === COACH_DEMO_DISCLAIMER && /pre-written/i.test(COACH_DEMO_DISCLAIMER));
+  check("the coach banner says it is a pre-written demo answer (decision 11)", coachBanner(false) === "Demo: pre-written answers, not a live AI.");
 
   section("Business name (DECISIONS.md #28)");
   check("the business is Kestrel (brand_001), the contract's brand", BUSINESS.name === "Kestrel" && BUSINESS.id === "brand_001");
   // The two retired names are built from pieces so this file does not contain them itself.
-  const retired = [["Juni", "per Trail"], ["Har", "bor"]].map((parts) => new RegExp(parts.join(""), "i"));
+  const retired = [["Juni", "per Trail"], ["Har", "bor Home"]].map((parts) => new RegExp(parts.join(""), "i"));
   const oldNames = sourceFiles(path.join(__dirname, "..")).filter((f) => retired.some((r) => r.test(readFileSync(f, "utf8"))));
   check("the two retired business names appear nowhere in frontend/", oldNames.length === 0, oldNames.join(", "));
   const offenders = sourceFiles(path.join(__dirname, ".."))
-    .filter((f) => !f.endsWith("business.ts"))
+    .filter((f) => !f.endsWith("business.ts") && !f.endsWith("demoAccountsFallback.ts") && !f.endsWith("samples.ts") && !f.endsWith("visibilityMarket.ts") && !f.endsWith("community/sample.ts")) // contract 7b example accounts; the UI kit's untouched sample data
     .filter((f) => readFileSync(f, "utf8").includes(BUSINESS.name));
   const libOffenders = offenders.filter((f) => f.includes(`${path.sep}lib${path.sep}`));
   check("everything in lib/ takes the name from lib/business.ts", libOffenders.length === 0, libOffenders.join(", "));

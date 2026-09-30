@@ -1,0 +1,2404 @@
+{
+ "owners": [
+  {
+   "ownerId": "own_1001",
+   "name": "Farid Dubois",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_004"
+  },
+  {
+   "ownerId": "own_1002",
+   "name": "Farid Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_005"
+  },
+  {
+   "ownerId": "own_1003",
+   "name": "Chloe Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_006"
+  },
+  {
+   "ownerId": "own_1004",
+   "name": "Bruno Khan",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_007"
+  },
+  {
+   "ownerId": "own_1005",
+   "name": "Diego Park",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_008"
+  },
+  {
+   "ownerId": "own_1006",
+   "name": "Dmitri Moreau",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_009"
+  },
+  {
+   "ownerId": "own_1007",
+   "name": "Ines Alvarez",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_010"
+  },
+  {
+   "ownerId": "own_1008",
+   "name": "Farid Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_011"
+  },
+  {
+   "ownerId": "own_1009",
+   "name": "Rosa Lindqvist",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_012"
+  },
+  {
+   "ownerId": "own_1010",
+   "name": "Ava Dubois",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_013"
+  },
+  {
+   "ownerId": "own_1011",
+   "name": "Farid Nakamura",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_014"
+  },
+  {
+   "ownerId": "own_1012",
+   "name": "Ines Ito",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_015"
+  },
+  {
+   "ownerId": "own_1013",
+   "name": "Celia Evans",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_016"
+  },
+  {
+   "ownerId": "own_1014",
+   "name": "Nadia Khan",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_017"
+  },
+  {
+   "ownerId": "own_1015",
+   "name": "Victor Chen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_018"
+  },
+  {
+   "ownerId": "own_1016",
+   "name": "Uma Varga",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_019"
+  },
+  {
+   "ownerId": "own_1017",
+   "name": "Nadia Bauer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_020"
+  },
+  {
+   "ownerId": "own_1018",
+   "name": "Omar Lindqvist",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_021"
+  },
+  {
+   "ownerId": "own_1019",
+   "name": "Chloe Quintero",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_022"
+  },
+  {
+   "ownerId": "own_1020",
+   "name": "Elena Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_023"
+  },
+  {
+   "ownerId": "own_1021",
+   "name": "Nadia Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_024"
+  },
+  {
+   "ownerId": "own_1022",
+   "name": "Uma Bauer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_025"
+  },
+  {
+   "ownerId": "own_1023",
+   "name": "Priya Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_026"
+  },
+  {
+   "ownerId": "own_1024",
+   "name": "Kai Okafor",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_027"
+  },
+  {
+   "ownerId": "own_1025",
+   "name": "Yara Quintero",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_028"
+  },
+  {
+   "ownerId": "own_1026",
+   "name": "Priya Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_029"
+  },
+  {
+   "ownerId": "own_1027",
+   "name": "Mateo Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_030"
+  },
+  {
+   "ownerId": "own_1028",
+   "name": "Kai Xu",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_031"
+  },
+  {
+   "ownerId": "own_1029",
+   "name": "Ines Jensen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_032"
+  },
+  {
+   "ownerId": "own_1030",
+   "name": "Hugo Walsh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_033"
+  },
+  {
+   "ownerId": "own_1031",
+   "name": "Elena Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_034"
+  },
+  {
+   "ownerId": "own_1032",
+   "name": "Lila Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_035"
+  },
+  {
+   "ownerId": "own_1033",
+   "name": "Omar Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_036"
+  },
+  {
+   "ownerId": "own_1034",
+   "name": "Hugo Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_037"
+  },
+  {
+   "ownerId": "own_1035",
+   "name": "Victor Garcia",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_038"
+  },
+  {
+   "ownerId": "own_1036",
+   "name": "Gia Lindqvist",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_039"
+  },
+  {
+   "ownerId": "own_1037",
+   "name": "Quinn Brooks",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_040"
+  },
+  {
+   "ownerId": "own_1038",
+   "name": "Uma Dubois",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_041"
+  },
+  {
+   "ownerId": "own_1039",
+   "name": "Quinn Evans",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_042"
+  },
+  {
+   "ownerId": "own_1040",
+   "name": "Gia Young",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_043"
+  },
+  {
+   "ownerId": "own_1041",
+   "name": "Priya Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_044"
+  },
+  {
+   "ownerId": "own_1042",
+   "name": "Celia Tanaka",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_045"
+  },
+  {
+   "ownerId": "own_1043",
+   "name": "Bruno Chen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_046"
+  },
+  {
+   "ownerId": "own_1044",
+   "name": "Samir Okafor",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_047"
+  },
+  {
+   "ownerId": "own_1045",
+   "name": "Zane Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_048"
+  },
+  {
+   "ownerId": "own_1046",
+   "name": "Jonah Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_049"
+  },
+  {
+   "ownerId": "own_1047",
+   "name": "Ava Ito",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_050"
+  },
+  {
+   "ownerId": "own_1048",
+   "name": "Kai Varga",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_051"
+  },
+  {
+   "ownerId": "own_1049",
+   "name": "Priya Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_052"
+  },
+  {
+   "ownerId": "own_1050",
+   "name": "Esme Garcia",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_053"
+  },
+  {
+   "ownerId": "own_1051",
+   "name": "Dmitri Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_054"
+  },
+  {
+   "ownerId": "own_1052",
+   "name": "Ava Bauer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_055"
+  },
+  {
+   "ownerId": "own_1053",
+   "name": "Ben Hale",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_056"
+  },
+  {
+   "ownerId": "own_1054",
+   "name": "Amara Rossi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_057"
+  },
+  {
+   "ownerId": "own_1055",
+   "name": "Bruno Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_058"
+  },
+  {
+   "ownerId": "own_1056",
+   "name": "Priya Moreau",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_059"
+  },
+  {
+   "ownerId": "own_1057",
+   "name": "Ines Adeyemi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_060"
+  },
+  {
+   "ownerId": "own_1058",
+   "name": "Farid Ito",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_061"
+  },
+  {
+   "ownerId": "own_1059",
+   "name": "Quinn Nakamura",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_062"
+  },
+  {
+   "ownerId": "own_1060",
+   "name": "Rosa Brooks",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_063"
+  },
+  {
+   "ownerId": "own_1061",
+   "name": "Ava Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_064"
+  },
+  {
+   "ownerId": "own_1062",
+   "name": "Yara Ito",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_065"
+  },
+  {
+   "ownerId": "own_1063",
+   "name": "Rosa Rossi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_066"
+  },
+  {
+   "ownerId": "own_1064",
+   "name": "Celia Jensen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_067"
+  },
+  {
+   "ownerId": "own_1065",
+   "name": "Ava Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_068"
+  },
+  {
+   "ownerId": "own_1066",
+   "name": "Gia Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_069"
+  },
+  {
+   "ownerId": "own_1067",
+   "name": "Uma Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_070"
+  },
+  {
+   "ownerId": "own_1068",
+   "name": "Gia Okafor",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_071"
+  },
+  {
+   "ownerId": "own_1069",
+   "name": "Farid Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_072"
+  },
+  {
+   "ownerId": "own_1070",
+   "name": "Quinn Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_073"
+  },
+  {
+   "ownerId": "own_1071",
+   "name": "Diego Walsh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_074"
+  },
+  {
+   "ownerId": "own_1072",
+   "name": "Rosa Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_075"
+  },
+  {
+   "ownerId": "own_1073",
+   "name": "Quinn Hale",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_076"
+  },
+  {
+   "ownerId": "own_1074",
+   "name": "Esme Young",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_077"
+  },
+  {
+   "ownerId": "own_1075",
+   "name": "Chloe Varga",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_078"
+  },
+  {
+   "ownerId": "own_1076",
+   "name": "Hugo Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_079"
+  },
+  {
+   "ownerId": "own_1077",
+   "name": "Gia Evans",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_080"
+  },
+  {
+   "ownerId": "own_1078",
+   "name": "Diego Adeyemi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_081"
+  },
+  {
+   "ownerId": "own_1079",
+   "name": "Rosa Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_082"
+  },
+  {
+   "ownerId": "own_1080",
+   "name": "Celia Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_083"
+  },
+  {
+   "ownerId": "own_1081",
+   "name": "Kai Chen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_084"
+  },
+  {
+   "ownerId": "own_1082",
+   "name": "Dmitri Young",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_085"
+  },
+  {
+   "ownerId": "own_1083",
+   "name": "Priya Young",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_086"
+  },
+  {
+   "ownerId": "own_1084",
+   "name": "Ines Khan",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_087"
+  },
+  {
+   "ownerId": "own_1085",
+   "name": "Uma Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_088"
+  },
+  {
+   "ownerId": "own_1086",
+   "name": "Hugo Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_089"
+  },
+  {
+   "ownerId": "own_1087",
+   "name": "Chloe Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_090"
+  },
+  {
+   "ownerId": "own_1088",
+   "name": "Rosa Garcia",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_091"
+  },
+  {
+   "ownerId": "own_1089",
+   "name": "Celia Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_092"
+  },
+  {
+   "ownerId": "own_1090",
+   "name": "Chloe Bauer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_093"
+  },
+  {
+   "ownerId": "own_1091",
+   "name": "Omar Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_094"
+  },
+  {
+   "ownerId": "own_1092",
+   "name": "Chloe Garcia",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_095"
+  },
+  {
+   "ownerId": "own_1093",
+   "name": "Elena Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_096"
+  },
+  {
+   "ownerId": "own_1094",
+   "name": "Farid Zimmer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_097"
+  },
+  {
+   "ownerId": "own_1095",
+   "name": "Ava Brooks",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_098"
+  },
+  {
+   "ownerId": "own_1096",
+   "name": "Wen Walsh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_099"
+  },
+  {
+   "ownerId": "own_1097",
+   "name": "Wen Evans",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_100"
+  },
+  {
+   "ownerId": "own_1098",
+   "name": "Yara Adeyemi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_101"
+  },
+  {
+   "ownerId": "own_1099",
+   "name": "Farid Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_102"
+  },
+  {
+   "ownerId": "own_1100",
+   "name": "Priya Bauer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_103"
+  },
+  {
+   "ownerId": "own_1101",
+   "name": "Tara Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_104"
+  },
+  {
+   "ownerId": "own_1102",
+   "name": "Yara Quintero",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_105"
+  },
+  {
+   "ownerId": "own_1103",
+   "name": "Hugo Rossi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_106"
+  },
+  {
+   "ownerId": "own_1104",
+   "name": "Amara Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_107"
+  },
+  {
+   "ownerId": "own_1105",
+   "name": "Amara Young",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_108"
+  },
+  {
+   "ownerId": "own_1106",
+   "name": "Tara Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_109"
+  },
+  {
+   "ownerId": "own_1107",
+   "name": "Victor Park",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_110"
+  },
+  {
+   "ownerId": "own_1108",
+   "name": "Dmitri Moreau",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_111"
+  },
+  {
+   "ownerId": "own_1109",
+   "name": "Celia Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_112"
+  },
+  {
+   "ownerId": "own_1110",
+   "name": "Ines Castro",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_113"
+  },
+  {
+   "ownerId": "own_1111",
+   "name": "Esme Quintero",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_114"
+  },
+  {
+   "ownerId": "own_1112",
+   "name": "Samir Lindqvist",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_115"
+  },
+  {
+   "ownerId": "own_1113",
+   "name": "Ava Nakamura",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_116"
+  },
+  {
+   "ownerId": "own_1114",
+   "name": "Uma Chen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_117"
+  },
+  {
+   "ownerId": "own_1115",
+   "name": "Esme Rossi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_118"
+  },
+  {
+   "ownerId": "own_1116",
+   "name": "Ines Adeyemi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_119"
+  },
+  {
+   "ownerId": "own_1117",
+   "name": "Esme Okafor",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_120"
+  },
+  {
+   "ownerId": "own_1118",
+   "name": "Samir Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_121"
+  },
+  {
+   "ownerId": "own_1119",
+   "name": "Amara Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_122"
+  },
+  {
+   "ownerId": "own_1120",
+   "name": "Esme Nakamura",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_123"
+  },
+  {
+   "ownerId": "own_1121",
+   "name": "Farid Hale",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_124"
+  },
+  {
+   "ownerId": "own_1122",
+   "name": "Farid Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_125"
+  },
+  {
+   "ownerId": "own_1123",
+   "name": "Wen Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_126"
+  },
+  {
+   "ownerId": "own_1124",
+   "name": "Gia Garcia",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_127"
+  },
+  {
+   "ownerId": "own_1125",
+   "name": "Elena Okafor",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_128"
+  },
+  {
+   "ownerId": "own_1126",
+   "name": "Omar Moreau",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_129"
+  },
+  {
+   "ownerId": "own_1127",
+   "name": "Esme Evans",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_130"
+  },
+  {
+   "ownerId": "own_1128",
+   "name": "Nadia Adeyemi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_131"
+  },
+  {
+   "ownerId": "own_1129",
+   "name": "Elena Hale",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_132"
+  },
+  {
+   "ownerId": "own_1130",
+   "name": "Quinn Quintero",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_133"
+  },
+  {
+   "ownerId": "own_1131",
+   "name": "Nadia Jensen",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_134"
+  },
+  {
+   "ownerId": "own_1132",
+   "name": "Uma Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_135"
+  },
+  {
+   "ownerId": "own_1133",
+   "name": "Amara Duarte",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_136"
+  },
+  {
+   "ownerId": "own_1134",
+   "name": "Tara Fischer",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_137"
+  },
+  {
+   "ownerId": "own_1135",
+   "name": "Ben Alvarez",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_138"
+  },
+  {
+   "ownerId": "own_1136",
+   "name": "Elena Brooks",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_139"
+  },
+  {
+   "ownerId": "own_1137",
+   "name": "Gia Garcia",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_140"
+  },
+  {
+   "ownerId": "own_1138",
+   "name": "Victor Ito",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_141"
+  },
+  {
+   "ownerId": "own_1139",
+   "name": "Rosa Lindqvist",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_142"
+  },
+  {
+   "ownerId": "own_1140",
+   "name": "Ben Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_143"
+  },
+  {
+   "ownerId": "own_1141",
+   "name": "Esme Evans",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_144"
+  },
+  {
+   "ownerId": "own_1142",
+   "name": "Ines Ueda",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_145"
+  },
+  {
+   "ownerId": "own_1143",
+   "name": "Lila Rossi",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_146"
+  },
+  {
+   "ownerId": "own_1144",
+   "name": "Kai Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_147"
+  },
+  {
+   "ownerId": "own_1145",
+   "name": "Diego Hale",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_148"
+  },
+  {
+   "ownerId": "own_1146",
+   "name": "Hugo Quintero",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_149"
+  },
+  {
+   "ownerId": "own_1147",
+   "name": "Kai Singh",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_150"
+  },
+  {
+   "ownerId": "own_1148",
+   "name": "Bruno Moreau",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_151"
+  },
+  {
+   "ownerId": "own_1149",
+   "name": "Diego Ito",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_152"
+  },
+  {
+   "ownerId": "own_1150",
+   "name": "Elena Xu",
+   "role": "Brand Data Owner",
+   "incidentTypes": [
+    "PRICE_MISMATCH",
+    "PRICE_OUTDATED",
+    "SPEC_MISMATCH",
+    "INVENTED_FEATURE",
+    "AVAILABILITY_MISMATCH",
+    "POLICY_MISMATCH",
+    "UNFAIR_COMPARISON",
+    "SAFETY_LEGAL"
+   ],
+   "brandId": "brand_153"
+  }
+ ]
+}

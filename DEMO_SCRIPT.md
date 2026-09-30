@@ -2,16 +2,16 @@
 
 For judges and for the pitch presenter. Everything shown is fictional sample data and labeled as such.
 
-**Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. The free backend sleeps after
-15 minutes idle and takes about a minute to wake. Then open https://super-final-hsi-github.vercel.app.
+**Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. Optional: log in at `/login` as any demo admin (password `cirqo-demo`) to show a different company; the guest view is Kestrel. The free backend sleeps after
+15 minutes idle and takes about a minute to wake. Then open https://utsa-tech-09302026.vercel.app.
 
 ## 1. Dashboard (30 seconds)
 "Kestrel is a fictional laptop brand using CIRQO. Thirty days ago, AI assistants got 62% of the claims about its
 products right. Today it's about 93%, and Kestrel shows up in 56% of relevant AI answers instead of 35%."
 Point at the trend chart and the four trust numbers: claim accuracy, hallucination rate, median time to resolve, false alarm rate.
 
-## 2. Assistant Simulator (60 seconds)
-"This is what happens inside a shopper's AI assistant once a brand is on CIRQO."
+## 2. Preview as shopper (60 seconds)
+"This is what happens inside a shopper's AI assistant once a brand is on CIRQO. Shoppers never see CIRQO; their assistant calls it."
 Keep the pre-filled question ("best laptop under $500 for school"), pick an assistant, choose a use case and one or two
 must-haves, and submit.
 "The assistant didn't guess. It called CIRQO's connector, got the brand's verified facts, and every sentence in this
@@ -34,7 +34,24 @@ Approve it as the named owner.
 "Every decision, by the system or a person, is in the audit log."
 Find the item you just approved at the top.
 
-## 6. Close (15 seconds)
+## 6. Scale, one line (10 seconds)
+"153 companies, 1,500 products, a dashboard for each. Every company here is fictional." Click **All companies** if logged in as CIRQO Staff.
+
+## 6b. The plugin in a real assistant (45 seconds)
+In Claude (any device, CIRQO added as a custom connector, **web search switched off** in the chat), new chat:
+"I need headphones for the gym around $150." Claude calls `cirqo_search`, shows five options
+with **Verified by brand** or **Not verified by the brand** on each, and asks one narrowing question. Answer it;
+Claude calls `cirqo_query` and gives one pick built only from checked facts. Then "tell me more about the first
+one": Claude calls `cirqo_details` for specs and comparisons instead of guessing.
+"This is what the shopper sees. They never open CIRQO. Their assistant does."
+
+## 6c. Community program (30 seconds)
+Sign out, sign in as `rosa.delgado@bexar-valley-school-district.example` (password `cirqo-demo`). **Community catalog**
+shows pledged surplus and refurbished units from every brand at once. Request a few units; the brand's owner sees
+it under **Community requests**. "Brands pledge units they'd otherwise write off. Schools, nonprofits and veterans
+groups get them. CIRQO never checks anyone's income."
+
+## 7. Close (15 seconds)
 "Brands pay a quarterly subscription for the dashboard and the connector. Shoppers pay nothing. AI platforms pay
 nothing; they're partners, because CIRQO makes their answers accurate. Never for ranking."
 

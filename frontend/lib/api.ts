@@ -13,6 +13,11 @@
 //
 // These functions are meant to be called from the browser (client components).
 
+import { brandScope, signOutBrand } from "./auth/brandSession";
+import { getUserSession } from "./auth/userSession";
+import { SAMPLE_PREFIX, SampleError, sampleCatalog, sampleCreateRequest, sampleDecide, sampleImpact, sampleRequests } from "./community/sample";
+import { clearToken, getToken } from "./auth/token";
+import { resetUserSession } from "./auth/userSession";
 import { USE_MOCK } from "./config";
 import type {
   AnswerFilters,
@@ -24,7 +29,18 @@ import type {
   AuditResponse,
   CheckerRunRequest,
   CheckerRunResponse,
+  BrandProfile,
+  ClaimCompanyRequest,
+  ClaimCompanyResponse,
+  BrandsResponse,
   ConnectorQueryRequest,
+  ConnectorSearchRequest,
+  ConnectorSearchResponse,
+  LoginRequest,
+  LoginResponse,
+  DemoAccountsResponse,
+  OnboardRequest,
+  OnboardResponse,
   ConnectorQueryResponse,
   ClaimFilters,
   ClaimsResponse,
@@ -43,12 +59,19 @@ import type {
   SourcesResponse,
   TrustMetrics,
   VisibilitySummary,
+  CommunityCatalogFilters,
+  CommunityCatalogResponse,
+  CommunityImpact,
+  CommunityRequest,
+  CommunityRequestBody,
+  CommunityRequestStatus,
+  CommunityRequestsResponse,
 } from "./types";
 
 export { USE_MOCK };
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 
-const TIMEOUT_MS = 8000;
+const TIMEOUT_MS = 20000;
 /** The connector is the first call a visitor makes; a sleeping Render backend can take about a minute to wake. */
 const CONNECTOR_TIMEOUT_MS = 60000;
 
@@ -76,6 +99,15 @@ export const MOCK_FILES = {
   errorValidation: "error_validation",
   connectorQuery: "connector_query",
   connectorManifest: "connector_manifest",
+  /** v1.3. No file in shared/mock/ yet; mock mode falls back to the contract example on screen. */
+  demoAccounts: "demo_accounts",
+  /** v1.4. No file in shared/mock/, so mock mode reports NOT_FOUND. */
+  authLogin: "auth_login",
+  brandProfile: "brand_profile",
+  claimCompany: "claim_company",
+  brands: "brands",
+  connectorSearch: "connector_search",
+  brandsOnboard: "brands_onboard",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -111,19 +143,41 @@ export function recommend(body: RecommendRequest): Promise<RecommendResponse> {
   return request("POST", "/api/v1/shopper/recommend", {}, body, MOCK_FILES.shopperRecommend);
 }
 
-// GET /api/v1/products
-export function getProducts(): Promise<ProductsResponse> {
-  return request("GET", "/api/v1/products", {}, undefined, MOCK_FILES.products);
+// GET /api/v1/products?category=&brandId=  (both optional; v1.4.1 filters, older backends ignore them)
+export function getProducts(filters: { category?: string; brandId?: string } = {}): Promise<ProductsResponse> {
+  return request("GET", "/api/v1/products", { ...filters }, undefined, MOCK_FILES.products);
+}
+
+// GET /api/v1/brands/{brandId}  (v1.4: the company profile)
+export function getBrand(brandId: string): Promise<BrandProfile> {
+  return request("GET", `/api/v1/brands/${encodeURIComponent(brandId)}`, {}, undefined, MOCK_FILES.brandProfile);
+}
+
+// POST /api/v1/brands/{brandId}/claim  (v1.5: a not-opted-in company opts in; 409 CONFLICT if it already has)
+export function claimCompany(brandId: string, body: ClaimCompanyRequest): Promise<ClaimCompanyResponse> {
+  return request("POST", `/api/v1/brands/${encodeURIComponent(brandId)}/claim`, {}, body, MOCK_FILES.claimCompany);
+}
+
+// GET /api/v1/brands  (v1.4, CIRQO Staff token only: 403 FORBIDDEN otherwise)
+export function getBrands(): Promise<BrandsResponse> {
+  return request("GET", "/api/v1/brands", {}, undefined, MOCK_FILES.brands);
+}
+
+// POST /api/v1/connector/search  (v1.4: the funnel; up to 5 options and narrowing questions)
+export function connectorSearch(body: ConnectorSearchRequest): Promise<ConnectorSearchResponse> {
+  return request("POST", "/api/v1/connector/search", {}, body, MOCK_FILES.connectorSearch, CONNECTOR_TIMEOUT_MS);
 }
 
 // GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)
 export function getVisibilitySummary(days?: number): Promise<VisibilitySummary> {
-  return request("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary);
+  return cached(`summary:${days ?? ""}`, () => request("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary));
 }
 
 // GET /api/v1/answers?assistantId=&limit=  (newest first)
 export async function getAnswers(filters: AnswerFilters = {}): Promise<AnswersResponse> {
-  const data = await request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers);
+  const data = await cached(`answers:${JSON.stringify(filters)}`, () =>
+    request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers),
+  );
   if (!USE_MOCK) return data;
   const { assistantId, limit = 50 } = filters;
   return { answers: data.answers.filter((a) => !assistantId || a.assistantId === assistantId).slice(0, limit) };
@@ -227,6 +281,96 @@ function withoutEmptyConstraints(body: ConnectorQueryRequest): ConnectorQueryReq
   return Object.keys(constraints).length > 0 ? { ...rest, constraints } : rest;
 }
 
+// GET /api/v1/auth/demo-accounts  (v1.3: the demo logins; no auth)
+export function getDemoAccounts(): Promise<DemoAccountsResponse> {
+  return request("GET", "/api/v1/auth/demo-accounts", {}, undefined, MOCK_FILES.demoAccounts);
+}
+
+// POST /api/v1/auth/login  (v1.4). 401 UNAUTHORIZED "Wrong username or password." for either mistake.
+export function login(body: LoginRequest): Promise<LoginResponse> {
+  return request("POST", "/api/v1/auth/login", {}, body, MOCK_FILES.authLogin);
+}
+
+// POST /api/v1/auth/logout  (v1.4). Best effort: the browser forgets the token either way.
+export function logoutRequest(): Promise<{ ok: boolean }> {
+  return request("POST", "/api/v1/auth/logout", {}, {}, MOCK_FILES.authLogin);
+}
+
+// POST /api/v1/brands/onboard  (v1.3: "Connect your catalog"). 201 on success; 409 CONFLICT for a
+// duplicate brand name; 422 VALIDATION_ERROR. Nothing is stored in mock mode, so it always fails there.
+export function onboardBrand(body: OnboardRequest): Promise<OnboardResponse> {
+  return request("POST", "/api/v1/brands/onboard", {}, body, MOCK_FILES.brandsOnboard);
+}
+
+// ---- Community program (contract v1.6, section 7e) ----
+// The live backend does not have these yet. While it answers NOT_FOUND (or mock mode is on), each call returns the
+// contract-shaped sample data in lib/community/sample.ts and says `sample: true`, so the screen can label it.
+
+export interface Community<T> {
+  data: T;
+  sample: boolean;
+}
+
+async function community<T>(real: () => Promise<T>, sample: () => T): Promise<Community<T>> {
+  if (USE_MOCK) return { data: sample(), sample: true };
+  try {
+    return { data: await real(), sample: false };
+  } catch (error) {
+    if (error instanceof ApiError && error.code === "NOT_FOUND") return { data: sample(), sample: true };
+    throw error;
+  }
+}
+
+/** Sample failures carry contract error codes, so screens describe them like backend errors. */
+function asApiError<T>(run: () => T): T {
+  try {
+    return run();
+  } catch (error) {
+    if (error instanceof SampleError) throw new ApiError(error.message, error.code);
+    throw error;
+  }
+}
+
+// GET /api/v1/community/catalog?category=&brandId=&condition=&limit=  (Community Partner or CIRQO Staff token; 403 otherwise)
+export function getCommunityCatalog(filters: CommunityCatalogFilters = {}): Promise<Community<CommunityCatalogResponse>> {
+  return community(
+    () => request<CommunityCatalogResponse>("GET", "/api/v1/community/catalog", { ...filters }, undefined, "community_catalog"),
+    () => sampleCatalog(filters),
+  );
+}
+
+// POST /api/v1/community/requests  (partner token). 201; 422 if units < 1 or above units available; 403 if not pledged.
+export async function createCommunityRequest(body: CommunityRequestBody): Promise<Community<CommunityRequest>> {
+  if (body.productId.startsWith(SAMPLE_PREFIX)) {
+    const partner = getUserSession().user?.partner ?? { orgId: "org_sample_1", orgName: "Bexar Valley School District" };
+    return { data: asApiError(() => sampleCreateRequest(body, partner)), sample: true };
+  }
+  return { data: await request<CommunityRequest>("POST", "/api/v1/community/requests", {}, body, "community_request"), sample: false };
+}
+
+// GET /api/v1/community/requests?status=  (partner: own; brand: for its products; staff: all)
+export function getCommunityRequests(status?: CommunityRequestStatus): Promise<Community<CommunityRequestsResponse>> {
+  const user = getUserSession().user;
+  return community(
+    () => request<CommunityRequestsResponse>("GET", "/api/v1/community/requests", { status }, undefined, "community_requests"),
+    () => sampleRequests(user?.partner ? { orgId: user.partner.orgId } : user?.staff ? {} : { brandId: brandScope() ?? "brand_001" }, status),
+  );
+}
+
+// POST /api/v1/community/requests/{requestId}/approve|reject  (brand token, Brand Data Owner). 403 other brand, 409 if not pending.
+export async function decideCommunityRequest(requestId: string, decision: "approve" | "reject", note: string): Promise<Community<CommunityRequest>> {
+  if (requestId.includes(SAMPLE_PREFIX)) return { data: asApiError(() => sampleDecide(requestId, decision)), sample: true };
+  return { data: await request<CommunityRequest>("POST", `/api/v1/community/requests/${encodeURIComponent(requestId)}/${decision}`, {}, { note }, "community_decision"), sample: false };
+}
+
+// GET /api/v1/community/impact?brandId=  (brand token, or brandId)
+export function getCommunityImpact(brandId: string): Promise<Community<CommunityImpact>> {
+  return community(
+    () => request<CommunityImpact>("GET", "/api/v1/community/impact", { brandId }, undefined, "community_impact"),
+    () => sampleImpact(brandId),
+  );
+}
+
 // GET /api/v1/owners
 export function getOwners(): Promise<OwnersResponse> {
   return request("GET", "/api/v1/owners", {}, undefined, MOCK_FILES.owners);
@@ -281,14 +425,67 @@ async function request<T>(
   if (!API_URL) {
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
-  return readJson<T>(
-    await fetchOrThrow(`${API_URL}${path}${toQueryString(query)}`, {
-      method,
-      headers: body === undefined ? undefined : { "Content-Type": "application/json" },
-      body: body === undefined ? undefined : JSON.stringify(body),
-      cache: "no-store",
-    }, timeoutMs),
-  );
+  const hadToken = getToken() !== null;
+  try {
+    return await readJson<T>(
+      await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
+        method,
+        headers: requestHeaders(body !== undefined),
+        body: body === undefined ? undefined : JSON.stringify(body),
+        cache: "no-store",
+      }, timeoutMs),
+    );
+  } catch (error) {
+    // A 401 while signed in means the token ended (tokens die when the demo server restarts). Drop back to the
+    // guest path so the app keeps working, and say so.
+    if (hadToken && path !== "/api/v1/auth/login" && error instanceof ApiError && error.code === "UNAUTHORIZED") {
+      clearToken();
+      signOutBrand();
+      resetUserSession();
+      throw new ApiError("Your sign-in ended (the demo server restarted). You are now a guest. Sign in again to continue.", "UNAUTHORIZED", error.status);
+    }
+    throw error;
+  }
+}
+
+// Contract v1.3, section 7b: these dashboard endpoints accept `brandId`. With no account chosen
+// nothing is added and the backend answers for the default brand (brand_001), as before.
+const BRAND_SCOPED_PATHS = [
+  "/api/v1/visibility/summary",
+  "/api/v1/answers",
+  "/api/v1/sources",
+  "/api/v1/claims",
+  "/api/v1/incidents",
+  "/api/v1/owners",
+  "/api/v1/audit",
+  "/api/v1/metrics/trust",
+  "/api/v1/report",
+];
+
+// The demo backend needs several seconds for the summary and answers. Pages share one recent copy (and one
+// request in flight) so moving between pages is instant. A failed request is never kept.
+const CACHE_MS = 60000;
+const cache = new Map<string, { at: number; value: Promise<unknown> }>();
+function cached<T>(key: string, load: () => Promise<T>): Promise<T> {
+  const full = `${brandScope() ?? ""}|${getToken() ? "in" : "out"}|${key}`;
+  const hit = cache.get(full);
+  if (hit && Date.now() - hit.at < CACHE_MS) return hit.value as Promise<T>;
+  const value = load();
+  cache.set(full, { at: Date.now(), value });
+  value.catch(() => cache.delete(full));
+  return value;
+}
+
+function withBrand(path: string, query: Query): Query {
+  const brandId = brandScope();
+  if (!brandId || query.brandId !== undefined || !BRAND_SCOPED_PATHS.includes(path)) return query;
+  return { ...query, brandId };
+}
+
+function requestHeaders(hasBody: boolean): Record<string, string> | undefined {
+  const token = getToken();
+  if (!hasBody && !token) return undefined;
+  return { ...(hasBody ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 }
 
 async function readMock<T>(mockFile: string): Promise<T> {

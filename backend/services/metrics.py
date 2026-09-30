@@ -1,6 +1,7 @@
 """Dashboard numbers: visibility, sources, trust metrics and the report (BACKEND_CONTRACT.md section 7).
 
-Every number is computed with plain code from the database, using the definitions in the contract.
+Every number is computed with plain code from the database, using the definitions in the contract,
+for one brand (v1.3 section 7b; default brand_001, Kestrel, which is exactly the v1.2 behaviour).
 """
 
 import statistics
@@ -8,20 +9,19 @@ from collections import defaultdict
 
 from sqlalchemy import select
 
+import constants as C
 from db import Answer, Assistant, Brand, Claim, DailyMetric, Incident, Owner, Source
 from services.checker import Catalog, brand_mentions
+from services.scope import answer_visible_to
 from timeutil import days_ago_iso, now_iso, parse_iso
 
 OPEN_STATUSES = ("pending_approval", "escalated")
 
 
-def client_brand(db) -> Brand:
-    brand = db.scalars(select(Brand).where(Brand.is_client.is_(True))).first()
-    return brand or db.scalars(select(Brand).order_by(Brand.brand_id)).first()
-
-
-def answers_in_window(db, days: int) -> list[Answer]:
-    return db.scalars(select(Answer).where(Answer.captured_at >= days_ago_iso(days))).all()
+def answers_in_window(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> list[Answer]:
+    """The brand's tracked answers plus brand-neutral ones, in the window."""
+    return db.scalars(select(Answer).where(Answer.captured_at >= days_ago_iso(days),
+                                           answer_visible_to(brand_id))).all()
 
 
 def _visibility(answers: list[Answer], mentions: dict[str, list[str]], brand_id: str) -> dict:
@@ -32,10 +32,10 @@ def _visibility(answers: list[Answer], mentions: dict[str, list[str]], brand_id:
             "mentions": len(ranks)}
 
 
-def visibility_summary(db, days: int) -> dict:
+def visibility_summary(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dict:
     catalog = Catalog(db)
-    client = client_brand(db)
-    answers = answers_in_window(db, days)
+    client = db.get(Brand, brand_id)  # the brand being viewed
+    answers = answers_in_window(db, days, brand_id)
     mentions = {a.answer_id: brand_mentions(a.answer_text, catalog) for a in answers}
     stats = {b.brand_id: _visibility(answers, mentions, b.brand_id) for b in catalog.brands.values()}
     total_mentions = sum(s["mentions"] for s in stats.values())
@@ -52,7 +52,10 @@ def visibility_summary(db, days: int) -> dict:
         "competitors": [
             {"brandName": b.name, "visibilityRate": stats[b.brand_id]["visibilityRate"],
              "averageRank": stats[b.brand_id]["averageRank"], "shareOfVoice": share(b.brand_id)}
-            for b in sorted(catalog.brands.values(), key=lambda b: b.brand_id) if b.brand_id != client.brand_id],
+            # Competitors = the other brands AI assistants mention in this brand's answers (with 153 brands in
+            # the catalog, listing every one would drown the brands a shopper actually hears about).
+            for b in sorted(catalog.brands.values(), key=lambda b: b.brand_id)
+            if b.brand_id != client.brand_id and stats[b.brand_id]["mentions"] > 0],
         "byAssistant": [
             {"assistantId": a.assistant_id, "name": a.name,
              **{k: v for k, v in _visibility([x for x in answers if x.assistant_id == a.assistant_id], mentions,
@@ -61,8 +64,8 @@ def visibility_summary(db, days: int) -> dict:
     }
 
 
-def sources_summary(db, days: int) -> list[dict]:
-    answers = answers_in_window(db, days)
+def sources_summary(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> list[dict]:
+    answers = answers_in_window(db, days, brand_id)
     claims_by_answer = defaultdict(list)
     for c in db.scalars(select(Claim)).all():
         claims_by_answer[c.answer_id].append(c)
@@ -103,11 +106,13 @@ def false_alarm_rate(incidents: list[Incident]) -> float:
     return round(sum(1 for i in human_closed if i.status == "rejected" and i.false_alarm) / len(human_closed), 2)
 
 
-def trust_metrics(db, days: int) -> dict:
-    rows = db.scalars(select(DailyMetric).order_by(DailyMetric.date)).all()[-days:]
+def trust_metrics(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dict:
+    rows = db.scalars(select(DailyMetric).where(DailyMetric.brand_id == brand_id)
+                      .order_by(DailyMetric.date)).all()[-days:]
     last7 = rows[-7:]
-    # current = the last 7 days (contract section 7): incidents closed in that window.
-    recently_closed = db.scalars(select(Incident).where(Incident.resolved_at >= days_ago_iso(7))).all()
+    # current = the last 7 days (contract section 7): the brand's incidents closed in that window.
+    recently_closed = db.scalars(select(Incident).where(Incident.brand_id == brand_id,
+                                                        Incident.resolved_at >= days_ago_iso(7))).all()
 
     def mean(key):
         return round(statistics.mean(getattr(r, key) for r in last7), 2) if last7 else 0.0
@@ -127,18 +132,18 @@ def trust_metrics(db, days: int) -> dict:
     }
 
 
-def report(db, days: int) -> dict:
-    trust = trust_metrics(db, days)
+def report(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dict:
+    trust = trust_metrics(db, days, brand_id)
     first = trust["daily"][0] if trust["daily"] else {"accuracyRate": 0.0, "hallucinationRate": 0.0,
                                                       "visibilityRate": 0.0}
     since = days_ago_iso(days)
-    incidents = db.scalars(select(Incident).where(Incident.created_at >= since)).all()
-    top = sources_summary(db, days)[:3]
-    owners = db.scalars(select(Owner).order_by(Owner.owner_id)).all()
+    incidents = db.scalars(select(Incident).where(Incident.brand_id == brand_id, Incident.created_at >= since)).all()
+    top = sources_summary(db, days, brand_id)[:3]
+    owners = db.scalars(select(Owner).where(Owner.brand_id == brand_id).order_by(Owner.owner_id)).all()
     open_high = sorted(i.incident_id for i in incidents
                        if i.status in OPEN_STATUSES and i.severity in ("high", "critical"))
     return {
-        "generatedAt": now_iso(), "periodDays": days, "brandName": client_brand(db).name,
+        "generatedAt": now_iso(), "periodDays": days, "brandName": db.get(Brand, brand_id).name,
         "impact": {
             "accuracyStart": first["accuracyRate"], "accuracyEnd": trust["current"]["accuracyRate"],
             "hallucinationStart": first["hallucinationRate"], "hallucinationEnd": trust["current"]["hallucinationRate"],

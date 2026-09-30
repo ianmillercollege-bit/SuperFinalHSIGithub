@@ -1,0 +1,1129 @@
+{
+  "entries": [
+    {
+      "auditId": "aud_801",
+      "timestamp": "2026-08-31T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_541",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_802",
+      "timestamp": "2026-08-31T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_542",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_803",
+      "timestamp": "2026-08-31T10:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_315",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_804",
+      "timestamp": "2026-09-01T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_501",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_805",
+      "timestamp": "2026-09-01T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_502",
+      "details": "PRICE_MISMATCH: Stated price is 2.9% below the verified price."
+    },
+    {
+      "auditId": "aud_806",
+      "timestamp": "2026-09-01T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_503",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_807",
+      "timestamp": "2026-09-01T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_301",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_808",
+      "timestamp": "2026-09-01T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_70",
+      "details": "PRICE_MISMATCH (low) from clm_502. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_809",
+      "timestamp": "2026-09-01T11:35:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_70",
+      "details": "Publish verified price $479.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_810",
+      "timestamp": "2026-09-01T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_543",
+      "details": "correct: Matches the verified battery life of 11 h battery."
+    },
+    {
+      "auditId": "aud_811",
+      "timestamp": "2026-09-01T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_544",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_812",
+      "timestamp": "2026-09-01T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_316",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_813",
+      "timestamp": "2026-09-03T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_504",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_814",
+      "timestamp": "2026-09-03T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_505",
+      "details": "SPEC_MISMATCH: Verified RAM is 4 GB RAM."
+    },
+    {
+      "auditId": "aud_815",
+      "timestamp": "2026-09-03T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_506",
+      "details": "correct: Matches the verified battery life of 9 h battery."
+    },
+    {
+      "auditId": "aud_816",
+      "timestamp": "2026-09-03T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_302",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_817",
+      "timestamp": "2026-09-03T09:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_71",
+      "details": "SPEC_MISMATCH (medium) from clm_505. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_818",
+      "timestamp": "2026-09-03T09:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_71",
+      "details": "Publish verified RAM (4 GB RAM) to the product feed."
+    },
+    {
+      "auditId": "aud_819",
+      "timestamp": "2026-09-03T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_545",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_820",
+      "timestamp": "2026-09-03T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_546",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_821",
+      "timestamp": "2026-09-03T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_317",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_822",
+      "timestamp": "2026-09-05T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_507",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_823",
+      "timestamp": "2026-09-05T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_508",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no fingerprint reader."
+    },
+    {
+      "auditId": "aud_824",
+      "timestamp": "2026-09-05T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_509",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_825",
+      "timestamp": "2026-09-05T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_303",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_826",
+      "timestamp": "2026-09-05T11:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_72",
+      "details": "INVENTED_FEATURE (high) from clm_508. Owner: Marcus Webb."
+    },
+    {
+      "auditId": "aud_827",
+      "timestamp": "2026-09-05T12:39:00Z",
+      "actor": "Marcus Webb",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_72",
+      "details": "Approved. Fix applied: Add an explicit 'no fingerprint reader' line to the Novex Canvas 15 product page and feed."
+    },
+    {
+      "auditId": "aud_828",
+      "timestamp": "2026-09-05T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_547",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_829",
+      "timestamp": "2026-09-05T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_548",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_830",
+      "timestamp": "2026-09-05T14:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_318",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_831",
+      "timestamp": "2026-09-07T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_510",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_832",
+      "timestamp": "2026-09-07T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_511",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_833",
+      "timestamp": "2026-09-07T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_304",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_834",
+      "timestamp": "2026-09-07T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_549",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_835",
+      "timestamp": "2026-09-07T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_550",
+      "details": "correct: Matches the verified weight of 2.6 lb."
+    },
+    {
+      "auditId": "aud_836",
+      "timestamp": "2026-09-07T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_319",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_837",
+      "timestamp": "2026-09-08T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_551",
+      "details": "correct: Matches the verified RAM of 8 GB RAM."
+    },
+    {
+      "auditId": "aud_838",
+      "timestamp": "2026-09-08T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_552",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_839",
+      "timestamp": "2026-09-08T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_320",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_840",
+      "timestamp": "2026-09-09T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_512",
+      "details": "correct: Matches the verified weight of 2.8 lb."
+    },
+    {
+      "auditId": "aud_841",
+      "timestamp": "2026-09-09T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_513",
+      "details": "POLICY_MISMATCH: Verified return policy is 14 days."
+    },
+    {
+      "auditId": "aud_842",
+      "timestamp": "2026-09-09T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_514",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_843",
+      "timestamp": "2026-09-09T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_305",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_844",
+      "timestamp": "2026-09-09T10:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_73",
+      "details": "POLICY_MISMATCH (high) from clm_513. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_845",
+      "timestamp": "2026-09-09T12:00:00Z",
+      "actor": "Lena Ortiz",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_73",
+      "details": "Rejected. No fix applied. Note: Low impact; source already corrected."
+    },
+    {
+      "auditId": "aud_846",
+      "timestamp": "2026-09-10T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_553",
+      "details": "correct: Matches the verified RAM of 16 GB RAM."
+    },
+    {
+      "auditId": "aud_847",
+      "timestamp": "2026-09-10T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_554",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_848",
+      "timestamp": "2026-09-10T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_321",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_849",
+      "timestamp": "2026-09-11T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_515",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_850",
+      "timestamp": "2026-09-11T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_516",
+      "details": "AVAILABILITY_MISMATCH: Verified availability is in_stock."
+    },
+    {
+      "auditId": "aud_851",
+      "timestamp": "2026-09-11T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_517",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_852",
+      "timestamp": "2026-09-11T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_306",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_853",
+      "timestamp": "2026-09-11T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_74",
+      "details": "AVAILABILITY_MISMATCH (medium) from clm_516. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_854",
+      "timestamp": "2026-09-11T09:35:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_74",
+      "details": "Publish verified availability (in stock) to the product feed."
+    },
+    {
+      "auditId": "aud_855",
+      "timestamp": "2026-09-12T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_555",
+      "details": "correct: Matches the verified screen size of 14 in screen."
+    },
+    {
+      "auditId": "aud_856",
+      "timestamp": "2026-09-12T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_556",
+      "details": "correct: Matches the verified weight of 4.6 lb."
+    },
+    {
+      "auditId": "aud_857",
+      "timestamp": "2026-09-12T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_322",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_858",
+      "timestamp": "2026-09-13T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_518",
+      "details": "correct: Matches the verified 14-day return policy."
+    },
+    {
+      "auditId": "aud_859",
+      "timestamp": "2026-09-13T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_519",
+      "details": "PRICE_MISMATCH: Stated price is 20.0% below the verified price."
+    },
+    {
+      "auditId": "aud_860",
+      "timestamp": "2026-09-13T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_520",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_861",
+      "timestamp": "2026-09-13T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_307",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_862",
+      "timestamp": "2026-09-13T14:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_75",
+      "details": "PRICE_MISMATCH (high) from clm_519. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_863",
+      "timestamp": "2026-09-13T19:22:00Z",
+      "actor": "Lena Ortiz",
+      "actorType": "human",
+      "action": "approved",
+      "targetId": "inc_75",
+      "details": "Approved. Fix applied: Publish verified price $479.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_864",
+      "timestamp": "2026-09-14T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_557",
+      "details": "correct: Matches the verified price."
+    },
+    {
+      "auditId": "aud_865",
+      "timestamp": "2026-09-14T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_558",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_866",
+      "timestamp": "2026-09-14T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_323",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_867",
+      "timestamp": "2026-09-15T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_521",
+      "details": "correct: Matches the verified RAM of 4 GB RAM."
+    },
+    {
+      "auditId": "aud_868",
+      "timestamp": "2026-09-15T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_522",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_869",
+      "timestamp": "2026-09-15T11:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_308",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_870",
+      "timestamp": "2026-09-15T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_559",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_871",
+      "timestamp": "2026-09-15T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_560",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_872",
+      "timestamp": "2026-09-15T15:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_324",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_873",
+      "timestamp": "2026-09-17T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_523",
+      "details": "correct: Matches the verified battery life of 8 h battery."
+    },
+    {
+      "auditId": "aud_874",
+      "timestamp": "2026-09-17T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_524",
+      "details": "SAFETY_LEGAL: Contains safety/legal keyword(s): certified, child-safe. Escalated for human review."
+    },
+    {
+      "auditId": "aud_875",
+      "timestamp": "2026-09-17T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_525",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_876",
+      "timestamp": "2026-09-17T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_309",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_877",
+      "timestamp": "2026-09-17T10:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_76",
+      "details": "SAFETY_LEGAL (critical) from clm_524. Owner: Marcus Webb."
+    },
+    {
+      "auditId": "aud_878",
+      "timestamp": "2026-09-17T10:35:01Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "escalated",
+      "targetId": "inc_76",
+      "details": "Escalated to Marcus Webb. No fix applied."
+    },
+    {
+      "auditId": "aud_879",
+      "timestamp": "2026-09-17T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_561",
+      "details": "correct: Matches the verified 30-day return policy."
+    },
+    {
+      "auditId": "aud_880",
+      "timestamp": "2026-09-17T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_562",
+      "details": "correct: Matches the verified 15-day return policy."
+    },
+    {
+      "auditId": "aud_881",
+      "timestamp": "2026-09-17T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_325",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_882",
+      "timestamp": "2026-09-17T14:42:00Z",
+      "actor": "Marcus Webb",
+      "actorType": "human",
+      "action": "resolved",
+      "targetId": "inc_76",
+      "details": "Resolved by a human. Note: Reviewed with Legal; no public claim to correct."
+    },
+    {
+      "auditId": "aud_883",
+      "timestamp": "2026-09-19T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_526",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_884",
+      "timestamp": "2026-09-19T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_527",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no stylus."
+    },
+    {
+      "auditId": "aud_885",
+      "timestamp": "2026-09-19T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_528",
+      "details": "correct: Matches the verified battery life of 6 h battery."
+    },
+    {
+      "auditId": "aud_886",
+      "timestamp": "2026-09-19T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_310",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_887",
+      "timestamp": "2026-09-19T09:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_77",
+      "details": "INVENTED_FEATURE (high) from clm_527. Owner: Marcus Webb."
+    },
+    {
+      "auditId": "aud_888",
+      "timestamp": "2026-09-19T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_563",
+      "details": "correct: Matches the verified weight of 2.4 lb."
+    },
+    {
+      "auditId": "aud_889",
+      "timestamp": "2026-09-19T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_564",
+      "details": "correct: Matches the verified battery life of 7 h battery."
+    },
+    {
+      "auditId": "aud_890",
+      "timestamp": "2026-09-19T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_326",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_891",
+      "timestamp": "2026-09-19T14:27:00Z",
+      "actor": "Marcus Webb",
+      "actorType": "human",
+      "action": "rejected",
+      "targetId": "inc_77",
+      "details": "Rejected as a false alarm. No fix applied."
+    },
+    {
+      "auditId": "aud_892",
+      "timestamp": "2026-09-21T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_565",
+      "details": "correct: Matches the verified weight of 4 lb."
+    },
+    {
+      "auditId": "aud_893",
+      "timestamp": "2026-09-21T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_566",
+      "details": "correct: Matches the verified screen size of 11.6 in screen."
+    },
+    {
+      "auditId": "aud_894",
+      "timestamp": "2026-09-21T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_327",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_895",
+      "timestamp": "2026-09-21T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_529",
+      "details": "correct: Matches the verified RAM of 4 GB RAM."
+    },
+    {
+      "auditId": "aud_896",
+      "timestamp": "2026-09-21T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_530",
+      "details": "PRICE_OUTDATED: Matches the previous price $369.00. The current price is $349.00."
+    },
+    {
+      "auditId": "aud_897",
+      "timestamp": "2026-09-21T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_531",
+      "details": "correct: Matches verified availability."
+    },
+    {
+      "auditId": "aud_898",
+      "timestamp": "2026-09-21T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_311",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_899",
+      "timestamp": "2026-09-21T12:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_78",
+      "details": "PRICE_OUTDATED (medium) from clm_530. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_900",
+      "timestamp": "2026-09-21T12:05:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_78",
+      "details": "Publish verified price $349.00 to the product feed and flag the source listing."
+    },
+    {
+      "auditId": "aud_901",
+      "timestamp": "2026-09-22T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_567",
+      "details": "correct: Matches the verified battery life of 9 h battery."
+    },
+    {
+      "auditId": "aud_902",
+      "timestamp": "2026-09-22T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_568",
+      "details": "correct: Matches the verified screen size of 14 in screen."
+    },
+    {
+      "auditId": "aud_903",
+      "timestamp": "2026-09-22T13:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_328",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_904",
+      "timestamp": "2026-09-24T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_569",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_905",
+      "timestamp": "2026-09-24T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_570",
+      "details": "correct: Matches the verified battery life of 11 h battery."
+    },
+    {
+      "auditId": "aud_906",
+      "timestamp": "2026-09-24T09:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_329",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_907",
+      "timestamp": "2026-09-24T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_532",
+      "details": "correct: Matches the verified screen size of 15.6 in screen."
+    },
+    {
+      "auditId": "aud_908",
+      "timestamp": "2026-09-24T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_533",
+      "details": "POLICY_MISMATCH: Verified return policy is 14 days."
+    },
+    {
+      "auditId": "aud_909",
+      "timestamp": "2026-09-24T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_534",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_910",
+      "timestamp": "2026-09-24T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_312",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_911",
+      "timestamp": "2026-09-24T13:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_79",
+      "details": "POLICY_MISMATCH (high) from clm_533. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_912",
+      "timestamp": "2026-09-26T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_571",
+      "details": "correct: Matches the verified weight of 2.9 lb."
+    },
+    {
+      "auditId": "aud_913",
+      "timestamp": "2026-09-26T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_572",
+      "details": "correct: Matches the verified screen size of 13.3 in screen."
+    },
+    {
+      "auditId": "aud_914",
+      "timestamp": "2026-09-26T12:20:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_330",
+      "details": "Extracted 2 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_915",
+      "timestamp": "2026-09-26T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_535",
+      "details": "correct: Matches the verified storage of 256 GB storage."
+    },
+    {
+      "auditId": "aud_916",
+      "timestamp": "2026-09-26T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_536",
+      "details": "INVENTED_FEATURE: The verified spec sheet lists no 5g."
+    },
+    {
+      "auditId": "aud_917",
+      "timestamp": "2026-09-26T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_537",
+      "details": "correct: Matches the verified storage of 512 GB storage."
+    },
+    {
+      "auditId": "aud_918",
+      "timestamp": "2026-09-26T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_313",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_919",
+      "timestamp": "2026-09-26T14:05:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_80",
+      "details": "INVENTED_FEATURE (high) from clm_536. Owner: Marcus Webb."
+    },
+    {
+      "auditId": "aud_920",
+      "timestamp": "2026-09-28T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_538",
+      "details": "correct: Matches the verified weight of 2.8 lb."
+    },
+    {
+      "auditId": "aud_921",
+      "timestamp": "2026-09-28T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_539",
+      "details": "SPEC_MISMATCH: Verified battery life is 8 h battery."
+    },
+    {
+      "auditId": "aud_922",
+      "timestamp": "2026-09-28T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_checked",
+      "targetId": "clm_540",
+      "details": "correct: Matches the verified weight of 2.4 lb."
+    },
+    {
+      "auditId": "aud_923",
+      "timestamp": "2026-09-28T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "claim_extracted",
+      "targetId": "ans_314",
+      "details": "Extracted 3 claim(s) with plain regex and keyword rules."
+    },
+    {
+      "auditId": "aud_924",
+      "timestamp": "2026-09-28T13:35:00Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "incident_created",
+      "targetId": "inc_81",
+      "details": "SPEC_MISMATCH (medium) from clm_539. Owner: Lena Ortiz."
+    },
+    {
+      "auditId": "aud_925",
+      "timestamp": "2026-09-28T13:35:02Z",
+      "actor": "system",
+      "actorType": "system",
+      "action": "auto_fix_applied",
+      "targetId": "inc_81",
+      "details": "Publish verified battery life (8 h battery) to the product feed."
+    }
+  ]
+}

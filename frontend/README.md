@@ -8,7 +8,6 @@ Next.js (App Router, TypeScript). CIRQO is an API plugin for AI assistants plus 
 | `/dashboard` | Dashboard with the 30-day trust trend |
 | `/visibility` | AI Visibility |
 | `/market` | Market Position |
-| `/assistant` | Assistant Simulator (what an AI assistant gets from CIRQO) |
 | `/claims/new` | File a Claim (sends an answer to the checker) |
 | `/claims/outstanding`, `/claims/[id]` | Outstanding Claims, approve / reject / resolve |
 | `/claims/reviewed` | Claims Reviewed and the Insights log |

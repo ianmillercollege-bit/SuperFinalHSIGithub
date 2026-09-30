@@ -38,7 +38,25 @@ check "connector query"     200 answerText    -X POST -H "Content-Type: applicat
   -d '{"question":"What is the best laptop under $500 for school?","assistantId":"ast_01"}' \
   "$BASE/api/v1/connector/query"
 check "connector 422"       422 error         -X POST -H "Content-Type: application/json" -d '{"question":"x"}' "$BASE/api/v1/connector/query"
+check "connector search"    200 narrowingHints -X POST -H "Content-Type: application/json" \
+  -d '{"question":"I want headphones for the gym, budget around $150","assistantId":"ast_01"}' \
+  "$BASE/api/v1/connector/search"
+check "demo accounts"       200 accounts      "$BASE/api/v1/auth/demo-accounts"
+check "remote MCP tools"    200 result        -X POST -H "Content-Type: application/json" -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' "$BASE/mcp"
+check "arcton scope"        200 competitors   "$BASE/api/v1/visibility/summary?brandId=brand_002"
+check "unknown brand 404"   404 error         "$BASE/api/v1/visibility/summary?brandId=brand_999"
+check "onboard 422"         422 error         -X POST -H "Content-Type: application/json" -d '{"brandName":"X","ownerName":"Y","products":[]}' "$BASE/api/v1/brands/onboard"
+check "login ok"            200 token         -X POST -H "Content-Type: application/json" -d '{"username":"maria.lopez@kestrel.example","password":"cirqo-demo"}' "$BASE/api/v1/auth/login"
+check "login wrong pw"      401 error         -X POST -H "Content-Type: application/json" -d '{"username":"maria.lopez@kestrel.example","password":"nope"}' "$BASE/api/v1/auth/login"
+check "brands needs staff"  401 error         "$BASE/api/v1/brands"
+check "brand profile"       200 ceo           "$BASE/api/v1/brands/brand_001"
+check "products by cat"     200 products      "$BASE/api/v1/products?category=headphones&limit=5"
 check "products"            200 products      "$BASE/api/v1/products"
+check "products not opted"  200 products      "$BASE/api/v1/products?optedIn=false&category=headphones"
+check "product detail"      200 comparisons   "$BASE/api/v1/products/prod_001"
+check "community needs auth" 403 error        "$BASE/api/v1/community/catalog"
+check "community impact"    200 unitsPledged  "$BASE/api/v1/community/impact?brandId=brand_001"
 check "visibility summary"  200 visibilityRate "$BASE/api/v1/visibility/summary"
 check "answers"             200 answers       "$BASE/api/v1/answers"
 check "sources"             200 sources       "$BASE/api/v1/sources"

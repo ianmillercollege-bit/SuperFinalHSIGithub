@@ -1,12 +1,16 @@
 """CIRQO API. Run locally from backend/: uvicorn main:app --reload"""
 
-from fastapi import FastAPI
+from contextlib import asynccontextmanager
+
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
-from routers import client, connector, dashboard, governance, shopper
+from mcp_http import MCP_PATH, mcp_asgi, start as start_mcp
+from routers import auth, brands, client, community, connector, dashboard, governance, shopper
 from schemas import HealthResponse
 from seed_loader import rebuild_database
+from services.community import connector_gate
 from settings import settings
 
 VERSION = "0.1.0"
@@ -20,7 +24,16 @@ ALLOWED_ORIGINS = ["http://localhost:3000", *settings.frontend_origin_list]
 ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
 
 # DECISIONS.md #18: user-facing name is CIRQO. Paths, field names, demo keys and env vars are unchanged.
-app = FastAPI(title="CIRQO API", version=VERSION)
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    # The remote MCP endpoint (/mcp) needs its session manager running for the life of the app.
+    async with start_mcp():
+        yield
+
+
+app = FastAPI(title="CIRQO API", version=VERSION, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -33,8 +46,14 @@ app.add_middleware(
 register_error_handlers(app)
 
 # Everything except /health lives under /api/v1 (BACKEND_CONTRACT.md section 1).
-for module in (shopper, connector, dashboard, governance, client):
-    app.include_router(module.router, prefix="/api/v1")
+# v1.6: connector calls see refurbished and surplus products only with constraints.includeRefurbished.
+for module in (shopper, connector, dashboard, governance, client, auth, brands, community):
+    gates = [Depends(connector_gate)] if module is connector else []
+    app.include_router(module.router, prefix="/api/v1", dependencies=gates)
+
+
+# Remote MCP connector: POST https://<backend>/mcp (BACKEND_CONTRACT.md section 7 Connector, v1.7).
+app.add_route(MCP_PATH, mcp_asgi, methods=["GET", "POST", "DELETE"])
 
 
 @app.get("/health", response_model=HealthResponse)

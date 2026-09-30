@@ -1,190 +1,138 @@
 "use client";
 
-import SourceChip from "@/components/SourceChip";
 import Link from "next/link";
-import { useCallback, useState } from "react";
-import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
-import StatusPill from "@/components/StatusPill";
-import { getAnswers, getVisibilitySummary, runChecker } from "@/lib/api";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useMemo, useState } from "react";
+import { ErrorNotice, Loading } from "@/components/LoadState";
+import CheckerView from "@/components/screens/CheckerView";
+import type { CheckerResultData, FieldSpec } from "@/components/screens/CheckerView";
+import { getAnswers, getIncident, getVisibilitySummary, runChecker } from "@/lib/api";
+import { ANSWERS_LIMIT } from "@/lib/dashboard/liveVisibility";
+import { canAct, useUserSession } from "@/lib/auth/userSession";
+import { describeError } from "@/lib/errors";
 import { notifyIncidentsChanged } from "@/lib/events";
-import { CLAIM_STATUS_LABELS, RULE_LABELS } from "@/lib/labels";
-import { CLAIM_STATUS_TONES } from "@/lib/tones";
-import type { CheckerRunRequest, CheckerRunResponse } from "@/lib/types";
+import { INCIDENT_STATUS_LABELS, SEVERITY_LABELS } from "@/lib/labels";
+import type { CheckerRunRequest, CheckerRunResponse, Incident } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
-type Mode = "paste" | "recorded";
+const NO_ASSISTANT = "Choose an assistant";
+const NO_ANSWER = "None (I will paste an answer)";
 
-/** File a Claim = POST /api/v1/checker/run (DECISIONS.md #27). */
+/** File a Claim = POST /api/v1/checker/run (DECISIONS.md #27, contract section 7). */
 export default function FileClaim() {
-  const summary = useApi(useCallback(() => getVisibilitySummary(), []));
-  const answers = useApi(useCallback(() => getAnswers({ limit: 50 }), []));
-  const [mode, setMode] = useState<Mode>("paste");
-  const [queryText, setQueryText] = useState("");
-  const [assistantId, setAssistantId] = useState("");
-  const [answerText, setAnswerText] = useState("");
-  const [answerId, setAnswerId] = useState("");
-  const [formError, setFormError] = useState<string | null>(null);
+  const summary = useApi(useCallback(() => getVisibilitySummary(30), []));
+  const answers = useApi(useCallback(() => getAnswers({ limit: ANSWERS_LIMIT }), []));
+  const params = useSearchParams();
+  const session = useUserSession();
+  const canFile = canAct(session);
   const [sending, setSending] = useState(false);
-  const [sendError, setSendError] = useState<unknown>(null);
-  const [result, setResult] = useState<CheckerRunResponse | null>(null);
+  const [error, setError] = useState<string | undefined>();
+  const [result, setResult] = useState<CheckerResultData | undefined>();
+  const [runs, setRuns] = useState(0);
 
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
+  const assistants = summary.data?.byAssistant ?? [];
+  const recorded = useMemo(
+    () => (answers.data?.answers ?? []).map((a) => ({ id: a.answerId, label: `${a.answerId} · ${a.assistantName}: ${a.queryText}` })),
+    [answers.data],
+  );
+
+  // Opened from AI Visibility: ?assistant=<name>&question=<answerId>. Only the shopper's question is quoted, never an AI answer.
+  const askedAssistant = assistants.find((a) => a.name === params.get("assistant"))?.name;
+  const askedQuestion = answers.data?.answers.find((a) => a.answerId === params.get("question"))?.queryText;
+
+  // The contract's request is either { answerId } or { answerText, assistantId, queryText }; the contract
+  // sets no lengths, so no field has a maximum. Which fields are required depends on the form, so onSubmit checks it.
+  const fields: FieldSpec[] = [
+    { name: "answerText", label: "What the assistant said", type: "textarea", placeholder: "Paste the assistant's answer here." },
+    { name: "assistantId", label: "AI assistant", type: "select", options: [NO_ASSISTANT, ...assistants.map((a) => a.name)], defaultValue: askedAssistant, half: true },
+    { name: "queryText", label: "Shopper's question", type: "text", placeholder: "best laptops under $500", defaultValue: askedQuestion, half: true },
+    ...(recorded.length > 0
+      ? [{ name: "answerId", label: "Or check an answer CIRQO already recorded", type: "select" as const, options: [NO_ANSWER, ...recorded.map((r) => r.label)] }]
+      : []),
+  ];
+
+  async function submit(values: Record<string, string>) {
+    const assistant = assistants.find((a) => a.name === values.assistantId);
+    const answer = recorded.find((r) => r.label === values.answerId);
+    const pasted = Boolean(values.answerText || values.queryText || assistant);
     let body: CheckerRunRequest;
-    if (mode === "paste") {
-      if (!queryText.trim() || !assistantId || !answerText.trim()) {
-        return setFormError("Fill in the shopper's question, the assistant, and what the assistant said.");
-      }
-      body = { answerText: answerText.trim(), assistantId, queryText: queryText.trim() };
+    if (answer) {
+      if (pasted) return setError("Use either a recorded answer or a pasted answer, not both.");
+      body = { answerId: answer.id };
     } else {
-      if (!answerId) return setFormError("Choose a recorded answer.");
-      body = { answerId };
+      if (!values.answerText || !values.queryText || !assistant) {
+        return setError("Fill in what the assistant said, the assistant, and the shopper's question, or choose a recorded answer.");
+      }
+      body = { answerText: values.answerText, assistantId: assistant.assistantId, queryText: values.queryText };
     }
-    setFormError(null);
-    setSendError(null);
+    setError(undefined);
     setSending(true);
     try {
       const response = await runChecker(body);
-      setResult(response);
+      setResult(await toResult(response));
       if (response.incidentsCreated.length > 0) notifyIncidentsChanged();
-    } catch (error) {
-      setSendError(error);
+    } catch (e) {
+      setError(describeError(e));
     } finally {
       setSending(false);
     }
   }
 
+  if (summary.loading || answers.loading) return <Loading what="the form" />;
+  if (summary.error !== undefined) return <ErrorNotice error={summary.error} onRetry={summary.reload} />;
+
   return (
-    <div className="stack">
-      <form className="card stack" onSubmit={submit} noValidate>
-        <fieldset className="mode-toggle">
-          <legend className="eyebrow">What should CIRQO check?</legend>
-          <label className="check">
-            <input type="radio" name="mode" checked={mode === "paste"} onChange={() => setMode("paste")} />
-            An answer an assistant gave (paste it)
-          </label>
-          <label className="check">
-            <input type="radio" name="mode" checked={mode === "recorded"} onChange={() => setMode("recorded")} />
-            An answer CIRQO already recorded
-          </label>
-        </fieldset>
-
-        {mode === "paste" ? (
-          <>
-            <label className="field">
-              Shopper&apos;s question
-              <input value={queryText} onChange={(e) => setQueryText(e.target.value)} placeholder="best laptops under $500" />
-            </label>
-            <label className="field">
-              AI assistant
-              {summary.loading && <Loading what="assistants" />}
-              {summary.error !== undefined && <ErrorNotice error={summary.error} onRetry={summary.reload} />}
-              {summary.data && (
-                <select value={assistantId} onChange={(e) => setAssistantId(e.target.value)}>
-                  <option value="">Choose an assistant</option>
-                  {summary.data.byAssistant.map((a) => (
-                    <option key={a.assistantId} value={a.assistantId}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </label>
-            <label className="field">
-              What the assistant said
-              <textarea
-                value={answerText}
-                onChange={(e) => setAnswerText(e.target.value)}
-                rows={5}
-                placeholder="Paste the assistant's answer here."
-              />
-            </label>
-          </>
-        ) : (
-          <label className="field">
-            Recorded answer
-            {answers.loading && <Loading what="recorded answers" />}
-            {answers.error !== undefined && <ErrorNotice error={answers.error} onRetry={answers.reload} />}
-            {answers.data && answers.data.answers.length === 0 && <Empty>No recorded answers yet.</Empty>}
-            {answers.data && answers.data.answers.length > 0 && (
-              <select value={answerId} onChange={(e) => setAnswerId(e.target.value)}>
-                <option value="">Choose an answer</option>
-                {answers.data.answers.map((a) => (
-                  <option key={a.answerId} value={a.answerId}>
-                    {a.assistantName}: “{a.queryText}” ({a.answerId})
-                  </option>
-                ))}
-              </select>
-            )}
-          </label>
-        )}
-
-        {formError && (
-          <p className="state-error" role="alert">
-            {formError}
-          </p>
-        )}
-        <div>
-          <button type="submit" className="button" disabled={sending}>
-            {sending ? "Checking…" : "Check this answer"}
-          </button>
-        </div>
-      </form>
-
-      {sendError !== null && <ErrorNotice error={sendError} />}
-      {result && <CheckerResult result={result} />}
-    </div>
+    <CheckerView
+      key={runs}
+      fields={fields}
+      onSubmit={(values) => void submit(values)}
+      submitting={sending}
+      disabled={!canFile}
+      disabledNote="Your role can't file claims."
+      error={error}
+      result={result}
+      onReset={() => {
+        setResult(undefined);
+        setError(undefined);
+        setRuns((n) => n + 1);
+      }}
+      notice={
+        answers.error !== undefined
+          ? "Recorded answers could not be loaded, so only pasting an answer is available."
+          : askedQuestion !== undefined
+            ? `From AI Visibility, question: "${askedQuestion}". Paste what the assistant said below.`
+            : undefined
+      }
+      steps={[
+        { title: "Claims are extracted", body: "CIRQO finds each factual claim in the answer." },
+        { title: "Plain code checks them", body: "Each claim is compared with your verified product facts." },
+        { title: "Wrong ones open an incident", body: "Small fixes apply automatically; big ones wait for the named owner on Outstanding Claims." },
+      ]}
+      renderLink={(href, label) => (
+        <Link className="link" href={href}>
+          {label}
+        </Link>
+      )}
+    />
   );
 }
 
-function CheckerResult({ result }: { result: CheckerRunResponse }) {
-  return (
-    <section className="card stack" aria-live="polite">
-      <div>
-        <h2>Checked answer {result.answerId}</h2>
-        <p className="muted small">
-          {result.claims.length} claim{result.claims.length === 1 ? "" : "s"} found · <SourceChip source={result.source} />
-        </p>
-      </div>
-      {result.claims.length === 0 ? (
-        <Empty>No factual claims were found in that answer.</Empty>
-      ) : (
-        <ul className="claim-list">
-          {result.claims.map((claim) => (
-            <li key={claim.claimId} className="claim-item">
-              <div className="pill-row">
-                <StatusPill tone={CLAIM_STATUS_TONES[claim.status]}>{CLAIM_STATUS_LABELS[claim.status]}</StatusPill>
-                {claim.ruleId && <span className="muted small">{RULE_LABELS[claim.ruleId]}</span>}
-              </div>
-              <p>“{claim.text}”</p>
-              {(claim.extractedValue || claim.verifiedValue) && (
-                <p className="small">
-                  AI said <strong>{claim.extractedValue ?? "—"}</strong>, verified fact{" "}
-                  <strong>{claim.verifiedValue ?? "—"}</strong>
-                </p>
-              )}
-              <p className="muted small">{claim.reason}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-      {result.incidentsCreated.length > 0 ? (
-        <div className="stack-tight">
-          <p>
-            <strong>{result.incidentsCreated.length}</strong> claim
-            {result.incidentsCreated.length === 1 ? " was" : "s were"} opened for review:
-          </p>
-          <div className="pill-row">
-            {result.incidentsCreated.map((id) => (
-              <Link key={id} className="button button-secondary" href={`/claims/${encodeURIComponent(id)}`}>
-                Open {id}
-              </Link>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <p className="muted small">No new claims needed review.</p>
-      )}
-    </section>
-  );
+/** Maps the checker response to the view: each claim's verdict, the incident(s) created, and the source. */
+async function toResult(response: CheckerRunResponse): Promise<CheckerResultData> {
+  const incidents: Incident[] = await Promise.all(response.incidentsCreated.map((id) => getIncident(id)));
+  const unique = (values: string[]) => [...new Set(values)].join(", ");
+  return {
+    claims: response.claims.map((c) => ({ text: c.text, verdict: c.status, fact: c.verifiedValue ?? undefined })),
+    incident:
+      incidents.length > 0
+        ? {
+            id: incidents.map((i) => i.incidentId).join(", "),
+            severity: unique(incidents.map((i) => SEVERITY_LABELS[i.severity])),
+            state: unique(incidents.map((i) => INCIDENT_STATUS_LABELS[i.status].toLowerCase())),
+            // Anything still open (waiting or escalated) is on Outstanding Claims; otherwise it is already decided.
+            href: incidents.some((i) => i.status === "pending_approval" || i.status === "escalated") ? "/claims/outstanding" : "/claims/reviewed",
+          }
+        : undefined,
+    sourceLabel: response.source,
+  };
 }

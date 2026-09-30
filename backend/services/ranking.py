@@ -60,3 +60,30 @@ def rank(products: list[RankableProduct], budget_limit: float | None, use: str |
     # Higher score first, then lower price, then productId. Nothing else.
     scored.sort(key=lambda s: (-s[1], s[0].price, s[0].product_id))
     return scored
+
+
+class TaggedProduct(BaseModel):
+    """v1.4 connector search, any category: shopper-visible facts only. No brand or billing fields."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    product_id: str
+    price: float
+    tags: frozenset[str]
+    battery_hours: float | None = None
+
+
+def rank_tagged(products: list[TaggedProduct], wanted: list[str]) -> list[tuple[TaggedProduct, float]]:
+    """Best first. matchScore = 0.75 x the share of wanted use-case tags the product has + 0.25 x its battery
+    life relative to the longest in the set (0 for products without a battery figure)."""
+    longest = max((p.battery_hours or 0 for p in products), default=0)
+
+    def score(p: TaggedProduct) -> float:
+        tag_share = sum(w in p.tags for w in wanted) / len(wanted) if wanted else 1.0
+        battery = (p.battery_hours or 0) / longest if longest else 0.0
+        return round(0.75 * tag_share + 0.25 * battery, 6)
+
+    scored = [(p, score(p)) for p in products]
+    # Same tie-breaks as rank(): higher score, then lower price, then productId. Nothing else.
+    scored.sort(key=lambda s: (-s[1], s[0].price, s[0].product_id))
+    return scored

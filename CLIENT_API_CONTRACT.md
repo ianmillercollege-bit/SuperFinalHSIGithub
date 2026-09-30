@@ -1,6 +1,6 @@
 # CIRQO Client API Contract (Part I)
 
-Status: **FINAL v1.0** (approved by lead engineer, 2026-09-29). Read-only subset. **Cut if not working by 1:30 AM CT 9/30.**
+Status: **FINAL v1.1** (approved by lead engineer, 2026-09-29; v1.1: keys are scoped to a brand). Read-only subset. **Cut if not working by 1:30 AM CT 9/30.**
 All rules from `BACKEND_CONTRACT.md` apply (camelCase, prefixed IDs, UTC timestamps, error shape).
 
 ## Purpose
@@ -21,6 +21,9 @@ X-API-Key: fd_demo_owner_2026
 |-----|------|----------|
 | `fd_demo_owner_2026` | Owner | Every endpoint below |
 | `fd_demo_viewer_2026` | Viewer | Visibility and trust metrics only |
+| `fd_demo_arcton_2026` | Owner (Arcton) | Every endpoint, scoped to Arcton (v1.3) |
+| `fd_demo_novex_2026` | Owner (Novex) | Every endpoint, scoped to Novex (v1.3) |
+| key returned by `POST /brands/onboard` | Owner (new brand) | Every endpoint, scoped to that brand (v1.3) |
 
 These are demo-only keys for seeded data (see `DECISIONS.md`). They are unrelated to the AI provider key.
 

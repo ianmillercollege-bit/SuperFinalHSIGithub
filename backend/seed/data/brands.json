@@ -4,19 +4,19 @@
       "brandId": "brand_001",
       "name": "Kestrel",
       "isClient": true,
-      "billingTier": "pro"
+      "billingTier": "growth"
     },
     {
       "brandId": "brand_002",
       "name": "Arcton",
       "isClient": false,
-      "billingTier": null
+      "billingTier": "enterprise"
     },
     {
       "brandId": "brand_003",
       "name": "Novex",
       "isClient": false,
-      "billingTier": null
+      "billingTier": "starter"
     }
   ]
 }

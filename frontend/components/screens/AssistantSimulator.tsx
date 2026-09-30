@@ -1,385 +1,174 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { ErrorNotice } from "@/components/LoadState";
-import SourceChip from "@/components/SourceChip";
-import StatusPill from "@/components/StatusPill";
-import { connectorQuery, getVisibilitySummary } from "@/lib/api";
-import { CONNECTOR_MUST_HAVES, CONNECTOR_USE_CASES } from "@/lib/connectorOptions";
-import { formatDateTime, formatPercent, formatPrice } from "@/lib/format";
-import { AVAILABILITY_LABELS, CLAIM_STATUS_LABELS } from "@/lib/labels";
-import { CLAIM_STATUS_TONES } from "@/lib/tones";
+import Link from "next/link";
+import { useCallback, useRef, useState } from "react";
+import { ErrorNotice, Loading } from "@/components/LoadState";
+import AssistantSimulatorView from "@/components/screens/AssistantSimulatorView";
+import type { SimTurn, SimulatorSend } from "@/components/screens/AssistantSimulatorView";
+import Dropdown from "@/components/Dropdown";
+import { ApiError, connectorQuery, connectorSearch, getVisibilitySummary } from "@/lib/api";
 import type { ConnectorResult } from "@/lib/api";
-import type { ConnectorMustHave, ConnectorQueryRequest, ConnectorUseCase } from "@/lib/types";
+import { PRODUCT_CATEGORIES, categoryLabel } from "@/lib/categories";
+import type { ProductCategory } from "@/lib/categories";
+import { CONNECTOR_MUST_HAVES, CONNECTOR_USE_CASES } from "@/lib/connectorOptions";
+import { describeError } from "@/lib/errors";
+import { formatPrice } from "@/lib/format";
+import type { ConnectorMustHave, ConnectorQueryRequest, ConnectorSearchRequest, ConnectorSearchResponse, ConnectorUseCase } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
-// Defaults match the pre-filled question. The contract's example uses the "school" use case.
-// The contract sets no maximum length for `question`, so the box has none either.
 const DEFAULT_QUESTION = "What is the best laptop under $500 for school?";
-const DEFAULT_USE_CASE: ConnectorUseCase | "" = "school";
-const DEFAULT_MUST_HAVE: ConnectorMustHave[] = [];
+const label = (options: readonly { value: string; label: string }[], value: string) => options.find((o) => o.value === value)?.label ?? value;
 
-const SLOW_AFTER_MS = 4000;
+// A preview is either the one-pick call (POST /connector/query) or, when a category is chosen, the funnel
+// (POST /connector/search, contract v1.4), which returns up to 5 options and questions to narrow them.
+type Job = { kind: "query"; body: ConnectorQueryRequest } | { kind: "search"; body: ConnectorSearchRequest };
 
-interface Exchange {
-  id: number;
-  body: ConnectorQueryRequest;
-  assistantName: string;
-  status: "pending" | "done" | "error";
-  slow: boolean;
-  result?: ConnectorResult;
-  error?: unknown;
-}
-
-/** What an AI assistant gets back from POST /api/v1/connector/query (contract v1.1), as a chat. */
+/** What an AI assistant gets back from POST /api/v1/connector/query (contract v1.1), shown in the kit's chat view. */
 export default function AssistantSimulator() {
-  const summary = useApi(useCallback(() => getVisibilitySummary(), []));
-  const [question, setQuestion] = useState(DEFAULT_QUESTION);
-  const [assistantId, setAssistantId] = useState("");
-  const [useCase, setUseCase] = useState<ConnectorUseCase | "">(DEFAULT_USE_CASE);
-  const [mustHave, setMustHave] = useState<ConnectorMustHave[]>(DEFAULT_MUST_HAVE);
-  const [maxPrice, setMaxPrice] = useState("");
-  const [formError, setFormError] = useState<string | null>(null);
-  const [history, setHistory] = useState<Exchange[]>([]);
+  const summary = useApi(useCallback(() => getVisibilitySummary(30), []));
+  const [turns, setTurns] = useState<SimTurn[]>([]);
+  const [sending, setSending] = useState(false);
+  // The request behind each turn, so Retry can send the same thing again.
+  const requests = useRef(new Map<string, Job>());
+  const [category, setCategory] = useState<ProductCategory | "">("");
   const nextId = useRef(1);
-  const logEnd = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    logEnd.current?.scrollIntoView?.({ block: "nearest" });
-  }, [history]);
-
-  if (summary.loading) return <p className="state" role="status">Loading assistants… If the backend was asleep, this can take up to a minute.</p>;
+  if (summary.loading) return <Loading what="assistants" />;
   if (summary.error !== undefined) return <ErrorNotice error={summary.error} onRetry={summary.reload} />;
-  const assistants = summary.data!.byAssistant;
-  const chosen = assistantId || assistants[0]?.assistantId || "";
-  const busy = history.some((x) => x.status === "pending");
+  const assistants = summary.data!.byAssistant.map((a) => ({ value: a.assistantId, label: a.name }));
 
-  const patch = (id: number, change: Partial<Exchange>) =>
-    setHistory((list) => list.map((x) => (x.id === id ? { ...x, ...change } : x)));
+  const patch = (id: string, change: Partial<SimTurn>) => setTurns((list) => list.map((t) => (t.id === id ? { ...t, ...change } : t)));
 
-  async function run(id: number, body: ConnectorQueryRequest) {
-    const timer = setTimeout(() => patch(id, { slow: true }), SLOW_AFTER_MS);
+  async function run(id: string, job: Job) {
+    setSending(true);
+    patch(id, { pending: true, error: undefined });
     try {
-      const result = await connectorQuery(body);
-      patch(id, { status: "done", result, error: undefined });
+      patch(id, {
+        pending: false,
+        answer: job.kind === "query" ? toAnswer(await connectorQuery(job.body)) : searchToAnswer(await connectorSearch(job.body)),
+      });
     } catch (error) {
-      patch(id, { status: "error", error });
+      const notShipped = job.kind === "search" && error instanceof ApiError && error.code === "NOT_FOUND";
+      patch(id, {
+        pending: false,
+        error: notShipped ? "The category search isn't available on the backend yet. Choose All categories for a single pick." : describeError(error),
+      });
     } finally {
-      clearTimeout(timer);
+      setSending(false);
     }
   }
 
-  function send() {
-    if (busy) return;
-    const text = question.trim();
-    if (!text) return setFormError("Type a shopper question.");
-    if (!chosen) return setFormError("Choose an assistant.");
-    const price = maxPrice.trim() === "" ? undefined : Number(maxPrice);
-    if (price !== undefined && !(price > 0)) return setFormError("Max price must be more than 0.");
-    setFormError(null);
+  function send(v: SimulatorSend) {
+    const id = `turn_${nextId.current++}`;
+    if (category) {
+      // Funnel mode: the category is the constraint. Use case and must-haves belong to the laptop one-pick call.
+      const job: Job = { kind: "search", body: { question: v.question, assistantId: v.assistant, constraints: { category } } };
+      requests.current.set(id, job);
+      setTurns((list) => [
+        ...list,
+        { id, question: v.question, assistant: label(assistants, v.assistant), constraints: [`Category: ${categoryLabel(category)}`], pending: true },
+      ]);
+      void run(id, job);
+      return;
+    }
     const constraints: NonNullable<ConnectorQueryRequest["constraints"]> = {
-      ...(price !== undefined ? { maxPrice: price } : {}),
-      ...(useCase ? { useCase } : {}),
-      ...(mustHave.length ? { mustHave } : {}),
+      ...(v.useCase ? { useCase: v.useCase as ConnectorUseCase } : {}),
+      ...(v.mustHave.length ? { mustHave: v.mustHave as ConnectorMustHave[] } : {}),
     };
-    const body: ConnectorQueryRequest = {
-      question: text,
-      assistantId: chosen,
+    const request: ConnectorQueryRequest = {
+      question: v.question,
+      assistantId: v.assistant,
       ...(Object.keys(constraints).length ? { constraints } : {}),
     };
-    const id = nextId.current++;
-    const assistantName = assistants.find((a) => a.assistantId === chosen)?.name ?? chosen;
-    setHistory((list) => [...list, { id, body, assistantName, status: "pending", slow: false }]);
-    void run(id, body);
-  }
-
-  function retry(ex: Exchange) {
-    patch(ex.id, { status: "pending", slow: false, error: undefined });
-    void run(ex.id, ex.body);
-  }
-
-  function reset() {
-    setQuestion(DEFAULT_QUESTION);
-    setUseCase(DEFAULT_USE_CASE);
-    setMustHave(DEFAULT_MUST_HAVE);
-    setMaxPrice("");
-    setFormError(null);
+    requests.current.set(id, { kind: "query", body: request });
+    setTurns((list) => [
+      ...list,
+      {
+        id,
+        question: v.question,
+        assistant: label(assistants, v.assistant),
+        constraints: [
+          ...(v.useCase ? [`Use case: ${label(CONNECTOR_USE_CASES, v.useCase)}`] : []),
+          ...v.mustHave.map((m) => `Must have: ${label(CONNECTOR_MUST_HAVES, m)}`),
+        ],
+        pending: true,
+      },
+    ]);
+    void run(id, { kind: "query", body: request });
   }
 
   return (
-    <div className="stack">
-      <section className="card stack" aria-labelledby="chat-title">
-        <div className="button-row">
-          <h2 id="chat-title" className="eyebrow">
-            Conversation
-          </h2>
-          {history.length > 0 && (
-            <button type="button" className="button button-secondary" onClick={() => setHistory([])} disabled={busy}>
-              Clear
-            </button>
-          )}
+    <AssistantSimulatorView
+      defaultQuestion={DEFAULT_QUESTION}
+      assistants={assistants}
+      useCases={[...CONNECTOR_USE_CASES]}
+      mustHaves={[...CONNECTOR_MUST_HAVES]}
+      defaultUseCase="school"
+      title="Preview as shopper"
+      eyebrow="What a shopper's AI assistant answers from your verified catalog"
+      intro={
+        <div className="stack-tight">
+        <p className="cq-line">
+          See what a shopper&apos;s AI assistant answers from your verified catalog. Use it to check a launch, understand why a competitor
+          wins a question, or reproduce a complaint. Shoppers never see it. Every preview is recorded and appears in <Link className="link" href="/visibility">AI Visibility</Link>.
+        </p>
+        <div style={{ maxWidth: 320 }}>
+          <Dropdown
+            label="Category"
+            compact
+            value={category}
+            onChange={(v) => setCategory(v as ProductCategory | "")}
+            options={[{ value: "", label: "All categories (one pick)" }, ...PRODUCT_CATEGORIES.map((c) => ({ value: c.value, label: `${c.label} (options)` }))]}
+          />
+          <p className="cq-sub">Pick a category to see up to five options and the questions that would narrow them.</p>
         </div>
-
-        {history.length === 0 ? (
-          <p className="muted">
-            A shopper asks an AI assistant a shopping question. Instead of guessing, the assistant calls CIRQO, which
-            answers only from verified facts. Send a question below to see exactly what comes back.
-          </p>
-        ) : (
-          <ul className="chat" role="log" aria-live="polite">
-            {history.map((ex) => (
-              <li key={ex.id} className="stack-tight">
-                <div className="bubble bubble-user">
-                  <span className="eyebrow">Shopper asks</span>
-                  <p>{ex.body.question}</p>
-                  <ul className="chip-row" aria-label="Sent with this question">
-                    <li className="source-chip">Assistant: {ex.assistantName}</li>
-                    {ex.body.constraints?.useCase && (
-                      <li className="source-chip">Use case: {label(CONNECTOR_USE_CASES, ex.body.constraints.useCase)}</li>
-                    )}
-                    {ex.body.constraints?.mustHave?.map((m) => (
-                      <li key={m} className="source-chip">
-                        Must have: {label(CONNECTOR_MUST_HAVES, m)}
-                      </li>
-                    ))}
-                    {ex.body.constraints?.maxPrice !== undefined && (
-                      <li className="source-chip">Max price: {formatPrice(ex.body.constraints.maxPrice)}</li>
-                    )}
-                    {!ex.body.constraints && <li className="source-chip">No constraints</li>}
-                  </ul>
-                </div>
-                {ex.status === "pending" && (
-                  <div className="bubble bubble-coach" role="status">
-                    <p>{ex.slow ? "Waking up the backend… the first request can take up to a minute." : "CIRQO is checking verified facts…"}</p>
-                  </div>
-                )}
-                {ex.status === "error" && <ErrorNotice error={ex.error} onRetry={() => retry(ex)} />}
-                {ex.status === "done" && ex.result && <Reply result={ex.result} />}
-              </li>
-            ))}
-          </ul>
-        )}
-        <div ref={logEnd} />
-
-        <form
-          className="stack"
-          onSubmit={(e) => {
-            e.preventDefault();
-            send();
-          }}
-          noValidate
-        >
-          <label className="field">
-            Shopper question
-            <textarea
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  send();
-                }
-              }}
-              rows={2}
-              aria-describedby="enter-hint"
-            />
-          </label>
-          <p id="enter-hint" className="muted small">
-            Press Enter to send, Shift+Enter for a new line.
-          </p>
-          <label className="field">
-            AI assistant
-            <select value={chosen} onChange={(e) => setAssistantId(e.target.value)}>
-              {assistants.map((a) => (
-                <option key={a.assistantId} value={a.assistantId}>
-                  {a.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <fieldset className="constraints-box">
-            <legend className="eyebrow">Constraints</legend>
-            <div className="constraints-grid">
-              <label className="field">
-                Use case
-                <select value={useCase} onChange={(e) => setUseCase(e.target.value as ConnectorUseCase | "")}>
-                  <option value="">Any</option>
-                  {CONNECTOR_USE_CASES.map((u) => (
-                    <option key={u.value} value={u.value}>
-                      {u.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <fieldset className="mode-toggle">
-              <legend className="small">Must have</legend>
-              {CONNECTOR_MUST_HAVES.map((m) => (
-                <label key={m.value} className="check">
-                  <input
-                    type="checkbox"
-                    checked={mustHave.includes(m.value)}
-                    onChange={(e) =>
-                      setMustHave((list) => (e.target.checked ? [...list, m.value] : list.filter((v) => v !== m.value)))
-                    }
-                  />
-                  {m.label}
-                </label>
-              ))}
-            </fieldset>
-            <details>
-              <summary>More constraints</summary>
-              <label className="field">
-                Max price (USD)
-                <input
-                  type="number"
-                  min={1}
-                  inputMode="decimal"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(e.target.value)}
-                  placeholder="Optional. Otherwise taken from the question"
-                />
-              </label>
-            </details>
-          </fieldset>
-
-          {formError && (
-            <p className="state-error" role="alert">
-              {formError}
-            </p>
-          )}
-          <div className="button-row">
-            <button type="submit" className="button" disabled={busy}>
-              {busy ? "Sending…" : "Send"}
-            </button>
-            <button type="button" className="link-button" onClick={reset}>
-              Reset
-            </button>
-          </div>
-        </form>
-      </section>
-    </div>
+        </div>
+      }
+      turns={turns}
+      sending={sending}
+      onSend={send}
+      onClear={() => setTurns([])}
+      onRetry={(id) => {
+        const job = requests.current.get(id);
+        if (job) void run(id, job);
+      }}
+    />
   );
 }
 
-function label<T extends string>(options: readonly { value: T; label: string }[], value: T): string {
-  return options.find((o) => o.value === value)?.label ?? value;
-}
-
-function Reply({ result }: { result: ConnectorResult }) {
-  const { response, via } = result;
+/**
+ * Maps the contract's response to the view. The contract returns only `correct` facts, so every fact shows as
+ * Checked (anything else would show as Not verified). It has no "matched" or "unmet" constraint fields, so
+ * none are shown.
+ */
+function toAnswer({ response, via }: ConnectorResult): NonNullable<SimTurn["answer"]> {
   const r = response.recommendation;
-  const failedFacts = r ? r.facts.filter((f) => f.claimStatus !== "correct") : [];
-  return (
-    <div className="stack-tight">
-      {via === "mock" && (
-        <p className="mock-note" role="note">
-          <span className="estimate-badge">Mock data</span> Mock mode is on, so this is the example answer from
-          shared/mock/connector_query.json, not a reply to your exact question.
-        </p>
-      )}
-      <div className="bubble bubble-coach">
-        <span className="eyebrow">Verified answer, from CIRQO</span>
-        <p>{response.answerText}</p>
-      </div>
+  return {
+    text: response.answerText,
+    facts: (r?.facts ?? []).map((f) => ({ text: f.text, status: f.claimStatus === "correct" ? "checked" : "failed" })),
+    // v1.5: the recommendation says whether its brand verified the facts. Older backends send no flag, so nothing is claimed.
+    options: r && r.verified !== undefined ? [{ name: `${r.name} (${r.brandName})`, detail: formatPrice(r.price), verified: r.verified }] : undefined,
+    noMatchMessage: r ? undefined : "No product fits.",
+    source: sourceLine(via === "mock" ? `${response.source} (example data: mock mode is on)` : response.source, response.verifiedCount, response.unverifiedCount),
+  };
+}
 
-      <div className="card stack connector-card">
-        {r ? (
-          <>
-            <div className="rec-head">
-              <div>
-                <h3>{r.name}</h3>
-                <p className="muted">{r.brandName}</p>
-              </div>
-              <div className="rec-price">
-                <span className="big-number">{formatPrice(r.price)}</span>
-                <span className="muted">{AVAILABILITY_LABELS[r.availability]}</span>
-              </div>
-            </div>
-            <p className="small">
-              Match {formatPercent(r.matchScore)} · {r.returnPolicyDays}-day returns · facts verified{" "}
-              {formatDateTime(r.verifiedAt)}
-            </p>
-            <div>
-              <p className="eyebrow">Facts</p>
-              <ul className="reason-list">
-                {r.facts.map((f) => (
-                  <li key={`${f.factId}-${f.text}`}>
-                    {f.claimStatus === "correct" ? (
-                      <StatusPill tone={CLAIM_STATUS_TONES.correct}>✓ Checked</StatusPill>
-                    ) : (
-                      <StatusPill tone={CLAIM_STATUS_TONES[f.claimStatus]}>✕ Failed check: {CLAIM_STATUS_LABELS[f.claimStatus]}</StatusPill>
-                    )}
-                    <span>{f.text}</span>
-                  </li>
-                ))}
-              </ul>
-              {failedFacts.length > 0 && (
-                <p className="state-error small" role="alert">
-                  {failedFacts.length} fact(s) did not pass the check and should not be repeated to the shopper.
-                </p>
-              )}
-            </div>
-          </>
-        ) : (
-          <div className="stack-tight" role="note">
-            <p>{response.answerText}</p>
-            <p>
-              <strong>No verified product matches these constraints. Try removing one.</strong>
-            </p>
-          </div>
-        )}
+/** "mock · 3 verified, 2 not verified": the v1.5 counts, when the backend sends them. */
+function sourceLine(source: string, verified?: number, unverified?: number): string {
+  return verified === undefined && unverified === undefined ? source : `${source} · ${verified ?? 0} verified, ${unverified ?? 0} not verified`;
+}
 
-        {response.alternatives.length > 0 && (
-          <div>
-            <p className="eyebrow">Alternatives</p>
-            <ul className="alt-list">
-              {response.alternatives.map((a) => (
-                <li key={a.productId}>
-                  <span>
-                    <strong>{a.name}</strong> <span className="muted">{a.brandName}</span>
-                  </span>
-                  <span>
-                    {formatPrice(a.price)} · {formatPercent(a.matchScore)} match
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {response.claims.length > 0 && (
-          <details>
-            <summary>Every sentence of the answer, checked ({response.claims.length})</summary>
-            <ul className="reason-list">
-              {response.claims.map((c) => (
-                <li key={c.claimId}>
-                  {c.status === "correct" ? (
-                    <StatusPill tone={CLAIM_STATUS_TONES.correct}>✓ Checked</StatusPill>
-                  ) : (
-                    <StatusPill tone={CLAIM_STATUS_TONES[c.status]}>✕ Failed check: {CLAIM_STATUS_LABELS[c.status]}</StatusPill>
-                  )}
-                  <span>{c.text}</span>
-                </li>
-              ))}
-            </ul>
-          </details>
-        )}
-
-        <p className="neutral-note">{response.rankingNote}</p>
-        <ul className="chip-row" aria-label="About this answer">
-          <li>
-            <SourceChip source={response.source} />
-          </li>
-          <li className="source-chip">Recorded as {response.answerId}</li>
-          <li className="source-chip">Verified {formatDateTime(response.verifiedAt)}</li>
-        </ul>
-        <p className="muted small">
-          Your question and constraints went through the CIRQO connector, and every fact was checked against verified
-          product data.
-        </p>
-      </div>
-    </div>
-  );
+/** Maps the funnel response: the options and narrowing questions become the answer text; the best option's facts are checked. */
+function searchToAnswer(r: ConnectorSearchResponse): NonNullable<SimTurn["answer"]> {
+  if (r.optionCount === 0 || r.options.length === 0) {
+    return { text: `No verified ${categoryLabel(r.category)} option matches this question.`, facts: [], noMatchMessage: "No product fits.", source: r.source };
+  }
+  const options = r.options.map((o, i) => `${i + 1}. ${o.name} (${o.brandName}, $${o.price.toFixed(2)})`).join("  ");
+  const hints = r.narrowingHints.map((h) => `Ask the shopper: ${h.question}`).join("  ");
+  return {
+    text: `${r.optionCount} verified ${categoryLabel(r.category)} option${r.optionCount === 1 ? "" : "s"}, best first: ${options}${hints ? `  ${hints}` : ""}`,
+    facts: r.options[0].facts.map((f) => ({ text: `${r.options[0].name}: ${f.text}`, status: f.claimStatus === "correct" ? "checked" : "failed" })),
+    options: r.options.filter((o) => o.verified !== undefined).map((o) => ({ name: `${o.name} (${o.brandName})`, detail: formatPrice(o.price), verified: o.verified === true })),
+    source: sourceLine(r.source, r.verifiedCount, r.unverifiedCount),
+  };
 }

@@ -178,6 +178,18 @@ export interface Product {
   specs: ProductSpecs;
   returnPolicyDays: number;
   updatedAt: Timestamp;
+  /** v1.4.1. Older backends omit it; those products are laptops. */
+  category?: ProductCategory;
+  subcategory?: string;
+  /** v1.2 Verified Data Layer. */
+  factSource?: string;
+  factSourceUrl?: string;
+  verifiedAt?: Timestamp | null;
+  /** v1.5: true only for opted-in companies. */
+  verified?: boolean;
+  /** v1.6 (section 7e). Older backends omit both. */
+  condition?: ProductCondition;
+  communityPledge?: CommunityPledge | null;
 }
 
 export interface ProductsResponse {
@@ -319,7 +331,8 @@ export type AuditAction =
   | "rejected"
   | "escalated"
   | "resolved"
-  | "connector_query";
+  | "connector_query"
+  | "brand_onboarded";
 
 export interface AuditEntry {
   auditId: string;
@@ -420,6 +433,7 @@ export interface RecommendResponse {
 // ---- Connector (v1.1): POST /api/v1/connector/query ----
 
 import type { ConnectorMustHave, ConnectorUseCase } from "./connectorOptions";
+import type { ProductCategory } from "./categories";
 export type { ConnectorMustHave, ConnectorUseCase };
 
 export interface ConnectorQueryRequest {
@@ -446,6 +460,8 @@ export interface ConnectorRecommendation {
   returnPolicyDays: number;
   facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
   verifiedAt: Timestamp;
+  /** v1.5: the brand verified these facts. */
+  verified?: boolean;
 }
 
 export interface ConnectorQueryResponse {
@@ -461,4 +477,222 @@ export interface ConnectorQueryResponse {
   rankingNote: string;
   verifiedAt: Timestamp;
   source: AiSource;
+  /** v1.5 */
+  verifiedCount?: number;
+  unverifiedCount?: number;
+}
+
+// ---- Brand accounts (v1.3, section 7b) ----
+
+export interface DemoAccount {
+  brandId: string;
+  brandName: string;
+  role: "owner" | "viewer";
+  apiKey: string;
+  /** v1.4: the login username, when the backend sends one. */
+  username?: string;
+  /** v1.5: whether the company is opted in. Login lists only opted-in companies. */
+  optedIn?: boolean;
+  /** v1.6: a Community Partner row carries its organization's name. */
+  orgName?: string;
+}
+
+export interface DemoAccountsResponse {
+  accounts: DemoAccount[];
+}
+
+// ---- Login (v1.4, section 7c): POST /api/v1/auth/login ----
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  expiresAt: Timestamp;
+  user: { userId: string; name: string; role: string; username: string };
+  /** Staff are not tied to a brand, so this may be missing. */
+  brand?: { brandId: string; brandName: string } | null;
+  /** v1.6: Community Partner users have an organization instead of a brand. */
+  org?: { orgId: string; orgName: string } | null;
+}
+
+// ---- Onboarding (v1.3, section 7b): POST /api/v1/brands/onboard ----
+
+export interface OnboardProduct {
+  name: string;
+  price: number;
+  availability?: Availability;
+  specs?: { batteryHours?: number; weightLb?: number; screenInches?: number };
+  returnPolicyDays?: number;
+}
+
+export interface OnboardRequest {
+  brandName: string;
+  ownerName: string;
+  /** 1 to 50 products. */
+  products: OnboardProduct[];
+}
+
+export interface OnboardResponse {
+  brandId: string;
+  brandName: string;
+  apiKey: string;
+  productsCreated: number;
+  owners: { ownerId: string; name: string; role: string }[];
+  connectorReady: boolean;
+  note: string;
+}
+
+// ---- Companies (v1.4, section 7c) ----
+
+/** GET /api/v1/brands/{brandId} */
+export interface BrandProfile {
+  brandId: string;
+  brandName: string;
+  tagline: string;
+  categories: ProductCategory[];
+  hqCity: string;
+  founded: number;
+  employees: number;
+  ceo: { name: string };
+  website: string;
+  admins: { userId: string; name: string; role: string }[];
+  productCount: number;
+  /** v1.5: opted-in companies have admins, dashboards and verified facts; the rest can claim their company. */
+  optedIn?: boolean;
+  /** Only on the company's own profile. */
+  plan?: "starter" | "growth" | "enterprise";
+}
+
+/** One row of GET /api/v1/brands (CIRQO Staff token only). */
+export interface BrandSummary {
+  brandId: string;
+  brandName: string;
+  categories: ProductCategory[];
+  productCount: number;
+  visibilityRate: Rate;
+  openIncidents: number;
+  escalatedIncidents: number;
+  accuracyRate: Rate;
+  /** v1.5 */
+  optedIn?: boolean;
+}
+
+export interface BrandsResponse {
+  brands: BrandSummary[];
+}
+
+// ---- Connector search (v1.4): POST /api/v1/connector/search ----
+
+export interface ConnectorSearchRequest {
+  question: string;
+  assistantId: string;
+  constraints?: { category?: ProductCategory; maxPrice?: number };
+}
+
+export interface ConnectorSearchResponse {
+  searchId: string;
+  category: string;
+  optionCount: number;
+  options: {
+    productId: string;
+    name: string;
+    brandName: string;
+    price: number;
+    availability: Availability;
+    matchScore: Rate;
+    facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
+    /** v1.5 */
+    verified?: boolean;
+  }[];
+  narrowingHints: { attribute: string; question: string; splits: Record<string, number> }[];
+  rankingNote: string;
+  verifiedAt: Timestamp;
+  source: AiSource;
+  /** v1.5 */
+  verifiedCount?: number;
+  unverifiedCount?: number;
+}
+
+// ---- Claim your company (v1.5, section 7d): POST /api/v1/brands/{brandId}/claim ----
+
+export interface ClaimCompanyRequest {
+  ownerName: string;
+  email: string;
+}
+
+/** The /brands/onboard response plus `optedIn: true`. */
+export interface ClaimCompanyResponse extends OnboardResponse {
+  optedIn: true;
+}
+
+// ---- Community program (v1.6, section 7e) ----
+
+export type ProductCondition = "new" | "refurbished" | "surplus";
+
+export interface CommunityPledge {
+  unitsPledged: number;
+  unitsPlaced: number;
+  conditionNotes: string;
+  warrantyMonths: number;
+}
+
+/** One row of GET /api/v1/community/catalog. */
+export interface CommunityItem {
+  productId: string;
+  name: string;
+  brandId: string;
+  brandName: string;
+  category: ProductCategory;
+  condition: ProductCondition;
+  price: number;
+  verified: boolean;
+  communityPledge: CommunityPledge;
+  facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
+}
+
+export interface CommunityCatalogResponse {
+  items: CommunityItem[];
+}
+
+export interface CommunityCatalogFilters {
+  category?: ProductCategory;
+  brandId?: string;
+  condition?: ProductCondition;
+  limit?: number;
+}
+
+export type CommunityRequestStatus = "pending_approval" | "approved" | "rejected";
+
+/** POST /api/v1/community/requests body. No personal data about recipients is ever sent or stored. */
+export interface CommunityRequestBody {
+  productId: string;
+  units: number;
+  purpose: string;
+}
+
+export interface CommunityRequest {
+  requestId: string;
+  status: CommunityRequestStatus;
+  productId: string;
+  brandId: string;
+  partner: { orgId: string; orgName: string };
+  units: number;
+  purpose: string;
+  createdAt: Timestamp;
+}
+
+export interface CommunityRequestsResponse {
+  requests: CommunityRequest[];
+}
+
+export interface CommunityImpact {
+  unitsPledged: number;
+  unitsPlaced: number;
+  partnersServed: number;
+  requestsPending: number;
+  /** The contract does not spell out the rows, so the screens do not read them. */
+  byCategory: unknown[];
 }
