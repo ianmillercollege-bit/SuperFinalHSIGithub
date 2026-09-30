@@ -1859,3 +1859,15 @@ html:root {
 .dd-combo-toggle[aria-expanded="true"] {
   color: var(--orange-text);
 }
+
+/* ---- Sidebar logo: the CIRQO mark and "ANALYTICS" are centred in the sidebar ---- */
+aside.cq-sidebar .cq-lockup {
+  align-items: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+aside.cq-sidebar .cq-lockup-sub {
+  /* The 0.4em letter-spacing leaves a trailing gap after the last letter; the same amount on the left keeps the word optically centred. */
+  padding-left: 0.4em;
+  text-align: center;
+}
