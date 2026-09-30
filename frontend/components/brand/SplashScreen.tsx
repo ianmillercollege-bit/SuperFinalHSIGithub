@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { SPLASH_KEY } from '../../lib/splash';
 
 // Opening splash: "Welcome to" rises in, glides up above the logo, and the ring spins in from nothing. Plays once per browser tab session, and can be replayed with ?splash=1 (handy for demos).
 // Skips itself for people who prefer reduced motion. Click, tap or any key skips it.
 // Mount it once, at the top of <body> in the root layout. Timing lives in styles/cirqo-splash.css.
-const KEY = 'cirqo:splash:v1';
 const TOTAL_WITH_GREETING_MS = 2160, TOTAL_PLAIN_MS = 1750, EXIT_MS = 260, SKIP_EXIT_MS = 180, WAIT_ASSETS_MS = 700;   // keep in step with --cq-splash-logo-delay
 type Phase = 'pending' | 'play' | 'exit' | 'gone';
 
@@ -22,12 +22,12 @@ export default function SplashScreen({ replayParam = 'splash', welcome = 'Welcom
 
   useEffect(() => {
     let cancelled = false;
-    const seen = (() => { try { return sessionStorage.getItem(KEY) === '1'; } catch { return false; } })();
+    const seen = (() => { try { return sessionStorage.getItem(SPLASH_KEY) === '1'; } catch { return false; } })();
     const force = new URLSearchParams(window.location.search).get(replayParam) === '1';
     const reduce = !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     if ((seen && !force) || reduce) { document.documentElement.setAttribute('data-splash', 'done'); setPhase('gone'); return; }
     document.documentElement.removeAttribute('data-splash');
-    try { sessionStorage.setItem(KEY, '1'); } catch { /* private mode: it just plays again next time */ }
+    try { sessionStorage.setItem(SPLASH_KEY, '1'); } catch { /* private mode: it just plays again next time */ }
     const prevOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
     const after = (fn: () => void, ms: number) => { timers.current.push(setTimeout(() => { if (!cancelled) fn(); }, ms)); };
     const end = () => { document.body.style.overflow = prevOverflow; document.documentElement.setAttribute('data-splash', 'done'); setPhase('gone'); };

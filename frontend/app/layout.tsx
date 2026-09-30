@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Archivo, Public_Sans } from "next/font/google";
-import SplashScreen from "@/components/brand/SplashScreen";
 import "@/styles/tokens.css";
 import "./globals.css";
 import "@/styles/cirqo-dashboard.css";
@@ -36,7 +36,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script src="/cirqo-init.js" />
       </head>
       <body>
-        <SplashScreen />
+        {/* The splash itself lives in the signed-in shell (components/AppShell.tsx). This hides it before hydration when it already played in this tab. */}
+        <Script id="cirqo-splash-flag" strategy="beforeInteractive">
+          {`try{if(sessionStorage.getItem('cirqo:splash:v1'))document.documentElement.setAttribute('data-splash','done')}catch(e){}`}
+        </Script>
         {children}
       </body>
     </html>
