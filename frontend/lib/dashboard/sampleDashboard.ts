@@ -7,6 +7,14 @@ import type { DashboardViewModel } from './types';
 const ramp = (start: number, end: number, phase: number, n = 30) =>
   Array.from({ length: n }, (_, i) => start + (end - start) * (i / (n - 1)) + Math.sin(i * 1.7 + phase) * (Math.abs(end - start) * 0.06) * (1 - i / (n - 1)));
 
+// 60 days of Shopify storefront sales: the 30 before the window, then the 30 in it. Every figure on the panel
+// (totals, change, order count, average order value) is computed from these days.
+const storefrontDays = Array.from({ length: 60 }, (_, i) => {
+  const revenue = Math.round(1000 + i * 5 + Math.sin(i * 0.9) * 120 + (i % 7 >= 5 ? 240 : 0));
+  const orders = Math.max(1, Math.round(revenue / (62 + Math.sin(i * 0.5) * 5)));
+  return { revenue, orders };
+});
+
 export const sampleDashboard: DashboardViewModel = {
   firstName: 'there',
   businessName: BUSINESS.name,
@@ -25,6 +33,7 @@ export const sampleDashboard: DashboardViewModel = {
     { id: 'o4', title: 'Keep stock status up to date', effort: 'Medium', liftPoints: 2, revenuePerMonth: 573 },
     { id: 'o5', title: 'Answer common shopper questions', effort: 'Low', liftPoints: 1, revenuePerMonth: 287 },
   ],
+  storefront: { currency: 'USD', days: storefrontDays, aiShare: 0.18, sample: true },
   weeklyScores: [52, 54, 55, 57, 56, 59, 58, 63],
   trust: {
     badge: 'Simulated pilot data',

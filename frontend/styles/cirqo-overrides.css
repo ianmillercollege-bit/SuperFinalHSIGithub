@@ -474,3 +474,148 @@ a.cq-stat:focus-visible,
   padding: 0;
   list-style: none;
 }
+
+/* Shopify storefront revenue panel on the dashboard. */
+.cq-shop {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cq-shop-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cq-shop-body {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 1.6fr) minmax(200px, 0.9fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.cq-shop-total {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cq-shop-value {
+  font-family: var(--cq-font-display);
+  font-weight: 700;
+  font-size: 40px;
+  letter-spacing: -0.01em;
+  color: var(--cq-text);
+}
+
+.cq-shop-delta {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--cq-ok-bg);
+  color: var(--cq-ok);
+}
+
+.cq-shop-delta.is-bad {
+  background: var(--cq-bad-bg);
+  color: var(--cq-bad);
+}
+
+.cq-shop-chart svg {
+  display: block;
+  width: 100%;
+  height: 150px;
+}
+
+.cq-shop-chart .line {
+  fill: none;
+  stroke: var(--chart-line);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.cq-shop-chart .area {
+  fill: var(--chart-line);
+  fill-opacity: 0.12;
+  stroke: none;
+}
+
+.cq-shop-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--cq-text-muted);
+  padding-top: 6px;
+}
+
+.cq-shop-facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.cq-shop-facts dt {
+  font-size: 13px;
+  color: var(--cq-text-muted);
+}
+
+.cq-shop-facts dd {
+  margin: 2px 0 0;
+  font-family: var(--cq-font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--cq-text);
+}
+
+.cq-shop-ai {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cq-border);
+}
+
+.cq-shop-ring {
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+}
+
+.cq-shop-ring .track {
+  fill: none;
+  stroke: var(--cq-grid);
+  stroke-width: 10;
+}
+
+.cq-shop-ring .arc {
+  fill: none;
+  stroke: var(--cq-orange);
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.cq-shop-ring text {
+  font-family: var(--cq-font-display);
+  font-size: 22px;
+  font-weight: 700;
+  fill: var(--cq-text);
+}
+
+.cq-shop-facts .cq-shop-ai-note {
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--cq-text-muted);
+}
+
+@media (max-width: 1100px) {
+  .cq-shop-body {
+    grid-template-columns: 1fr;
+  }
+}
