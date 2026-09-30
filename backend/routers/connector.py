@@ -17,13 +17,15 @@ import constants as C
 from db import Answer, Assistant, Brand, Claim, Product, get_db
 from ids import next_id
 from routers.shopper import reasons_for, to_rankable
-from schemas import ConnectorQueryIn, ConnectorQueryOut
+from schemas import ConnectorQueryIn, ConnectorQueryOut, ConnectorSearchIn, ConnectorSearchOut
 from services.ai_client import source_label
-from services.checker import (Catalog, audit, brand_mentions, check, extract_claims, human_availability, num,
+from services.checker import (Catalog, Extracted, audit, brand_mentions, check, extract_claims, human_availability, num,
                               usable_number)
 from services.activity import record_activity
 from services.categories import infer_category
-from services.ranking import rank
+from services.ranking import TaggedProduct, rank, rank_tagged
+from services.search import (brand_verified, matches_must_have, narrowing_hints, product_tags, subcategories_in, use_case_in,
+                             wanted_tags)
 from timeutil import now_iso
 
 router = APIRouter(prefix="/connector", tags=["Connector"])
@@ -155,3 +157,135 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
         "answerText": answer_text, "claims": claims, "rankingNote": C.CONNECTOR_RANKING_NOTE,
         "verifiedAt": at, "source": source_label(),
     }
+
+
+# ---- Connector search: the funnel (v1.4 section 7c) ---------------------------------------------
+
+SEARCH_LIMIT = 5
+
+
+def option_facts(p: Product, catalog: Catalog, verified: bool = True) -> list[dict]:
+    """Short facts for one option, each checked by the checker. Only 'correct' ones are returned. v1.5: for a
+    brand that has not opted in, the same facts come back labelled 'unverifiable' (no fact id), never 'correct'."""
+    s = {k: v for k, v in (p.specs or {}).items() if v is not None}
+    candidates = [(f"${p.price:.2f}", Extracted("", "price", "price", p.product_id, value=str(p.price))),
+                  (human_availability(p.availability).capitalize(),
+                   Extracted("", "availability", "availability", p.product_id, value=p.availability))]
+    for key, text in (("batteryHours", "{v}-hour battery"), ("weightLb", "Weighs {v} lb"),
+                      ("screenInches", "{v}-inch screen")):
+        if isinstance(s.get(key), (int, float)) and not isinstance(s.get(key), bool):
+            candidates.append((text.format(v=num(s[key])),
+                               Extracted("", "feature", "spec", p.product_id, value=s[key], attr=key)))
+    if p.category == "laptops" and isinstance(s.get("touchscreen"), bool):
+        candidates.append(("Touchscreen" if s["touchscreen"] else "No touchscreen",
+                           Extracted("", "feature", "spec", p.product_id, value=s["touchscreen"], attr="touchscreen")))
+    candidates.append((f"{p.return_policy_days}-day return policy",
+                       Extracted("", "policy", "policy", p.product_id, value=p.return_policy_days)))
+    facts = []
+    for text, claim in candidates:
+        result = check(claim, catalog)
+        if result.status == "correct":
+            facts.append({"text": text, "claimStatus": "correct", "factId": result.fact_id} if verified
+                         else {"text": text, "claimStatus": "unverifiable", "factId": result.fact_id})
+    return facts
+
+
+def battery_of(p: Product) -> float | None:
+    value = (p.specs or {}).get("batteryHours")
+    return float(value) if isinstance(value, (int, float)) and not isinstance(value, bool) else None
+
+
+def ranked_options(products: list[Product], category: str, question: str, use_case: str | None,
+                   must_have: list[str]) -> list[tuple[Product, float]]:
+    """Neutral ranking. Laptops use exactly /connector/query's ranking; other categories rank on use-case tags
+    and battery life. Only shopper-visible facts reach the ranking code."""
+    by_id = {p.product_id: p for p in products}
+    if category == "laptops":
+        legacy = [C.MUST_HAVES[m] for m in must_have if m in C.MUST_HAVES]
+        ranked = rank([to_rankable(p) for p in products], None, C.USE_CASES.get(use_case), legacy)
+    else:
+        tagged = [TaggedProduct(product_id=p.product_id, price=p.price, tags=product_tags(p),
+                                battery_hours=battery_of(p)) for p in products]
+        ranked = rank_tagged(tagged, wanted_tags(question, use_case, products))
+    return [(by_id[r.product_id], score) for r, score in ranked]
+
+
+@router.post("/search", response_model=ConnectorSearchOut)
+def search(body: ConnectorSearchIn, db=Depends(get_db)):
+    assistant = db.get(Assistant, body.assistant_id)
+    if assistant is None:
+        raise HTTPException(404, f"Assistant {body.assistant_id} does not exist.")
+
+    constraints = body.constraints
+    category = (constraints.category if constraints else None) or infer_category(body.question) or "laptops"
+    max_price = constraints.max_price if constraints else None
+    if max_price is None:
+        max_price = price_from_question(body.question)
+    use_case = (constraints.use_case if constraints else None) or use_case_in(body.question)
+    must_have = constraints.must_have if constraints else []
+
+    # Filter: category (and a subcategory the question names, e.g. "graphics card"), budget ("at most") and every must-have. Then the neutral ranking, top 5.
+    products = db.scalars(select(Product).where(Product.category == category)).all()
+    named = subcategories_in(body.question)
+    products = [p for p in products if p.subcategory in named] or products
+    fits = [p for p in products if (max_price is None or p.price <= max_price)
+            and all(matches_must_have(p, m) for m in must_have)]
+    ranked = ranked_options(fits, category, body.question, use_case, must_have)[:SEARCH_LIMIT]
+    picked = [p for p, _ in ranked]
+
+    brand_rows = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
+    brands = {k: b.name for k, b in brand_rows.items()}
+    verified = {p.product_id: brand_verified(brand_rows.get(p.brand_id)) for p in picked}
+    catalog = Catalog(db)
+    options = [{"productId": p.product_id, "name": p.name, "brandName": brands.get(p.brand_id, ""),
+                "price": p.price, "currency": p.currency, "availability": p.availability,
+                "matchScore": round(score, 2), "verified": verified[p.product_id],
+                "facts": option_facts(p, catalog, verified[p.product_id])} for p, score in ranked]
+    hints = narrowing_hints(picked)
+
+    # Recorded like /connector/query: one sentence per option, each checked; only fully correct sentences kept.
+    # v1.5: an option from a brand that has not opted in is labelled, and its price is not a verified claim.
+    kept, results = [], []
+    for i, p in enumerate(picked):
+        if not verified[p.product_id]:
+            kept.append(f"Not verified by the brand: option {i + 1} is the {p.name} at ${p.price:.2f}.")
+            continue
+        sentence = f"Verified option {i + 1} is the {p.name} at ${p.price:.2f}."
+        checked = [(c, check(c, catalog)) for c in extract_claims(sentence, catalog)]
+        if all(r.status == "correct" for _, r in checked):
+            kept.append(sentence)
+            results.extend(checked)
+    answer_text = " ".join(kept) if picked else no_match_sentence(max_price, use_case, must_have)
+
+    at = now_iso()
+    order = brand_mentions(answer_text, catalog)
+    client_rank = next((i + 1 for i, b in enumerate(order) if b in catalog.client_brand_ids), None)
+    answer = Answer(answer_id=next_id(db, Answer.answer_id, "ans"), query_text=body.question,
+                    assistant_id=assistant.assistant_id, answer_text=answer_text,
+                    brand_mentioned=client_rank is not None, rank=client_rank,
+                    source_ids=[C.CONNECTOR_SOURCE_ID], captured_at=at, source=source_label())
+    db.add(answer)
+    db.flush()
+    claims = []
+    for c, r in results:
+        claim = Claim(claim_id=next_id(db, Claim.claim_id, "clm"), answer_id=answer.answer_id,
+                      product_id=c.product_id, text=c.text, claim_type=c.claim_type,
+                      extracted_value=r.extracted_value, verified_value=r.verified_value, status=r.status,
+                      rule_id=r.rule_id, fact_id=r.fact_id, reason=r.reason, checked_at=at)
+        db.add(claim)
+        db.flush()
+        claims.append(claim)
+    record_activity(db, claims)
+
+    search_id = "srch_" + answer.answer_id.split("_", 1)[1]
+    found = f"returned {len(options)} {category} option(s)" if options else "found no matching product"
+    hinted = f"; narrowing hints: {', '.join(h['attribute'] for h in hints)}" if hints else ""
+    audit(db, assistant.name, "ai", "connector_search", answer.answer_id,
+          f"{assistant.name} searched: \"{body.question}\". CIRQO {found}{hinted}.", at)
+    db.commit()
+
+    return {"searchId": search_id, "question": body.question, "assistantId": assistant.assistant_id,
+            "category": category, "optionCount": len(options), "options": options, "narrowingHints": hints,
+            "verifiedCount": sum(o["verified"] for o in options),
+            "unverifiedCount": sum(not o["verified"] for o in options),
+            "rankingNote": C.CONNECTOR_RANKING_NOTE, "verifiedAt": at, "source": source_label()}

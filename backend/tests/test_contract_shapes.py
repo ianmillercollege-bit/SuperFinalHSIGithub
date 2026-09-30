@@ -18,7 +18,10 @@ def same_shape(real, mock, path="$"):
             same_shape(real[k], mock[k], f"{path}.{k}")
     elif isinstance(mock, list):
         assert isinstance(real, list), path
-        if real and mock:
+        if real and mock and len(real) == len(mock):  # fixed lists (e.g. manifest tools): item by item
+            for i, (item, expected) in enumerate(zip(real, mock)):
+                same_shape(item, expected, f"{path}[{i}]")
+        elif real and mock:
             for item in real:
                 same_shape(item, mock[0], f"{path}[]")
     else:
@@ -62,6 +65,8 @@ def test_get_shapes(client, path, mock):
     ("/api/v1/connector/query", {"question": "What is the best laptop under $500 for school?", "assistantId": "ast_01",
                                  "constraints": {"maxPrice": 500, "useCase": "school",
                                                  "mustHave": ["battery", "light"]}}, "connector_query.json"),
+    ("/api/v1/connector/search", {"question": "I want headphones for the gym", "assistantId": "ast_01"},
+     "connector_search.json"),  # v1.4
 ])
 def test_post_shapes(client, path, body, mock):
     res = client.post(path, json=body)

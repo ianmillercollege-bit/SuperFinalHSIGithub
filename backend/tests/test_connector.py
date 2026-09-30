@@ -59,7 +59,7 @@ def test_connector(client):
     manifest = client.get("/api/v1/connector/manifest").json()
     assert manifest == json.loads(MANIFEST.read_text(encoding="utf-8"))
     assert {"name", "description", "version", "tools"} <= set(manifest)
-    assert [t["name"] for t in manifest["tools"]] == ["query"]
+    assert [t["name"] for t in manifest["tools"]] == ["search", "query"]  # v1.4: the funnel
     assert manifest["tools"][0]["inputSchema"]["required"] == ["question", "assistantId"]
 
 
