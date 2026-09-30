@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { ErrorNotice, Loading } from "@/components/LoadState";
-import { ApiError, getBrand } from "@/lib/api";
-import { useBrandSession } from "@/lib/auth/brandSession";
+import { ApiError, claimCompany, getBrand } from "@/lib/api";
+import { signInAs, useBrandSession } from "@/lib/auth/brandSession";
 import { BUSINESS } from "@/lib/business";
 import { categoryLabel } from "@/lib/categories";
+import { describeError } from "@/lib/errors";
+import type { ClaimCompanyResponse } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
 const PLAN_LABELS = { starter: "Starter", growth: "Growth", enterprise: "Enterprise" } as const;
@@ -59,6 +61,8 @@ export default function CompanyProfile() {
               See the catalog
             </Link>
           </dd>
+          <dt>Status</dt>
+          <dd>{p.optedIn === false ? "Not opted in: products come from public listings and are not verified by the brand" : "Opted in: verified by the brand"}</dd>
           {p.plan && (
             <>
               <dt>Plan</dt>
@@ -67,6 +71,7 @@ export default function CompanyProfile() {
           )}
         </dl>
       </section>
+      {p.optedIn === false && <ClaimCompany brandId={p.brandId} brandName={p.brandName} onDone={profile.reload} />}
       <section className="card stack">
         <h2>Admins</h2>
         <p className="muted small">The people who own this company&apos;s data and can approve fixes.</p>
@@ -80,5 +85,105 @@ export default function CompanyProfile() {
         </ul>
       </section>
     </div>
+  );
+}
+
+/**
+ * "Claim this company" (contract v1.5, section 7d): a not-opted-in company opts in. The backend then makes a Brand Data
+ * Owner, verifies every product, and returns the same shape as onboarding. 409 means it is already opted in.
+ */
+function ClaimCompany({ brandId, brandName, onDone }: { brandId: string; brandName: string; onDone: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [ownerName, setOwnerName] = useState("");
+  const [email, setEmail] = useState("");
+  const [problem, setProblem] = useState("");
+  const [sending, setSending] = useState(false);
+  const [claimed, setClaimed] = useState<ClaimCompanyResponse | null>(null);
+
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!ownerName.trim()) return setProblem("Enter the owner's name.");
+    if (!/^\S+@\S+\.\S+$/.test(email.trim())) return setProblem("Enter a valid email address.");
+    setProblem("");
+    setSending(true);
+    try {
+      setClaimed(await claimCompany(brandId, { ownerName: ownerName.trim(), email: email.trim() }));
+    } catch (error) {
+      if (error instanceof ApiError && error.code === "CONFLICT") setProblem(`${brandName} has already been claimed.`);
+      else if (error instanceof ApiError && error.code === "NOT_FOUND") setProblem("Claiming isn't available on the backend yet, so nothing was changed.");
+      else setProblem(describeError(error));
+    } finally {
+      setSending(false);
+    }
+  }
+
+  if (claimed) {
+    return (
+      <section className="card stack" aria-live="polite">
+        <h2>{claimed.brandName} is now opted in</h2>
+        <p>
+          Its {claimed.productsCreated.toLocaleString("en-US")} products are verified by the brand, and {ownerName.trim()} is the Brand Data Owner.
+        </p>
+        <div className="button-row">
+          <button
+            type="button"
+            className="button"
+            onClick={() => {
+              signInAs({ brandId: claimed.brandId, brandName: claimed.brandName, role: "owner", apiKey: claimed.apiKey });
+              window.location.assign("/dashboard");
+            }}
+          >
+            Sign in as this company
+          </button>
+          <button type="button" className="button button-secondary" onClick={onDone}>
+            Refresh this page
+          </button>
+        </div>
+        <p className="muted small">{claimed.note}</p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="card stack">
+      <h2>Is this your company?</h2>
+      <p className="muted">
+        {brandName} isn&apos;t opted in yet, so AI assistants show its products as &quot;not verified by the brand&quot;. Claim it to verify your products and get the
+        dashboard.
+      </p>
+      {!open ? (
+        <div>
+          <button type="button" className="button" onClick={() => setOpen(true)}>
+            Claim this company
+          </button>
+        </div>
+      ) : (
+        <form className="stack" onSubmit={submit} noValidate>
+          <div className="constraints-grid">
+            <label className="field">
+              Owner name
+              <input value={ownerName} onChange={(e) => setOwnerName(e.target.value)} autoComplete="name" />
+            </label>
+            <label className="field">
+              Work email
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+            </label>
+          </div>
+          {problem && (
+            <p className="state-error" role="alert">
+              {problem}
+            </p>
+          )}
+          <div className="button-row">
+            <button type="submit" className="button" disabled={sending}>
+              {sending ? "Claiming…" : "Claim this company"}
+            </button>
+            <button type="button" className="button button-secondary" onClick={() => setOpen(false)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      )}
+    </section>
   );
 }

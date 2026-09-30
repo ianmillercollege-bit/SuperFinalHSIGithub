@@ -70,6 +70,7 @@ export default function Products() {
                     <th>Price</th>
                     <th>Availability</th>
                     <th>Verified</th>
+                    <th>Last verified</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -83,7 +84,8 @@ export default function Products() {
                       </td>
                       <td className="nowrap">{formatPrice(p.price)}</td>
                       <td>{AVAILABILITY_LABELS[p.availability]}</td>
-                      <td className="nowrap">{formatDateTime(p.verifiedAt ?? p.updatedAt)}</td>
+                      <td>{p.verified === undefined ? "—" : p.verified ? "Verified by brand" : "Not verified by the brand"}</td>
+                      <td className="nowrap">{p.verifiedAt ? formatDateTime(p.verifiedAt) : p.verified === false ? "—" : formatDateTime(p.updatedAt)}</td>
                     </tr>
                   ))}
                 </tbody>

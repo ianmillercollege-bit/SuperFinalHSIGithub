@@ -7,7 +7,8 @@ export interface Opt { value: string; label: string }
 export interface SimFact { text: string; status: 'checked' | 'failed' | 'removed'; detail?: string }
 export interface SimTurn {
   id: string; question: string; assistant: string; constraints: string[]; pending?: boolean; error?: string;
-  answer?: { text: string; facts: SimFact[]; matched?: string[]; unmet?: string[]; noMatchMessage?: string; source?: string };
+  answer?: { text: string; facts: SimFact[]; matched?: string[]; unmet?: string[]; noMatchMessage?: string; source?: string;
+    options?: { name: string; detail?: string; verified: boolean }[] };   // added locally (contract v1.5): each option says whether the brand verified it
 }
 export interface SimulatorSend { question: string; assistant: string; useCase: string; mustHave: string[] }
 export interface AssistantSimulatorViewProps {
@@ -54,6 +55,17 @@ export default function AssistantSimulatorView({ defaultQuestion, maxLength = 50
                   <div className="cq-bot-wrap">
                     <div className="cq-bubble is-bot">{t.answer.text}</div>
                     {t.answer.noMatchMessage && <div className="cq-note is-warn">{t.answer.noMatchMessage} No verified product matches these constraints. Try removing one.</div>}
+                    {t.answer.options && t.answer.options.length > 0 && (
+                      <div className="cq-facts">
+                        <span className="cq-sub" style={{ fontWeight: 600 }}>Options returned</span>
+                        {t.answer.options.map((o, i) => (
+                          <div key={i} className="cq-fact-row">
+                            <span>{o.name}{o.detail && <span className="cq-sub"> · {o.detail}</span>}</span>
+                            <span className={`cq-pill is-${o.verified ? 'ok' : 'warn'}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, whiteSpace: 'nowrap' }}>{o.verified && <CheckIcon />}{o.verified ? 'Verified by brand' : 'Not verified by the brand'}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     {t.answer.facts.length > 0 && (
                       <div className="cq-facts">
                         <span className="cq-sub" style={{ fontWeight: 600 }}>Facts in this answer</span>
