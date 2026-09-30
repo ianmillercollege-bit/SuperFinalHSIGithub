@@ -39,6 +39,15 @@ CATEGORY = {"Headphones & Earbuds": "headphones", "Laptops": "laptops", "Smartph
 SPEC_COLUMNS = {"Processor": "processor", "Graphics": "graphics", "Display Type": "displayType",
                 "Resolution": "resolution", "Ports": "ports", "Operating System": "operatingSystem",
                 "Battery Life (hrs)": "batteryHours", "Weight (g)": "weightG"}
+# The sheet's product-detail columns (added after v1.4.1), camelCased into specs like the columns above.
+# Offer Count, Lowest Offer Price and Secondary Offers describe the Offers tab and are not product facts.
+DETAIL_COLUMNS = {"Product Family": "productFamily", "Model": "model", "Variant": "variant",
+                  "Generation (Model Year)": "generation", "Product Tier": "productTier", "Tier Basis": "tierBasis",
+                  "MSRP": "msrp", "Commercial Status": "commercialStatus", "ANC": "anc",
+                  "Codec Support": "codecSupport", "Driver": "driver", "Microphone": "microphone",
+                  "Water Resistance": "waterResistance", "Refresh Rate (Hz)": "refreshRateHz",
+                  "Camera System": "cameraSystem", "Charging": "charging", "Cellular": "cellular",
+                  "Form Factor": "formFactor", "Compatibility": "compatibility"}
 COMPARISON_KINDS = {"Lower price": "price", "Lighter": "weight", "Longer battery": "battery"}
 INCIDENT_RULES = ["PRICE_MISMATCH", "PRICE_OUTDATED", "SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH",
                   "POLICY_MISMATCH", "UNFAIR_COMPARISON", "SAFETY_LEGAL"]
@@ -195,6 +204,10 @@ def build_catalog(data: dict, checker) -> dict[str, list[dict]]:
             value = d.get(column)
             if value not in (None, "", "N/A"):
                 specs[key] = value
+        for column, key in DETAIL_COLUMNS.items():
+            value = d.get(column)
+            if value not in (None, "", "N/A"):
+                specs[key] = value
         specs["warranty"] = d["Warranty"]
         specs["certifications"] = split_list(d["Certifications"], ",")
         specs["useCaseTags"] = split_list(d["Use-Case Tags"], ",")
@@ -206,6 +219,11 @@ def build_catalog(data: dict, checker) -> dict[str, list[dict]]:
                           "screenInches": d["Screen Size (in) (generated)"],
                           "touchscreen": d["Touchscreen (generated)"] == "Yes",
                           "weightLb": round(float(d["Weight (g)"]) / 453.592, 1)})
+        elif category == "phones_tablets" and d.get("RAM (GB) (generated)") not in (None, "", "N/A"):
+            # The sheet now fills these for phones and tablets too, so the checker can verify them.
+            specs.update({"ramGb": d["RAM (GB) (generated)"], "storageGb": d["Storage (GB) (generated)"],
+                          "screenInches": d["Screen Size (in) (generated)"],
+                          "touchscreen": d["Touchscreen (generated)"] == "Yes"})
         changed = d["Price Changed On (generated)"]
         website = website_of[brand_id]
         page = slug(name.split(" ", 1)[1] if " " in name else name)
