@@ -1792,3 +1792,25 @@ details > summary {
 :root:not([data-theme="dark"]) .cq-bar > div[style*="124, 139, 161"] {
   background: #5f6f86 !important;
 }
+
+/* ---- Market Position chart colors: one palette per theme, used by the stacked bar, its legend and the score bars ----
+   Series: You / small-business peers / national brands. Each reaches 3:1 on the card and on the bar track, and they differ in
+   lightness as well as hue, so they stay distinguishable without color vision. */
+html:root {
+  --cq-peer: #1f5fa8;      /* blue, 6.4:1 on white */
+  --cq-national: #6f7f96;  /* grey, 4.0:1 on white, 3.3:1 on the track */
+}
+:root[data-theme="dark"] {
+  --cq-peer: #4a8ad6;      /* blue, 4.8:1 on the card, 3.3:1 on the track */
+  --cq-national: #b9c4d0;  /* light grey, 9:1 on the card */
+}
+/* "You" is brand navy on light cards but navy vanishes on dark ones, so it becomes the same orange as every other your-business mark. */
+:root[data-theme="dark"] .cq-stack > div[style*="var(--cq-navy)"],
+:root[data-theme="dark"] .cq-legend i[style*="var(--cq-navy)"],
+:root[data-theme="dark"] .cq-scorebar .t > div[style*="var(--cq-navy)"] {
+  background: var(--cq-you) !important;
+}
+/* A hairline gap keeps neighbouring segments of the stacked bar apart where their colors are close. */
+.cq-stack {
+  gap: 2px;
+}
