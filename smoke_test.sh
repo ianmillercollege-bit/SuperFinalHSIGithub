@@ -38,6 +38,9 @@ check "connector query"     200 answerText    -X POST -H "Content-Type: applicat
   -d '{"question":"What is the best laptop under $500 for school?","assistantId":"ast_01"}' \
   "$BASE/api/v1/connector/query"
 check "connector 422"       422 error         -X POST -H "Content-Type: application/json" -d '{"question":"x"}' "$BASE/api/v1/connector/query"
+check "connector search"    200 narrowingHints -X POST -H "Content-Type: application/json" \
+  -d '{"question":"I want headphones for the gym, budget around $150","assistantId":"ast_01"}' \
+  "$BASE/api/v1/connector/search"
 check "demo accounts"       200 accounts      "$BASE/api/v1/auth/demo-accounts"
 check "arcton scope"        200 competitors   "$BASE/api/v1/visibility/summary?brandId=brand_002"
 check "unknown brand 404"   404 error         "$BASE/api/v1/visibility/summary?brandId=brand_999"
@@ -48,6 +51,8 @@ check "brands needs staff"  401 error         "$BASE/api/v1/brands"
 check "brand profile"       200 ceo           "$BASE/api/v1/brands/brand_001"
 check "products by cat"     200 products      "$BASE/api/v1/products?category=headphones&limit=5"
 check "products"            200 products      "$BASE/api/v1/products"
+check "community needs auth" 403 error        "$BASE/api/v1/community/catalog"
+check "community impact"    200 unitsPledged  "$BASE/api/v1/community/impact?brandId=brand_001"
 check "visibility summary"  200 visibilityRate "$BASE/api/v1/visibility/summary"
 check "answers"             200 answers       "$BASE/api/v1/answers"
 check "sources"             200 sources       "$BASE/api/v1/sources"
