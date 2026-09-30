@@ -111,7 +111,7 @@ def test_exposes_search_and_query_tools():
     search_constraints = search["$defs"]["SearchConstraints"]["properties"]
     assert set(search_constraints) == {"category", "maxPrice", "useCase", "mustHave"}
     assert set(search_constraints["category"]["anyOf"][0]["enum"]) == {
-        "laptops", "headphones", "smart_home", "monitors", "accessories"}
+        "laptops", "headphones", "phones_tablets", "computer_hardware"}
 
 
 def test_descriptions_teach_the_funnel():

@@ -25,7 +25,7 @@ company, facts checked against its own data) or **Not CIRQO Verified** (a public
 |---|---|---|
 | `question` | yes | What the shopper said, e.g. "I want headphones for the gym" |
 | `assistantId` | yes | The calling assistant's ID registered with CIRQO, e.g. `ast_01` |
-| `constraints` | no | `cirqo_search`: `category` (`laptops`, `headphones`, `smart_home`, `monitors`, `accessories`), `maxPrice` (USD), `useCase`, `mustHave` (attribute tags; add one per answered hint). `cirqo_query`: `maxPrice`, `useCase` (`school`, `work`, `travel`, `media`), `mustHave` (any of `battery`, `light`, `screen`, `touch`). |
+| `constraints` | no | `cirqo_search`: `category` (`laptops`, `headphones`, `phones_tablets`, `computer_hardware`), `maxPrice` (USD), `useCase`, `mustHave` (attribute tags; add one per answered hint). `cirqo_query`: `maxPrice`, `useCase` (`school`, `work`, `travel`, `media`), `mustHave` (any of `battery`, `light`, `screen`, `touch`). |
 
 ### The funnel, as the tool descriptions teach it
 
