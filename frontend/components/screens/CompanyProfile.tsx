@@ -12,7 +12,7 @@ import { describeError } from "@/lib/errors";
 import type { ClaimCompanyResponse } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
-const PLAN_LABELS = { starter: "Starter", growth: "Growth", enterprise: "Enterprise" } as const;
+const PLAN_LABELS = { starter: "Base ($450 per quarter)", growth: "Pro ($1,200 per quarter)", enterprise: "Enterprise ($3,000 per quarter)" } as const; // business plan 4.1 names; the API keeps starter/growth/enterprise
 
 /** Company = GET /brands/{brandId} (contract v1.4): the signed-in company, or ?brandId= for another one. */
 export default function CompanyProfile() {
