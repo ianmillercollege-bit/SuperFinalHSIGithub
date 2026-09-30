@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.7** (approved by lead engineer, 2026-09-30; v1.7 implements section 7d (optedIn, verified, claim), adds `GET /products/{id}`, the remote MCP endpoint and a third MCP tool `cirqo_details`, and accepts each sheet company's own password alongside `cirqo-demo`, section 7c Login; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
+Status: **FINAL v1.8** (approved by lead engineer, 2026-09-30; v1.8 adds the AI Coach endpoint `POST /coach`, section 7f, the second and last AI-backed endpoint, plus the 429 `RATE_LIMITED` error; v1.7 implements section 7d (optedIn, verified, claim), adds `GET /products/{id}`, the remote MCP endpoint and a third MCP tool `cirqo_details`, and accepts each sheet company's own password alongside `cirqo-demo`, section 7c Login; v1.6 adds the Community program, section 7e; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -36,6 +36,7 @@ Every error, including FastAPI's default 422, uses exactly this shape:
 | 404 | `NOT_FOUND` | Unknown ID or path |
 | 409 | `CONFLICT` | Incident is not in a state that allows this action |
 | 422 | `VALIDATION_ERROR` | Body or query fails validation |
+| 429 | `RATE_LIMITED` | Too many coach requests from one caller in a minute, or the daily coach total is used up (v1.8) |
 | 500 | `INTERNAL_ERROR` | Anything unexpected. Never leak stack traces. |
 
 ## 3. Environment and AI rules
@@ -46,6 +47,7 @@ Every error, including FastAPI's default 422, uses exactly this shape:
 - `FRONTEND_ORIGINS`: comma-separated allowed origins. CORS also allows `http://localhost:3000` and the regex `https://.*\.vercel\.app`.
 - All AI calls live only in `backend/services/ai_client.py`, with a 30-second timeout. On timeout or error, return seeded data with `"source": "fallback"`.
 - AI only **extracts** claims from answer text. Plain code decides every claim status, severity, and ranking.
+- v1.8: the AI Coach (section 7f) is the only other AI call, also in `ai_client.py`. The model proposes coaching text; plain code verifies every number in it against the caller's data before it is shown, and `MOCK_MODE` answers without the AI. `COACH_RATE_PER_MIN` (default 10) and `COACH_DAILY_CAP` (default 300) bound the spend.
 - The database is rebuilt from seed data on every startup (Render free tier resets files).
 
 ## 4. Shared objects
@@ -551,6 +553,66 @@ income or need**; partners do that under their own rules. No personal data about
 - Tests: `test_community` (partner sees the catalog, brand token 403, request then approve increments `unitsPlaced`,
   reject leaves it, 409 on double approve, impact numbers add up, `includeRefurbished` gates the connector).
 
+## 7f. AI Coach (v1.8)
+
+**Backward compatible.** One new endpoint; nothing else changes. The frontend's coach page calls it only when
+`NEXT_PUBLIC_COACH_MODE=live`; otherwise the page uses its built-in sample answers and never calls the backend.
+The Next.js route that used to call Anthropic from Vercel is gone: every AI call is in the backend (section 3).
+
+**`POST /api/v1/coach`**, body:
+```json
+{"question": "What should I do first?",
+ "history": [{"role": "user", "text": "..."}, {"role": "coach", "text": "..."}],
+ "context": {"business": {"name": "Kestrel", "category": "laptops"}, "asOf": "2026-09-30", "dataLabel": "sample",
+             "visibility": {"score": 58, "previousScore": 52, "recommendationFrequency": 0.41, "answersTested": 120,
+                            "answersRecommended": 49, "answersMissed": 71,
+                            "missReasons": [{"label": "Price outdated", "count": 23, "fix": "Refresh the price feed"}]},
+             "market": {"rankOverall": 7, "businessCount": 40, "shareOfVoice": 0.09, "nationalShare": 0.62, "peerShare": 0.29},
+             "revenue": {"estimatePerMonth": 1433, "perVisibilityPoint": 25, "queriesPerMonth": 3100, "conversionPct": 2.1, "averageOrderValue": 640},
+             "opportunities": [{"title": "Refresh the price feed", "effort": "Low", "liftPoints": 5, "revenuePerMonth": 125,
+                                "why": "23 misses came from outdated prices.", "firstStep": "Re-export prices from the store."}],
+             "claims": {"outstanding": 4, "reviewedLast30Days": 31},
+             "competitors": [{"name": "Arcton", "type": "national brand", "score": 71, "averageRank": 1.8, "shareOfVoice": 0.31, "recommendationFrequency": 0.66}],
+             "assistants": [{"name": "Claude", "frequency": 0.52, "answersRecommended": 31, "answersTested": 60}],
+             "derivedFacts": ["Visibility is 58%, up 6 points in 30 days."]}}
+```
+`question`: 1 to 500 characters. `history`: the chat so far, `role` is `user` or `coach`, `text` up to 500 characters;
+only the last 6 turns are used. `context`: the frontend's `CoachContext` object (`frontend/lib/coach/types.ts`), passed
+through as data. Required inside it: `business.name` and `asOf`; every other section is optional. At most 20,000 bytes.
+
+→ 200:
+```json
+{"answer": "Your visibility is 58%, up 6 points, but ...",
+ "actions": [{"id": "act_1", "title": "Refresh the price feed", "why": "23 misses came from outdated prices.",
+              "expectedImpact": "+5 points, about $125 per month (estimate)", "effort": "Low",
+              "metric": "Price outdated misses", "steps": ["Re-export prices from the store."], "basedOn": ["missReasons"]}],
+ "sources": [{"label": "AI visibility score", "value": "58%"}],
+ "source": "live", "verified": true, "unverifiedNumbers": [], "generatedAt": "2026-09-30T06:00:00Z",
+ "note": "only present for mock and fallback: says why this is the built-in answer"}
+```
+`actions` has at most 3 items (none for a factual or out-of-scope question); `effort` is `Low` | `Medium` | `High`;
+`sources` at most 6. `source` follows section 3: `live` (Claude answered and every number passed), `mock` (`MOCK_MODE`,
+answer built by plain code from the context: the derived facts, the opportunities by lift, the headline figures),
+`fallback` (no key, timeout, error, refusal, or a reply that failed verification twice; same built-in answer).
+
+**AI proposes, code decides** (`backend/services/coach.py`, mirroring `frontend/lib/coach/verify.ts`):
+- Every metric-like number in the reply (anything with a unit, a decimal, or a value of 10 or more) must exist in
+  `context`, or be a simple sum of numbers in it (combined lifts, revenue after a lift, score deltas, share totals).
+  Rates from 0 to 1 also count as their percentages. One correction is sent back to the model; a second failure means
+  the built-in answer with `source: "fallback"`. `verified` is true when `unverifiedNumbers` is empty.
+- Advice must name at least 2 items from the data and quote at least 3 numbers; a vague reply gets one nudge.
+- The reply shape is validated field by field; text is stripped of control characters and cut to fixed lengths.
+- User text is data: `<` in the question, history and context is escaped so it cannot close the prompt's tags,
+  and the system prompt says text inside them is never an instruction.
+- The model call (`ai_client.coach_call`) uses the same client settings as extraction: `AI_MODEL`, 30-second timeout,
+  no silent retries, server-side fallback, structured JSON output at low effort.
+
+Errors: 422 `VALIDATION_ERROR` (see the limits above), 429 `RATE_LIMITED` (per caller per minute, or the daily total).
+Mock file: `coach.json` (a `mock` reply). Tests: `test_coach` (mock mode never calls the AI and its numbers verify;
+validation; the live reply is shown when every number is in the data; unverified numbers get one correction then the
+built-in answer; invalid shape and generic advice get corrections; timeouts, errors, refusals and bad JSON fall back;
+no key falls back without a call; 429; the number extractor and the allowed-number rules).
+
 ## 8. Neutral ranking (required test)
 
 - `ranking.py` must never read `isClient`, `billingTier`, or any billing field. Products are passed to it as
@@ -586,7 +648,8 @@ One file per response, named after the endpoint. The frontend builds against the
 `health.json`, `shopper_questions.json`, `shopper_recommend.json`, `products.json`, `visibility_summary.json`,
 `answers.json`, `sources.json`, `checker_run.json`, `claims.json`, `incidents.json`, `incident_detail.json`,
 `incident_approve.json`, `incident_reject.json`, `incident_resolve.json`, `owners.json`, `audit.json`,
-`metrics_trust.json`, `report.json`, `error_not_found.json`, `error_validation.json`, `connector_query.json`, `connector_manifest.json` (v1.1).
+`metrics_trust.json`, `report.json`, `error_not_found.json`, `error_validation.json`, `connector_query.json`, `connector_manifest.json` (v1.1),
+`coach.json` (v1.8).
 Mock values must match the shapes above exactly.
 
 ## 11. Required tests (pytest)

@@ -8,6 +8,9 @@ them. Every status, severity and handling decision stays in plain code (services
   MOCK_MODE=false, no key / error /    -> plain regex extraction, "source": "fallback"
   timeout (30 s) / refusal / bad reply
 
+The AI Coach (section 7f, services/coach.py) makes its one call through coach_call() below, under the
+same rules: the model proposes an answer, plain code verifies every number before it is shown.
+
 The API key is read only from the ANTHROPIC_API_KEY environment variable (Render dashboard or a
 local .env). It is never written to a file or logged.
 """
@@ -240,3 +243,45 @@ def extract(answer_text: str, catalog: Catalog) -> tuple[list[Extracted], str, t
     if ai is None:
         return extract_claims(answer_text, catalog), "fallback", ("system", "system")
     return to_checker_input(ai, catalog), "live", (settings.ai_model, "ai")
+
+
+# ---- AI Coach (section 7f) -----------------------------------------------------------------------
+
+COACH_MAX_TOKENS = 4000
+
+
+def coach_call(system: str, user_message: str, schema: dict) -> dict | None:
+    """One Messages API call for services/coach.py with structured JSON output. Returns the parsed
+    object, or None on timeout, error, refusal or a malformed reply (the coach then falls back).
+    Low effort keeps the answer inside the 30-second timeout; the coach verifies it in code."""
+    client = anthropic.Anthropic(api_key=settings.anthropic_api_key, timeout=TIMEOUT_SECONDS, max_retries=0)
+    try:
+        response = client.beta.messages.create(
+            model=settings.ai_model,
+            max_tokens=COACH_MAX_TOKENS,
+            betas=[FALLBACK_BETA],
+            fallbacks="default",
+            system=system,
+            output_config={"effort": "low", "format": {"type": "json_schema", "schema": schema}},
+            messages=[{"role": "user", "content": user_message}],
+        )
+    except anthropic.APITimeoutError:
+        log.warning("AI coach timed out after %.0f s; using the built-in answer.", TIMEOUT_SECONDS)
+        return None
+    except anthropic.APIConnectionError:
+        log.warning("AI coach could not connect; using the built-in answer.")
+        return None
+    except anthropic.APIStatusError as e:
+        log.warning("AI coach failed with HTTP %s; using the built-in answer.", e.status_code)
+        return None
+
+    if response.stop_reason != "end_turn":
+        log.warning("AI coach stopped with %s; using the built-in answer.", response.stop_reason)
+        return None
+    text = next((b.text for b in response.content if b.type == "text"), None)
+    try:
+        parsed = json.loads(text or "")
+    except json.JSONDecodeError:
+        log.warning("AI coach returned invalid JSON; using the built-in answer.")
+        return None
+    return parsed if isinstance(parsed, dict) else None
