@@ -8,6 +8,7 @@ import { Field, SampleBadge } from "@/components/screens/ui";
 import { getDemoAccounts } from "@/lib/api";
 import { COMMUNITY_LOGINS, DEMO_LOGINS, DEMO_PASSWORD } from "@/lib/auth/demoAccounts";
 import { continueAsGuest, signInWithPassword } from "@/lib/auth/signIn";
+import { replaySplash } from "@/lib/splash";
 import { useApi } from "@/lib/useApi";
 
 /**
@@ -54,6 +55,8 @@ export default function LoginScreen() {
     setSubmitting(false);
     if (result.error) return setError(result.error);
     // A full load, so every page starts fresh for the signed-in person and company. Only same-site paths are followed.
+    // The opening splash plays once for this login, then the app appears.
+    replaySplash();
     window.location.assign(next && next.startsWith("/") && !next.startsWith("//") ? next : (result.landing ?? "/dashboard"));
   }
 
