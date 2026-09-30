@@ -1,0 +1,28 @@
+{
+  "accounts": [
+    {
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "role": "owner",
+      "apiKey": "fd_demo_owner_2026"
+    },
+    {
+      "brandId": "brand_001",
+      "brandName": "Kestrel",
+      "role": "viewer",
+      "apiKey": "fd_demo_viewer_2026"
+    },
+    {
+      "brandId": "brand_002",
+      "brandName": "Arcton",
+      "role": "owner",
+      "apiKey": "fd_demo_arcton_2026"
+    },
+    {
+      "brandId": "brand_003",
+      "brandName": "Novex",
+      "role": "owner",
+      "apiKey": "fd_demo_novex_2026"
+    }
+  ]
+}

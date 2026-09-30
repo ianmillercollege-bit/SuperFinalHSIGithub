@@ -1,0 +1,201 @@
+{
+  "answers": [
+    {
+      "answerId": "ans_301",
+      "queryText": "best laptop for travel",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Slate 14 comes with 256 GB of storage. The Novex Slate 14 costs $465. Kestrel offers a 30-day return policy on the Kestrel Aero 14.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_03",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-01T11:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_302",
+      "queryText": "best laptop for travel",
+      "assistantId": "ast_02",
+      "answerText": "Novex offers a 14-day return policy on the Novex Go 13. The Novex Go 13 has 8 GB of RAM. The Kestrel Aero 13 Lite is rated for 9 hours of battery life.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_03"
+      ],
+      "capturedAt": "2026-09-03T09:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_303",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 is rated for 8 hours of battery life. The Novex Canvas 15 includes a fingerprint reader. The Arcton Titan 16 has limited stock.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-05T11:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_304",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Slate 14 has 8 GB of RAM. The Kestrel Aero 14 Plus has 16 GB of RAM.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-07T13:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_305",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Go 13 weighs 2.8 lb. Novex offers a 60-day return policy on the Novex Go 13. The Arcton Vista 15 is in stock.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-09T10:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_306",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 comes with 512 GB of storage. The Novex Canvas 15 is out of stock. Novex offers a 14-day return policy on the Novex Go 13.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_04",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-11T09:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_307",
+      "queryText": "best laptop for travel",
+      "assistantId": "ast_01",
+      "answerText": "Novex offers a 14-day return policy on the Novex Slate 14. The Novex Slate 14 costs $383. The Kestrel Studio 15 comes with 512 GB of storage.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_03",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-13T14:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_308",
+      "queryText": "laptop with the best return policy",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Go 13 has 4 GB of RAM. The Novex Canvas 15 is in stock.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_04",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-15T11:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_309",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 is rated for 8 hours of battery life. The Novex Canvas 15 is certified child-safe. Kestrel offers a 30-day return policy on the Kestrel Studio 15.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-09-17T10:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_310",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Slate 14 is in stock. The Novex Slate 14 includes stylus support. The Arcton Titan 16 is rated for 6 hours of battery life.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_05"
+      ],
+      "capturedAt": "2026-09-19T09:30:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_311",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Go 13 has 4 GB of RAM. The Novex Go 13 costs $369.00. The Kestrel Studio 15 is in stock.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-09-21T12:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_312",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Canvas 15 has a 15.6-inch display. Novex offers a 60-day return policy on the Novex Canvas 15. The Kestrel Aero 14 comes with 256 GB of storage.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-24T13:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_313",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Slate 14 comes with 256 GB of storage. The Novex Slate 14 includes 5G connectivity. The Arcton Vista 15 comes with 512 GB of storage.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_02",
+        "src_03"
+      ],
+      "capturedAt": "2026-09-26T14:00:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_314",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Go 13 weighs 2.8 lb. The Novex Go 13 is rated for 11 hours of battery life. The Kestrel Pocket 12 weighs 2.4 lb.",
+      "brandMentioned": true,
+      "rank": 1,
+      "sourceIds": [
+        "src_01",
+        "src_02"
+      ],
+      "capturedAt": "2026-09-28T13:30:00Z",
+      "source": "mock"
+    }
+  ]
+}

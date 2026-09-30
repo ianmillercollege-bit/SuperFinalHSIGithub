@@ -21,7 +21,7 @@ import anthropic
 from pydantic import BaseModel, ValidationError
 
 import constants as C
-from services.checker import SPEC_LABELS, Catalog, Extracted, extract_claims, find_products
+from services.checker import SPEC_LABELS, Catalog, Extracted, extract_claims, find_products, usable_number
 from settings import settings
 
 log = logging.getLogger("cirqo.ai_client")
@@ -168,7 +168,7 @@ def _product_id(name: str | None, catalog: Catalog) -> str | None:
 
 def _number(value: str | None) -> float | None:
     m = NUMBER.search((value or "").replace(",", ""))
-    return float(m.group()) if m else None
+    return float(m.group()) if m and usable_number(m.group()) else None
 
 
 def to_checker_input(ai: AIClaims, catalog: Catalog) -> list[Extracted]:

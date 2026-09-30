@@ -22,10 +22,12 @@ def questions():
 
 def to_rankable(p: Product) -> RankableProduct:
     # Only shopper-visible facts cross into ranking. No brand ownership or billing fields.
+    # An unknown spec (onboarded products may omit some) simply does not count toward a match.
     s = p.specs
-    return RankableProduct(product_id=p.product_id, price=p.price, ram_gb=s["ramGb"], storage_gb=s["storageGb"],
-                           screen_inches=s["screenInches"], battery_hours=s["batteryHours"],
-                           weight_lb=s["weightLb"], touchscreen=s["touchscreen"])
+    return RankableProduct(product_id=p.product_id, price=p.price, ram_gb=s.get("ramGb") or 0,
+                           storage_gb=s.get("storageGb") or 0, screen_inches=s.get("screenInches") or 0,
+                           battery_hours=s.get("batteryHours") or 0, weight_lb=s.get("weightLb") or 99,
+                           touchscreen=bool(s.get("touchscreen")))
 
 
 def reasons_for(p: Product, budget: float | None, use: str | None, liked: list[str], catalog: Catalog) -> list[dict]:
@@ -33,18 +35,19 @@ def reasons_for(p: Product, budget: float | None, use: str | None, liked: list[s
     s = p.specs
     candidates = [(f"${p.price:.2f}, within your under-${num(budget)} budget" if budget else f"${p.price:.2f}",
                    Extracted("", "price", "price", p.product_id, value=str(p.price)))]
-    if "s_battery" in liked and s["batteryHours"] >= 10:
+    s = {k: v for k, v in s.items() if v is not None}  # only facts that are on file
+    if "s_battery" in liked and s.get("batteryHours", 0) >= 10:
         candidates.append((f"{num(s['batteryHours'])}-hour rated battery",
                            Extracted("", "feature", "spec", p.product_id, value=s["batteryHours"], attr="batteryHours")))
-    if "s_light" in liked and s["weightLb"] < 3:
+    if "s_light" in liked and s.get("weightLb", 99) < 3:
         candidates.append((f"Weighs {num(s['weightLb'])} lb",
                            Extracted("", "feature", "spec", p.product_id, value=s["weightLb"], attr="weightLb")))
-    if "s_screen" in liked and s["screenInches"] >= 15:
+    if "s_screen" in liked and s.get("screenInches", 0) >= 15:
         candidates.append((f"{num(s['screenInches'])}-inch screen",
                            Extracted("", "feature", "spec", p.product_id, value=s["screenInches"], attr="screenInches")))
-    if "s_touch" in liked and s["touchscreen"]:
+    if "s_touch" in liked and s.get("touchscreen"):
         candidates.append(("Touchscreen", Extracted("", "feature", "spec", p.product_id, value=True, attr="touchscreen")))
-    if use in ("u_school", "u_work", "u_media"):
+    if use in ("u_school", "u_work", "u_media") and "ramGb" in s and "storageGb" in s:
         purpose = {"u_school": "schoolwork", "u_work": "work", "u_media": "streaming and media"}[use]
         candidates.append((f"{num(s['ramGb'])} GB RAM and {num(s['storageGb'])} GB storage for {purpose}",
                            Extracted("", "feature", "spec", p.product_id, value=s["ramGb"], attr="ramGb")))
