@@ -79,13 +79,23 @@ paste the URL above, no authentication, **Add**.
 the tools menu, pick CIRQO, and ask normally. ChatGPT's framework calls the connector's `search` and `fetch` tools,
 which wrap the same CIRQO endpoints; deep research mode uses them too.
 
-**Gemini** (Gemini CLI or a Gemini-based agent): add the server to `~/.gemini/settings.json`:
+**Gemini** (Gemini CLI or a Gemini-based agent): one command registers the server for every project:
+
+```bash
+gemini mcp add -s user --transport http cirqo https://frontdoor-api-hiel.onrender.com/mcp
+```
+
+or add the same entry to `~/.gemini/settings.json` by hand:
 
 ```json
 {"mcpServers": {"cirqo": {"httpUrl": "https://frontdoor-api-hiel.onrender.com/mcp"}}}
 ```
 
-then `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query` and `cirqo_details`. The Gemini consumer app does not
+Then `gemini mcp list` shows `cirqo ... Connected`, and `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query` and
+`cirqo_details` (plus `search` and `fetch`). One catch: the CLI disables every MCP server in a folder you have not
+trusted, and `gemini mcp list` then says `Disabled`. Start the CLI in the folder once and accept the trust prompt, or
+turn the check off with `"security": {"folderTrust": {"enabled": false}}` in the same settings file. The CLI hands the
+tools' JSON schemas to Gemini unchanged (`parametersJsonSchema`), so nothing about the tools is Gemini-specific. The Gemini consumer app does not
 yet take custom connectors; when it does, the same URL applies. Then in a new chat enable CIRQO under the tools menu and ask:
 "I want headphones for the gym, budget around $150." Nothing to install, no config file, no restart. The free-tier
 backend may take up to a minute to answer the first call while it wakes up.
