@@ -59,7 +59,7 @@ fields, and `backend/tests/test_ranking_neutral.py` proves the results are ident
 
 **Shoppers (30 seconds, nothing to install).** In Claude (web, desktop or phone): Settings, Connectors,
 Add custom connector, name `CIRQO`, URL `https://frontdoor-api-hiel.onrender.com/mcp`, no authentication.
-Start a chat with web search off and say "Using CIRQO only, I need headphones for the gym around $150."
+Start a chat and ask the way you normally would: "I need headphones for the gym around $150." (For a clean demo, switch web search off in that chat so the assistant does not add web results after the catalog list.)
 The assistant searches the verified catalog, asks one narrowing question, and picks. Every product it names is
 labelled **Verified by brand** or **Not verified by the brand**. Any assistant that supports MCP can use the
 same URL; `backend/connector/README.md` also covers a local install for Claude Desktop.
