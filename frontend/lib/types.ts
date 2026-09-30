@@ -187,9 +187,6 @@ export interface Product {
   verifiedAt?: Timestamp | null;
   /** v1.5: true only for opted-in companies. */
   verified?: boolean;
-  /** v1.6 (section 7e). Older backends omit both. */
-  condition?: ProductCondition;
-  communityPledge?: CommunityPledge | null;
 }
 
 export interface ProductsResponse {
@@ -493,8 +490,6 @@ export interface DemoAccount {
   username?: string;
   /** v1.5: whether the company is opted in. Login lists only opted-in companies. */
   optedIn?: boolean;
-  /** v1.6: a Community Partner row carries its organization's name. */
-  orgName?: string;
 }
 
 export interface DemoAccountsResponse {
@@ -514,8 +509,6 @@ export interface LoginResponse {
   user: { userId: string; name: string; role: string; username: string };
   /** Staff are not tied to a brand, so this may be missing. */
   brand?: { brandId: string; brandName: string } | null;
-  /** v1.6: Community Partner users have an organization instead of a brand. */
-  org?: { orgId: string; orgName: string } | null;
 }
 
 // ---- Onboarding (v1.3, section 7b): POST /api/v1/brands/onboard ----
@@ -626,73 +619,4 @@ export interface ClaimCompanyRequest {
 /** The /brands/onboard response plus `optedIn: true`. */
 export interface ClaimCompanyResponse extends OnboardResponse {
   optedIn: true;
-}
-
-// ---- Community program (v1.6, section 7e) ----
-
-export type ProductCondition = "new" | "refurbished" | "surplus";
-
-export interface CommunityPledge {
-  unitsPledged: number;
-  unitsPlaced: number;
-  conditionNotes: string;
-  warrantyMonths: number;
-}
-
-/** One row of GET /api/v1/community/catalog. */
-export interface CommunityItem {
-  productId: string;
-  name: string;
-  brandId: string;
-  brandName: string;
-  category: ProductCategory;
-  condition: ProductCondition;
-  price: number;
-  verified: boolean;
-  communityPledge: CommunityPledge;
-  facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
-}
-
-export interface CommunityCatalogResponse {
-  items: CommunityItem[];
-}
-
-export interface CommunityCatalogFilters {
-  category?: ProductCategory;
-  brandId?: string;
-  condition?: ProductCondition;
-  limit?: number;
-}
-
-export type CommunityRequestStatus = "pending_approval" | "approved" | "rejected";
-
-/** POST /api/v1/community/requests body. No personal data about recipients is ever sent or stored. */
-export interface CommunityRequestBody {
-  productId: string;
-  units: number;
-  purpose: string;
-}
-
-export interface CommunityRequest {
-  requestId: string;
-  status: CommunityRequestStatus;
-  productId: string;
-  brandId: string;
-  partner: { orgId: string; orgName: string };
-  units: number;
-  purpose: string;
-  createdAt: Timestamp;
-}
-
-export interface CommunityRequestsResponse {
-  requests: CommunityRequest[];
-}
-
-export interface CommunityImpact {
-  unitsPledged: number;
-  unitsPlaced: number;
-  partnersServed: number;
-  requestsPending: number;
-  /** The contract does not spell out the rows, so the screens do not read them. */
-  byCategory: unknown[];
 }
