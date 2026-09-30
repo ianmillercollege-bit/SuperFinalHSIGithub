@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIRQO Claude Demo</title>
+<meta name="description" content="Chat with Claude using the CIRQO plugin: verified product facts, neutral ranking, checked claims.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@110,800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0c2340; --orange: #f15a22; --orange-text: #b93e0b; --orange-tint: #fdeee7;
+    --bg: #f5f6f8; --card: #ffffff; --raised: #f0f2f6; --border: #dde2e9;
+    --fg: #0c2340; --body: #2e4159; --muted: #55657a;
+    --good: #14653c; --good-bg: #e6f4ec; --warn: #8a5200; --warn-bg: #fff3dc;
+    --radius: 12px; color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --orange-text: #ff8a5c; --orange-tint: #3a2218;
+      --bg: #08111e; --card: #101f35; --raised: #172a45; --border: #22395a;
+      --fg: #eef3f9; --body: #c8d3e0; --muted: #9bacc0;
+      --good: #6fdca0; --good-bg: #10301f; --warn: #f5b94a; --warn-bg: #3a2a0c; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --orange-text: #ff8a5c; --orange-tint: #3a2218;
+    --bg: #08111e; --card: #101f35; --raised: #172a45; --border: #22395a;
+    --fg: #eef3f9; --body: #c8d3e0; --muted: #9bacc0;
+    --good: #6fdca0; --good-bg: #10301f; --warn: #f5b94a; --warn-bg: #3a2a0c; color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--body); font: 15px/1.5 "Public Sans", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
+  .app { display: grid; grid-template-rows: auto 1fr auto; height: 100%; max-width: 1100px; margin: 0 auto; }
+  header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--navy); color: #fff; }
+  header img { width: 30px; height: 30px; border-radius: 8px; }
+  header h1 { margin: 0; font: 800 1.05rem/1.2 Archivo, system-ui, sans-serif; font-stretch: 110%; }
+  header p { margin: 0; font-size: .8rem; color: #c9d3e0; }
+  .mode { margin-left: auto; font-size: .72rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.12); white-space: nowrap; }
+  .mode.live::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #3ddc84; }
+  main { display: grid; grid-template-columns: 1fr 260px; min-height: 0; }
+  #log { overflow-y: auto; padding: 18px 16px; display: flex; flex-direction: column; gap: 14px; }
+  aside { border-left: 1px solid var(--border); padding: 16px; overflow-y: auto; background: var(--card); }
+  aside h2 { font: 800 .8rem/1.2 Archivo, system-ui, sans-serif; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; }
+  .feature { display: flex; gap: 10px; padding: 9px 10px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; transition: background .3s, border-color .3s; }
+  .feature .dot { flex: none; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: grid; place-items: center; font-size: 12px; color: transparent; margin-top: 1px; }
+  .feature b { display: block; color: var(--fg); font-size: .85rem; }
+  .feature span { font-size: .78rem; color: var(--muted); }
+  .feature.seen { border-color: var(--good); background: var(--good-bg); }
+  .feature.seen .dot { background: var(--good); border-color: var(--good); color: var(--card); }
+  .msg { max-width: 760px; }
+  .msg.user { align-self: flex-end; background: var(--navy); color: #fff; padding: 9px 14px; border-radius: 14px 14px 4px 14px; }
+  .msg.assistant { align-self: flex-start; }
+  .who { font-size: .72rem; font-weight: 700; color: var(--muted); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .who img { width: 16px; height: 16px; border-radius: 4px; }
+  .bubble { background: var(--card); border: 1px solid var(--border); padding: 12px 14px; border-radius: 4px 14px 14px 14px; color: var(--body); }
+  .bubble p { margin: 0 0 8px; } .bubble p:last-child { margin: 0; }
+  .bubble ul { margin: 4px 0 8px; padding-left: 20px; } .bubble li { margin: 3px 0; }
+  .bubble strong { color: var(--fg); }
+  .tag { display: inline-block; font-size: .72rem; font-weight: 700; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+  .tag.v { color: var(--good); background: var(--good-bg); }
+  .tag.nv { color: var(--warn); background: var(--warn-bg); }
+  details.call { margin-bottom: 8px; border: 1px dashed var(--border); border-radius: 10px; background: var(--raised); font-size: .82rem; }
+  details.call summary { cursor: pointer; padding: 7px 10px; list-style: none; display: flex; gap: 8px; align-items: baseline; }
+  details.call summary::-webkit-details-marker { display: none; }
+  details.call code { font: 700 .78rem ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--orange-text); white-space: nowrap; }
+  details.call .inner { padding: 0 10px 10px; }
+  details.call pre { margin: 6px 0 0; padding: 8px; background: var(--card); border-radius: 8px; overflow-x: auto; font-size: .75rem; }
+  .prod { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; border-top: 1px solid var(--border); }
+  .note { font-size: .75rem; color: var(--muted); margin-top: 6px; }
+  .typing { color: var(--muted); font-size: .85rem; }
+  .typing i { display: inline-block; width: 6px; height: 6px; margin-left: 3px; border-radius: 50%; background: var(--muted); animation: blink 1.2s infinite; }
+  .typing i:nth-child(2) { animation-delay: .2s; } .typing i:nth-child(3) { animation-delay: .4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: .2; } 40% { opacity: 1; } }
+  .welcome { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .welcome h2 { margin: 0 0 6px; color: var(--fg); font: 800 1.1rem/1.25 Archivo, system-ui, sans-serif; font-stretch: 110%; }
+  .welcome p { margin: 0 0 12px; font-size: .9rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips button { font: inherit; font-size: .85rem; cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--fg); padding: 7px 12px; border-radius: 999px; }
+  .chips button:hover { border-color: var(--orange); }
+  form { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid var(--border); background: var(--card); }
+  input { flex: 1; min-width: 0; font: inherit; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); }
+  input:focus { outline: 2px solid var(--orange); outline-offset: 1px; }
+  form button { font: 700 .9rem "Public Sans", system-ui, sans-serif; border: 0; border-radius: 999px; padding: 0 18px; background: var(--orange); color: var(--navy); cursor: pointer; }
+  form button:disabled { opacity: .5; cursor: default; }
+  .foot { font-size: .7rem; color: var(--muted); padding: 0 16px 10px; background: var(--card); }
+  .foot a { color: inherit; }
+  .error { color: var(--orange-text); font-size: .85rem; }
+  @media (max-width: 760px) {
+    main { grid-template-columns: 1fr; }
+    aside { display: none; }
+  }
+  body.no-legend main { grid-template-columns: 1fr; }
+  body.no-legend aside { display: none; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <img src="/demo/cirqo-mark.png" alt="">
+    <div>
+      <h1>Claude + CIRQO</h1>
+      <p>Try the plugin: shop the way you would in your own AI assistant</p>
+    </div>
+    <span class="mode" id="mode">Connecting…</span>
+  </header>
+
+  <main>
+    <section id="log" aria-live="polite">
+      <div class="welcome" id="welcome">
+        <h2>Ask Claude a shopping question</h2>
+        <p>Claude answers from CIRQO's verified catalog instead of guessing. Watch the panel on the right light up as each CIRQO feature appears.</p>
+        <div class="chips" id="chips">
+          <button type="button">I need headphones for the gym around $150</button>
+          <button type="button">Best laptop under $500 for school?</button>
+          <button type="button">A light laptop for travel with long battery life</button>
+          <button type="button">What is CIRQO and how does this work?</button>
+        </div>
+      </div>
+    </section>
+    <aside>
+      <h2>What CIRQO adds</h2>
+      <div class="feature" data-f="tool"><div class="dot">✓</div><div><b>Claude calls CIRQO</b><span>It searches the verified catalog before it answers, never its memory.</span></div></div>
+      <div class="feature" data-f="labels"><div class="dot">✓</div><div><b>Verified labels</b><span>Every product is marked CIRQO Verified or Not CIRQO Verified.</span></div></div>
+      <div class="feature" data-f="narrow"><div class="dot">✓</div><div><b>One narrowing question</b><span>CIRQO suggests the question that splits the options best.</span></div></div>
+      <div class="feature" data-f="pick"><div class="dot">✓</div><div><b>One verified pick</b><span>A single recommendation with its checked facts.</span></div></div>
+      <div class="feature" data-f="neutral"><div class="dot">✓</div><div><b>Neutral ranking</b><span>No brand can pay for placement.</span></div></div>
+      <p class="note">All brands and products are fictional sample data, except labelled public listings.</p>
+    </aside>
+  </main>
+
+  <div>
+    <form id="form">
+      <input id="input" autocomplete="off" maxlength="500" placeholder="Ask about laptops, headphones, phones, tablets…" aria-label="Your message">
+      <button id="send" type="submit">Send</button>
+    </form>
+    <div class="foot">Demo of the CIRQO plugin for AI assistants. Answers use simulated data. <a href="https://utsa-tech-09302026.vercel.app" target="_blank" rel="noopener">CIRQO for brands</a></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const params = new URLSearchParams(location.search);
+  const API = (params.get("api") || location.origin).replace(/\/$/, "");
+  const theme = params.get("theme");
+  if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+  if (params.get("legend") === "0") document.body.classList.add("no-legend");
+  const MARK = "/demo/cirqo-mark.png";
+
+  const log = document.getElementById("log");
+  const form = document.getElementById("form");
+  const input = document.getElementById("input");
+  const send = document.getElementById("send");
+  const modeEl = document.getElementById("mode");
+  const history = [];
+  let busy = false;
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  // Light Markdown: paragraphs, bullet lists, **bold**, and the two verification labels as badges.
+  function render(text) {
+    const inline = s => esc(s)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\(?Not CIRQO Verified\)?/g, '<span class="tag nv">Not CIRQO Verified</span>')
+      .replace(/\(?(?<!Not )CIRQO Verified\)?/g, '<span class="tag v">CIRQO Verified</span>');
+    const out = [];
+    let list = null;
+    for (const raw of text.split("\n")) {
+      const line = raw.trim();
+      const item = line.match(/^(?:[-*•]|\d+\.)\s+(.*)$/);
+      if (item) { (list = list || []).push(`<li>${inline(item[1])}</li>`); continue; }
+      if (list) { out.push(`<ul>${list.join("")}</ul>`); list = null; }
+      if (line) out.push(`<p>${inline(line.replace(/^#+\s*/, ""))}</p>`);
+    }
+    if (list) out.push(`<ul>${list.join("")}</ul>`);
+    return out.join("");
+  }
+
+  function mark(feature) {
+    const el = document.querySelector(`.feature[data-f="${feature}"]`);
+    if (el) el.classList.add("seen");
+  }
+
+  function callCard(c) {
+    const d = document.createElement("details");
+    d.className = "call";
+    const products = (c.products || []).map(p => `<div class="prod"><span>${esc(p.name)} ${p.price != null ? "· $" + Number(p.price).toFixed(2) : ""}</span><span class="tag ${p.verified ? "v" : "nv"}">${esc(p.verificationLabel)}</span></div>`).join("");
+    d.innerHTML = `<summary><code>${esc(c.tool)}</code><span>${esc(c.headline || "")}</span></summary>
+      <div class="inner">${products}${c.rankingNote ? `<div class="note">${esc(c.rankingNote)}</div>` : ""}
+      <pre>${esc(JSON.stringify(c.input, null, 2))}</pre></div>`;
+    return d;
+  }
+
+  function add(role, text, calls, note) {
+    document.getElementById("welcome")?.remove();
+    const m = document.createElement("div");
+    m.className = `msg ${role}`;
+    if (role === "user") { m.textContent = text; }
+    else {
+      m.innerHTML = `<div class="who"><img src="${MARK}" alt="">Claude, using CIRQO</div>`;
+      (calls || []).forEach(c => m.appendChild(callCard(c)));
+      const b = document.createElement("div");
+      b.className = "bubble";
+      b.innerHTML = render(text);
+      m.appendChild(b);
+      if (note) m.insertAdjacentHTML("beforeend", `<div class="note">${esc(note)}</div>`);
+    }
+    log.appendChild(m);
+    log.scrollTop = log.scrollHeight;
+    return m;
+  }
+
+  function track(reply) {
+    const calls = reply.toolCalls || [];
+    if (calls.length) mark("tool");
+    if (/CIRQO Verified/.test(reply.reply) || calls.some(c => (c.products || []).length)) mark("labels");
+    if (calls.some(c => c.tool === "cirqo_search" && /Suggested question/.test(c.headline || "")) && /\?\s*$/.test(reply.reply.trim())) mark("narrow");
+    if (calls.some(c => c.tool === "cirqo_query" || c.tool === "cirqo_details") || /\bpick\b/i.test(reply.reply)) mark("pick");
+    if (/neutral/i.test(reply.reply) || calls.some(c => c.rankingNote)) mark("neutral");
+  }
+
+  function setMode(mode) {
+    modeEl.className = "mode" + (mode === "live" ? " live" : "");
+    modeEl.textContent = mode === "live" ? "Live Claude" : "Scripted demo";
+  }
+
+  async function ask(text) {
+    if (busy || !text.trim()) return;
+    busy = true; send.disabled = true; input.value = "";
+    history.push({ role: "user", text: text.trim() });
+    add("user", text.trim());
+    const typing = document.createElement("div");
+    typing.className = "msg assistant typing";
+    typing.innerHTML = "Claude is checking CIRQO<i></i><i></i><i></i>";
+    log.appendChild(typing); log.scrollTop = log.scrollHeight;
+    try {
+      const res = await fetch(`${API}/api/v1/demo/chat`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history.slice(-20) }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(body?.error?.message || `The demo server returned ${res.status}.`);
+      typing.remove();
+      history.push({ role: "assistant", text: body.reply });
+      add("assistant", body.reply, body.toolCalls, body.note);
+      setMode(body.mode);
+      track(body);
+    } catch (err) {
+      typing.remove();
+      history.pop();
+      const e = document.createElement("div");
+      e.className = "msg assistant error";
+      e.textContent = (err && err.message) || "Something went wrong. Please try again.";
+      log.appendChild(e);
+    } finally {
+      busy = false; send.disabled = false; input.focus();
+    }
+  }
+
+  form.addEventListener("submit", e => { e.preventDefault(); ask(input.value); });
+  document.getElementById("chips").addEventListener("click", e => { if (e.target.tagName === "BUTTON") ask(e.target.textContent); });
+
+  // The free-tier server sleeps; wake it while the visitor reads the welcome card.
+  modeEl.textContent = "Waking server…";
+  fetch(`${API}/health`).then(r => r.ok ? (modeEl.textContent = "Ready") : null).catch(() => { modeEl.textContent = "Server asleep, retrying…"; });
+})();
+</script>
+</body>
+</html>
