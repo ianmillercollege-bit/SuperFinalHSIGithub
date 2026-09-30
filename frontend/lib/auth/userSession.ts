@@ -3,8 +3,8 @@
 // The signed-in person lives in this browser only (localStorage). The backend accepts any caller;
 // hiding buttons from the Viewer is a frontend convenience, not security.
 //
-// - First visit: signed in as the default owner, so "/" lands on the dashboard (decision 29).
-// - After an explicit sign-out: `signedOut` is set, and "/" goes to /login. Every other page still works.
+// - First visit and after sign-out: not authenticated. "/" and every dashboard page go to /login first.
+// - "Continue as guest" stores a guest marker (the default owner) that lets the pages load.
 // - Owners are the seeded owners from GET /api/v1/owners; the approve and reject forms pre-fill the
 //   signed-in owner's name, and a 403 for a mismatch is the demo of accountability.
 import { useSyncExternalStore } from "react";
@@ -34,10 +34,14 @@ export interface UserSession {
   /** null after an explicit sign-out. */
   user: SignedInUser | null;
   signedOut: boolean;
+  /** False until someone signs in or chooses "Continue as guest": the dashboard pages send them to /login. */
+  authenticated: boolean;
 }
 
-const FIRST_VISIT: UserSession = { user: DEFAULT_USER, signedOut: false };
-const SIGNED_OUT: UserSession = { user: null, signedOut: true };
+// No stored session: the default owner is only a display fallback; the pages are gated on `authenticated`.
+const FIRST_VISIT: UserSession = { user: DEFAULT_USER, signedOut: false, authenticated: false };
+const GUEST: UserSession = { user: DEFAULT_USER, signedOut: false, authenticated: true };
+const SIGNED_OUT: UserSession = { user: null, signedOut: true, authenticated: false };
 
 let cachedRaw: string | null = null;
 let cachedValue: UserSession = FIRST_VISIT;
@@ -60,7 +64,8 @@ export function getUserSession(): UserSession {
   try {
     const parsed = raw ? (JSON.parse(raw) as unknown) : null;
     if (parsed === "signed-out") cachedValue = SIGNED_OUT;
-    else if (isUser(parsed)) cachedValue = { user: parsed, signedOut: false };
+    else if (parsed === "guest") cachedValue = GUEST;
+    else if (isUser(parsed)) cachedValue = { user: parsed, signedOut: false, authenticated: true };
     else cachedValue = FIRST_VISIT;
   } catch {
     cachedValue = FIRST_VISIT;
@@ -68,7 +73,7 @@ export function getUserSession(): UserSession {
   return cachedValue;
 }
 
-function write(value: SignedInUser | "signed-out"): void {
+function write(value: SignedInUser | "signed-out" | "guest"): void {
   try {
     window.localStorage.setItem(KEY, JSON.stringify(value));
   } catch {
@@ -81,7 +86,12 @@ export function signInUser(user: SignedInUser): void {
   write(user);
 }
 
-/** Back to the first-visit state: the default owner, no sign-out marker (the guest path, DECISIONS.md #33). */
+/** The guest path (DECISIONS.md #33): the default owner, allowed past the sign-in gate. */
+export function startGuestSession(): void {
+  write("guest");
+}
+
+/** Back to the first-visit state: nobody is signed in, so the next page load goes to /login. */
 export function resetUserSession(): void {
   try {
     window.localStorage.removeItem(KEY);

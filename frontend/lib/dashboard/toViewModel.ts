@@ -90,7 +90,7 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
     stats,
     ...(showSampleSections && sampleDashboard.storefront ? { storefront: sampleDashboard.storefront } : {}),
     ...(showSampleSections
-      ? { opportunities: sampleDashboard.opportunities, opportunitiesAreSample: true, links: { simulator: "/growth-simulator" } }
+      ? { opportunities: sampleDashboard.opportunities, opportunitiesAreSample: true, links: { opportunities: "/gaps", simulator: "/growth-simulator" } }
       : {}),
     weeklyScores: weekly.length > 1 ? weekly : undefined,
     weeklyBadge: "Seeded pilot data",

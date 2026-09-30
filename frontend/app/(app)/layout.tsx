@@ -1,3 +1,4 @@
+import AuthGate from "@/components/AuthGate";
 import AppShell from "@/components/AppShell";
 import AppSidebar from "@/components/AppSidebar";
 import SampleDataBar from "@/components/SampleDataBar";
@@ -6,9 +7,11 @@ import SampleDataBar from "@/components/SampleDataBar";
 // The sign-in page has its own layout.
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell sidebar={<AppSidebar />}>
-      <SampleDataBar />
-      {children}
-    </AppShell>
+    <AuthGate>
+      <AppShell sidebar={<AppSidebar />}>
+        <SampleDataBar />
+        {children}
+      </AppShell>
+    </AuthGate>
   );
 }

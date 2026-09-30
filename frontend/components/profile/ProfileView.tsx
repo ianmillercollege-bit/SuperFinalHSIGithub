@@ -16,6 +16,7 @@ export interface ProfileViewProps {
 
 const Camera = () => <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M9 4l-1.5 2H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-2.5L15 4H9zm3 4.5a4 4 0 110 8 4 4 0 010-8z" fill="currentColor" /></svg>;
 const Tick = () => <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5l3.2 3L13 4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
+const years = () => { const y = new Date().getFullYear(); return Array.from({ length: y - LIMITS.memberMin + 1 }, (_, i) => y - i); };
 
 export default function ProfileView({ saved, onSave, onReset, headerRight, logos = ASSISTANT_LOGOS }: ProfileViewProps) {
   const [brokenLogo, setBrokenLogo] = useState<Record<string, boolean>>({});
@@ -86,7 +87,7 @@ export default function ProfileView({ saved, onSave, onReset, headerRight, logos
             <h2 className="cq-h2" style={{ fontSize: 22 }}>{draft.name.trim() || 'Your name'}</h2>
             <span>{[draft.jobTitle.trim(), draft.company.trim()].filter(Boolean).join(' · ') || 'Add your job title and company'}</span>
           </div>
-          <span className="cq-pill is-neutral is-md">Member since 2026</span>
+          <span className="cq-pill is-neutral is-md">Member since {draft.memberSince}</span>
           <div className="cq-prof-meter" aria-label={`Profile ${comp.pct}% complete`}>
             <div className="cq-bar"><div style={{ width: `${comp.pct}%`, background: comp.pct === 100 ? 'var(--cq-ok)' : 'var(--cq-navy)' }} /></div>
             <span>{comp.pct}% complete{comp.next ? `. ${comp.next} to keep going.` : '. Nicely done.'}</span>
@@ -107,8 +108,10 @@ export default function ProfileView({ saved, onSave, onReset, headerRight, logos
               <Field id="prof-company" label="Company" error={show('company')}>
                 <input id="prof-company" className="cq-input" value={draft.company} autoComplete="organization" aria-invalid={!!show('company')} onChange={(e) => set('company', e.target.value)} onBlur={() => blur('company')} />
               </Field>
-              <Field id="prof-since" label="Member since">
-                <input id="prof-since" className="cq-input" value="2026" readOnly />
+              <Field id="prof-since" label="Member since" error={show('memberSince')}>
+                <select id="prof-since" className="cq-select" value={draft.memberSince} aria-invalid={!!show('memberSince')} onChange={(e) => set('memberSince', Number(e.target.value))}>
+                  {years().map((y) => <option key={y} value={y}>{y}</option>)}
+                </select>
               </Field>
             </div>
             <Field id="prof-desc" label="Company description" error={show('description')} help={<><span>What you sell and who you sell to. Shown on your profile.</span><span aria-live="polite">{draft.description.length}/{LIMITS.description}</span></>}>

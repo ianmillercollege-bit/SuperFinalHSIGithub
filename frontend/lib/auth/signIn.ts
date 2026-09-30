@@ -10,7 +10,7 @@ import { describeError } from "../errors";
 import { DEMO_LOGINS, DEMO_PASSWORD } from "./demoAccounts";
 import { signInAs, signOutBrand } from "./brandSession";
 import { clearToken, getToken, setToken } from "./token";
-import { resetUserSession, signInUser } from "./userSession";
+import { signInUser, startGuestSession } from "./userSession";
 
 export const WRONG_LOGIN = "Wrong username or password.";
 
@@ -44,7 +44,7 @@ export async function signInWithPassword(username: string, password: string): Pr
 export function continueAsGuest(): void {
   clearToken();
   signOutBrand();
-  resetUserSession();
+  startGuestSession();
 }
 
 /** Sign out: forget the token (telling the backend when there is one) and mark the browser signed out. */

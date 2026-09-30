@@ -1,4 +1,3 @@
-import { API_URL } from '../api';
 import { sampleCoach } from './sampleCoach';
 import { isCoachReply } from './verify';
 import type { Coach, CoachReply, CoachRequest } from './types';
@@ -14,12 +13,9 @@ function normalize(b: unknown): unknown {
   return r;
 }
 
-// Calls the backend coach endpoint (BACKEND_CONTRACT.md section 7f, POST /api/v1/coach), where the only AI
-// call lives. NEXT_PUBLIC_COACH_ENDPOINT overrides the full URL (for example a local backend); it is not a secret
-// and no key lives in this app.
-export const DEFAULT_COACH_ENDPOINT = `${API_URL}/api/v1/coach`;
-
-export async function askLive(req: CoachRequest, endpoint = DEFAULT_COACH_ENDPOINT, timeoutMs = 55000): Promise<CoachReply> {
+// Calls the coach endpoint: this app's /api/coach route (demo bridge) or the backend endpoint once the
+// contract has one. Set NEXT_PUBLIC_COACH_ENDPOINT to the full URL; the URL is not a secret. No key lives here.
+export async function askLive(req: CoachRequest, endpoint = '/api/coach', timeoutMs = 55000): Promise<CoachReply> {
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), timeoutMs);
   try {
@@ -39,7 +35,7 @@ export function createCoach(opts: { mode?: 'sample' | 'live'; endpoint?: string 
   if (opts.mode !== 'live') return sampleCoach;
   return {
     async ask(req) {
-      try { return await askLive(req, opts.endpoint || DEFAULT_COACH_ENDPOINT); }
+      try { return await askLive(req, opts.endpoint); }
       catch (e) { const r = await sampleCoach.ask(req); return { ...r, mode: 'fallback', note: `${(e as Error).message} Showing the built-in answer.` }; }
     },
   };

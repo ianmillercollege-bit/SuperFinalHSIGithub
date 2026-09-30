@@ -1,0 +1,408 @@
+{
+  "business": {
+    "name": "Kestrel"
+  },
+  "asOf": "2026-09-29",
+  "dataLabel": "sample",
+  "visibility": {
+    "score": 63,
+    "previousScore": 58,
+    "recommendationFrequency": 0.58,
+    "answersTested": 48,
+    "answersRecommended": 28,
+    "answersMissed": 20,
+    "strongestAssistant": {
+      "name": "Assistant A",
+      "frequency": 0.75
+    },
+    "weakestAssistant": {
+      "name": "Assistant D",
+      "frequency": 0.42
+    },
+    "missReasons": [
+      {
+        "label": "Missing structured product data",
+        "count": 8,
+        "fix": "Add structured product data",
+        "examples": [
+          {
+            "question": "how long does the Alpine 12 Cooler keep ice",
+            "assistants": [
+              "Assistant B",
+              "Assistant C"
+            ]
+          },
+          {
+            "question": "lightweight 40 liter hiking pack",
+            "assistants": [
+              "Assistant B",
+              "Assistant D"
+            ]
+          },
+          {
+            "question": "best hard cooler under $600",
+            "assistants": [
+              "Assistant C"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Few recent reviews",
+        "count": 5,
+        "fix": "Refresh product reviews",
+        "examples": [
+          {
+            "question": "best cooler for a weekend camping trip",
+            "assistants": [
+              "Assistant C",
+              "Assistant D"
+            ]
+          },
+          {
+            "question": "best backpack for a 3-day hike",
+            "assistants": [
+              "Assistant D"
+            ]
+          },
+          {
+            "question": "steel water bottle that keeps drinks cold for 24 hours",
+            "assistants": [
+              "Assistant A"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Return policy unclear",
+        "count": 3,
+        "fix": "Publish a clear return policy",
+        "examples": [
+          {
+            "question": "cooler brands with easy returns",
+            "assistants": [
+              "Assistant A",
+              "Assistant C",
+              "Assistant D"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Stock status unclear or wrong",
+        "count": 2,
+        "fix": "Keep stock status up to date",
+        "examples": [
+          {
+            "question": "is the Trail 40 Pack in stock",
+            "assistants": [
+              "Assistant B",
+              "Assistant C"
+            ]
+          }
+        ]
+      },
+      {
+        "label": "Competitor cited instead of you",
+        "count": 2,
+        "fix": "Answer common shopper questions",
+        "examples": [
+          {
+            "question": "best small outdoor gear brands",
+            "assistants": [
+              "Assistant A",
+              "Assistant D"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "market": {
+    "rankAmongSmallBusinesses": 3,
+    "smallBusinessCount": 5,
+    "rankOverall": 7,
+    "businessCount": 9,
+    "shareOfVoice": 0.08,
+    "nationalShare": 0.66,
+    "peerShare": 0.25999999999999995,
+    "scoreIfAllGapsClosed": 78,
+    "rankOverallIfAllGapsClosed": 4,
+    "rankSmallIfAllGapsClosed": 1
+  },
+  "opportunities": [
+    {
+      "title": "Add structured product data",
+      "effort": "Low",
+      "liftPoints": 5,
+      "revenuePerMonth": 1433,
+      "why": "Assistants could not find price and specs for several tested questions.",
+      "firstStep": "Add a spec table to your top 10 product pages."
+    },
+    {
+      "title": "Refresh product reviews",
+      "effort": "Medium",
+      "liftPoints": 4,
+      "revenuePerMonth": 1147,
+      "why": "Few recent reviews were found.",
+      "firstStep": "Send a review request to recent customers."
+    },
+    {
+      "title": "Publish a clear return policy",
+      "effort": "Low",
+      "liftPoints": 3,
+      "revenuePerMonth": 860,
+      "why": "Your return policy was unclear or missing in a few answers.",
+      "firstStep": "Add a one-page policy summary linked from every product page."
+    },
+    {
+      "title": "Keep stock status up to date",
+      "effort": "Medium",
+      "liftPoints": 2,
+      "revenuePerMonth": 573,
+      "why": "Stock status was wrong in some answers.",
+      "firstStep": "Publish a stock feed that updates daily."
+    },
+    {
+      "title": "Answer common shopper questions",
+      "effort": "Low",
+      "liftPoints": 1,
+      "revenuePerMonth": 287,
+      "why": "A competitor was cited instead of you in some answers.",
+      "firstStep": "Add an FAQ covering the questions shoppers ask most."
+    }
+  ],
+  "weeklyScores": [
+    52,
+    54,
+    55,
+    57,
+    56,
+    59,
+    58,
+    63
+  ],
+  "claims": {
+    "outstanding": 3,
+    "reviewedLast30Days": 12
+  },
+  "competitors": [
+    {
+      "name": "National Brand A",
+      "type": "national brand",
+      "score": 88,
+      "averageRank": 1.3,
+      "shareOfVoice": 0.21,
+      "recommendationFrequency": 0.85
+    },
+    {
+      "name": "National Brand B",
+      "type": "national brand",
+      "score": 82,
+      "averageRank": 1.6,
+      "shareOfVoice": 0.18,
+      "recommendationFrequency": 0.79
+    },
+    {
+      "name": "National Brand C",
+      "type": "national brand",
+      "score": 79,
+      "averageRank": 1.9,
+      "shareOfVoice": 0.15,
+      "recommendationFrequency": 0.71
+    },
+    {
+      "name": "National Brand D",
+      "type": "national brand",
+      "score": 74,
+      "averageRank": 2.4,
+      "shareOfVoice": 0.12,
+      "recommendationFrequency": 0.63
+    },
+    {
+      "name": "Cedar & Pine Outfitters",
+      "type": "small business",
+      "score": 71,
+      "averageRank": 2,
+      "shareOfVoice": 0.09,
+      "recommendationFrequency": 0.66
+    },
+    {
+      "name": "Lakeshore Gear Co.",
+      "type": "small business",
+      "score": 66,
+      "averageRank": 2.3,
+      "shareOfVoice": 0.08,
+      "recommendationFrequency": 0.6
+    },
+    {
+      "name": "Ridgeway Supply",
+      "type": "small business",
+      "score": 59,
+      "averageRank": 2.9,
+      "shareOfVoice": 0.05,
+      "recommendationFrequency": 0.5
+    },
+    {
+      "name": "Copperline Goods",
+      "type": "small business",
+      "score": 52,
+      "averageRank": 3.4,
+      "shareOfVoice": 0.04,
+      "recommendationFrequency": 0.42
+    }
+  ],
+  "assistants": [
+    {
+      "name": "Assistant A",
+      "frequency": 0.75,
+      "answersRecommended": 9,
+      "answersTested": 12,
+      "missedQuestions": [
+        "steel water bottle that keeps drinks cold for 24 hours",
+        "cooler brands with easy returns",
+        "best small outdoor gear brands"
+      ]
+    },
+    {
+      "name": "Assistant B",
+      "frequency": 0.67,
+      "answersRecommended": 8,
+      "answersTested": 12,
+      "missedQuestions": [
+        "how long does the Alpine 12 Cooler keep ice",
+        "lightweight 40 liter hiking pack",
+        "is the Trail 40 Pack in stock"
+      ]
+    },
+    {
+      "name": "Assistant C",
+      "frequency": 0.5,
+      "answersRecommended": 6,
+      "answersTested": 12,
+      "missedQuestions": [
+        "best cooler for a weekend camping trip",
+        "best hard cooler under $600",
+        "how long does the Alpine 12 Cooler keep ice"
+      ]
+    },
+    {
+      "name": "Assistant D",
+      "frequency": 0.42,
+      "answersRecommended": 5,
+      "answersTested": 12,
+      "missedQuestions": [
+        "best cooler for a weekend camping trip",
+        "best backpack for a 3-day hike",
+        "lightweight 40 liter hiking pack"
+      ]
+    }
+  ],
+  "topMissedQuestions": [
+    {
+      "question": "cooler brands with easy returns",
+      "missedBy": [
+        "Assistant A",
+        "Assistant C",
+        "Assistant D"
+      ],
+      "reason": "Return policy unclear"
+    },
+    {
+      "question": "best cooler for a weekend camping trip",
+      "missedBy": [
+        "Assistant C",
+        "Assistant D"
+      ],
+      "reason": "Few recent reviews"
+    },
+    {
+      "question": "how long does the Alpine 12 Cooler keep ice",
+      "missedBy": [
+        "Assistant B",
+        "Assistant C"
+      ],
+      "reason": "Missing structured product data"
+    },
+    {
+      "question": "lightweight 40 liter hiking pack",
+      "missedBy": [
+        "Assistant B",
+        "Assistant D"
+      ],
+      "reason": "Missing structured product data"
+    },
+    {
+      "question": "steel water bottle that keeps drinks cold for 24 hours",
+      "missedBy": [
+        "Assistant A",
+        "Assistant D"
+      ],
+      "reason": "Few recent reviews"
+    }
+  ],
+  "revenue": {
+    "estimatePerMonth": 18060,
+    "perVisibilityPoint": 286.65,
+    "queriesPerMonth": 14000,
+    "conversionPct": 2.5,
+    "averageOrderValue": 81.9
+  },
+  "trust": {
+    "accuracyRate": 0.91,
+    "hallucinationRate": 0.04,
+    "timeToResolveHours": 4.2,
+    "days": 30,
+    "accuracyRateStart": 0.72
+  },
+  "sampleSections": [
+    "visibility",
+    "market",
+    "opportunities",
+    "revenue",
+    "trust",
+    "claims"
+  ],
+  "derivedFacts": [
+    "Sections that are sample data: visibility, market, opportunities, revenue, trust, claims.",
+    "You were named in 28 of 48 tested answers (58%); 20 answers missed you.",
+    "Assistant A recommends you most (75% of its answers) and Assistant D least (42%), a gap of 33 percentage points.",
+    "Missing structured product data explains 8 of 20 missed answers (40%); the matching fix is \"Add structured product data\".",
+    "Few recent reviews explains 5 of 20 missed answers (25%); the matching fix is \"Refresh product reviews\".",
+    "Return policy unclear explains 3 of 20 missed answers (15%); the matching fix is \"Publish a clear return policy\".",
+    "Stock status unclear or wrong explains 2 of 20 missed answers (10%); the matching fix is \"Keep stock status up to date\".",
+    "Competitor cited instead of you explains 2 of 20 missed answers (10%); the matching fix is \"Answer common shopper questions\".",
+    "Examples of \"Missing structured product data\" misses: \"how long does the Alpine 12 Cooler keep ice\" on Assistant B and Assistant C; \"lightweight 40 liter hiking pack\" on Assistant B and Assistant D.",
+    "Examples of \"Few recent reviews\" misses: \"best cooler for a weekend camping trip\" on Assistant C and Assistant D; \"best backpack for a 3-day hike\" on Assistant D.",
+    "Your visibility score moved from 58 to 63 last week.",
+    "Over 8 weeks your score moved from 52 to 63.",
+    "Best value for effort: \"Add structured product data\" (+5 points, about $1,433/month estimate, Low effort).",
+    "All 5 opportunity gaps together: +15 points, about $4,300/month (estimate).",
+    "The 3 low-effort gaps alone: +9 points, about $2,580/month (estimate).",
+    "Estimated revenue is $18,060/month; each visibility point is worth about $287/month (estimate, from 14,000 AI-driven shopper questions per month, 2.5% conversion and a $82 average order).",
+    "You rank 3 of 5 small businesses and 7 of 9 overall.",
+    "Share of AI recommendations: you 8%, small-business peers 26%, national brands 66%.",
+    "If every gap were closed your score would reach 78, ranking 4 of 9 overall and 1 of 5 among small businesses (estimate).",
+    "AI answers about you are 91% accurate, up from 72% 30 days ago; the hallucination rate is 4% and issues take about 4.2 hours to resolve.",
+    "The nearest small business above you is Lakeshore Gear Co. (score 66, 3 points ahead).",
+    "The nearest national brand above you is National Brand D (score 74, 11 points ahead).",
+    "You are ahead of Ridgeway Supply (score 59) by 4 points.",
+    "Closing every gap (score 78) would put you ahead of National Brand D, Cedar & Pine Outfitters, Lakeshore Gear Co. (estimate).",
+    "Recommendation rate by assistant: Assistant A 75%, Assistant B 67%, Assistant C 50%, Assistant D 42%.",
+    "\"cooler brands with easy returns\" missed you on 3 of 4 assistants (Return policy unclear).",
+    "\"best cooler for a weekend camping trip\" missed you on 2 of 4 assistants (Few recent reviews).",
+    "\"how long does the Alpine 12 Cooler keep ice\" missed you on 2 of 4 assistants (Missing structured product data).",
+    "3 claims are waiting for approval and 12 were reviewed in the last 30 days.",
+    "Value per unit of effort: \"Add structured product data\" returns $1,433 per unit of effort against $860 for \"Publish a clear return policy\" (estimate), 1.7x the next best.",
+    "Bottleneck: Missing structured product data explains 8 of 20 missed answers (40%), and fixing it returns $1,433 per unit of effort, 1.7x the next best (estimate).",
+    "Skew: Assistant D produces 7 of your 20 misses (35%) while being 1 of 4 assistants (25% of the field), 1.4x its share.",
+    "Representation: National brands are 44% of the field (4 of 9) but hold 66% of recommendations, 1.5x their share, while you hold 8% against an even split of 11%.",
+    "Your pace is 1.6 points a week (52 to 63 over 8 weeks).",
+    "Rival: Lakeshore Gear Co. is 3 points ahead (score 66). The cheapest way past it is \"Add structured product data\" (+5 points, reaching 68). At your current pace that takes about 3 weeks.",
+    "Return per unit of effort: \"Add structured product data\" $1,433 (estimate).",
+    "Return per unit of effort: \"Publish a clear return policy\" $860 (estimate).",
+    "Return per unit of effort: \"Refresh product reviews\" $574 (estimate).",
+    "The top 3 fixes together add 12 points to reach 75, about $3,440/month (estimate), ranking 4 of 9 overall.",
+    "3 claims wait against 12 reviewed in 30 days, about 8 days of work at the current pace."
+  ]
+}

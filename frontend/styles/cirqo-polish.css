@@ -1,0 +1,51 @@
+/* CIRQO polish layer: load LAST, after every other cirqo-*.css. Typography and depth only: no layout, sizes of boxes or behavior change.
+   Signature: page titles and big numbers in the logo's wide heavy Archivo, tracked eyebrow labels, an orange dot ending each title
+   (the dot from the logo), and a faint ring in the page corner. To turn it all off, remove this one import. */
+:root {
+  --cq-shadow-1: 0 1px 2px rgba(12, 35, 64, 0.05), 0 12px 28px -14px rgba(12, 35, 64, 0.16);
+  --cq-shadow-2: 0 2px 4px rgba(12, 35, 64, 0.06), 0 18px 36px -14px rgba(12, 35, 64, 0.22);
+  --cq-ink-grad: linear-gradient(100deg, #0C2340 18%, #245A9E 100%);
+  --cq-ring-mark: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 520 520%27 fill=%27none%27%3E%3Ccircle cx=%27260%27 cy=%27260%27 r=%27236%27 stroke=%27%230C2340%27 stroke-width=%273%27/%3E%3Cpath d=%27M260 96A164 164 0 1 0 392 356%27 stroke=%27%230C2340%27 stroke-width=%2744%27 stroke-linecap=%27butt%27/%3E%3Ccircle cx=%27392%27 cy=%27372%27 r=%2726%27 fill=%27%23F15A22%27/%3E%3C/svg%3E");
+}
+
+/* ---------- canvas: soft light, plus the ring motif behind the content ---------- */
+.cq-app { background: radial-gradient(900px 440px at 92% -6%, rgba(241, 90, 34, 0.07), transparent 62%), radial-gradient(820px 560px at 4% 0%, rgba(36, 90, 158, 0.07), transparent 58%), var(--cq-bg); }
+.cq-main { position: relative; isolation: isolate; }
+.cq-main::before { content: ''; position: absolute; z-index: -1; top: 0; right: 0; width: 440px; height: 360px; background: var(--cq-ring-mark) no-repeat right -170px top -130px / 520px 520px; opacity: 0.055; pointer-events: none; }   /* stays inside the page box, so it can never cause sideways scrolling */
+
+/* ---------- type: the biggest change ---------- */
+.cq-h1 { font-stretch: 125%; font-weight: 800; font-size: clamp(30px, 3.3vw, 42px); line-height: 1.04; letter-spacing: -0.02em; }
+.cq-h1::after { content: ''; display: inline-block; width: 0.2em; height: 0.2em; margin-left: 0.12em; border-radius: 50%; background: var(--cq-orange); box-shadow: 0 0 0 0.09em rgba(241, 90, 34, 0.22); vertical-align: baseline; }
+.cq-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cq-orange-text); }
+.cq-eyebrow::before { content: ''; width: 22px; height: 2px; border-radius: 2px; background: var(--cq-orange); flex-shrink: 0; }
+.cq-eyebrow .cq-pill::before { content: none; }
+.cq-h2 { font-stretch: 112%; font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+.cq-stat-label, .cq-score-label { font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cq-text-muted); }
+.cq-stat-value { font-stretch: 125%; font-weight: 800; font-size: clamp(30px, 3vw, 40px); letter-spacing: -0.03em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.cq-ring .num { font-stretch: 125%; font-weight: 800; letter-spacing: -0.03em; }
+.cq-score-delta { font-weight: 700; letter-spacing: -0.005em; }
+.cq-opnum, .cq-stat-value, .cq-scorebar .v, .cq-ring .num { font-variant-numeric: tabular-nums; }
+@media (forced-colors: none) {
+  .cq-h1, .cq-stat-value:not(.is-bad):not(.is-good) { background: var(--cq-ink-grad); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--cq-navy); }
+  .cq-h1::after { -webkit-text-fill-color: initial; }
+}
+
+/* ---------- depth: cards and buttons. The sidebar is deliberately NOT restyled here: it stays exactly as designed (flat navy, bold Monitor / Grow / Claims headers, orange Claims block). ---------- */
+.cq-card { box-shadow: var(--cq-shadow-1); transition: box-shadow 0.2s ease, transform 0.2s ease; }
+.cq-grid3 > .cq-card:hover, .cq-grid4 > .cq-card:hover { box-shadow: var(--cq-shadow-2); transform: translateY(-2px); }
+.cq-btn { transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; }
+.cq-btn:hover:not(:disabled) { transform: translateY(-1px); }
+.cq-btn.is-primary { background: linear-gradient(180deg, #17345E 0%, #0C2340 100%); box-shadow: 0 8px 16px -8px rgba(12, 35, 64, 0.7); }
+.cq-btn.is-orange { background: linear-gradient(180deg, #F56E3A 0%, #F15A22 100%); box-shadow: 0 8px 16px -8px rgba(241, 90, 34, 0.75); }
+.cq-btn:focus-visible, .cq-chip:focus-visible, .cq-input:focus-visible, .cq-textarea:focus-visible, .cq-select:focus-visible { outline: 3px solid var(--cq-orange); outline-offset: 2px; }
+.cq-badge-sample { background: linear-gradient(180deg, #EEF2F8, #E4EAF3); }
+.cq-ring .arc { filter: drop-shadow(0 5px 8px rgba(12, 35, 64, 0.22)); }
+
+/* ---------- entrance: content settles in, once ---------- */
+@keyframes cq-settle { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .cq-main > *:not(.cq-splash) { animation: cq-settle 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .cq-main > *:not(.cq-splash):nth-child(2) { animation-delay: 60ms; } .cq-main > *:not(.cq-splash):nth-child(3) { animation-delay: 120ms; } .cq-main > *:not(.cq-splash):nth-child(4) { animation-delay: 180ms; }
+  .cq-main > *:not(.cq-splash):nth-child(n + 5) { animation-delay: 240ms; }
+}
+@media (prefers-reduced-motion: reduce) { .cq-card, .cq-btn { transition: none; } .cq-grid3 > .cq-card:hover, .cq-grid4 > .cq-card:hover, .cq-btn:hover:not(:disabled) { transform: none; } }
