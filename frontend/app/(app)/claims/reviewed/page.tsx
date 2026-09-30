@@ -6,9 +6,9 @@ export const metadata: Metadata = { title: "Claims Reviewed · CIRQO" };
 
 export default function Page() {
   return (
-    <main className="page">
+    <div className="page">
       <PageHeader eyebrow="Governance" title="Claims Reviewed" intro="Decided claims and the full Insights log of every action." claims />
       <ClaimsReviewed />
-    </main>
+    </div>
   );
 }

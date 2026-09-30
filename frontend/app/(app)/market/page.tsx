@@ -6,9 +6,9 @@ export const metadata: Metadata = { title: "Market Position · CIRQO" };
 
 export default function Page() {
   return (
-    <main className="page">
+    <div className="page">
       <PageHeader eyebrow="Insights" title="Market Position" intro="How your brand's share of AI answers compares with competitors." />
       <MarketPosition />
-    </main>
+    </div>
   );
 }
