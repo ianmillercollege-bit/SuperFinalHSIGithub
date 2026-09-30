@@ -223,3 +223,34 @@ def test_one_pick_matches_the_search_top_for_non_laptops(seeded):
                  "constraints": {"mustHave": ["wireless"]}}
     res = seeded.post("/api/v1/connector/query", json=with_hint)
     assert res.status_code == 200, res.text  # a hint attribute is a valid must-have for the pick
+
+
+# ---- cherry-picked from the lead's review session: every spelling of a budget counts; "phone" never returns a tablet
+
+
+def test_budget_is_read_in_every_spelling():
+    from routers.connector import price_from_question
+    for question in ("phone under $100", "phone under 100$", "phone under 100 dollars", "a phone for 100 bucks",
+                     "phone, budget of 100", "phone under 100", "phone up to 100", "cheaper than 100 usd"):
+        assert price_from_question(question) == 100, question
+    for question in ("laptop under 3 lb", "screen under 15 inches", "battery over 10 hours", "phone under 128 GB",
+                     "a phone for school", "under 2 kg", "laptop"):
+        assert price_from_question(question) is None, question
+
+
+def test_search_applies_a_budget_written_after_the_number(seeded):
+    for question in ("Find a phone under 100$", "Find a phone under 100 dollars", "Find a phone under 100"):
+        body = search(seeded, {"question": question, "assistantId": "ast_01"})
+        assert all(o["price"] <= 100 for o in body["options"]), question
+    body = search(seeded, {"question": "Find a phone under 200$", "assistantId": "ast_01"})
+    assert body["options"] and all(o["price"] <= 200 for o in body["options"])
+
+
+def test_query_keeps_to_the_named_subcategory(seeded):
+    def pick(question):
+        res = seeded.post("/api/v1/connector/query", json={"question": question, "assistantId": "ast_01"})
+        assert res.status_code == 200, res.text
+        with SessionLocal() as db:
+            return db.get(Product, res.json()["recommendation"]["productId"]).subcategory
+    assert pick("Find a phone under $200") == "Smartphone"
+    assert pick("Find a tablet under $300") == "Tablet"

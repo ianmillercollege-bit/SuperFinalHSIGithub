@@ -449,18 +449,6 @@ a.cq-stat:focus-visible,
 .cq-login-card .dd-option {
   border-radius: 6px;
 }
-
-/* Community pages (contract v1.6). */
-.block {
-  display: block;
-}
-
-.plain-list {
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
-}
-
 /* Shopify storefront revenue panel on the dashboard. */
 .cq-shop {
   display: flex;

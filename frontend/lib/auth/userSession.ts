@@ -23,8 +23,6 @@ export interface SignedInUser {
   backend?: boolean;
   /** Role "CIRQO Staff" (contract v1.4): sees the cross-company pages. */
   staff?: boolean;
-  /** Community Partner (contract v1.6): the organization instead of a brand. */
-  partner?: { orgId: string; orgName: string };
 }
 
 /** Signed in as this owner on a first visit (a seeded owner, contract section 9). */

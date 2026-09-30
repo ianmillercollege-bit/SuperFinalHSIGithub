@@ -16,6 +16,7 @@ Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 A
 - [ ] File a Claim on the example answer creates claims and incidents.
 - [ ] Approve one Outstanding Claim as its owner; it appears in Claims Reviewed.
 - [ ] Connect your catalog creates a brand; it appears in Preview as shopper.
+- [ ] No Community links in the sidebar (cut at freeze); `/api/v1/community/impact?brandId=brand_001` still answers 200.
 - [ ] Claude with the CIRQO custom connector (URL `https://frontdoor-api-hiel.onrender.com/mcp`, web search off): search, one question, pick, details; labels on every product (screenshots taken).
 
 ## 4:30 AM: repository

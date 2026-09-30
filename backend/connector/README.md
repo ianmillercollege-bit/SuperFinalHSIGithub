@@ -25,7 +25,7 @@ company, facts checked against its own data) or **Not CIRQO Verified** (a public
 |---|---|---|
 | `question` | yes | What the shopper said, e.g. "I want headphones for the gym" |
 | `assistantId` | yes | The calling assistant's ID registered with CIRQO, e.g. `ast_01` |
-| `constraints` | no | `cirqo_search`: `category` (`laptops`, `headphones`, `smart_home`, `monitors`, `accessories`), `maxPrice` (USD), `useCase`, `mustHave` (attribute tags; add one per answered hint). `cirqo_query`: `maxPrice`, `useCase` (`school`, `work`, `travel`, `media`), `mustHave` (any of `battery`, `light`, `screen`, `touch`). |
+| `constraints` | no | `cirqo_search`: `category` (`laptops`, `headphones`, `phones_tablets`, `computer_hardware`), `maxPrice` (USD), `useCase`, `mustHave` (attribute tags; add one per answered hint). `cirqo_query`: `maxPrice`, `useCase` (`school`, `work`, `travel`, `media`), `mustHave` (any of `battery`, `light`, `screen`, `touch`). |
 
 ### The funnel, as the tool descriptions teach it
 
@@ -85,8 +85,12 @@ which wrap the same CIRQO endpoints; deep research mode uses them too.
 {"mcpServers": {"cirqo": {"httpUrl": "https://frontdoor-api-hiel.onrender.com/mcp"}}}
 ```
 
-then `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query` and `cirqo_details`. The Gemini consumer app does not
-yet take custom connectors; when it does, the same URL applies. Then in a new chat enable CIRQO under the tools menu and ask:
+then `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query`, `cirqo_details`, `search` and `fetch`. Two things
+we hit on the night: Google sign-in for individual accounts is closed in Gemini CLI 0.62, so authenticate with a free
+Gemini API key from https://aistudio.google.com/app/apikey (a personal Google account can create the project; a school
+account may not) via `export GEMINI_API_KEY=...`; and free keys are refused by the "pro-preview" models, so run `/model`
+and pick a Flash model before asking. The Gemini consumer app does not yet take custom connectors; when it does, the
+same URL applies. Then in a new chat enable CIRQO under the tools menu and ask:
 "I want headphones for the gym, budget around $150." Nothing to install, no config file, no restart. The free-tier
 backend may take up to a minute to answer the first call while it wakes up.
 
