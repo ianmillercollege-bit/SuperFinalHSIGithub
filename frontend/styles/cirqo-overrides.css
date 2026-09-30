@@ -593,3 +593,11 @@ a.cq-stat:focus-visible,
     grid-template-columns: 1fr;
   }
 }
+
+/* Night mode: brand navy fills sit on navy cards, so give them an edge or a visible colour. */
+:root[data-theme="dark"] .cq-meter > div { background: var(--cq-you); }
+:root[data-theme="dark"] .cq-btn.is-primary,
+:root[data-theme="dark"] .cq-pill.is-you,
+:root[data-theme="dark"] .cq-opnum { box-shadow: inset 0 0 0 1px var(--cq-border-strong); }
+/* Progress bars whose fill is set inline to brand navy (kit markup). */
+:root[data-theme="dark"] .cq-bar > div[style*="var(--cq-navy)"] { background: var(--cq-you) !important; }
