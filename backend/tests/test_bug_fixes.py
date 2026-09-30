@@ -236,3 +236,34 @@ def test_refurbished_pick_states_its_condition_and_pledge(seeded):
     assert answer["recommendation"]["productId"] == winner
     assert f"The {name} is refurbished." in answer["answerText"]
     assert f"The {name} is covered for 12 months under the brand's community pledge." in answer["answerText"]
+
+
+# ---- connector: every spelling of a budget counts, and "phone" never returns a tablet ----------------------
+
+
+def test_budget_is_read_in_every_spelling():
+    from routers.connector import price_from_question
+    for question in ("phone under $100", "phone under 100$", "phone under 100 dollars", "a phone for 100 bucks",
+                     "phone, budget of 100", "phone under 100", "phone up to 100", "cheaper than 100 usd"):
+        assert price_from_question(question) == 100, question
+    for question in ("laptop under 3 lb", "screen under 15 inches", "battery over 10 hours", "phone under 128 GB",
+                     "a phone for school", "under 2 kg", "laptop"):
+        assert price_from_question(question) is None, question
+
+
+def test_search_applies_a_budget_written_after_the_number(seeded):
+    for question in ("Find a phone under 100$", "Find a phone under 100 dollars", "Find a phone under 100"):
+        body = seeded.post("/api/v1/connector/search", json={"question": question, "assistantId": "ast_01"}).json()
+        assert body["optionCount"] == 0, question  # the catalog has no smartphone under $100
+    body = seeded.post("/api/v1/connector/search", json={"question": "Find a phone under 200$", "assistantId": "ast_01"}).json()
+    assert body["options"] and all(o["price"] <= 200 for o in body["options"])
+
+
+def test_query_keeps_to_the_named_subcategory(seeded):
+    def pick(question):
+        res = seeded.post("/api/v1/connector/query", json={"question": question, "assistantId": "ast_01"})
+        assert res.status_code == 200, res.text
+        with SessionLocal() as db:
+            return db.get(Product, res.json()["recommendation"]["productId"]).subcategory
+    assert pick("Find a phone under $200") == "Smartphone"
+    assert pick("Find a tablet under $100") == "Tablet"

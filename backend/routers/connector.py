@@ -32,7 +32,14 @@ from timeutil import now_iso
 router = APIRouter(prefix="/connector", tags=["Connector"])
 
 MANIFEST = Path(__file__).resolve().parents[1] / "connector" / "manifest.json"
-DOLLARS = re.compile(r"\$\s?(\d[\d,]*(?:\.\d{1,2})?)")
+NUMBER = r"(\d[\d,]*(?:\.\d{1,2})?)"
+DOLLARS = re.compile(rf"\$\s?{NUMBER}")  # "$100"
+DOLLARS_AFTER = re.compile(rf"\b{NUMBER}\s?(?:\$|dollars?|bucks|usd)(?![a-z])", re.I)  # "100$", "100 dollars"
+# A bare number right after a budget word ("under 100", "budget of 100"), unless a unit follows it ("under 3 lb").
+BUDGET_LEAD = (r"(?:under|below|less than|cheaper than|at most|no more than|up to|max(?:imum)?(?: of)?|around|about|"
+               r"roughly|within|budget(?: of| is|:)?)")
+UNIT_AFTER = r"(?!\s?(?:\"|''|inch(?:es)?|in\b|lbs?\b|kg\b|g\b|gb\b|tb\b|mb\b|hours?\b|hrs?\b|h\b|%|mah\b|mp\b|hz\b|nits\b|days?\b|months?\b|years?\b|watts?\b|w\b|k\b))"
+BARE_BUDGET = re.compile(rf"\b{BUDGET_LEAD}\s+{NUMBER}(?![\d,.]){UNIT_AFTER}", re.I)  # the whole number, then no unit
 
 
 @router.get("/manifest")
@@ -42,7 +49,8 @@ def manifest() -> dict:
 
 
 def price_from_question(question: str) -> float | None:
-    m = DOLLARS.search(question)
+    """The budget a question states: "$100", "100$", "100 dollars" or "under 100". None when it states none."""
+    m = DOLLARS.search(question) or DOLLARS_AFTER.search(question) or BARE_BUDGET.search(question)
     value = float(m.group(1).replace(",", "")) if m else None
     # A number too big to be a price ("$999...9") is ignored rather than used as a budget.
     return value if value and value > 0 and usable_number(value) else None
@@ -95,7 +103,12 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
     # products are ranked; if nothing in that category fits, every category is ranked, as before.
     category = infer_category(body.question) or "laptops"
     in_budget = [p for p in products.values() if max_price is None or p.price <= max_price]
-    eligible = [to_rankable(p) for p in in_budget if p.category == category] or [to_rankable(p) for p in in_budget]
+    in_category = [p for p in in_budget if p.category == category]
+    # A word the question names ("phone", "tablet", "graphics card") narrows to that subcategory, as /search does;
+    # a phone question must not come back with a tablet just because the tablet is cheaper.
+    named = subcategories_in(body.question)
+    eligible = ([to_rankable(p) for p in in_category if p.subcategory in named] or [to_rankable(p) for p in in_category]
+                or [to_rankable(p) for p in in_budget])
     ranked = rank(eligible, None, C.USE_CASES.get(use_case), [C.MUST_HAVES[m] for m in must_have])
 
     brand_rows = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
