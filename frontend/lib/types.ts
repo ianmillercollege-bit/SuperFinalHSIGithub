@@ -476,3 +476,30 @@ export interface DemoAccount {
 export interface DemoAccountsResponse {
   accounts: DemoAccount[];
 }
+
+// ---- Onboarding (v1.3, section 7b): POST /api/v1/brands/onboard ----
+
+export interface OnboardProduct {
+  name: string;
+  price: number;
+  availability?: Availability;
+  specs?: { batteryHours?: number; weightLb?: number; screenInches?: number };
+  returnPolicyDays?: number;
+}
+
+export interface OnboardRequest {
+  brandName: string;
+  ownerName: string;
+  /** 1 to 50 products. */
+  products: OnboardProduct[];
+}
+
+export interface OnboardResponse {
+  brandId: string;
+  brandName: string;
+  apiKey: string;
+  productsCreated: number;
+  owners: { ownerId: string; name: string; role: string }[];
+  connectorReady: boolean;
+  note: string;
+}

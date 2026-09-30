@@ -27,6 +27,8 @@ import type {
   CheckerRunResponse,
   ConnectorQueryRequest,
   DemoAccountsResponse,
+  OnboardRequest,
+  OnboardResponse,
   ConnectorQueryResponse,
   ClaimFilters,
   ClaimsResponse,
@@ -80,6 +82,7 @@ export const MOCK_FILES = {
   connectorManifest: "connector_manifest",
   /** v1.3. No file in shared/mock/ yet; mock mode falls back to the contract example on screen. */
   demoAccounts: "demo_accounts",
+  brandsOnboard: "brands_onboard",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -234,6 +237,12 @@ function withoutEmptyConstraints(body: ConnectorQueryRequest): ConnectorQueryReq
 // GET /api/v1/auth/demo-accounts  (v1.3: the demo logins; no auth)
 export function getDemoAccounts(): Promise<DemoAccountsResponse> {
   return request("GET", "/api/v1/auth/demo-accounts", {}, undefined, MOCK_FILES.demoAccounts);
+}
+
+// POST /api/v1/brands/onboard  (v1.3: "Connect your catalog"). 201 on success; 409 CONFLICT for a
+// duplicate brand name; 422 VALIDATION_ERROR. Nothing is stored in mock mode, so it always fails there.
+export function onboardBrand(body: OnboardRequest): Promise<OnboardResponse> {
+  return request("POST", "/api/v1/brands/onboard", {}, body, MOCK_FILES.brandsOnboard);
 }
 
 // GET /api/v1/owners

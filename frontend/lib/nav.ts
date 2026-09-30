@@ -28,6 +28,11 @@ export const NAV: NavGroup[] = [
     ],
   },
   {
+    title: "Setup",
+    tone: "default",
+    items: [{ label: "Connect your catalog", href: "/connect" }],
+  },
+  {
     title: "Claims",
     tone: "claims",
     items: [
