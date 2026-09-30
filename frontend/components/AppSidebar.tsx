@@ -6,7 +6,6 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import type { NavGroup as KitNavGroup } from "@/components/dashboard/Sidebar";
 import { API_URL, checkHealth, getIncidents } from "@/lib/api";
 import { signOutBrand, useBrandSession } from "@/lib/auth/brandSession";
-import { clearEntered } from "@/lib/auth/entry";
 import { forgetLogin } from "@/lib/auth/signIn";
 import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
@@ -58,14 +57,14 @@ export default function AppSidebar() {
   // The one navigation definition is the kit's lib/nav.ts; only the routes are ours.
   const groups: KitNavGroup[] = buildNavGroups(
     {
-      dashboard: "/dashboard", visibility: "/visibility", market: "/market", company: "/company", products: "/products",
-      companies: "/companies",
-      gaps: "/gaps", simulator: "/growth-simulator", coach: "/coach", preview: "/preview",
-      connect: "/connect",
+      dashboard: "/dashboard", visibility: "/visibility", market: "/market",
+      company: "/company", companies: "/companies",
+      preview: "/preview", simulator: "/growth-simulator", coach: "/coach",
+      connect: "/connect", inventory: "/inventory",
       fileClaim: "/claims/new", outstanding: "/claims/outstanding", reviewed: "/claims/reviewed",
     },
     open.data,
-    !!user?.staff,
+    user?.staff === true,
   );
 
   // With nobody signed in there is no Sign out button, so the sidebar offers the way back to the sign-in page.
@@ -90,7 +89,6 @@ export default function AppSidebar() {
               forgetLogin();
               signOutBrand();
               signOutUser();
-              clearEntered();
               router.push("/login");
             }
           : undefined

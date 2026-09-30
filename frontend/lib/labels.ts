@@ -77,6 +77,9 @@ export const AUDIT_ACTION_LABELS: Record<AuditAction, string> = {
   resolved: "Resolved",
   connector_query: "Assistant query answered",
   brand_onboarded: "Brand connected",
+  inventory_updated: "Inventory changed",
+  inventory_imported: "Inventory uploaded",
+  inventory_removed: "Product removed",
 };
 
 /** What each contract error code means for the person using the screen (section 2). */

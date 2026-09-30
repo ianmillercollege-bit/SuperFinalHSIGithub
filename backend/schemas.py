@@ -472,7 +472,8 @@ class AuditOut(CamelModel):
     action: Literal["claim_extracted", "claim_checked", "incident_created", "auto_fix_applied", "approved",
                     "rejected", "escalated", "resolved", "connector_query", "brand_onboarded",
                     "connector_search", "brand_claimed",
-                    "community_request", "community_approved", "community_rejected"]
+                    "community_request", "community_approved", "community_rejected",
+                    "inventory_updated", "inventory_imported", "inventory_removed"]
     target_id: str
     details: str
 
@@ -791,3 +792,49 @@ class CoachReplyOut(CamelModel):
     unverified_numbers: list[str]
     generated_at: str
     note: str | None = None
+
+
+# ---- Inventory: a brand's own products, editable (v1.9) ---------------------------------------------
+
+
+class InventorySummary(CamelModel):
+    total: int
+    in_stock: int
+    low_stock: int
+    out_of_stock: int
+    by_category: dict[str, int]
+
+
+class InventoryOut(CamelModel):
+    """One page of the brand's products (after filters) plus counts over the whole catalog."""
+    items: list[ProductOut]
+    total: int  # products matching the filters
+    summary: InventorySummary  # the brand's whole catalog, ignoring filters
+
+
+class InventoryPatch(CamelModel):
+    """Only the fields sent are changed. `specs` is merged into the product's specs."""
+    price: float | None = Field(None, gt=0, allow_inf_nan=False)
+    availability: Availability | None = None
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"] | None = None
+    subcategory: str | None = Field(None, max_length=60)
+    return_policy_days: int | None = Field(None, ge=0, le=3650)
+    specs: dict | None = None
+
+    @field_validator("specs")
+    @classmethod
+    def specs_are_typed(cls, v):
+        return None if v is None else OnboardProductIn.known_specs_have_the_right_type(v)
+
+
+class InventoryImportIn(CamelModel):
+    """Products from an uploaded spreadsheet. A product whose name is already in the brand's catalog is
+    updated; any other is added. No upper limit."""
+    products: list[OnboardProductIn] = Field(min_length=1)
+
+
+class InventoryImportOut(CamelModel):
+    created: int
+    updated: int
+    skipped: list[str]  # names already used by another brand's product
+    total: int

@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
 from mcp_http import MCP_PATH, mcp_asgi, start as start_mcp
-from routers import auth, brands, client, coach, community, connector, dashboard, demo, governance, shopper
+from routers import auth, brands, client, coach, community, connector, dashboard, demo, governance, inventory, shopper
 from schemas import HealthResponse
 from seed_loader import rebuild_database
 from services.community import connector_gate
@@ -48,7 +48,7 @@ register_error_handlers(app)
 # Everything except /health lives under /api/v1 (BACKEND_CONTRACT.md section 1).
 # v1.6: connector calls see refurbished and surplus products only with constraints.includeRefurbished.
 # v1.8: the AI Coach (section 7f) is the second AI-backed endpoint; MOCK_MODE keeps it AI-free.
-for module in (shopper, connector, dashboard, governance, client, auth, brands, community, coach, demo):
+for module in (shopper, connector, dashboard, governance, client, auth, brands, community, coach, demo, inventory):
     gates = [Depends(connector_gate)] if module is connector else []
     app.include_router(module.router, prefix="/api/v1", dependencies=gates)
 

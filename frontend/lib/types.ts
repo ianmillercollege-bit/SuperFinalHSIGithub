@@ -193,6 +193,48 @@ export interface ProductsResponse {
   products: Product[];
 }
 
+// ---- Inventory (v1.9): GET /api/v1/inventory, PATCH/DELETE /inventory/{id}, POST /inventory/import ----
+
+export interface InventorySummary {
+  total: number;
+  inStock: number;
+  lowStock: number;
+  outOfStock: number;
+  byCategory: Partial<Record<ProductCategory, number>>;
+}
+
+export interface InventoryFilters {
+  q?: string;
+  category?: ProductCategory;
+  availability?: Availability;
+  limit?: number;
+  offset?: number;
+}
+
+export interface InventoryResponse {
+  items: Product[];
+  /** Products matching the filters. */
+  total: number;
+  /** The whole catalog, ignoring filters. */
+  summary: InventorySummary;
+}
+
+export interface InventoryPatch {
+  price?: number;
+  availability?: Availability;
+  category?: ProductCategory;
+  subcategory?: string;
+  returnPolicyDays?: number;
+  specs?: OnboardProduct["specs"];
+}
+
+export interface InventoryImportResponse {
+  created: number;
+  updated: number;
+  skipped: string[];
+  total: number;
+}
+
 // ---- Claims: GET /api/v1/claims ----
 
 export type ClaimType = "price" | "feature" | "availability" | "policy" | "comparison" | "safety_legal";
@@ -329,7 +371,10 @@ export type AuditAction =
   | "escalated"
   | "resolved"
   | "connector_query"
-  | "brand_onboarded";
+  | "brand_onboarded"
+  | "inventory_updated"
+  | "inventory_imported"
+  | "inventory_removed";
 
 export interface AuditEntry {
   auditId: string;

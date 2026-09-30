@@ -13,7 +13,7 @@
 //
 // These functions are meant to be called from the browser (client components).
 
-import { brandScope, signOutBrand } from "./auth/brandSession";
+import { brandScope, getBrandSession, signOutBrand } from "./auth/brandSession";
 import { getUserSession } from "./auth/userSession";
 import { clearToken, getToken } from "./auth/token";
 import { resetUserSession } from "./auth/userSession";
@@ -38,7 +38,13 @@ import type {
   LoginRequest,
   LoginResponse,
   DemoAccountsResponse,
+  InventoryFilters,
+  InventoryImportResponse,
+  InventoryPatch,
+  InventoryResponse,
+  OnboardProduct,
   OnboardRequest,
+  Product,
   OnboardResponse,
   ConnectorQueryResponse,
   ClaimFilters,
@@ -66,6 +72,8 @@ export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "
 const TIMEOUT_MS = 20000;
 /** The connector is the first call a visitor makes; a sleeping Render backend can take about a minute to wake. */
 const CONNECTOR_TIMEOUT_MS = 60000;
+// A spreadsheet of thousands of products is applied in one request.
+const IMPORT_TIMEOUT_MS = 120000;
 
 /** Mock file names in shared/mock/ (contract section 10), without ".json". */
 export const MOCK_FILES = {
@@ -100,6 +108,8 @@ export const MOCK_FILES = {
   brands: "brands",
   connectorSearch: "connector_search",
   brandsOnboard: "brands_onboard",
+  /** v1.9. No file in shared/mock/, so mock mode reports NOT_FOUND. */
+  inventory: "inventory",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -138,6 +148,20 @@ export function recommend(body: RecommendRequest): Promise<RecommendResponse> {
 // GET /api/v1/products?category=&brandId=  (both optional; v1.4.1 filters, older backends ignore them)
 export function getProducts(filters: { category?: string; brandId?: string } = {}): Promise<ProductsResponse> {
   return request("GET", "/api/v1/products", { ...filters }, undefined, MOCK_FILES.products);
+}
+
+// Inventory (v1.9). Reads follow the dashboard's brand scoping. Writes need the brand's own login or owner key.
+export function getInventory(filters: InventoryFilters = {}): Promise<InventoryResponse> {
+  return request("GET", "/api/v1/inventory", { ...filters }, undefined, MOCK_FILES.inventory);
+}
+export function updateInventoryItem(productId: string, patch: InventoryPatch): Promise<Product> {
+  return request("PATCH", `/api/v1/inventory/${encodeURIComponent(productId)}`, {}, patch, MOCK_FILES.inventory);
+}
+export function removeInventoryItem(productId: string): Promise<void> {
+  return request("DELETE", `/api/v1/inventory/${encodeURIComponent(productId)}`, {}, undefined, MOCK_FILES.inventory);
+}
+export function importInventory(products: OnboardProduct[]): Promise<InventoryImportResponse> {
+  return request("POST", "/api/v1/inventory/import", {}, { products }, MOCK_FILES.inventory, IMPORT_TIMEOUT_MS);
 }
 
 // GET /api/v1/brands/{brandId}  (v1.4: the company profile)
@@ -348,7 +372,7 @@ export async function checkHealth(): Promise<boolean> {
 
 // In mock mode every call (GET or POST) returns its shared/mock/ file as-is.
 async function request<T>(
-  method: "GET" | "POST",
+  method: "GET" | "POST" | "PATCH" | "DELETE",
   path: string,
   query: Query,
   body: unknown,
@@ -365,7 +389,7 @@ async function request<T>(
     readJson<T>(
       await fetchOrThrow(url, {
         method,
-        headers: requestHeaders(body !== undefined),
+        headers: requestHeaders(body !== undefined, method !== "GET" && path.startsWith("/api/v1/inventory")),
         body: body === undefined ? undefined : JSON.stringify(body),
         cache: "no-store",
       }, timeoutMs),
@@ -396,6 +420,7 @@ async function request<T>(
 const BRAND_SCOPED_PATHS = [
   "/api/v1/visibility/summary",
   "/api/v1/answers",
+  "/api/v1/inventory",
   "/api/v1/sources",
   "/api/v1/claims",
   "/api/v1/incidents",
@@ -425,10 +450,16 @@ function withBrand(path: string, query: Query): Query {
   return { ...query, brandId };
 }
 
-function requestHeaders(hasBody: boolean): Record<string, string> | undefined {
+function requestHeaders(hasBody: boolean, withBrandKey = false): Record<string, string> | undefined {
   const token = getToken();
-  if (!hasBody && !token) return undefined;
-  return { ...(hasBody ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) };
+  // Inventory changes name the brand by its owner key when there is no login token (the demo accounts).
+  const key = withBrandKey && !token ? getBrandSession()?.apiKey : undefined;
+  if (!hasBody && !token && !key) return undefined;
+  return {
+    ...(hasBody ? { "Content-Type": "application/json" } : {}),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(key ? { "X-API-Key": key } : {}),
+  };
 }
 
 async function readMock<T>(mockFile: string): Promise<T> {
@@ -445,6 +476,7 @@ function toQueryString(query: Query): string {
 }
 
 async function readJson<T>(res: Response): Promise<T> {
+  if (res.status === 204) return undefined as T;
   let body: unknown;
   try {
     body = await res.json();

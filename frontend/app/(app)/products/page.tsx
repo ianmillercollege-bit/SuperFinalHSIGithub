@@ -1,14 +1,6 @@
-import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeader";
-import Products from "@/components/screens/Products";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Products · CIRQO" };
-
+// Products and Inventory were one catalog shown twice; the Inventory page now holds both. Old links land there.
 export default function Page() {
-  return (
-    <div className="stack">
-      <PageHeader eyebrow="Insights" title="Products" intro="The verified catalog, filtered by category." />
-      <Products />
-    </div>
-  );
+  redirect("/inventory");
 }
