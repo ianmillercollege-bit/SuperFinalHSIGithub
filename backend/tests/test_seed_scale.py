@@ -39,22 +39,28 @@ def seeded(client, monkeypatch):
 def test_seed_scale(seeded):
     with SessionLocal() as db:
         brands = db.scalars(select(Brand)).all()
-        assert len(brands) == 153
+        assert len(brands) == 165  # 153 fictional (opted in) + 12 real public listings (not opted in), decision 46
+        assert sum(1 for b in brands if b.opted_in) == 153 and sum(1 for b in brands if not b.opted_in) == 12
         sheet_products = db.scalar(select(func.count()).select_from(Product).where(Product.product_id.like("prod_%-%")))
         assert sheet_products == 1500
-        assert db.scalar(select(func.count()).select_from(Product)) == 1512  # plus the 12 originals
+        assert db.scalar(select(func.count()).select_from(Product)) == 1582  # plus the 12 originals and 70 listings
 
-        # Every brand has at least one admin, a trend and incidents.
+        # Every opted-in brand has at least one admin, a trend and incidents; public listings have none.
         admins = {u.brand_id for u in db.scalars(select(User)).all() if u.brand_id}
         trends = set(db.scalars(select(DailyMetric.brand_id).distinct()).all())
         with_incidents = set(db.scalars(select(Incident.brand_id).distinct()).all())
         for b in brands:
+            if not b.opted_in:
+                assert b.brand_id not in admins and b.brand_id not in trends, b.name
+                continue
             assert b.brand_id in admins, b.name
             assert b.brand_id in trends, b.name
             assert b.brand_id in with_incidents, b.name
 
-        # No real brand names in company names.
+        # No real brand names in the fictional (opted-in) company names; the public listings are real on purpose.
         for b in brands:
+            if not b.opted_in:
+                continue
             words = set(re.findall(r"[a-z]+", b.name.lower()))
             assert not words & REAL_BRANDS, b.name
 
@@ -90,7 +96,9 @@ def test_products_follow_the_sheet(seeded):
     by_category = Counter(p["category"] for p in rows("products"))
     assert by_category == {"headphones": 250, "laptops": 250, "phones_tablets": 500, "computer_hardware": 500}
     headphones = seeded.get("/api/v1/products", params={"category": "headphones"}).json()["products"]
-    assert len(headphones) == 250 and {p["category"] for p in headphones} == {"headphones"}
+    assert {p["category"] for p in headphones} == {"headphones"}
+    assert sum("-" in p["productId"] for p in headphones) == 250  # the sheet's; the rest are public listings
+    assert all(p["verified"] is False for p in headphones if "-" not in p["productId"])
     sample = headphones[0]
     assert sample["subcategory"] in {"Headphones", "Earbuds", "Headset"}
     assert set(sample["specs"]) <= {"processor", "graphics", "displayType", "resolution", "ports", "operatingSystem",

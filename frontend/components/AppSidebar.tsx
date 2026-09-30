@@ -11,6 +11,9 @@ import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
 import { onIncidentsChanged } from "@/lib/events";
 import { NAV } from "@/lib/nav";
+import { PROFILE_KEY, useProfileDefaults } from "@/lib/profile/defaults";
+import { defaultProfile } from "@/lib/profile/types";
+import { useSidebarUser } from "@/lib/profile/useProfile";
 import { useApi } from "@/lib/useApi";
 
 // Open incidents = pending_approval + escalated (contract v1.1).
@@ -29,6 +32,8 @@ export default function AppSidebar() {
   const router = useRouter();
   const brand = useBrandSession();
   const { user } = useUserSession();
+  // The user chip shows the saved profile (this device only) and links to /profile.
+  const chip = useSidebarUser(PROFILE_KEY, defaultProfile(useProfileDefaults()));
   const open = useApi(useCallback(() => countOpenIncidents(), []));
   const { reload } = open;
   useEffect(() => onIncidentsChanged(reload), [reload]);
@@ -72,16 +77,8 @@ export default function AppSidebar() {
   return (
     <Sidebar
       groups={groups}
-      user={{
-        name: user ? user.name : "Signed out",
-        // A backend login shows the user's real role; the local sample check keeps its label (decision 32).
-        role: user
-          ? user.backend
-            ? user.title ?? (user.role === "owner" ? "Owner" : "Viewer")
-            : `${user.title?.split(" · ")[0] ?? (user.role === "owner" ? "Owner" : "Viewer")} (sample sign-in)`
-          : "Guest",
-        business: user?.partner ? user.partner.orgName : (brand?.brandName ?? BUSINESS.name),
-      }}
+      user={user ? chip : { name: "Signed out", role: "Guest", business: brand?.brandName ?? BUSINESS.name }}
+      profileHref={user ? "/profile" : undefined}
       backend={backend}
       // Sign out exists (decision 32): it marks the browser signed out and opens the sign-in page.
       onSignOut={

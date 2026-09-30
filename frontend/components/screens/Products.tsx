@@ -89,7 +89,7 @@ export default function Products() {
                         {p.verified === undefined ? (
                           "—"
                         ) : (
-                          <StatusPill tone={p.verified ? "good" : "warn"}>{p.verified ? "Verified by brand" : "Not verified by the brand"}</StatusPill>
+                          <StatusPill tone={p.verified ? "good" : "warn"}>{p.verified ? "CIRQO Verified" : "Not CIRQO Verified"}</StatusPill>
                         )}
                       </td>
                       <td className="nowrap">{p.verifiedAt ? formatDateTime(p.verifiedAt) : p.verified === false ? "—" : formatDateTime(p.updatedAt)}</td>

@@ -24,7 +24,6 @@ from sqlalchemy import insert
 from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, CommunityOrg, CommunityRequest,
                 ComparisonFact, DailyMetric, Incident, LoginAlias, Owner, Product, SessionLocal, Source, User,
                 engine)
-from seed.community import opted_in_brands
 from services.community import PUBLIC_LISTING, load_community
 from services.passwords import hash_password
 from timeutil import now, parse_iso, shift_date, shift_iso_seconds, today
@@ -124,8 +123,15 @@ def load(db, folder: Path) -> dict:
     profiles = {r["brandId"]: {k: v for k, v in r.items() if k != "brandId"}
                 for r in (read_list(catalog, "profiles", "profiles") if catalog else [])}
     brands = read_list(folder, "brands", "brands") + (read_list(catalog, "brands", "brands") if catalog else [])
-    # v1.5 section 7d: the same split the community seed uses (originals plus 15 per category opted in).
-    opted_in = opted_in_brands(brands, profiles)
+    # v1.5 section 7d, decision 46: every fictional company (the originals and the sheet's Shopify stores) has
+    # opted in. The brands that have not are the real ones in public_listings.json: no dashboard, no admins,
+    # every fact labelled "Not CIRQO Verified".
+    listings = json.loads((folder / "public_listings.json").read_text(encoding="utf-8")) \
+        if (folder / "public_listings.json").exists() else {}
+    for r in listings.get("profiles", []):
+        profiles[r["brandId"]] = {k: v for k, v in r.items() if k != "brandId"}
+    opted_in = {r["brandId"] for r in brands}
+    brands = brands + listings.get("brands", [])
     for r in brands:
         rows[Brand].append(dict(brand_id=r["brandId"], name=pick(r, "name", "brandName"),
                                 is_client=bool(pick(r, "isClient", default=False)), billing_tier=pick(r, "billingTier"),
@@ -133,7 +139,8 @@ def load(db, folder: Path) -> dict:
     brand_ids = {r["brandId"] for r in brands}
 
     product_brand = {}
-    products = read_list(folder, "products", "products") + (read_list(catalog, "products", "products") if catalog else [])
+    products = (read_list(folder, "products", "products") + (read_list(catalog, "products", "products") if catalog else [])
+                + listings.get("products", []))
     for r in products:
         product_brand[r["productId"]] = r["brandId"]
         rows[Product].append(dict(

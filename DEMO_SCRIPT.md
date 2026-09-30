@@ -40,7 +40,7 @@ Find the item you just approved at the top.
 ## 6b. The plugin in a real assistant (45 seconds)
 In Claude (any device, CIRQO added as a custom connector, **web search switched off** in the chat), new chat:
 "I need headphones for the gym around $150." Claude calls `cirqo_search`, shows five options
-with **Verified by brand** or **Not verified by the brand** on each, and asks one narrowing question. Answer it;
+with **CIRQO Verified** or **Not CIRQO Verified** on each, and asks one narrowing question. Answer it;
 Claude calls `cirqo_query` and gives one pick built only from checked facts. Then "tell me more about the first
 one": Claude calls `cirqo_details` for specs and comparisons instead of guessing.
 "This is what the shopper sees. They never open CIRQO. Their assistant does."

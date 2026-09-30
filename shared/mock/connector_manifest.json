@@ -2,7 +2,7 @@
   "name": "cirqo",
   "description": "CIRQO Shopping Connector. Answers shopping questions from brands' verified product data instead of guessing. Every fact is checked by plain code before it is returned, and ranking is neutral: no brand can pay for placement. Sample data (fictional brands).",
   "version": "1.4",
-  "funnel": "Call search first, from whatever the shopper said. If narrowingHints come back and more than two options remain, ask the shopper one hint question at a time and call search again with the answer added to constraints. When one or two options remain, or no hints come back, call query for the single pick. Never state a fact that is not in the results; tell the shopper which facts are verified by the brand and which are not.",
+  "funnel": "Call search first, from whatever the shopper said. If narrowingHints come back and more than two options remain, ask the shopper one hint question at a time and call search again with the answer added to constraints. When one or two options remain, or no hints come back, call query for the single pick. Never state a fact that is not in the results; tell the shopper which facts are CIRQO Verified and which are not.",
   "tools": [
     {
       "name": "search",

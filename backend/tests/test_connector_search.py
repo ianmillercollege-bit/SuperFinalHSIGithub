@@ -159,7 +159,7 @@ def test_unverified_brands_are_labelled(seeded, monkeypatch):
     assert body["verifiedCount"] + body["unverifiedCount"] == body["optionCount"] and body["unverifiedCount"] >= 1
     with SessionLocal() as db:
         answer = db.get(Answer, "ans_" + body["searchId"].split("_", 1)[1])
-        assert f"Not verified by the brand: option 1 is the {top['name']}" in answer.answer_text
+        assert f"Not CIRQO Verified: option 1 is the {top['name']}" in answer.answer_text
 
 
 def test_search_validation(seeded):
@@ -170,3 +170,11 @@ def test_search_validation(seeded):
         assert res.status_code == 422 and res.json()["error"]["code"] == "VALIDATION_ERROR", bad
     res = seeded.post("/api/v1/connector/search", json={**GYM, "assistantId": "ast_99"})
     assert res.status_code == 404 and res.json()["error"]["code"] == "NOT_FOUND"
+
+
+def test_budget_word_is_not_a_use_case(seeded):
+    """"budget around $150" must not reward products tagged "budget": the same options come back with or without it."""
+    plain = search(seeded, {"question": "I want headphones for the gym", "assistantId": "ast_01",
+                            "constraints": {"maxPrice": 150}})
+    worded = search(seeded, {"question": "I want headphones for the gym, budget around $150", "assistantId": "ast_01"})
+    assert [o["productId"] for o in plain["options"]] == [o["productId"] for o in worded["options"]]

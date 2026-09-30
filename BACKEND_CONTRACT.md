@@ -507,14 +507,14 @@ dashboard, and they see the interactions. The catalog therefore contains **both*
 - **`/connector/search` and `/connector/query`** rank every brand's products on fit alone, opted in or not (section 8;
   the neutrality test now also flips `optedIn` and asserts the order is unchanged). Each option carries `verified` and
   its facts carry `claimStatus` `correct` (verified) or `unverifiable` (not verified). `answerText` labels them honestly:
-  verified facts are stated; unverified ones are prefixed "Not verified by the brand:". Responses add
+  verified facts are stated; unverified ones are prefixed "Not CIRQO Verified:". Responses add
   `"verifiedCount"` and `"unverifiedCount"`.
 - **Claim your company:** `POST /api/v1/brands/{brandId}/claim` body `{"ownerName": "...", "email": "..."}` turns a
   not-opted-in brand into an opted-in one: creates a Brand Data Owner (password `cirqo-demo`), an API key, marks every
   product `verified: true` with `factSource: "Brand product feed"` and `verifiedAt` now, starts an empty trend, and
   audits `brand_claimed`. 409 if already opted in. Response is the `/brands/onboard` shape plus `optedIn: true`.
 - **Seed split:** of the 150 sheet companies, the 60 with the lowest sheet ids per category are opted in (Kestrel,
-  Arcton, Novex too); the other 90 are not. `GET /brands` (staff) and `GET /brands/{id}` show `optedIn`. Login pages list
+  Arcton, Novex too); the other 90 are not. **v1.7 (decision 46): every fictional company is opted in; the not-opted-in brands are 12 real ones from `seed/data/public_listings.json` (70 products).** `GET /brands` (staff) and `GET /brands/{id}` show `optedIn`. Login pages list
   only opted-in companies. `GET /products?optedIn=false` filters.
 - **Privacy:** shopper preferences (budget, use, must-haves) live in the assistant conversation only. CIRQO stores the
   question, the constraints sent, and which products were returned. No shopper identity, ever.

@@ -42,7 +42,7 @@ def test_query_labels_an_unverified_pick(client):
     second = client.post("/api/v1/connector/query", json=body).json()
     assert second["recommendation"]["productId"] == first["recommendation"]["productId"]  # ranking unchanged
     assert second["recommendation"]["verified"] is False and second["unverifiedCount"] >= 1
-    assert second["answerText"].startswith("Not verified by the brand:")
+    assert second["answerText"].startswith("Not CIRQO Verified:")
 
 
 def test_claim_company_opts_in(client):

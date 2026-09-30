@@ -126,10 +126,16 @@ def product_tags(p: Product) -> frozenset[str]:
     return frozenset(words)
 
 
+# Words shoppers use about money or the request itself, never about what the product is for. "budget around
+# $150" must not reward products tagged "budget" over products that fit the stated use.
+NOT_USE_CASE_WORDS = {"budget", "price", "cheap", "cheapest", "affordable", "new", "need", "want", "best", "good"}
+
+
 def wanted_tags(question: str, use_case: str | None, candidates: list[Product]) -> list[str]:
     """Question words that are also use-case tags in this category (e.g. "gym"), plus the stated use case."""
     vocabulary = set().union(*(product_tags(p) for p in candidates)) if candidates else set()
-    words = [w for w in dict.fromkeys(re.findall(r"[a-z]+", question.lower())) if w in vocabulary and len(w) > 2]
+    words = [w for w in dict.fromkeys(re.findall(r"[a-z]+", question.lower()))
+             if w in vocabulary and len(w) > 2 and w not in NOT_USE_CASE_WORDS]
     if use_case and use_case not in words:
         words.append(use_case)
     return words

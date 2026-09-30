@@ -8,6 +8,7 @@ import { ANSWERS_LIMIT } from "./liveVisibility";
 import { useBrandSession } from "../auth/brandSession";
 import { useUserSession } from "../auth/userSession";
 import { BUSINESS } from "../business";
+import { useProfileIdentity } from "../profile/defaults";
 import { useApi } from "../useApi";
 import { toViewModel } from "./toViewModel";
 
@@ -37,11 +38,13 @@ export function useDashboardVm() {
   const answers = useApi(useCallback(() => getAnswers({ limit: ANSWERS_LIMIT }), []));
   const user = useUserSession().user;
   const brand = useBrandSession();
+  // The greeting and the header name come from the profile saved on this device (or its defaults).
+  const identity = useProfileIdentity();
 
   const vm = trust.data
     ? toViewModel({
-        firstName: user && user.role === "owner" ? user.name.split(/\s+/)[0] : "there",
-        businessName: brand?.brandName ?? BUSINESS.name,
+        firstName: identity.firstName,
+        businessName: user ? identity.businessName : (brand?.brandName ?? BUSINESS.name),
         trust: trust.data,
         claims: claims.data ?? null,
         audit: audit.data?.entries ?? null,

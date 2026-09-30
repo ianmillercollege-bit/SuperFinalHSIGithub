@@ -7,9 +7,7 @@
 // replaced with the same live figure the screen uses (lib/dashboard/liveVisibility.ts), and the derived facts are
 // recomputed, so the coach can never quote a number that differs from the dashboard, AI Visibility or Market Position.
 import { useMemo } from 'react';
-import { useBrandSession } from '../auth/brandSession';
-import { useUserSession } from '../auth/userSession';
-import { BUSINESS } from '../business';
+import { useProfileIdentity } from '../profile/defaults';
 import { liveVisibility, rankByScore, type LiveVisibility } from '../dashboard/liveVisibility';
 import { sampleDashboard } from '../dashboard/sampleDashboard';
 import type { DashboardData } from '../dashboard/useDashboardVm';
@@ -78,10 +76,8 @@ export function withLiveVisibility(ctx: CoachContext, live: LiveVisibility, chan
 
 /** Builds the session from dashboard data the caller already has (the dashboard passes its own, so nothing loads twice). */
 export function useCoachContextFrom(dash: DashboardData): CoachSession {
-  const { user } = useUserSession();
-  const brand = useBrandSession();
-  const businessName = brand?.brandName ?? BUSINESS.name;
-  const firstName = user && user.role === 'owner' ? user.name.split(/\s+/)[0] : 'there';
+  // Name and company come from the saved profile, the same hook the dashboard greeting uses.
+  const { firstName, businessName } = useProfileIdentity();
   // The app keeps no per-profile id for local storage yet, so one shared key: 'demo'.
   const profileKey = 'demo';
   const mode = process.env.NEXT_PUBLIC_COACH_MODE === 'live' ? 'live' : 'sample';

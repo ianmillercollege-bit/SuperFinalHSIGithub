@@ -27,23 +27,9 @@
   font-size: inherit;
 }
 
-/* Narrow screens: the kit's sidebar has no collapsed mode, so it stacks above the page instead of taking 240px. */
-@media (max-width: 760px) {
-  .cq-app {
-    flex-direction: column;
-  }
-
-  .cq-sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    overflow-y: visible;
-  }
-
-  .cq-main {
-    padding: 16px;
-  }
-
+/* At 900px and below the kit turns the sidebar into a menu behind a top bar (cirqo-dashboard.css) and gives .cq-main 16px of padding,
+   so the "Sample data" bar only needs to reach the page edges. */
+@media (max-width: 900px) {
   .cq-main > .sample-bar {
     margin: -16px -16px 0;
   }

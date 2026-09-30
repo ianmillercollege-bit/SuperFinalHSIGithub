@@ -35,7 +35,8 @@ def seed() -> dict[str, list[dict]]:
 
 
 def test_every_decision_17_file_exists():
-    assert sorted(p.stem for p in DATA.glob("*.json")) == sorted(FILES + ["community"])  # + v1.6 section 7e
+    # + v1.6 section 7e community, + decision 46 public listings (hand-written, not generated)
+    assert sorted(p.stem for p in DATA.glob("*.json")) == sorted(FILES + ["community", "public_listings"])
 
 
 def test_brands(seed):
