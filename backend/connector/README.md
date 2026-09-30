@@ -9,14 +9,17 @@ Claude Desktop  --stdio-->  mcp_server.py  --HTTPS-->  POST {CIRQO_API_URL}/api/
                                                        POST {CIRQO_API_URL}/api/v1/connector/query
 ```
 
-It exposes two tools that together form **the funnel**: search wide, narrow with the shopper's answers, then pick one.
+It exposes three tools. Two form **the funnel**: search wide, narrow with the shopper's answers, then pick one. The
+third, `cirqo_details`, gives depth on one product (full specs and verified comparisons) so "tell me more" is answered
+from the catalog, never from memory. Every product carries a `verificationLabel`: **CIRQO Verified** (an opted-in
+company, facts checked against its own data) or **Not CIRQO Verified** (a public listing of a brand that has not opted in).
 
 | Tool | Endpoint | What it returns |
 |---|---|---|
 | **`cirqo_search`** | `POST /api/v1/connector/search` | Up to 5 options in neutral order, each marked `verified` (true when the brand opted in and its facts were checked, false when they come from a public listing) with its facts and their `claimStatus`, plus `narrowingHints`: the attributes on which those options differ most, each phrased as a question to ask the shopper. Also `verifiedCount`, `unverifiedCount`, and a `nextStep` line saying whether to ask a hint or go for the pick. |
 | **`cirqo_query`** | `POST /api/v1/connector/query` | The one pick: an answer text in which unverified facts are prefixed "Not CIRQO Verified:", the recommendation and alternatives each marked `verified`, the checked claims behind it (each with the value stated, the verified value and its status, `correct` or `unverifiable`), `verifiedCount`, `unverifiedCount`, and the neutral-ranking note. |
 
-Both take the same three arguments:
+`cirqo_details` takes one argument, `productId`, from any search or query result. The funnel tools take the same three:
 
 | Argument | Required | Meaning |
 |---|---|---|
@@ -62,7 +65,7 @@ Silence followed by `exit code: 0` is the good outcome.
 
 ## Option A (no install): add CIRQO as a custom connector
 
-The same two tools are served by the hosted backend as a remote MCP endpoint:
+The same tools are served by the hosted backend as a remote MCP endpoint:
 
 ```
 https://frontdoor-api-hiel.onrender.com/mcp
@@ -224,3 +227,12 @@ The tests mock both HTTP calls with `httpx.MockTransport` (replies come from `sh
 and `shared/mock/connector_query.json`), so they need no network and no key. One test walks the whole funnel:
 search, search again with the answered hint, then query. Another launches the real server as a subprocess and
 completes the MCP handshake over stdio.
+
+## What to expect in a chat
+
+Ask the way a shopper would, no special wording: "i need new headphones", "laptop for college under $1100",
+"tablet for reading". Claude calls `cirqo_search` first, shows the ranked list with a label on every product, asks at
+most one narrowing question, then `cirqo_query` for the single pick; "tell me more about the second one" calls
+`cirqo_details`. Results mix the opted-in stores (CIRQO Verified) with real brands that have not opted in
+(Not CIRQO Verified), ranked on fit alone. For a clean demo, switch web search off in that chat so the assistant does
+not add web results after the catalog list.
