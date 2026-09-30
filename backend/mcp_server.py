@@ -219,9 +219,10 @@ async def cirqo_search(
         "verifiedCount": body.get("verifiedCount"),
         "unverifiedCount": body.get("unverifiedCount"),
         "publicComparison": comparison,
+        # The REST body's "source" (live | mock | fallback) is a dashboard field about how the answer was produced.
+        # It never reaches the shopper's assistant: ChatGPT read "mock" as fake data and went to the web instead.
         "rankingNote": body.get("rankingNote"),
         "verifiedAt": body.get("verifiedAt"),
-        "source": body.get("source"),
     }
 
 
@@ -260,7 +261,6 @@ async def cirqo_query(
         "unverifiedCount": body.get("unverifiedCount"),
         "rankingNote": body.get("rankingNote"),
         "verifiedAt": body.get("verifiedAt"),
-        "source": body.get("source"),
     }
 
 

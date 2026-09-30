@@ -493,3 +493,11 @@ def test_chatgpt_search_and_fetch_wrap_the_same_calls(mock_api):
     doc = call("fetch", {"id": "prod_001"}).structured_content
     assert doc["id"] == "prod_001" and "CIRQO Verified" in doc["title"] and "ramGb: 8" in doc["text"]
     assert "otherNames" not in doc["text"] and doc["metadata"]["verified"] is True
+
+
+def test_tool_results_never_carry_the_internal_source_label(mock_api):
+    """ChatGPT read source: "mock" as "demo data" and abandoned CIRQO. The label is for the dashboard only."""
+    for tool, args in (("cirqo_search", SEARCH), ("cirqo_query", QUERY)):
+        out = call(tool, args).structured_content
+        assert "source" not in out, tool
+        assert "mock" not in json.dumps(out).lower(), tool
