@@ -7,6 +7,7 @@ import BrandLockup from "@/components/screens/BrandLockup";
 import { Field, SampleBadge } from "@/components/screens/ui";
 import { getDemoAccounts } from "@/lib/api";
 import { DEMO_LOGINS, DEMO_PASSWORD } from "@/lib/auth/demoAccounts";
+import { markEntered } from "@/lib/auth/entry";
 import { continueAsGuest, signInWithPassword } from "@/lib/auth/signIn";
 import { replaySplash } from "@/lib/splash";
 import { useApi } from "@/lib/useApi";
@@ -51,6 +52,7 @@ export default function LoginScreen() {
     if (result.error) return setError(result.error);
     // A full load, so every page starts fresh for the signed-in person and company. Only same-site paths are followed.
     // The opening splash plays once for this login, then the app appears.
+    markEntered();
     replaySplash();
     window.location.assign(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
   }
@@ -111,9 +113,10 @@ export default function LoginScreen() {
             className="cq-btn guest-link"
             onClick={() => {
               continueAsGuest();
+              markEntered();
               // The opening splash plays once, exactly as after a sign-in, then the dashboard appears read-only.
               replaySplash();
-              window.location.assign("/dashboard");
+              window.location.assign(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
             }}
           >
             Continue as guest (Kestrel, read-only)

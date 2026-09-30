@@ -88,7 +88,7 @@ Launch segment: small Shopify stores; the dashboard's storefront revenue panel i
 
 ## How a judge should navigate it
 
-Open https://utsa-tech-09302026.vercel.app. It opens on the sign-in page. Pick any demo account from the list (the
+Open https://utsa-tech-09302026.vercel.app. Every visit starts on the sign-in page (a new tab asks again). Pick any demo account from the list (the
 password fills in), or click **Continue as guest** for a read-only look at Kestrel. The opening animation plays once, then the dashboard.
 A click-by-click script with talking points is in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md).
 

@@ -10,7 +10,7 @@ Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 A
 ## 4:00 AM: live checks (private window, as a judge)
 - [ ] `./smoke_test.sh` against the live backend: all pass.
 - [ ] Open https://frontdoor-api-hiel.onrender.com/health first (wakes the backend).
-- [ ] https://utsa-tech-09302026.vercel.app opens on the sign-in page; after sign-in the splash plays once, then the dashboard; every sidebar page opens; "Sample data" badge on each.
+- [ ] https://utsa-tech-09302026.vercel.app opens on the sign-in page, and so does any dashboard URL opened in a new tab; after sign-in the splash plays once, then the dashboard; every sidebar page opens; "Sample data" badge on each.
 - [ ] Log in as a demo admin (password `cirqo-demo`); company dashboard changes; "Continue as guest" shows the Guest chip (not Maria Lopez) and hides approve buttons.
 - [ ] Preview as shopper returns a verified answer; the question appears in AI Visibility; the Sources panel lists sources.
 - [ ] Dashboard: Download quarterly report saves `cirqo-report.json`.

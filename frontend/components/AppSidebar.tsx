@@ -6,6 +6,7 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import type { NavGroup as KitNavGroup } from "@/components/dashboard/Sidebar";
 import { API_URL, checkHealth, getIncidents } from "@/lib/api";
 import { signOutBrand, useBrandSession } from "@/lib/auth/brandSession";
+import { clearEntered } from "@/lib/auth/entry";
 import { forgetLogin } from "@/lib/auth/signIn";
 import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
@@ -86,6 +87,7 @@ export default function AppSidebar() {
               forgetLogin();
               signOutBrand();
               signOutUser();
+              clearEntered();
               router.push("/login");
             }
           : undefined
