@@ -57,7 +57,7 @@ def test_claim_company_opts_in(client):
     assert products and all(p["verified"] is True and p["factSource"] == "Brand product feed" for p in products)
     again = client.post("/api/v1/brands/brand_003/claim", json={"ownerName": "Dana Okafor", "email": "dana@novex.example"})
     assert again.status_code == 409 and again.json()["error"]["code"] == "CONFLICT"
-    entries = client.get("/api/v1/audit?targetId=brand_003").json()["entries"]
+    entries = client.get("/api/v1/audit?brandId=brand_003&targetId=brand_003").json()["entries"]
     assert any(e["action"] == "brand_claimed" for e in entries)
     # The new key works on the client API, scoped to Novex.
     assert client.get("/api/v1/client/visibility", headers={"X-API-Key": body["apiKey"]}).status_code == 200

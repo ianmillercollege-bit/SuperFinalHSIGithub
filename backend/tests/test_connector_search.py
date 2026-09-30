@@ -46,8 +46,11 @@ def test_connector_search(seeded):
 
     # Every fact passes the checker.
     for option in body["options"]:
-        assert option["verified"] is True and option["facts"]
-        assert all(f["claimStatus"] == "correct" and f["factId"].startswith("fact_") for f in option["facts"])
+        assert option["facts"]
+        if option["verified"]:  # v1.5: opted-in brand, every fact checked
+            assert all(f["claimStatus"] == "correct" and f["factId"].startswith("fact_") for f in option["facts"])
+        else:  # not opted in: public-listing facts, labelled honestly
+            assert all(f["claimStatus"] == "unverifiable" for f in option["facts"])
     assert (body["verifiedCount"], body["unverifiedCount"]) == (body["optionCount"], 0)
 
     # Recorded as an answer (with its claims) and audited connector_search.

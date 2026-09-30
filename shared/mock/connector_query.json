@@ -33,7 +33,8 @@
         "factId": "fact_013"
       }
     ],
-    "verifiedAt": "2026-09-28T12:00:00Z"
+    "verifiedAt": "2026-09-28T12:00:00Z",
+    "verified": true
   },
   "alternatives": [
     {
@@ -41,14 +42,16 @@
       "name": "Kestrel Aero 13 Lite",
       "brandName": "Kestrel",
       "price": 329.0,
-      "matchScore": 0.62
+      "matchScore": 0.62,
+      "verified": true
     },
     {
       "productId": "prod_007",
       "name": "Novex Slate 14",
       "brandName": "Novex",
       "price": 479.0,
-      "matchScore": 0.62
+      "matchScore": 0.62,
+      "verified": true
     }
   ],
   "answerText": "Based on verified data, the Kestrel Aero 14 ($449.99, in stock) fits best. The Kestrel Aero 14 is rated for 11 hours of battery life. The Kestrel Aero 14 weighs 2.9 lb. The Kestrel Aero 14 has 8 GB of RAM. The Kestrel Aero 14 comes with 256 GB of storage. The Kestrel Aero 14 has a 14-inch display. Kestrel offers a 30-day return policy on the Kestrel Aero 14. Another verified option is the Kestrel Aero 13 Lite at $329.00. Another verified option is the Novex Slate 14 at $479.00.",
@@ -196,5 +199,7 @@
   ],
   "rankingNote": "Neutral ranking. No brand can pay for placement.",
   "verifiedAt": "2026-09-29T20:10:00Z",
-  "source": "mock"
+  "source": "mock",
+  "verifiedCount": 3,
+  "unverifiedCount": 0
 }

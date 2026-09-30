@@ -413,7 +413,7 @@ def test_speaks_mcp_over_stdio():
                 tools = await session.list_tools()
                 return init.server_info.name, [t.name for t in tools.tools]
 
-    assert asyncio.run(handshake()) == ("cirqo", ["cirqo_search", "cirqo_query"])
+    assert asyncio.run(handshake()) == ("cirqo", ["cirqo_search", "cirqo_query", "cirqo_details"])
 
 
 # --- the two drift rules and cirqo_details -----------------------------------------------------------------
