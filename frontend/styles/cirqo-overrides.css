@@ -86,3 +86,17 @@ a.cq-stat:focus-visible,
 .cq-opps-title {
   color: var(--cq-on-navy);
 }
+
+/* Kit buttons use navy text, which disappears on the night-mode card: use the theme's text color. */
+.cq-btn:not(.is-orange):not(.is-primary):not(.is-quiet) {
+  color: var(--cq-text);
+}
+
+.cq-btn:focus-visible {
+  outline-color: var(--chart-line);
+}
+
+/* ".cq-step span" (muted text) also matches the number circle and beats its own color: restore it. */
+.cq-step .cq-stepnum {
+  color: var(--cq-on-navy);
+}

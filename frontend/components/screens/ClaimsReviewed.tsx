@@ -1,92 +1,61 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback } from "react";
-import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
-import StatusPill from "@/components/StatusPill";
-import AuditLog from "@/components/screens/AuditLog";
-import { getIncidents } from "@/lib/api";
+import { ErrorNotice, Loading } from "@/components/LoadState";
+import ReviewedView from "@/components/screens/ReviewedView";
+import type { InsightRow, ReviewedRow } from "@/components/screens/ReviewedView";
+import type { StatData, Tone as KitTone } from "@/components/screens/ui";
+import { getAudit, getIncidents } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
-import { INCIDENT_STATUS_LABELS, RULE_LABELS, SEVERITY_LABELS } from "@/lib/labels";
-import { INCIDENT_STATUS_TONES, SEVERITY_TONES } from "@/lib/tones";
-import type { Incident, IncidentStatus } from "@/lib/types";
+import { ACTOR_TYPE_LABELS, AUDIT_ACTION_LABELS, INCIDENT_STATUS_LABELS, RULE_LABELS } from "@/lib/labels";
+import { INCIDENT_STATUS_TONES } from "@/lib/tones";
+import type { Tone } from "@/lib/tones";
+import type { AuditEntry, Incident, IncidentStatus } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
 // Closed incidents (DECISIONS.md #27): approved, rejected, resolved, auto_fixed.
 const CLOSED: IncidentStatus[] = ["approved", "rejected", "resolved", "auto_fixed"];
+const KIT_TONE: Record<Tone, KitTone> = { good: "ok", bad: "bad", warn: "warn", neutral: "neutral", info: "dark" };
 
-async function loadClosedIncidents(): Promise<Incident[]> {
-  const lists = await Promise.all(CLOSED.map((status) => getIncidents({ status, limit: 100 })));
-  return lists
+async function load(): Promise<{ closed: Incident[]; audit: AuditEntry[] }> {
+  const [lists, audit] = await Promise.all([
+    Promise.all(CLOSED.map((status) => getIncidents({ status, limit: 100 }))),
+    getAudit({ limit: 20 }),
+  ]);
+  const closed = lists
     .flatMap((l) => l.incidents)
     .sort((a, b) => Date.parse(b.resolvedAt ?? b.createdAt) - Date.parse(a.resolvedAt ?? a.createdAt));
+  return { closed, audit: audit.entries };
 }
 
+function toRow(i: Incident): ReviewedRow {
+  return {
+    id: i.incidentId,
+    title: i.summary,
+    type: i.ruleId ? RULE_LABELS[i.ruleId] : "No rule",
+    outcome: { label: INCIDENT_STATUS_LABELS[i.status], tone: KIT_TONE[INCIDENT_STATUS_TONES[i.status]] },
+    detail: `AI said ${i.aiSaid}; verified fact ${i.verifiedFact}.${i.falseAlarm ? " Rejected as a false alarm." : ""}`,
+    by: i.resolvedBy ?? "—",
+    date: i.resolvedAt ? formatDateTime(i.resolvedAt) : "—",
+  };
+}
+
+// The view filters insights by the text before " · " in `who`, so it is the actor's name.
+const toInsight = (e: AuditEntry): InsightRow => ({
+  who: `${e.actor} · ${ACTOR_TYPE_LABELS[e.actorType]}`,
+  what: `${AUDIT_ACTION_LABELS[e.action]} (${e.targetId}): ${e.details}`,
+});
+
 export default function ClaimsReviewed() {
-  const closed = useApi(useCallback(() => loadClosedIncidents(), []));
-
-  return (
-    <div className="stack">
-      <section className="card stack">
-        <div>
-          <h2>
-            Decided claims
-            {closed.data && <span className="count">{closed.data.length}</span>}
-          </h2>
-          <p className="muted small">Approved, rejected, resolved, and automatically fixed incidents, newest first.</p>
-        </div>
-        {closed.loading && <Loading what="decided claims" />}
-        {closed.error !== undefined && <ErrorNotice error={closed.error} onRetry={closed.reload} />}
-        {closed.data && closed.data.length === 0 && <Empty>No claims have been decided yet.</Empty>}
-        {closed.data && closed.data.length > 0 && (
-          <div className="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Outcome</th>
-                  <th>What happened</th>
-                  <th>Rule</th>
-                  <th>Decided by</th>
-                  <th>When</th>
-                </tr>
-              </thead>
-              <tbody>
-                {closed.data.map((incident) => (
-                  <tr key={incident.incidentId}>
-                    <td>
-                      <div className="stack-tight">
-                        <StatusPill tone={INCIDENT_STATUS_TONES[incident.status]}>
-                          {INCIDENT_STATUS_LABELS[incident.status]}
-                        </StatusPill>
-                        <StatusPill tone={SEVERITY_TONES[incident.severity]}>
-                          {SEVERITY_LABELS[incident.severity]}
-                        </StatusPill>
-                      </div>
-                    </td>
-                    <td>
-                      <Link className="link" href={`/claims/${encodeURIComponent(incident.incidentId)}`}>
-                        {incident.summary}
-                      </Link>
-                      {incident.falseAlarm && <span className="muted small"> · false alarm</span>}
-                    </td>
-                    <td>{incident.ruleId ? RULE_LABELS[incident.ruleId] : "None"}</td>
-                    <td>{incident.resolvedBy ?? "—"}</td>
-                    <td className="nowrap">{incident.resolvedAt ? formatDateTime(incident.resolvedAt) : "—"}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
-
-      <section className="card stack">
-        <div>
-          <h2>Insights log</h2>
-          <p className="muted small">Every automated, AI and human action, newest first.</p>
-        </div>
-        <AuditLog />
-      </section>
-    </div>
-  );
+  const data = useApi(useCallback(() => load(), []));
+  if (data.loading) return <Loading what="reviewed claims" />;
+  if (data.error !== undefined) return <ErrorNotice error={data.error} onRetry={data.reload} />;
+  const { closed, audit } = data.data!;
+  const count = (status: IncidentStatus) => closed.filter((i) => i.status === status).length;
+  const stats: StatData[] = [
+    { id: "total", label: "Reviewed", value: `${closed.length}`, note: "Approved, rejected, resolved or auto-fixed" },
+    { id: "auto", label: "Auto-fixed", value: String(count("auto_fixed")), note: "Low-risk fixes applied by the system" },
+    { id: "human", label: "Decided by a person", value: String(count("approved") + count("rejected") + count("resolved")), note: "Approved, rejected or resolved" },
+  ];
+  return <ReviewedView stats={stats} rows={closed.map(toRow)} insights={audit.map(toInsight)} pageSize={8} />;
 }
