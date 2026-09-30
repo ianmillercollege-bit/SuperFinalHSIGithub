@@ -40,7 +40,8 @@ export default function ActionPlanPanel({ plan, checks, onToggle, onRefresh, ref
         <span>{done} of {total} steps done{plan.generatedAt ? ` · updated ${time(plan.generatedAt)}` : ''}</span>
       </div>
       {plan.actions.length === 0 && <div className="cq-empty">No actions yet. Ask the coach a question to get a plan.</div>}
-      <div className="cq-plan-grid">
+      {/* 3, 5, 6 or 8 actions fill three columns; 2, 4 or 7 use two, so no card sits alone beside an empty gap */}
+      <div className="cq-plan-grid" style={{ ['--cols' as string]: plan.actions.length === 2 || plan.actions.length % 3 === 1 ? 2 : 3 }}>
         {plan.actions.map((a, n) => (
           <article key={a.id} className="cq-action">
             <div className="cq-action-head">

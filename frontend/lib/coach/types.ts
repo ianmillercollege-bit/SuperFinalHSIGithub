@@ -10,7 +10,7 @@ export interface CoachContext {
     score: number; previousScore: number; recommendationFrequency: number;
     answersTested: number; answersRecommended: number; answersMissed: number;
     strongestAssistant?: { name: string; frequency: number }; weakestAssistant?: { name: string; frequency: number };
-    missReasons: { label: string; count: number; fix: string }[];
+    missReasons: { label: string; count: number; fix: string; examples?: { question: string; assistants: string[] }[] }[];
   };
   market?: {
     rankAmongSmallBusinesses: number; smallBusinessCount: number; rankOverall: number; businessCount: number;
@@ -23,7 +23,7 @@ export interface CoachContext {
   trust?: { accuracyRate: number; hallucinationRate: number; timeToResolveHours: number; days: number; accuracyRateStart: number };
   claims?: { outstanding: number; reviewedLast30Days: number };
   competitors?: { name: string; type: 'small business' | 'national brand'; score: number; averageRank: number; shareOfVoice: number; recommendationFrequency: number }[];
-  assistants?: { name: string; frequency: number; answersRecommended: number; answersTested: number }[];
+  assistants?: { name: string; frequency: number; answersRecommended: number; answersTested: number; missedQuestions?: string[] }[];
   topMissedQuestions?: { question: string; missedBy: string[]; reason?: string }[];
   sampleSections?: string[];                      // sections that come from sample data, so answers can say so
   derivedFacts?: string[];                        // computed by code (see facts.ts); safe for the model to quote

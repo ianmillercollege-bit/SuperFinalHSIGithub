@@ -33,7 +33,7 @@ export function contextFromKit(opts: {
       recommendationFrequency: rate(D.recommendationFrequency()),
       answersTested: D.totalAnswers(), answersRecommended: D.recommendedAnswers(), answersMissed: D.missedAnswers(),
       strongestAssistant: { name: best.assistant, frequency: rate(best.frequency) }, weakestAssistant: { name: worst.assistant, frequency: rate(worst.frequency) },
-      missReasons: D.missedByReason().map((r) => ({ label: r.label, count: r.count, fix: r.opportunityTitle })),
+      missReasons: D.missedByReason().map((r) => ({ label: r.label, count: r.count, fix: r.opportunityTitle, examples: D.prompts.filter((p) => p.results.some((x) => x.reason === r.reason && x.rank === null)).map((p) => ({ question: p.text, assistants: p.results.filter((x) => x.reason === r.reason && x.rank === null).map((x) => x.assistant) })).sort((a, b) => b.assistants.length - a.assistants.length).slice(0, 3) })),
     },
     market: {
       rankAmongSmallBusinesses: D.rankAmongSmallBusinesses(), smallBusinessCount: D.market.filter((m) => m.group !== 'national').length,
@@ -44,7 +44,7 @@ export function contextFromKit(opts: {
     weeklyScores: vm.weeklyScores,
     claims: opts.live?.claims ?? opts.claims,
     competitors: D.marketWithYou().filter((m) => m.group !== 'you').map((m) => ({ name: m.name, type: m.group === 'peer' ? 'small business' as const : 'national brand' as const, score: m.score, averageRank: m.averageRank ?? 0, shareOfVoice: rate(m.shareOfVoice), recommendationFrequency: rate(m.recommendationFrequency ?? 0) })),
-    assistants: per.map((a) => ({ name: a.assistant, frequency: rate(a.frequency), answersRecommended: a.recommended, answersTested: a.total })),
+    assistants: per.map((a) => ({ name: a.assistant, frequency: rate(a.frequency), answersRecommended: a.recommended, answersTested: a.total, missedQuestions: D.prompts.filter((p) => p.results.find((x) => x.assistant === a.assistant)?.rank === null).map((p) => p.text).slice(0, 3) })),
     topMissedQuestions: D.prompts.map((p) => { const missed = p.results.filter((r) => r.rank === null); const top = missed.map((r) => r.reason).filter(Boolean) as D.ReasonCode[]; return { question: p.text, missedBy: missed.map((r) => r.assistant), reason: top[0] ? D.reasons[top[0]].label : undefined }; }).filter((q) => q.missedBy.length).sort((a, b) => b.missedBy.length - a.missedBy.length).slice(0, 5),
   };
   const per1 = simulate(D.currentScore, [], {}, DEFAULT_ASSUMPTIONS).perPoint;

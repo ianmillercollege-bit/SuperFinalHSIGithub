@@ -74,6 +74,21 @@ export function verifyReply(r: { answer: string; actions: ActionItem[]; sources:
   return Array.from(new Set(replyTexts(r).flatMap((t) => unverifiedIn(t, allowed))));
 }
 
+// ---------- specificity: catches vague advice ----------
+export function specificity(r: { answer: string; actions: ActionItem[]; sources: CoachSource[] }, ctx: CoachContext): { entities: string[]; numbers: number } {
+  const text = replyTexts(r).join(' ').toLowerCase();
+  const names = [...(ctx.assistants ?? []).map((a) => a.name), ...(ctx.competitors ?? []).map((c) => c.name), ...(ctx.visibility?.missReasons ?? []).flatMap((x) => [x.label, x.fix]), ...(ctx.opportunities ?? []).map((o) => o.title)];
+  const entities = Array.from(new Set(names.filter((n) => text.includes(n.toLowerCase()))));
+  const numbers = new Set(replyTexts(r).flatMap((t) => extractMetricNumbers(t).map((n) => n.value))).size;
+  return { entities, numbers };
+}
+// Advice needs named items and numbers; answers with no actions (out of scope, no data) are exempt.
+export function isGeneric(r: { answer: string; actions: ActionItem[]; sources: CoachSource[] }, ctx: CoachContext): boolean {
+  if (r.actions.length === 0) return false;
+  const s = specificity(r, ctx);
+  return s.entities.length < 2 || s.numbers < 3;
+}
+
 // ---------- shape validation for model output (never trust the model's JSON) ----------
 const strip = (s: string, max: number) => s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim().slice(0, max);
 const isStr = (v: unknown, min = 1): v is string => typeof v === 'string' && v.trim().length >= min;
@@ -82,7 +97,7 @@ export function validateModelOutput(o: unknown): { ok: true; value: { answer: st
   if (!o || typeof o !== 'object') return { ok: false, error: 'not an object' };
   const r = o as Record<string, unknown>;
   if (!isStr(r.answer)) return { ok: false, error: 'answer missing' };
-  if (!Array.isArray(r.actions) || r.actions.length > 5) return { ok: false, error: 'actions invalid' };
+  if (!Array.isArray(r.actions) || r.actions.length > 3) return { ok: false, error: 'actions invalid' };
   const actions: ActionItem[] = [];
   for (const [i, a] of r.actions.entries()) {
     const x = a as Record<string, unknown>;

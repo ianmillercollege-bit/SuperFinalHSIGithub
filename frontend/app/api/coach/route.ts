@@ -4,7 +4,7 @@
 // or point NEXT_PUBLIC_COACH_ENDPOINT at the backend endpoint and delete this file.
 import { LIMITS, type CoachContext, type CoachRequest, type CoachReply } from '../../../lib/coach/types';
 import { SYSTEM_PROMPT, TOOL, buildUserMessage } from '../../../lib/coach/spec';
-import { validateModelOutput, verifyReply } from '../../../lib/coach/verify';
+import { isGeneric, validateModelOutput, verifyReply } from '../../../lib/coach/verify';
 import { answerFor, buildPlan } from '../../../lib/coach/sampleCoach';
 
 export const runtime = 'nodejs';
@@ -76,6 +76,7 @@ export async function POST(request: Request): Promise<Response> {
   // Total budget ~50 s (Vercel allows 60 with maxDuration). A retry only starts if there is time left.
   const deadline = Date.now() + 50000;
   let correction: string | undefined;
+  let numbersFailed = false;
   for (let attempt = 0; attempt < 2; attempt++) {
     const left = deadline - Date.now();
     if (attempt > 0 && left < 12000) break;
@@ -83,12 +84,14 @@ export async function POST(request: Request): Promise<Response> {
       const out = validateModelOutput(await callModel(key, buildUserMessage(parsed, correction), Math.min(28000, left - 1000)));
       if (!out.ok) { correction = `Your last reply was invalid (${out.error}). Call submit_coaching with every required field.`; continue; }
       const bad = verifyReply(out.value, parsed.context);
-      if (bad.length) { correction = `These numbers are not in the data: ${bad.slice(0, 6).join(', ')}. Rewrite using only numbers from <context>.`; continue; }
+      if (bad.length) { numbersFailed = true; correction = `These numbers are not in the data: ${bad.slice(0, 6).join(', ')}. Rewrite using only numbers from <context>.`; continue; }
+      // Vague advice gets one nudge; if the second try is still vague we accept it (it is safe, just less sharp).
+      if (attempt === 0 && isGeneric(out.value, parsed.context)) { correction = 'That was too generic. Name at least 2 specific items from <context> (assistants, competitors, miss reasons, opportunities or real shopper questions) and quote at least 3 numbers from derivedFacts.'; continue; }
       return Response.json({ ...out.value, mode: 'live', verified: true, generatedAt: new Date().toISOString() } satisfies CoachReply);
     } catch (e) {
       console.error('coach model error:', (e as Error).message);   // status only: never log keys or content
       if (attempt === 1) break;
     }
   }
-  return Response.json(fallback(parsed, correction ? 'The AI answer included numbers that could not be verified against your data, so this is the built-in answer.' : 'The AI model was unavailable, so this is the built-in answer.'));
+  return Response.json(fallback(parsed, numbersFailed ? 'The AI answer included numbers that could not be verified against your data, so this is the built-in answer.' : 'The AI model was unavailable, so this is the built-in answer.'));
 }

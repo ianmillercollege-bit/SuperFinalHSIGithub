@@ -87,3 +87,4 @@
 @media (prefers-reduced-motion: reduce) { .cq-scroll { scroll-behavior: auto; } .cq-tool, .cq-starter, .cq-qchip, .cq-send, .cq-act { transition: none; } }
 @media (max-width: 1100px) { .cq-coach { flex-direction: column; } .cq-coach-side { position: static; width: 100%; min-width: 0; } .cq-scroll { height: 480px; } }
 @media (max-width: 700px) { .cq-starters { grid-template-columns: 1fr; } }
+

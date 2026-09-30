@@ -1,3 +1,4 @@
+import { analyze } from './insightEngine';
 import type { CoachContext } from './types';
 
 // Insights computed by CODE from the context (comparisons, shares, gaps, quick wins). The model quotes and explains
@@ -15,7 +16,8 @@ export function deriveFacts(ctx: CoachContext): string[] {
       const gap = Math.round((v.strongestAssistant.frequency - v.weakestAssistant.frequency) * 100);
       f.push(`${v.strongestAssistant.name} recommends you most (${pct(v.strongestAssistant.frequency)} of its answers) and ${v.weakestAssistant.name} least (${pct(v.weakestAssistant.frequency)}), a gap of ${gap} percentage points.`);
     }
-    v.missReasons.slice(0, 4).forEach((x) => f.push(`${x.label} explains ${x.count} of ${v.answersMissed} missed answers (${pct(x.count / v.answersMissed)}); the matching fix is "${x.fix}".`));
+    v.missReasons.forEach((x) => f.push(`${x.label} explains ${x.count} of ${v.answersMissed} missed answers (${pct(x.count / v.answersMissed)}); the matching fix is "${x.fix}".`));
+    v.missReasons.slice(0, 2).forEach((x) => { const ex = (x.examples ?? []).slice(0, 2); if (ex.length) f.push(`Examples of "${x.label}" misses: ${ex.map((e) => `"${e.question}" on ${e.assistants.join(' and ')}`).join('; ')}.`); });
     f.push(`Your visibility score moved from ${v.previousScore} to ${v.score} last week.`);
   }
   if (ctx.weeklyScores && ctx.weeklyScores.length > 1) f.push(`Over ${ctx.weeklyScores.length} weeks your score moved from ${ctx.weeklyScores[0]} to ${ctx.weeklyScores[ctx.weeklyScores.length - 1]}.`);
@@ -50,6 +52,7 @@ export function deriveFacts(ctx: CoachContext): string[] {
   if (ctx.assistants?.length) f.push(`Recommendation rate by assistant: ${ctx.assistants.map((a) => `${a.name} ${pct(a.frequency)}`).join(', ')}.`);
   (ctx.topMissedQuestions ?? []).slice(0, 3).forEach((q) => f.push(`"${q.question}" missed you on ${q.missedBy.length} of ${ctx.assistants?.length ?? 4} assistants${q.reason ? ` (${q.reason})` : ''}.`));
   if (c) f.push(`${c.outstanding} claims are waiting for approval and ${c.reviewedLast30Days} were reviewed in the last 30 days.`);
-  if (ctx.sampleSections?.length) f.push(`Sections that are sample data: ${ctx.sampleSections.join(', ')}.`);
-  return f.slice(0, 26);
+  f.push(...analyze(ctx).facts);
+  if (ctx.sampleSections?.length) f.unshift(`Sections that are sample data: ${ctx.sampleSections.join(', ')}.`);   // first, so it is never cut
+  return f.slice(0, 44);
 }
