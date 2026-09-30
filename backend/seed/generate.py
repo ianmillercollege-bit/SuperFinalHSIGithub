@@ -187,7 +187,7 @@ def build() -> dict[str, list[dict]]:
     # Catalog from shared/mock, plus the seed-only fields.
     products = []
     for p in mock("products.json", "products"):
-        p = {k: v for k, v in p.items() if k != "brandName"}
+        p = {k: v for k, v in p.items() if k not in ("brandName", "verified")}  # verified: derived from optedIn
         p["priceHistory"] = [
             {"price": PREVIOUS_PRICE[p["productId"]], "effectiveFrom": "2026-08-01", "effectiveTo": PRICE_CHANGED_ON},
             {"price": p["price"], "effectiveFrom": PRICE_CHANGED_ON, "effectiveTo": None}]

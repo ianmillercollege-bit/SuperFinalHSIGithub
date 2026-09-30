@@ -164,7 +164,7 @@ def test_references_point_to_real_records(seed):
 
 def test_consistent_with_shared_mock(seed):
     mock_products = load_mock("products.json")["products"]
-    assert [{k: v for k, v in p.items() if k != "brandName"} for p in mock_products] == \
+    assert [{k: v for k, v in p.items() if k not in ("brandName", "verified")} for p in mock_products] == \
            [{k: v for k, v in p.items() if k != "priceHistory"} for p in seed["products"]]
     assert seed["owners"] == load_mock("owners.json")["owners"]
     assert seed["daily_metrics"] == load_mock("metrics_trust.json")["daily"]
