@@ -5,8 +5,8 @@ export const metadata: Metadata = { title: "Dashboard · CIRQO" };
 
 export default function Page() {
   return (
-    <main className="page page-wide">
+    <div className="page page-wide">
       <DashboardScreen />
-    </main>
+    </div>
   );
 }

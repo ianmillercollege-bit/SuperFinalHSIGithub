@@ -1,0 +1,50 @@
+/* Adjustments around the CIRQO dashboard kit. Loaded after styles/cirqo-dashboard.css, which is not edited. */
+
+/* The kit's <main> (AppFrame) already pads the page, so pages inside it add no padding of their own. */
+.cq-main .page {
+  padding: 0;
+  max-width: none;
+  flex: none;
+}
+
+.cq-main .page-wide {
+  max-width: 1360px;
+}
+
+/* The "Sample data" bar runs edge to edge across the top of the main column. */
+.cq-main > .sample-bar {
+  margin: -32px -36px 0;
+}
+
+@media (max-width: 1100px) {
+  .cq-main > .sample-bar {
+    margin: -24px -24px 0;
+  }
+}
+
+/* Chart text keeps one size at every window width (DashboardView sets the size on the <svg>). */
+.cq-chart text {
+  font-size: inherit;
+}
+
+/* Narrow screens: the kit's sidebar has no collapsed mode, so it stacks above the page instead of taking 240px. */
+@media (max-width: 760px) {
+  .cq-app {
+    flex-direction: column;
+  }
+
+  .cq-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .cq-main {
+    padding: 16px;
+  }
+
+  .cq-main > .sample-bar {
+    margin: -16px -16px 0;
+  }
+}

@@ -6,13 +6,13 @@ export const metadata: Metadata = { title: "Growth Simulator · CIRQO" };
 
 export default function Page() {
   return (
-    <main className="page">
+    <div className="page">
       <PageHeader
         eyebrow="Insights · sample data"
         title="Growth Simulator"
         intro="A what-if view for the sample brand, built on frontend-only sample data."
       />
       <SimulatorScreen />
-    </main>
+    </div>
   );
 }

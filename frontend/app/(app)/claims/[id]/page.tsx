@@ -6,8 +6,8 @@ export const metadata: Metadata = { title: "Claim · CIRQO" };
 export default async function Page({ params }: PageProps<"/claims/[id]">) {
   const { id } = await params;
   return (
-    <main className="page">
+    <div className="page">
       <IncidentDetail incidentId={id} />
-    </main>
+    </div>
   );
 }

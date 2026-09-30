@@ -6,9 +6,9 @@ export const metadata: Metadata = { title: "AI Visibility · CIRQO" };
 
 export default function Page() {
   return (
-    <main className="page">
+    <div className="page">
       <PageHeader eyebrow="Insights" title="AI Visibility" intro="How often AI assistants name your brand, where you rank, and the answers they gave." />
       <AiVisibility />
-    </main>
+    </div>
   );
 }
