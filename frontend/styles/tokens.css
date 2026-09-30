@@ -40,6 +40,7 @@
   --ink: var(--navy);
   --chart-line: var(--navy);
   --color-scheme: light;
+  --shadow: rgba(12, 35, 64, 0.14);
 
   /* Shape and type */
   --radius: 12px;
@@ -51,6 +52,7 @@
 /* Night mode: set by the toggle in the top bar (data-theme="dark" on <html>). Brand navy panels stay navy. */
 :root[data-theme="dark"] {
   --color-scheme: dark;
+  --shadow: rgba(0, 0, 0, 0.55);
   --ink: #eef3f9;
   --chart-line: #9cc3ff;
 

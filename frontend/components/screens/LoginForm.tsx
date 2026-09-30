@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import Dropdown from "@/components/Dropdown";
 import { ErrorNotice } from "@/components/LoadState";
 import SampleSignInLabel from "@/components/SampleSignInLabel";
 import { ApiError, getDemoAccounts, getOwners } from "@/lib/api";
@@ -77,38 +78,34 @@ export default function LoginForm() {
         </p>
       </div>
       {error !== undefined && <ErrorNotice error={error} onRetry={() => { owners.reload(); brands.reload(); }} />}
-      <label className="field">
-        Sign in as
-        <span className="select-field">
-          <span className="select-avatar" aria-hidden>
-            {person ? initials(person.name) : "…"}
-          </span>
-          <select value={person ? personKey(person) : ""} onChange={(e) => setPersonPick(e.target.value)} disabled={loading || people.length === 0}>
-            {loading && <option value="">Loading…</option>}
-            {people.map((p) => (
-              <option key={personKey(p)} value={personKey(p)}>
-                {p.role === "viewer" ? "Viewer (read-only)" : `${p.name}, ${p.title ?? "Owner"}`}
-              </option>
-            ))}
-          </select>
-        </span>
-      </label>
-      <label className="field">
-        Brand
-        <span className="select-field">
-          <span className="select-avatar" aria-hidden>
-            {brand ? brand.brandName.slice(0, 2).toUpperCase() : "…"}
-          </span>
-          <select value={brand?.apiKey ?? ""} onChange={(e) => setBrandPick(e.target.value)} disabled={loading || accounts.length === 0}>
-            {loading && <option value="">Loading…</option>}
-            {accounts.map((a) => (
-              <option key={a.apiKey} value={a.apiKey}>
-                {brandLabel(a)}
-              </option>
-            ))}
-          </select>
-        </span>
-      </label>
+      <Dropdown
+        label="Sign in as"
+        showAvatar
+        value={person ? personKey(person) : ""}
+        onChange={setPersonPick}
+        disabled={loading || people.length === 0}
+        placeholder={loading ? "Loading…" : "Choose who you are"}
+        options={people.map((p) => ({
+          value: personKey(p),
+          label: p.role === "viewer" ? "Viewer (read-only)" : p.name,
+          hint: p.role === "viewer" ? "Can look, not approve or file" : p.title ?? "Owner",
+          avatar: initials(p.name),
+        }))}
+      />
+      <Dropdown
+        label="Brand"
+        showAvatar
+        value={brand?.apiKey ?? ""}
+        onChange={setBrandPick}
+        disabled={loading || accounts.length === 0}
+        placeholder={loading ? "Loading…" : "Choose a brand"}
+        options={accounts.map((a) => ({
+          value: a.apiKey,
+          label: brandLabel(a),
+          hint: a.role === "owner" ? "Full access to this brand" : "Read-only view of this brand",
+          avatar: a.brandName.slice(0, 2).toUpperCase(),
+        }))}
+      />
       {brands.data?.example && <p className="muted small">Example brand list: the backend has not shipped the demo-accounts list yet.</p>}
       <button type="submit" className="button" disabled={loading || !person || !brand}>
         Sign in

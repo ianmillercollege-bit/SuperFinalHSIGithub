@@ -1,5 +1,6 @@
 "use client";
 
+import Dropdown from "@/components/Dropdown";
 import { canAct, useUserSession } from "@/lib/auth/userSession";
 import SourceChip from "@/components/SourceChip";
 import Link from "next/link";
@@ -78,21 +79,17 @@ export default function FileClaim() {
               Shopper&apos;s question
               <input value={queryText} onChange={(e) => setQueryText(e.target.value)} placeholder="best laptops under $500" />
             </label>
-            <label className="field">
-              AI assistant
-              {summary.loading && <Loading what="assistants" />}
-              {summary.error !== undefined && <ErrorNotice error={summary.error} onRetry={summary.reload} />}
-              {summary.data && (
-                <select value={assistantId} onChange={(e) => setAssistantId(e.target.value)}>
-                  <option value="">Choose an assistant</option>
-                  {summary.data.byAssistant.map((a) => (
-                    <option key={a.assistantId} value={a.assistantId}>
-                      {a.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </label>
+            {summary.loading && <Loading what="assistants" />}
+            {summary.error !== undefined && <ErrorNotice error={summary.error} onRetry={summary.reload} />}
+            {summary.data && (
+              <Dropdown
+                label="AI assistant"
+                value={assistantId}
+                onChange={setAssistantId}
+                placeholder="Choose an assistant"
+                options={[{ value: "", label: "Choose an assistant" }, ...summary.data.byAssistant.map((a) => ({ value: a.assistantId, label: a.name }))]}
+              />
+            )}
             <label className="field">
               What the assistant said
               <textarea
@@ -104,22 +101,23 @@ export default function FileClaim() {
             </label>
           </>
         ) : (
-          <label className="field">
-            Recorded answer
+          <>
             {answers.loading && <Loading what="recorded answers" />}
             {answers.error !== undefined && <ErrorNotice error={answers.error} onRetry={answers.reload} />}
             {answers.data && answers.data.answers.length === 0 && <Empty>No recorded answers yet.</Empty>}
             {answers.data && answers.data.answers.length > 0 && (
-              <select value={answerId} onChange={(e) => setAnswerId(e.target.value)}>
-                <option value="">Choose an answer</option>
-                {answers.data.answers.map((a) => (
-                  <option key={a.answerId} value={a.answerId}>
-                    {a.assistantName}: “{a.queryText}” ({a.answerId})
-                  </option>
-                ))}
-              </select>
+              <Dropdown
+                label="Recorded answer"
+                value={answerId}
+                onChange={setAnswerId}
+                placeholder="Choose an answer"
+                options={[
+                  { value: "", label: "Choose an answer" },
+                  ...answers.data.answers.map((a) => ({ value: a.answerId, label: `${a.assistantName}: “${a.queryText}”`, hint: a.answerId })),
+                ]}
+              />
             )}
-          </label>
+          </>
         )}
 
         {formError && (
