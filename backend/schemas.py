@@ -217,6 +217,69 @@ class ConnectorQueryOut(CamelModel):
     source: Source
 
 
+# ---- Connector search (v1.4 section 7c) ------------------------------------------------------
+
+
+class SearchConstraintsIn(CamelModel):
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"] | None = None
+    max_price: float | None = Field(None, gt=0, allow_inf_nan=False)
+    use_case: Literal["school", "work", "travel", "media"] | None = None
+    # Laptop words (battery, light, screen, touch) or a narrowing hint's attribute or split, e.g. wireless.
+    must_have: list[str] = Field([], max_length=10)
+
+    @field_validator("must_have")
+    @classmethod
+    def short_terms(cls, v: list[str]) -> list[str]:
+        terms = [t.strip() for t in v]
+        if any(not t or len(t) > 40 for t in terms):
+            raise ValueError("each mustHave term must be 1 to 40 characters")
+        return list(dict.fromkeys(terms))
+
+
+class ConnectorSearchIn(CamelModel):
+    question: str = Field(max_length=C.MAX_QUESTION_CHARS)
+    assistant_id: str
+    constraints: SearchConstraintsIn | None = None
+
+    @field_validator("question")
+    @classmethod
+    def not_blank(cls, v: str) -> str:
+        return _not_blank(v)
+
+
+class SearchOption(CamelModel):
+    product_id: str
+    name: str
+    brand_name: str
+    price: float
+    currency: str
+    availability: Availability
+    match_score: float
+    verified: bool  # v1.5 section 7d: the brand has opted in and its facts are verified
+    facts: list[Reason]
+
+
+class NarrowingHint(CamelModel):
+    attribute: str
+    question: str
+    splits: dict[str, int]
+
+
+class ConnectorSearchOut(CamelModel):
+    search_id: str
+    question: str
+    assistant_id: str
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"]
+    option_count: int
+    options: list[SearchOption]
+    narrowing_hints: list[NarrowingHint]
+    verified_count: int  # v1.5
+    unverified_count: int
+    ranking_note: str
+    verified_at: str
+    source: Source
+
+
 # ---- Products, visibility, answers, sources -------------------------------------------------
 
 
@@ -367,7 +430,8 @@ class AuditOut(CamelModel):
     actor: str
     actor_type: Literal["system", "human", "ai"]
     action: Literal["claim_extracted", "claim_checked", "incident_created", "auto_fix_applied", "approved",
-                    "rejected", "escalated", "resolved", "connector_query", "brand_onboarded"]
+                    "rejected", "escalated", "resolved", "connector_query", "brand_onboarded",
+                    "connector_search"]
     target_id: str
     details: str
 

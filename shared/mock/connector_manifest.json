@@ -1,11 +1,73 @@
 {
   "name": "cirqo",
-  "description": "CIRQO Shopping Connector. Answers shopping questions from a brand's verified product data instead of guessing. Every fact in the answer is checked by plain code before it is returned, and ranking is neutral: no brand can pay for placement. Sample data (fictional brands).",
-  "version": "1.1",
+  "description": "CIRQO Shopping Connector. Answers shopping questions from brands' verified product data instead of guessing. Every fact is checked by plain code before it is returned, and ranking is neutral: no brand can pay for placement. Sample data (fictional brands).",
+  "version": "1.4",
+  "funnel": "Call search first, from whatever the shopper said. If narrowingHints come back and more than two options remain, ask the shopper one hint question at a time and call search again with the answer added to constraints. When one or two options remain, or no hints come back, call query for the single pick. Never state a fact that is not in the results; tell the shopper which facts are verified by the brand and which are not.",
   "tools": [
     {
+      "name": "search",
+      "description": "Step 1 of the funnel. Returns up to 5 options ordered by neutral matchScore, each with checked facts and a verified flag, plus up to 3 narrowingHints: the attributes on which the options differ most, each phrased as a question to ask the shopper.",
+      "endpoint": {
+        "method": "POST",
+        "path": "/api/v1/connector/search"
+      },
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "question",
+          "assistantId"
+        ],
+        "properties": {
+          "question": {
+            "type": "string",
+            "description": "What the shopper said, however vague, e.g. \"I want headphones for the gym\"."
+          },
+          "assistantId": {
+            "type": "string",
+            "description": "The calling assistant's ID, e.g. \"ast_01\"."
+          },
+          "constraints": {
+            "type": "object",
+            "description": "Optional. Every field is optional. Without them, category and maxPrice are taken from the question. Add one constraint per answered hint.",
+            "properties": {
+              "category": {
+                "type": "string",
+                "enum": [
+                  "laptops",
+                  "headphones",
+                  "phones_tablets",
+                  "computer_hardware"
+                ]
+              },
+              "maxPrice": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "description": "Highest acceptable price in USD."
+              },
+              "useCase": {
+                "type": "string",
+                "enum": [
+                  "school",
+                  "work",
+                  "travel",
+                  "media"
+                ]
+              },
+              "mustHave": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Laptops: battery (10h+), light (under 3 lb), screen (15 in+), touch. Any category: a hint's attribute answered yes (e.g. wireless, noiseCancelling) or one of its split keys (e.g. under1oz, over10h)."
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "name": "query",
-      "description": "Ask a shopping question. Returns one recommended product, alternatives, an answer text built only from verified facts, and the checked claims behind it.",
+      "description": "Step 2 of the funnel: the one pick. Returns one recommended product, alternatives, an answer text built only from verified facts, and the checked claims behind it.",
       "endpoint": {
         "method": "POST",
         "path": "/api/v1/connector/query"
