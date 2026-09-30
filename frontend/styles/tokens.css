@@ -100,4 +100,6 @@
   --cq-warn-bg: #3a2a0c;
   --cq-neutral: #b9c4d0;
   --cq-neutral-bg: #222c38;
+  --cq-you: #ff8a5c; /* "your business" in charts: brand navy is invisible on dark cards */
+  --cq-tint-blue: #1b3050; /* your row and the small-business pill on the Market page */
 }
