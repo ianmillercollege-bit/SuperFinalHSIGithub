@@ -319,7 +319,8 @@ export type AuditAction =
   | "rejected"
   | "escalated"
   | "resolved"
-  | "connector_query";
+  | "connector_query"
+  | "brand_onboarded";
 
 export interface AuditEntry {
   auditId: string;
@@ -461,4 +462,17 @@ export interface ConnectorQueryResponse {
   rankingNote: string;
   verifiedAt: Timestamp;
   source: AiSource;
+}
+
+// ---- Brand accounts (v1.3, section 7b) ----
+
+export interface DemoAccount {
+  brandId: string;
+  brandName: string;
+  role: "owner" | "viewer";
+  apiKey: string;
+}
+
+export interface DemoAccountsResponse {
+  accounts: DemoAccount[];
 }

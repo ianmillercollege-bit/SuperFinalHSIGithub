@@ -76,6 +76,7 @@ export const AUDIT_ACTION_LABELS: Record<AuditAction, string> = {
   escalated: "Escalated",
   resolved: "Resolved",
   connector_query: "Assistant query answered",
+  brand_onboarded: "Brand connected",
 };
 
 /** What each contract error code means for the person using the screen (section 2). */

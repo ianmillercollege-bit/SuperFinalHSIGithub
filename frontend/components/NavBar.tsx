@@ -7,7 +7,8 @@ import BackendStatus from "@/components/BackendStatus";
 import { getIncidents } from "@/lib/api";
 import { onIncidentsChanged } from "@/lib/events";
 import { NAV, isActive } from "@/lib/nav";
-import { initialsOf, sampleUser } from "@/lib/sample/sampleUser";
+import { useBrandSession } from "@/lib/auth/brandSession";
+import { BUSINESS } from "@/lib/business";
 import { useApi } from "@/lib/useApi";
 
 // Open incidents = pending_approval + escalated (contract v1.1).
@@ -22,6 +23,8 @@ async function countOpenIncidents(): Promise<number> {
 /** 240px navy sidebar: brand, sample user chip, navigation from lib/nav.ts, data badge, backend status. */
 export default function NavBar({ brand }: { brand: React.ReactNode }) {
   const pathname = usePathname();
+  const session = useBrandSession();
+  const brandName = session?.brandName ?? BUSINESS.name;
   const open = useApi(useCallback(() => countOpenIncidents(), []));
   const { reload } = open;
   useEffect(() => onIncidentsChanged(reload), [reload]);
@@ -33,17 +36,16 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
         {brand}
       </Link>
 
-      <div className="user-chip" title="Sample account: CIRQO has no sign-in in this demo.">
+      <div className="user-chip">
         <span className="user-initials" aria-hidden>
-          {initialsOf(sampleUser.name)}
+          {brandName.slice(0, 2).toUpperCase()}
         </span>
         <span className="user-text">
-          <span className="user-name">
-            {sampleUser.name} <span className="soon-tag">Sample</span>
-          </span>
-          <span className="user-meta">
-            {sampleUser.role} · {sampleUser.business}
-          </span>
+          <span className="user-name">{brandName}</span>
+          <span className="user-meta">{session ? `${session.role} account` : "Default account"}</span>
+          <Link href="/login" className="user-switch">
+            Switch account
+          </Link>
         </span>
       </div>
 

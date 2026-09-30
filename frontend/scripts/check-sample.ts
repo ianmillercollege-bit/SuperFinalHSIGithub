@@ -119,7 +119,7 @@ async function main() {
   const oldNames = sourceFiles(path.join(__dirname, "..")).filter((f) => retired.some((r) => r.test(readFileSync(f, "utf8"))));
   check("the two retired business names appear nowhere in frontend/", oldNames.length === 0, oldNames.join(", "));
   const offenders = sourceFiles(path.join(__dirname, ".."))
-    .filter((f) => !f.endsWith("business.ts"))
+    .filter((f) => !f.endsWith("business.ts") && !f.endsWith("demoAccountsFallback.ts")) // the fallback prints the contract 7b example accounts
     .filter((f) => readFileSync(f, "utf8").includes(BUSINESS.name));
   const libOffenders = offenders.filter((f) => f.includes(`${path.sep}lib${path.sep}`));
   check("everything in lib/ takes the name from lib/business.ts", libOffenders.length === 0, libOffenders.join(", "));

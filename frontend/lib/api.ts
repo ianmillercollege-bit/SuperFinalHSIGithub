@@ -13,6 +13,7 @@
 //
 // These functions are meant to be called from the browser (client components).
 
+import { brandScope } from "./auth/brandSession";
 import { USE_MOCK } from "./config";
 import type {
   AnswerFilters,
@@ -25,6 +26,7 @@ import type {
   CheckerRunRequest,
   CheckerRunResponse,
   ConnectorQueryRequest,
+  DemoAccountsResponse,
   ConnectorQueryResponse,
   ClaimFilters,
   ClaimsResponse,
@@ -76,6 +78,8 @@ export const MOCK_FILES = {
   errorValidation: "error_validation",
   connectorQuery: "connector_query",
   connectorManifest: "connector_manifest",
+  /** v1.3. No file in shared/mock/ yet; mock mode falls back to the contract example on screen. */
+  demoAccounts: "demo_accounts",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -227,6 +231,11 @@ function withoutEmptyConstraints(body: ConnectorQueryRequest): ConnectorQueryReq
   return Object.keys(constraints).length > 0 ? { ...rest, constraints } : rest;
 }
 
+// GET /api/v1/auth/demo-accounts  (v1.3: the demo logins; no auth)
+export function getDemoAccounts(): Promise<DemoAccountsResponse> {
+  return request("GET", "/api/v1/auth/demo-accounts", {}, undefined, MOCK_FILES.demoAccounts);
+}
+
 // GET /api/v1/owners
 export function getOwners(): Promise<OwnersResponse> {
   return request("GET", "/api/v1/owners", {}, undefined, MOCK_FILES.owners);
@@ -282,13 +291,33 @@ async function request<T>(
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
   return readJson<T>(
-    await fetchOrThrow(`${API_URL}${path}${toQueryString(query)}`, {
+    await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
       method,
       headers: body === undefined ? undefined : { "Content-Type": "application/json" },
       body: body === undefined ? undefined : JSON.stringify(body),
       cache: "no-store",
     }, timeoutMs),
   );
+}
+
+// Contract v1.3, section 7b: these dashboard endpoints accept `brandId`. With no account chosen
+// nothing is added and the backend answers for the default brand (brand_001), as before.
+const BRAND_SCOPED_PATHS = [
+  "/api/v1/visibility/summary",
+  "/api/v1/answers",
+  "/api/v1/sources",
+  "/api/v1/claims",
+  "/api/v1/incidents",
+  "/api/v1/owners",
+  "/api/v1/audit",
+  "/api/v1/metrics/trust",
+  "/api/v1/report",
+];
+
+function withBrand(path: string, query: Query): Query {
+  const brandId = brandScope();
+  if (!brandId || query.brandId !== undefined || !BRAND_SCOPED_PATHS.includes(path)) return query;
+  return { ...query, brandId };
 }
 
 async function readMock<T>(mockFile: string): Promise<T> {

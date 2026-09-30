@@ -1185,3 +1185,47 @@ details > summary {
 
 .change-good { color: var(--good); }
 .change-bad { color: var(--bad); }
+
+.user-switch {
+  color: var(--on-navy-muted);
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
+.user-switch:hover,
+.user-switch:focus-visible {
+  color: var(--on-navy);
+}
+
+/* ---- Demo account cards (/login) ---- */
+
+.account-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.account-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.account-card:hover,
+.account-card:focus-visible,
+.account-card[aria-current="true"] {
+  border-color: var(--orange);
+  background: var(--orange-tint);
+}
+
+.account-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
