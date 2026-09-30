@@ -8,7 +8,9 @@ import { simulatorAssumptions } from "../lib/config/simulatorAssumptions";
 import { STARTERS } from "../components/coach/CoachPage";
 import { sampleCoach } from "../lib/coach/sampleCoach";
 import { coachBanner } from "../lib/coach/useCoachChat";
-import { buildCoachContext } from "../lib/coachApp";
+import { contextFromKit } from "../lib/coach/contextFromKit";
+import { sampleDashboard } from "../lib/dashboard/sampleDashboard";
+import { sampleOpportunities } from "../lib/screens/samples";
 import { getOverview } from "../lib/dataSource";
 import {
   buildMarketReport,
@@ -98,7 +100,7 @@ async function main() {
   check("extras return frontend sample data", loaded.source === "sample");
 
   section("Coach (kit, sample mode)");
-  const coachContext = buildCoachContext(BUSINESS.name);
+  const coachContext = contextFromKit({ businessName: BUSINESS.name, vm: sampleDashboard, opportunities: sampleOpportunities, dataLabel: "sample" });
   for (const { question } of STARTERS) {
     const reply = await sampleCoach.ask({ question, history: [], context: coachContext });
     check(`"${question}"`, reply.mode === "sample" && reply.answer.length > 0 && reply.sources.length > 0, `mode ${reply.mode}, ${reply.sources.length} sources`);
