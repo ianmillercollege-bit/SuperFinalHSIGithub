@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Archivo, Public_Sans } from "next/font/google";
-import BrandLockup from "@/components/BrandLockup";
-import NavBar from "@/components/NavBar";
-import SampleDataBar from "@/components/SampleDataBar";
 import "@/styles/tokens.css";
 import "./globals.css";
 
@@ -18,7 +15,6 @@ const archivo = Archivo({
   axes: ["wdth"],
 });
 
-const SIDEBAR_LOCKUP_WIDTH = 200; // 240px sidebar minus 20px padding each side
 
 export const metadata: Metadata = {
   title: "CIRQO",
@@ -29,13 +25,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${publicSans.variable} ${archivo.variable}`}>
       <body>
-        <div className="shell">
-          <NavBar brand={<BrandLockup width={SIDEBAR_LOCKUP_WIDTH} />} />
-          <div className="main-col">
-            <SampleDataBar />
-            {children}
-          </div>
-        </div>
+        {children}
       </body>
     </html>
   );

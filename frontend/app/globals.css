@@ -1267,3 +1267,71 @@ details > summary {
   gap: 12px;
   align-items: baseline;
 }
+
+/* ---- Sign-in page: its own screen, separate from the dashboard shell ---- */
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(300px, 5fr) minmax(0, 7fr);
+}
+
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  padding: 48px clamp(24px, 5vw, 72px);
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.auth-headline {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--on-navy);
+  max-width: 16ch;
+}
+
+.auth-sub {
+  color: var(--on-navy-muted);
+  max-width: 40ch;
+}
+
+.auth-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px clamp(16px, 4vw, 56px);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 640px;
+}
+
+@media (max-width: 800px) {
+  .auth-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auth-panel {
+    padding: 32px 24px;
+  }
+
+  .auth-headline {
+    font-size: 1.6rem;
+  }
+}
+
+.auth-card .account-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
