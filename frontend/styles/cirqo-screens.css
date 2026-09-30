@@ -167,3 +167,19 @@ a.cq-btn { display: inline-flex; align-items: center; text-decoration: none; box
 
 .cq-chip.is-pill, .cq-chips.is-pill .cq-chip { border-radius: 999px; }
 .cq-navy-card .hl { letter-spacing: -0.01em; }
+
+/* AI coach: action plan + chat extras */
+.cq-plan { display: flex; flex-direction: column; gap: 16px; }
+.cq-plan-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.cq-plan-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cq-plan-progress { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--cq-text-muted); }
+.cq-plan-progress .cq-bar { max-width: 260px; }
+.cq-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 16px; }
+.cq-action { border: 1px solid var(--cq-border); border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--cq-card); }
+.cq-action-head { display: flex; align-items: flex-start; gap: 10px; }
+.cq-action-head h3 { margin: 0; flex: 1; font-family: var(--cq-font-display); font-weight: 700; font-size: 16px; line-height: 1.3; }
+.cq-action-impact { display: flex; flex-direction: column; gap: 2px; background: var(--cq-ok-bg); border-radius: 8px; padding: 8px 10px; }
+.cq-action-impact span { font-size: 12px; color: var(--cq-ok); font-weight: 600; }
+.cq-action-impact b { font-size: 14px; color: var(--cq-ok); font-weight: 600; }
+.cq-mini-actions { margin: 10px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.cq-mini-actions li span { display: block; color: var(--cq-text-muted); }

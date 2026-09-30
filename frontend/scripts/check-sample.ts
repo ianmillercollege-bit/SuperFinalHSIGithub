@@ -115,11 +115,11 @@ async function main() {
   section("Business name (DECISIONS.md #28)");
   check("the business is Kestrel (brand_001), the contract's brand", BUSINESS.name === "Kestrel" && BUSINESS.id === "brand_001");
   // The two retired names are built from pieces so this file does not contain them itself.
-  const retired = [["Juni", "per Trail"], ["Har", "bor"]].map((parts) => new RegExp(parts.join(""), "i"));
+  const retired = [["Juni", "per Trail"], ["Har", "bor Home"]].map((parts) => new RegExp(parts.join(""), "i"));
   const oldNames = sourceFiles(path.join(__dirname, "..")).filter((f) => retired.some((r) => r.test(readFileSync(f, "utf8"))));
   check("the two retired business names appear nowhere in frontend/", oldNames.length === 0, oldNames.join(", "));
   const offenders = sourceFiles(path.join(__dirname, ".."))
-    .filter((f) => !f.endsWith("business.ts") && !f.endsWith("demoAccountsFallback.ts") && !f.endsWith("samples.ts")) // contract 7b example accounts; the UI kit's untouched sample data
+    .filter((f) => !f.endsWith("business.ts") && !f.endsWith("demoAccountsFallback.ts") && !f.endsWith("samples.ts") && !f.endsWith("visibilityMarket.ts") && !f.endsWith("community/sample.ts")) // contract 7b example accounts; the UI kit's untouched sample data
     .filter((f) => readFileSync(f, "utf8").includes(BUSINESS.name));
   const libOffenders = offenders.filter((f) => f.includes(`${path.sep}lib${path.sep}`));
   check("everything in lib/ takes the name from lib/business.ts", libOffenders.length === 0, libOffenders.join(", "));

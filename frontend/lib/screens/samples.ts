@@ -35,6 +35,9 @@ export const sampleLevers: Lever[] = [
 export const sampleOpportunities: OpportunityDetail[] = [
   { id: 'o1', title: 'Add structured product data', effort: 'Low', why: 'Assistants could not find price and specs for several tested questions.', liftPoints: 5, revenuePerMonth: 1433, step: 'Add a spec table to your top 10 product pages.' },
   { id: 'o2', title: 'Refresh product reviews', effort: 'Medium', why: 'Few recent reviews were found.', liftPoints: 4, revenuePerMonth: 1147, step: 'Send a review request to recent customers.' },
+  { id: 'o3', title: 'Publish a clear return policy', effort: 'Low', why: 'Your return policy was unclear or missing in a few answers.', liftPoints: 3, revenuePerMonth: 860, step: 'Add a one-page policy summary linked from every product page.' },
+  { id: 'o4', title: 'Keep stock status up to date', effort: 'Medium', why: 'Stock status was wrong in some answers.', liftPoints: 2, revenuePerMonth: 573, step: 'Publish a stock feed that updates daily.' },
+  { id: 'o5', title: 'Answer common shopper questions', effort: 'Low', why: 'A competitor was cited instead of you in some answers.', liftPoints: 1, revenuePerMonth: 287, step: 'Add an FAQ covering the questions shoppers ask most.' },
 ];
 export const sampleMessages: ChatMessage[] = [
   { id: 'm1', role: 'coach', text: "Hi Dana, I'm the demo coach. I give pre-written answers built from your dashboard numbers. What would you like to know?" },
