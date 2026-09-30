@@ -5,7 +5,8 @@
 **UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
 Cover page: [`COVER_PAGE.md`](COVER_PAGE.md). Companion document: the CIRQO 5-Page Business and Marketing Plan (`UTSA_5PBP_09292026.pdf`).
 
-- **Live app:** https://utsa-tech-09302026.vercel.app
+- **Live app (brand dashboard):** https://utsa-tech-09302026.vercel.app
+- **Marketing site:** https://cirqoai.netlify.app (a consumer side with the embedded Claude demo, and a business side that links to the dashboard)
 - **Live API (interactive docs):** https://frontdoor-api-hiel.onrender.com/docs
 - **Repository:** https://github.com/ianmillercollege-bit/UTSA_TECH_09302026
 
@@ -78,6 +79,10 @@ Developer-mode connector, through the server's `search` and `fetch` tools) and G
 `~/.gemini/settings.json`; the Gemini consumer app does not take custom connectors yet); `backend/connector/README.md` has
 the three sets of steps and a local install for Claude Desktop.
 
+**Marketing site.** https://cirqoai.netlify.app is CIRQO AI's public site, with a page for shoppers (the embedded chat
+demo below is its main feature) and a page for brands (which links to the dashboard). It is not part of this repository;
+it is built and hosted separately on Netlify and points at the same live backend and dashboard.
+
 **Website demo (embed anywhere).** `https://frontdoor-api-hiel.onrender.com/demo` is a chat with Claude using the CIRQO plugin, with each tool call shown and a panel that lights up per CIRQO feature. Paste it into any site as an iframe; the snippet and settings are in [`EMBED_DEMO.md`](EMBED_DEMO.md).
 
 **Brands (2 minutes).** Open https://utsa-tech-09302026.vercel.app, click **Connect your catalog**, enter the
@@ -112,8 +117,9 @@ their own company's dashboard and can approve, reject and file claims. A guest s
 | **Claims Reviewed** | Everything already decided, by the system or by a person, with the full audit trail. |
 | **All companies** (CIRQO Staff login) | Cross-company oversight: inclusion, open incidents and escalations for every company. |
 
-**Community program (backend only):** brands can pledge surplus and refurbished units and partner organizations can
-request them through `/api/v1/community/*` (contract section 7e, tests green). The dashboard pages for it were cut at
+**GridGive community program (backend only):** brands can pledge surplus and refurbished units and partner organizations can
+request them through `/api/v1/community/*` (contract section 7e, tests green). GridGive is the name the executive summary
+gives this program: unsold, refurbished or returned units donated to people and communities in need. The dashboard pages for it were cut at
 the freeze to keep the demo tight; the endpoints stay live and documented as roadmap.
 
 **Scale:** 153 fictional opted-in companies (Greek-god names) across headphones, laptops, phones and tablets, and

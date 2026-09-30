@@ -18,6 +18,7 @@ Theme: "The New Front Door: Trustworthy AI Product Discovery"
 - Live app: https://utsa-tech-09302026.vercel.app
 - Live API and interactive docs: https://frontdoor-api-hiel.onrender.com/docs
 - Repository: https://github.com/ianmillercollege-bit/UTSA_TECH_09302026
+- Marketing site: https://cirqoai.netlify.app
 
 **Companion deliverable:** `UTSA_5PBP_09292026.pdf` (5-Page Business and Marketing Plan). This tech solution
 implements the Shopping Connector, the Visibility and Accuracy Dashboard, the Verified Data Layer, and the
