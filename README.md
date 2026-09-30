@@ -99,13 +99,13 @@ their own company's dashboard. There is also a "Continue as guest" link, so nobo
 
 **Scale:** 153 fictional opted-in companies (Greek-god names) across headphones, laptops, phones and tablets, and
 computer hardware; 1,500 verified products with real spec sheets; 2,946 verified comparison facts; a dashboard for every
-opted-in company; plus 12 real brands and 25 products listed as not verified.
+opted-in company; plus 12 real brands and 70 products listed as not verified.
 The whole database rebuilds from seed in under a second on every restart.
 
 **Opted in or not:** the catalog holds two kinds of company. The 153 fictional Shopify stores have all opted in: verified
 facts, a dashboard, a login, and every fact they publish is checked and marked **CIRQO Verified**. Alongside them sit
 12 real brands that have not opted in (Apple, Samsung, Sony, Bose, Dell, HP, Lenovo, Microsoft, Google, JBL, Logitech,
-Corsair) with 25 well-known products listed from public data: approximate facts, every one marked **Not CIRQO
+Corsair) with 70 well-known products listed from public data: approximate facts, every one marked **Not CIRQO
 Verified**, in the dashboard and in the assistant's answer, and no dashboard of their own. The assistant ranks both kinds on
 fit alone; nothing about a brand's status ever reaches the ranking code. That is the pitch in one search result: the
 opted-in store's facts carry the badge, the household name's do not.

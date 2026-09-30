@@ -102,9 +102,9 @@
    "brandId": "brand_202",
    "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
+    "computer_hardware",
     "headphones",
-    "phones_tablets",
-    "computer_hardware"
+    "phones_tablets"
    ],
    "hqCity": "Suwon, South Korea",
    "website": "https://public-listings.example/brand_202"
@@ -158,7 +158,8 @@
    "brandId": "brand_208",
    "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
-    "laptops"
+    "laptops",
+    "phones_tablets"
    ],
    "hqCity": "Redmond, WA",
    "website": "https://public-listings.example/brand_208"
@@ -185,7 +186,8 @@
    "brandId": "brand_211",
    "tagline": "Public listing. Not opted into CIRQO: facts are not CIRQO Verified.",
    "categories": [
-    "computer_hardware"
+    "computer_hardware",
+    "headphones"
    ],
    "hqCity": "Lausanne, Switzerland",
    "website": "https://public-listings.example/brand_211"
@@ -1072,6 +1074,1570 @@
    "updatedAt": "2026-09-27T12:00:00Z",
    "factSource": "Public listing (not verified by brand)",
    "factSourceUrl": "https://public-listings.example/brand_202/prod_9025",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9026",
+   "brandId": "brand_201",
+   "name": "Apple AirPods Max Wireless Noise Cancelling Headphones",
+   "price": 549.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headphones",
+   "specs": {
+    "ports": "USB-C charging",
+    "batteryHours": 20,
+    "weightG": 385,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "travel",
+     "music"
+    ],
+    "otherNames": [
+     "AirPods Max"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9026",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9027",
+   "brandId": "brand_203",
+   "name": "Sony WH-CH720N Wireless Noise Cancelling Headphones",
+   "price": 149.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headphones",
+   "specs": {
+    "ports": "USB-C charging, 3.5mm",
+    "batteryHours": 35,
+    "weightG": 192,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "commute",
+     "budget",
+     "school"
+    ],
+    "otherNames": [
+     "Sony CH720N"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_203/prod_9027",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9028",
+   "brandId": "brand_203",
+   "name": "Sony WF-1000XM5 Wireless Noise Cancelling Earbuds",
+   "price": 299.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 8,
+    "weightG": 6,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "travel",
+     "commute",
+     "music"
+    ],
+    "otherNames": [
+     "Sony XM5 earbuds"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_203/prod_9028",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9029",
+   "brandId": "brand_203",
+   "name": "Sony LinkBuds Fit Wireless Earbuds",
+   "price": 199.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 5,
+    "weightG": 5,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gym",
+     "daily"
+    ],
+    "otherNames": [
+     "LinkBuds Fit"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_203/prod_9029",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9030",
+   "brandId": "brand_204",
+   "name": "Bose Ultra Open Wireless Earbuds",
+   "price": 299.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 7,
+    "weightG": 6,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "running",
+     "gym",
+     "daily"
+    ],
+    "otherNames": [
+     "Bose Ultra Open"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_204/prod_9030",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9031",
+   "brandId": "brand_210",
+   "name": "JBL Tune 770NC Wireless Noise Cancelling Headphones",
+   "price": 129.95,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headphones",
+   "specs": {
+    "ports": "USB-C charging, 3.5mm",
+    "batteryHours": 44,
+    "weightG": 232,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "commute",
+     "school",
+     "budget"
+    ],
+    "otherNames": [
+     "JBL 770NC"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_210/prod_9031",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9032",
+   "brandId": "brand_210",
+   "name": "JBL Vibe Beam Wireless Earbuds",
+   "price": 49.95,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 8,
+    "weightG": 5,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "budget",
+     "daily",
+     "school"
+    ],
+    "otherNames": [
+     "Vibe Beam"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_210/prod_9032",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9033",
+   "brandId": "brand_210",
+   "name": "JBL Quantum 100 Wired Gaming Headset",
+   "price": 39.95,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headset",
+   "specs": {
+    "ports": "3.5mm",
+    "batteryHours": 0,
+    "weightG": 220,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "budget"
+    ],
+    "otherNames": [
+     "Quantum 100"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_210/prod_9033",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9034",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy Buds FE Wireless Noise Cancelling Earbuds",
+   "price": 99.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Earbuds",
+   "specs": {
+    "ports": "USB-C charging case",
+    "batteryHours": 6,
+    "weightG": 6,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "commute",
+     "budget",
+     "gym"
+    ],
+    "otherNames": [
+     "Buds FE"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9034",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9035",
+   "brandId": "brand_211",
+   "name": "Logitech G435 Lightspeed Wireless Gaming Headset",
+   "price": 79.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headset",
+   "specs": {
+    "ports": "USB-C charging, Lightspeed receiver, Bluetooth",
+    "batteryHours": 18,
+    "weightG": 165,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "school"
+    ],
+    "otherNames": [
+     "G435"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9035",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9036",
+   "brandId": "brand_211",
+   "name": "Logitech Zone Vibe 100 Wireless Headset",
+   "price": 99.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "headphones",
+   "subcategory": "Headset",
+   "specs": {
+    "ports": "USB-C charging, Bluetooth",
+    "batteryHours": 20,
+    "weightG": 185,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "calls"
+    ],
+    "otherNames": [
+     "Zone Vibe 100"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9036",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9037",
+   "brandId": "brand_201",
+   "name": "Apple MacBook Air 15-inch (M3)",
+   "price": 1299.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Apple M3",
+    "graphics": "Apple M3 10-core GPU",
+    "displayType": "Liquid Retina IPS, 60Hz",
+    "resolution": "2880x1864",
+    "ports": "2x Thunderbolt/USB 4, MagSafe 3, 3.5mm",
+    "operatingSystem": "macOS",
+    "batteryHours": 18,
+    "weightG": 1510,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "school",
+     "media"
+    ],
+    "otherNames": [
+     "MacBook Air 15"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9037",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9038",
+   "brandId": "brand_201",
+   "name": "Apple MacBook Pro 14-inch (M4)",
+   "price": 1599.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Apple M4",
+    "graphics": "Apple M4 10-core GPU",
+    "displayType": "Liquid Retina XDR, 120Hz",
+    "resolution": "3024x1964",
+    "ports": "3x Thunderbolt 4, HDMI, SDXC, MagSafe 3, 3.5mm",
+    "operatingSystem": "macOS",
+    "batteryHours": 22,
+    "weightG": 1550,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "media",
+     "gaming"
+    ],
+    "otherNames": [
+     "MacBook Pro 14"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9038",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9039",
+   "brandId": "brand_205",
+   "name": "Dell Inspiron 14 2-in-1 Touchscreen",
+   "price": 699.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core 5 120U",
+    "graphics": "Intel Graphics",
+    "displayType": "IPS touchscreen, 60Hz",
+    "resolution": "1920x1200",
+    "ports": "1x USB-A, 2x USB-C, HDMI 1.4, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 9,
+    "weightG": 1570,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "home"
+    ],
+    "otherNames": [
+     "Inspiron 14 2-in-1"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_205/prod_9039",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9040",
+   "brandId": "brand_205",
+   "name": "Alienware m16 R2 Gaming Laptop",
+   "price": 1499.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core Ultra 7 155H",
+    "graphics": "NVIDIA GeForce RTX 4060",
+    "displayType": "IPS, 240Hz",
+    "resolution": "2560x1600",
+    "ports": "2x USB-A, 2x Thunderbolt 4, HDMI 2.1, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 6,
+    "weightG": 2600,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "media"
+    ],
+    "otherNames": [
+     "Alienware m16"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_205/prod_9040",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9041",
+   "brandId": "brand_206",
+   "name": "HP OmniBook X 14 (Snapdragon X Elite)",
+   "price": 1149.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Snapdragon X Elite",
+    "graphics": "Qualcomm Adreno",
+    "displayType": "IPS touchscreen, 60Hz",
+    "resolution": "2240x1400",
+    "ports": "2x USB-C 4, 1x USB-A",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 22,
+    "weightG": 1340,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "travel"
+    ],
+    "otherNames": [
+     "OmniBook X"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_206/prod_9041",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9042",
+   "brandId": "brand_206",
+   "name": "HP Chromebook 14 (Intel N100)",
+   "price": 279.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel N100",
+    "graphics": "Intel UHD Graphics",
+    "displayType": "IPS, 60Hz",
+    "resolution": "1920x1080",
+    "ports": "2x USB-C, 1x USB-A, 3.5mm",
+    "operatingSystem": "ChromeOS",
+    "batteryHours": 11,
+    "weightG": 1450,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "budget",
+     "kids"
+    ],
+    "otherNames": [
+     "HP Chromebook 14"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_206/prod_9042",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9043",
+   "brandId": "brand_207",
+   "name": "Lenovo Yoga 7i 14 2-in-1",
+   "price": 849.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core Ultra 5 125U",
+    "graphics": "Intel Graphics",
+    "displayType": "OLED touchscreen, 60Hz",
+    "resolution": "1920x1200",
+    "ports": "2x Thunderbolt 4, 1x USB-A, HDMI 2.1, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 12,
+    "weightG": 1500,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "work",
+     "media"
+    ],
+    "otherNames": [
+     "Yoga 7i"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_207/prod_9043",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9044",
+   "brandId": "brand_207",
+   "name": "Lenovo Legion 5i 15 Gaming Laptop",
+   "price": 1299.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Intel Core i7-14650HX",
+    "graphics": "NVIDIA GeForce RTX 4060",
+    "displayType": "IPS, 165Hz",
+    "resolution": "2560x1600",
+    "ports": "4x USB-A, 2x USB-C, HDMI 2.1, 3.5mm",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 5,
+    "weightG": 2400,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "media"
+    ],
+    "otherNames": [
+     "Legion 5i"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_207/prod_9044",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9045",
+   "brandId": "brand_208",
+   "name": "Microsoft Surface Pro 11 (Snapdragon X Plus)",
+   "price": 999.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "laptops",
+   "subcategory": "Laptop",
+   "specs": {
+    "processor": "Snapdragon X Plus",
+    "graphics": "Qualcomm Adreno",
+    "displayType": "PixelSense touchscreen, 120Hz",
+    "resolution": "2880x1920",
+    "ports": "2x USB-C 4, Surface Connect",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 14,
+    "weightG": 895,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "travel",
+     "school"
+    ],
+    "otherNames": [
+     "Surface Pro 11"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_208/prod_9045",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9046",
+   "brandId": "brand_201",
+   "name": "Apple iPhone 16",
+   "price": 799.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Apple A18",
+    "graphics": "Integrated",
+    "displayType": "Super Retina XDR OLED, 60Hz",
+    "resolution": "2556x1179",
+    "ports": "USB-C",
+    "operatingSystem": "iOS",
+    "batteryHours": 22,
+    "weightG": 170,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "daily",
+     "photos"
+    ],
+    "otherNames": [
+     "iPhone 16"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9046",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9047",
+   "brandId": "brand_201",
+   "name": "Apple iPhone 16e",
+   "price": 599.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Apple A18",
+    "graphics": "Integrated",
+    "displayType": "Super Retina XDR OLED, 60Hz",
+    "resolution": "2532x1170",
+    "ports": "USB-C",
+    "operatingSystem": "iOS",
+    "batteryHours": 26,
+    "weightG": 167,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "daily",
+     "budget"
+    ],
+    "otherNames": [
+     "iPhone 16e"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9047",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9048",
+   "brandId": "brand_201",
+   "name": "Apple iPad Air 11-inch (M3)",
+   "price": 599.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Apple M3",
+    "graphics": "Integrated",
+    "displayType": "Liquid Retina IPS, 60Hz",
+    "resolution": "2360x1640",
+    "ports": "USB-C",
+    "operatingSystem": "iPadOS",
+    "batteryHours": 10,
+    "weightG": 460,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "work",
+     "media"
+    ],
+    "otherNames": [
+     "iPad Air M3"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9048",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9049",
+   "brandId": "brand_201",
+   "name": "Apple iPad mini (A17 Pro)",
+   "price": 499.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Apple A17 Pro",
+    "graphics": "Integrated",
+    "displayType": "Liquid Retina IPS, 60Hz",
+    "resolution": "2266x1488",
+    "ports": "USB-C",
+    "operatingSystem": "iPadOS",
+    "batteryHours": 10,
+    "weightG": 293,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "reading",
+     "travel"
+    ],
+    "otherNames": [
+     "iPad mini"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_201/prod_9049",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9050",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy S25",
+   "price": 799.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Snapdragon 8 Elite for Galaxy",
+    "graphics": "Integrated",
+    "displayType": "Dynamic AMOLED 2X, 120Hz",
+    "resolution": "2340x1080",
+    "ports": "USB-C",
+    "operatingSystem": "Android",
+    "batteryHours": 25,
+    "weightG": 162,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "daily",
+     "photos"
+    ],
+    "otherNames": [
+     "Galaxy S25"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9050",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9051",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy A16 5G",
+   "price": 199.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Samsung Exynos 1330",
+    "graphics": "Integrated",
+    "displayType": "Super AMOLED, 90Hz",
+    "resolution": "2340x1080",
+    "ports": "USB-C, microSD slot",
+    "operatingSystem": "Android",
+    "batteryHours": 24,
+    "weightG": 200,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "budget",
+     "daily",
+     "kids"
+    ],
+    "otherNames": [
+     "Galaxy A16"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9051",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9052",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy Tab A9+ 11-inch",
+   "price": 219.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Qualcomm Snapdragon 695",
+    "graphics": "Integrated",
+    "displayType": "IPS LCD, 90Hz",
+    "resolution": "1920x1200",
+    "ports": "USB-C, microSD slot",
+    "operatingSystem": "Android",
+    "batteryHours": 10,
+    "weightG": 480,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "kids",
+     "media",
+     "budget"
+    ],
+    "otherNames": [
+     "Tab A9 Plus"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9052",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9053",
+   "brandId": "brand_202",
+   "name": "Samsung Galaxy Tab S10 FE 10.9-inch",
+   "price": 499.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Samsung Exynos 1580",
+    "graphics": "Integrated",
+    "displayType": "IPS LCD, 90Hz",
+    "resolution": "2304x1440",
+    "ports": "USB-C, microSD slot",
+    "operatingSystem": "Android",
+    "batteryHours": 12,
+    "weightG": 497,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "work",
+     "media"
+    ],
+    "otherNames": [
+     "Tab S10 FE"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9053",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9054",
+   "brandId": "brand_209",
+   "name": "Google Pixel 9",
+   "price": 799.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Google Tensor G4",
+    "graphics": "Integrated",
+    "displayType": "OLED, 120Hz",
+    "resolution": "2424x1080",
+    "ports": "USB-C",
+    "operatingSystem": "Android",
+    "batteryHours": 24,
+    "weightG": 198,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "daily",
+     "photos"
+    ],
+    "otherNames": [
+     "Pixel 9"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_209/prod_9054",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9055",
+   "brandId": "brand_209",
+   "name": "Google Pixel 9a",
+   "price": 499.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Smartphone",
+   "specs": {
+    "processor": "Google Tensor G4",
+    "graphics": "Integrated",
+    "displayType": "OLED, 120Hz",
+    "resolution": "2424x1080",
+    "ports": "USB-C",
+    "operatingSystem": "Android",
+    "batteryHours": 30,
+    "weightG": 186,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "daily",
+     "budget",
+     "photos"
+    ],
+    "otherNames": [
+     "Pixel 9a"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_209/prod_9055",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9056",
+   "brandId": "brand_209",
+   "name": "Google Pixel Tablet 11-inch",
+   "price": 399.0,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Google Tensor G2",
+    "graphics": "Integrated",
+    "displayType": "IPS LCD, 60Hz",
+    "resolution": "2560x1600",
+    "ports": "USB-C",
+    "operatingSystem": "Android",
+    "batteryHours": 12,
+    "weightG": 493,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "home",
+     "media"
+    ],
+    "otherNames": [
+     "Pixel Tablet"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_209/prod_9056",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9057",
+   "brandId": "brand_208",
+   "name": "Microsoft Surface Go 4",
+   "price": 579.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "phones_tablets",
+   "subcategory": "Tablet",
+   "specs": {
+    "processor": "Intel N200",
+    "graphics": "Integrated",
+    "displayType": "IPS touchscreen, 60Hz",
+    "resolution": "1920x1280",
+    "ports": "1x USB-C, Surface Connect, microSD slot",
+    "operatingSystem": "Windows 11",
+    "batteryHours": 12,
+    "weightG": 521,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "school",
+     "work",
+     "travel"
+    ],
+    "otherNames": [
+     "Surface Go 4"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_208/prod_9057",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9058",
+   "brandId": "brand_211",
+   "name": "Logitech MX Keys S Wireless Keyboard",
+   "price": 109.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Keyboard",
+   "specs": {
+    "processor": "Low-profile scissor keys, backlit",
+    "ports": "USB-C charging, Bolt receiver, Bluetooth",
+    "weightG": 810,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "PC building"
+    ],
+    "otherNames": [
+     "MX Keys S"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9058",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9059",
+   "brandId": "brand_211",
+   "name": "Logitech G502 X Lightspeed Wireless Gaming Mouse",
+   "price": 139.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Mouse",
+   "specs": {
+    "processor": "HERO 25K sensor",
+    "ports": "USB-C charging, Lightspeed receiver",
+    "weightG": 102,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "G502 X"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9059",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9060",
+   "brandId": "brand_211",
+   "name": "Logitech Brio 4K Webcam",
+   "price": 199.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Webcam",
+   "specs": {
+    "processor": "4K 30fps / 1080p 60fps sensor, HDR",
+    "ports": "USB-C",
+    "weightG": 63,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "streaming"
+    ],
+    "otherNames": [
+     "Brio 4K"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9060",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9061",
+   "brandId": "brand_211",
+   "name": "Logitech G Pro X Superlight 2 Wireless Gaming Mouse",
+   "price": 159.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Mouse",
+   "specs": {
+    "processor": "HERO 2 sensor",
+    "ports": "USB-C charging, Lightspeed receiver",
+    "weightG": 60,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming"
+    ],
+    "otherNames": [
+     "Superlight 2"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_211/prod_9061",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9062",
+   "brandId": "brand_212",
+   "name": "Corsair K70 Core RGB Mechanical Gaming Keyboard",
+   "price": 99.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Keyboard",
+   "specs": {
+    "processor": "Corsair MLX Red linear switches",
+    "ports": "USB-A (detachable USB-C)",
+    "weightG": 950,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "K70 Core"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9062",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9063",
+   "brandId": "brand_212",
+   "name": "Corsair 4000D Airflow Mid-Tower PC Case",
+   "price": 104.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "PC Case",
+   "specs": {
+    "processor": "Steel and tempered glass, 2x 120mm fans included",
+    "ports": "2x USB-A 3.0 front, 1x USB-C front",
+    "weightG": 7800,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "4000D Airflow"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9063",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9064",
+   "brandId": "brand_212",
+   "name": "Corsair iCUE H100i RGB Elite 240mm Liquid CPU Cooler",
+   "price": 139.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Cooling",
+   "specs": {
+    "processor": "240mm radiator, 2x 120mm fans",
+    "ports": "Intel LGA1700/1851, AMD AM4/AM5",
+    "weightG": 1300,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "H100i Elite"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9064",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9065",
+   "brandId": "brand_212",
+   "name": "Corsair Vengeance DDR5 64GB (2x32GB) 6000MHz",
+   "price": 199.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Memory",
+   "specs": {
+    "processor": "DDR5-6000 CL30",
+    "ports": "DIMM 288-pin",
+    "weightG": 90,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "Vengeance 64GB"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9065",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9066",
+   "brandId": "brand_212",
+   "name": "Corsair MP600 Elite 2TB NVMe SSD",
+   "price": 159.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Storage",
+   "specs": {
+    "processor": "PCIe 4.0 controller",
+    "ports": "M.2 2280, PCIe 4.0 x4",
+    "weightG": 9,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "work",
+     "PC building"
+    ],
+    "otherNames": [
+     "MP600 Elite"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9066",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9067",
+   "brandId": "brand_212",
+   "name": "Corsair iCUE AF120 RGB Elite Case Fans (3-pack)",
+   "price": 99.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Case Fans",
+   "specs": {
+    "processor": "3x 120mm PWM fans",
+    "ports": "4-pin PWM, iCUE Link hub",
+    "weightG": 600,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "PC building"
+    ],
+    "otherNames": [
+     "AF120 Elite"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_212/prod_9067",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9068",
+   "brandId": "brand_202",
+   "name": "Samsung Odyssey G5 27-inch QHD 165Hz Gaming Monitor",
+   "price": 249.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Monitor",
+   "specs": {
+    "processor": "VA panel, 27in, 2560x1440, 165Hz, 1ms",
+    "ports": "2x HDMI 2.0, 1x DisplayPort 1.2",
+    "weightG": 5000,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "work"
+    ],
+    "otherNames": [
+     "Odyssey G5"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9068",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9069",
+   "brandId": "brand_202",
+   "name": "Samsung ViewFinity S6 27-inch QHD Monitor",
+   "price": 299.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Monitor",
+   "specs": {
+    "processor": "IPS panel, 27in, 2560x1440, 100Hz",
+    "ports": "HDMI 2.0, DisplayPort 1.2, USB-C 90W, USB hub",
+    "weightG": 6100,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "work",
+     "home"
+    ],
+    "otherNames": [
+     "ViewFinity S6"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9069",
+   "verifiedAt": "2026-09-27T12:00:00Z"
+  },
+  {
+   "productId": "prod_9070",
+   "brandId": "brand_202",
+   "name": "Samsung 990 EVO Plus 2TB NVMe SSD",
+   "price": 149.99,
+   "currency": "USD",
+   "availability": "in_stock",
+   "category": "computer_hardware",
+   "subcategory": "Storage",
+   "specs": {
+    "processor": "Samsung Piccolo controller",
+    "ports": "M.2 2280, PCIe 5.0 x2 / 4.0 x4",
+    "weightG": 9,
+    "warranty": "1 year limited",
+    "certifications": [
+     "FCC",
+     "CE"
+    ],
+    "useCaseTags": [
+     "gaming",
+     "work",
+     "PC building"
+    ],
+    "otherNames": [
+     "990 EVO Plus"
+    ]
+   },
+   "returnPolicyDays": 14,
+   "updatedAt": "2026-09-27T12:00:00Z",
+   "factSource": "Public listing (not verified by brand)",
+   "factSourceUrl": "https://public-listings.example/brand_202/prod_9070",
    "verifiedAt": "2026-09-27T12:00:00Z"
   }
  ]

@@ -43,7 +43,7 @@ def test_seed_scale(seeded):
         assert sum(1 for b in brands if b.opted_in) == 153 and sum(1 for b in brands if not b.opted_in) == 12
         sheet_products = db.scalar(select(func.count()).select_from(Product).where(Product.product_id.like("prod_%-%")))
         assert sheet_products == 1500
-        assert db.scalar(select(func.count()).select_from(Product)) == 1537  # plus the 12 originals and 25 listings
+        assert db.scalar(select(func.count()).select_from(Product)) == 1582  # plus the 12 originals and 70 listings
 
         # Every opted-in brand has at least one admin, a trend and incidents; public listings have none.
         admins = {u.brand_id for u in db.scalars(select(User)).all() if u.brand_id}

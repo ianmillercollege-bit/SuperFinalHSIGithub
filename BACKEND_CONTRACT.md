@@ -512,7 +512,7 @@ dashboard, and they see the interactions. The catalog therefore contains **both*
   product `verified: true` with `factSource: "Brand product feed"` and `verifiedAt` now, starts an empty trend, and
   audits `brand_claimed`. 409 if already opted in. Response is the `/brands/onboard` shape plus `optedIn: true`.
 - **Seed split:** of the 150 sheet companies, the 60 with the lowest sheet ids per category are opted in (Kestrel,
-  Arcton, Novex too); the other 90 are not. **v1.7 (decision 46): every fictional company is opted in; the not-opted-in brands are 12 real ones from `seed/data/public_listings.json` (25 products).** `GET /brands` (staff) and `GET /brands/{id}` show `optedIn`. Login pages list
+  Arcton, Novex too); the other 90 are not. **v1.7 (decision 46): every fictional company is opted in; the not-opted-in brands are 12 real ones from `seed/data/public_listings.json` (70 products).** `GET /brands` (staff) and `GET /brands/{id}` show `optedIn`. Login pages list
   only opted-in companies. `GET /products?optedIn=false` filters.
 - **Privacy:** shopper preferences (budget, use, must-haves) live in the assistant conversation only. CIRQO stores the
   question, the constraints sent, and which products were returned. No shopper identity, ever.
