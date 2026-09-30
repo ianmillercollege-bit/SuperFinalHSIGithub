@@ -688,7 +688,7 @@ class OnboardProductIn(CamelModel):
 class OnboardIn(CamelModel):
     brand_name: str = Field(max_length=100)
     owner_name: str = Field(max_length=C.MAX_NAME_CHARS)
-    products: list[OnboardProductIn] = Field(min_length=1, max_length=50)
+    products: list[OnboardProductIn] = Field(min_length=1)
 
     @field_validator("brand_name", "owner_name")
     @classmethod

@@ -517,14 +517,16 @@ export interface OnboardProduct {
   name: string;
   price: number;
   availability?: Availability;
-  specs?: { batteryHours?: number; weightLb?: number; screenInches?: number };
+  category?: ProductCategory;
+  subcategory?: string;
+  specs?: { ramGb?: number; storageGb?: number; batteryHours?: number; weightLb?: number; screenInches?: number };
   returnPolicyDays?: number;
 }
 
 export interface OnboardRequest {
   brandName: string;
   ownerName: string;
-  /** 1 to 50 products. */
+  /** 1 or more products; no upper limit. */
   products: OnboardProduct[];
 }
 

@@ -5,12 +5,16 @@ import Dropdown from "@/components/Dropdown";
 import { ErrorNotice } from "@/components/LoadState";
 import { ApiError, onboardBrand } from "@/lib/api";
 import { signInAs } from "@/lib/auth/brandSession";
-import { AVAILABILITY_VALUES, MAX_PRODUCTS, emptyRow, parseCatalogCsv } from "@/lib/catalogCsv";
+import { AVAILABILITY_VALUES, emptyRow, parseCatalogCsv, parseCatalogXlsx } from "@/lib/catalogCsv";
 import type { CatalogRow } from "@/lib/catalogCsv";
+import { PRODUCT_CATEGORIES } from "@/lib/categories";
 import { AVAILABILITY_LABELS } from "@/lib/labels";
 import type { OnboardProduct, OnboardRequest, OnboardResponse } from "@/lib/types";
 
-const MAX_CSV_BYTES = 200_000;
+const MAX_FILE_BYTES = 25_000_000;
+const PAGE_SIZE = 100; // rows shown at once; every row is still sent
+
+const isExcel = (file: File) => /\.xlsx$/i.test(file.name) || file.type.includes("spreadsheetml");
 
 /** Turns the text in a table row into the contract's product, or explains what is wrong with it. */
 function toProduct(row: CatalogRow, number: number): { product?: OnboardProduct; problem?: string } {
@@ -27,9 +31,13 @@ function toProduct(row: CatalogRow, number: number): { product?: OnboardProduct;
   const weight = optional(row.weightLb, "weight");
   const screen = optional(row.screenInches, "screen size");
   const returns = optional(row.returnPolicyDays, "return days");
-  const problem = battery.problem ?? weight.problem ?? screen.problem ?? returns.problem;
+  const ram = optional(row.ramGb, "RAM");
+  const storage = optional(row.storageGb, "storage");
+  const problem = battery.problem ?? weight.problem ?? screen.problem ?? returns.problem ?? ram.problem ?? storage.problem;
   if (problem) return { problem };
   const specs = {
+    ...(ram.value !== undefined ? { ramGb: ram.value } : {}),
+    ...(storage.value !== undefined ? { storageGb: storage.value } : {}),
     ...(battery.value !== undefined ? { batteryHours: battery.value } : {}),
     ...(weight.value !== undefined ? { weightLb: weight.value } : {}),
     ...(screen.value !== undefined ? { screenInches: screen.value } : {}),
@@ -39,6 +47,8 @@ function toProduct(row: CatalogRow, number: number): { product?: OnboardProduct;
       name,
       price,
       availability: row.availability,
+      category: row.category,
+      ...(row.subcategory.trim() ? { subcategory: row.subcategory.trim() } : {}),
       ...(Object.keys(specs).length ? { specs } : {}),
       ...(returns.value !== undefined ? { returnPolicyDays: returns.value } : {}),
     },
@@ -60,6 +70,7 @@ export default function ConnectCatalog() {
   const [ownerName, setOwnerName] = useState("");
   const [rows, setRows] = useState<CatalogRow[]>([emptyRow()]);
   const [problems, setProblems] = useState<string[]>([]);
+  const [page, setPage] = useState(0);
   const [csvNotes, setCsvNotes] = useState<string[]>([]);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<unknown>(undefined);
@@ -68,14 +79,15 @@ export default function ConnectCatalog() {
   const update = (index: number, change: Partial<CatalogRow>) =>
     setRows((list) => list.map((r, i) => (i === index ? { ...r, ...change } : r)));
 
-  async function loadCsv(file: File | undefined) {
+  async function loadFile(file: File | undefined) {
     if (!file) return;
-    if (file.size > MAX_CSV_BYTES) return setCsvNotes([`That file is too large (limit ${MAX_CSV_BYTES / 1000} KB).`]);
-    const { rows: parsed, problems: notes } = parseCatalogCsv(await file.text());
-    const notes2 = [...notes];
-    if (parsed.length > MAX_PRODUCTS) notes2.push(`Only the first ${MAX_PRODUCTS} products were kept.`);
-    if (parsed.length > 0) setRows(parsed.slice(0, MAX_PRODUCTS));
-    setCsvNotes(parsed.length > 0 ? [`Loaded ${Math.min(parsed.length, MAX_PRODUCTS)} products from ${file.name}. Check them below.`, ...notes2] : notes2);
+    if (file.size > MAX_FILE_BYTES) return setCsvNotes([`That file is too large (limit ${MAX_FILE_BYTES / 1_000_000} MB).`]);
+    const { rows: parsed, problems: notes } = isExcel(file) ? await parseCatalogXlsx(file) : parseCatalogCsv(await file.text());
+    if (parsed.length > 0) {
+      setRows(parsed);
+      setPage(0);
+    }
+    setCsvNotes(parsed.length > 0 ? [`Loaded ${parsed.length.toLocaleString()} products from ${file.name}. Check them below.`, ...notes.slice(0, 20), ...(notes.length > 20 ? [`…and ${notes.length - 20} more notes.`] : [])] : notes);
   }
 
   async function submit(event: React.FormEvent) {
@@ -89,7 +101,7 @@ export default function ConnectCatalog() {
       if (problem) found.push(problem);
       else if (product) products.push(product);
     });
-    setProblems(found);
+    setProblems(found.length > 20 ? [...found.slice(0, 20), `…and ${found.length - 20} more to fix.`] : found);
     if (found.length > 0) return;
     const body: OnboardRequest = { brandName: brandName.trim(), ownerName: ownerName.trim(), products };
     setSending(true);
@@ -153,15 +165,21 @@ export default function ConnectCatalog() {
 
       <section className="card stack">
         <div className="filters">
-          <h2 className="grow">Products ({rows.length} of {MAX_PRODUCTS} at most)</h2>
+          <h2 className="grow">Products ({rows.length.toLocaleString()})</h2>
           <label className="button button-secondary file-button">
-            Upload a CSV
-            <input type="file" accept=".csv,text/csv" onChange={(e) => { void loadCsv(e.target.files?.[0]); e.target.value = ""; }} />
+            Upload Excel or CSV
+            <input
+              type="file"
+              accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              onChange={(e) => { void loadFile(e.target.files?.[0]); e.target.value = ""; }}
+            />
           </label>
         </div>
         <p className="muted small">
-          CSV columns: name, price, availability, batteryHours, weightLb, screenInches, returnPolicyDays. Only name and price
-          are required. Availability is in_stock, low_stock or out_of_stock.
+          Upload an .xlsx or .csv with one product per row and a header row. We match columns by name, in any order
+          (name, price, availability or stock, category, subcategory, RAM, storage, battery, weight, screen, return days),
+          fill in the table below and ignore what we do not use. Only name and price are required. There is no limit on
+          the number of products.
         </p>
         {csvNotes.length > 0 && (
           <ul className="notes" role="status">
@@ -177,6 +195,10 @@ export default function ConnectCatalog() {
                 <th>Name</th>
                 <th>Price (USD)</th>
                 <th>Availability</th>
+                <th>Category</th>
+                <th>Subcategory</th>
+                <th>RAM (GB)</th>
+                <th>Storage (GB)</th>
                 <th>Battery (hours)</th>
                 <th>Weight (lb)</th>
                 <th>Screen (inches)</th>
@@ -187,7 +209,9 @@ export default function ConnectCatalog() {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row, i) => (
+              {rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE).map((row, offset) => {
+                const i = page * PAGE_SIZE + offset;
+                return (
                 <tr key={i}>
                   <td>
                     <input aria-label={`Product ${i + 1} name`} value={row.name} onChange={(e) => update(i, { name: e.target.value })} />
@@ -206,6 +230,25 @@ export default function ConnectCatalog() {
                     />
                   </td>
                   <td>
+                    <Dropdown
+                      label={`Product ${i + 1} category`}
+                      hideLabel
+                      compact
+                      value={row.category}
+                      onChange={(v) => update(i, { category: v as CatalogRow["category"] })}
+                      options={PRODUCT_CATEGORIES.map((c) => ({ value: c.value, label: c.label }))}
+                    />
+                  </td>
+                  <td>
+                    <input aria-label={`Product ${i + 1} subcategory`} value={row.subcategory} onChange={(e) => update(i, { subcategory: e.target.value })} />
+                  </td>
+                  <td>
+                    <input aria-label={`Product ${i + 1} RAM in GB`} inputMode="decimal" value={row.ramGb} onChange={(e) => update(i, { ramGb: e.target.value })} />
+                  </td>
+                  <td>
+                    <input aria-label={`Product ${i + 1} storage in GB`} inputMode="decimal" value={row.storageGb} onChange={(e) => update(i, { storageGb: e.target.value })} />
+                  </td>
+                  <td>
                     <input aria-label={`Product ${i + 1} battery hours`} inputMode="decimal" value={row.batteryHours} onChange={(e) => update(i, { batteryHours: e.target.value })} />
                   </td>
                   <td>
@@ -218,19 +261,45 @@ export default function ConnectCatalog() {
                     <input aria-label={`Product ${i + 1} return days`} inputMode="numeric" value={row.returnPolicyDays} onChange={(e) => update(i, { returnPolicyDays: e.target.value })} />
                   </td>
                   <td>
-                    <button type="button" className="link-button" onClick={() => setRows((list) => (list.length > 1 ? list.filter((_, j) => j !== i) : [emptyRow()]))} aria-label={`Remove product ${i + 1}`}>
+                    <button type="button" className="link-button" onClick={() => {
+                        setRows((list) => (list.length > 1 ? list.filter((_, j) => j !== i) : [emptyRow()]));
+                        if (offset === 0 && page > 0 && i === rows.length - 1) setPage(page - 1);
+                      }} aria-label={`Remove product ${i + 1}`}>
                       Remove
                     </button>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
         <div>
-          <button type="button" className="button button-secondary" disabled={rows.length >= MAX_PRODUCTS} onClick={() => setRows((list) => [...list, emptyRow()])}>
-            Add a product
-          </button>
+          <div className="button-row">
+            <button
+              type="button"
+              className="button button-secondary"
+              onClick={() => {
+                setRows((list) => [...list, emptyRow()]);
+                setPage(Math.floor(rows.length / PAGE_SIZE));
+              }}
+            >
+              Add a product
+            </button>
+            {rows.length > PAGE_SIZE && (
+              <>
+                <button type="button" className="button button-secondary" disabled={page === 0} onClick={() => setPage(page - 1)}>
+                  Previous
+                </button>
+                <span className="muted small" role="status">
+                  Showing {page * PAGE_SIZE + 1}–{Math.min(rows.length, (page + 1) * PAGE_SIZE)} of {rows.length.toLocaleString()}
+                </span>
+                <button type="button" className="button button-secondary" disabled={(page + 1) * PAGE_SIZE >= rows.length} onClick={() => setPage(page + 1)}>
+                  Next
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </section>
 
