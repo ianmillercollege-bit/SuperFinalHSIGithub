@@ -6,7 +6,7 @@ import AccountCombobox from "@/components/AccountCombobox";
 import BrandLockup from "@/components/screens/BrandLockup";
 import { Field, SampleBadge } from "@/components/screens/ui";
 import { getDemoAccounts } from "@/lib/api";
-import { DEMO_LOGINS, DEMO_PASSWORD } from "@/lib/auth/demoAccounts";
+import { COMMUNITY_LOGINS, DEMO_LOGINS, DEMO_PASSWORD } from "@/lib/auth/demoAccounts";
 import { continueAsGuest, signInWithPassword } from "@/lib/auth/signIn";
 import { useApi } from "@/lib/useApi";
 
@@ -29,12 +29,17 @@ export default function LoginScreen() {
 
   const options = useMemo(() => {
     const local = DEMO_LOGINS.map((a) => ({ name: a.name, role: a.role, username: a.username }));
+    const partners = COMMUNITY_LOGINS.map((a) => ({ name: a.name, role: a.role, username: a.username }));
     const fromBackend = (accounts.data?.accounts ?? [])
       // v1.5: login lists only opted-in companies (a missing flag means the backend is older, and its list is already opted-in only).
       .filter((a) => a.optedIn !== false)
       .filter((a) => a.username && !local.some((l) => l.username.toLowerCase() === a.username!.toLowerCase()))
       .map((a) => ({ name: a.brandName, role: a.role === "owner" ? "Brand Data Owner" : "Viewer", username: a.username! }));
-    return [...local, ...fromBackend];
+    // Partner rows sent by the backend (contract v1.6) replace the sample ones, which exist only until it ships.
+    const backendPartners = (accounts.data?.accounts ?? [])
+      .filter((a) => a.orgName && a.username)
+      .map((a) => ({ name: a.orgName!, role: "Community Partner", username: a.username! }));
+    return [...local, ...fromBackend.filter((a) => !backendPartners.some((p) => p.username === a.username)), ...(backendPartners.length > 0 ? backendPartners : partners)];
   }, [accounts.data]);
 
   async function submit(event: React.FormEvent) {
@@ -49,7 +54,7 @@ export default function LoginScreen() {
     setSubmitting(false);
     if (result.error) return setError(result.error);
     // A full load, so every page starts fresh for the signed-in person and company. Only same-site paths are followed.
-    window.location.assign(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
+    window.location.assign(next && next.startsWith("/") && !next.startsWith("//") ? next : (result.landing ?? "/dashboard"));
   }
 
   return (

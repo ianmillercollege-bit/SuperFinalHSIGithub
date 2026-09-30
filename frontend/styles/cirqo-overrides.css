@@ -110,7 +110,7 @@ a.cq-stat:focus-visible,
    (the kit's fixed sizes need about 980px). On a phone the sidebar is stacked above the page and this does not apply. */
 @media (min-width: 761px) {
   .cq-sidebar {
-    --logo-w: clamp(120px, 21vh, 180px);
+    --logo-w: clamp(96px, 16vh, 180px);
     padding: clamp(10px, 2vh, 22px) 12px;
     gap: clamp(8px, 1.8vh, 18px);
   }
@@ -129,7 +129,7 @@ a.cq-stat:focus-visible,
 
   /* The kit sets this gap inline, so it needs !important. */
   .cq-sidebar > nav {
-    gap: clamp(6px, 1.5vh, 16px) !important;
+    gap: clamp(4px, 1.1vh, 16px) !important;
   }
 
   .cq-nav-label {
@@ -137,8 +137,8 @@ a.cq-stat:focus-visible,
   }
 
   .cq-nav-item {
-    min-height: clamp(26px, 4.3vh, 44px);
-    font-size: clamp(12.5px, 1.85vh, 14px);
+    min-height: clamp(22px, 3.3vh, 44px);
+    font-size: clamp(12px, 1.75vh, 14px);
   }
 
   .cq-claims {
@@ -179,8 +179,8 @@ a.cq-stat:focus-visible,
   }
 
   .cq-nav-item {
-    min-height: 24px;
-    font-size: 12.5px;
+    min-height: 22px;
+    font-size: 12px;
   }
 
   .cq-claims {
@@ -208,6 +208,30 @@ a.cq-stat:focus-visible,
   .cq-user-role {
     font-size: 11.5px;
   }
+}
+
+/* Very short windows: rows tighten once more. The sidebar never shows a scrollbar; below about 520px tall a phone-style stack is used. */
+@media (min-width: 761px) and (max-height: 620px) {
+  .cq-nav-item {
+    min-height: 20px;
+    font-size: 11.5px;
+  }
+
+  .cq-sidebar > nav {
+    gap: 2px !important;
+  }
+
+  .cq-sidebar {
+    --logo-w: 88px;
+  }
+}
+
+.cq-sidebar {
+  scrollbar-width: none;
+}
+
+.cq-sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 /* ---- Sign-in page: a centered, balanced layout for the kit's LoginView ---- */
@@ -438,4 +462,15 @@ a.cq-stat:focus-visible,
 .cq-card .dd-option,
 .cq-login-card .dd-option {
   border-radius: 6px;
+}
+
+/* Community pages (contract v1.6). */
+.block {
+  display: block;
+}
+
+.plain-list {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
 }

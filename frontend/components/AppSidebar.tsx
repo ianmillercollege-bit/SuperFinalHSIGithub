@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import type { NavGroup as KitNavGroup } from "@/components/dashboard/Sidebar";
 import { API_URL, checkHealth, getIncidents } from "@/lib/api";
-import { useBrandSession } from "@/lib/auth/brandSession";
+import { signOutBrand, useBrandSession } from "@/lib/auth/brandSession";
 import { forgetLogin } from "@/lib/auth/signIn";
 import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
@@ -33,6 +33,11 @@ export default function AppSidebar() {
   const { reload } = open;
   useEffect(() => onIncidentsChanged(reload), [reload]);
 
+  // Signed out means no company either: clear a company left over from an earlier sign-in (it kept showing after "Sign out").
+  useEffect(() => {
+    if (!user && brand) signOutBrand();
+  }, [user, brand]);
+
   const [health, setHealth] = useState<Health>("checking");
   useEffect(() => {
     let cancelled = false;
@@ -44,15 +49,19 @@ export default function AppSidebar() {
     };
   }, []);
 
-  const groups: KitNavGroup[] = NAV.map((group) => ({
+  const partner = Boolean(user?.partner);
+  const groups: KitNavGroup[] = NAV.filter((group) => !(partner && group.brandOnly)).map((group) => ({
     title: group.title,
     tone: group.tone,
-    items: group.items.filter((item) => !item.staffOnly || user?.staff).map((item) => ({
+    items: group.items.filter((item) => (!item.staffOnly || user?.staff) && (!item.partnerOrStaff || partner || user?.staff)).map((item) => ({
       label: item.label,
       href: item.href,
       ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
     })),
   }));
+
+  // With nobody signed in there is no Sign out button, so the sidebar offers the way back to the sign-in page.
+  if (!user) groups.push({ title: "Account", tone: "default", items: [{ label: "Sign in", href: "/login" }] });
 
   const backend = !API_URL
     ? { state: "notConfigured" as const, label: "Backend: not set" }
@@ -71,7 +80,7 @@ export default function AppSidebar() {
             ? user.title ?? (user.role === "owner" ? "Owner" : "Viewer")
             : `${user.title?.split(" · ")[0] ?? (user.role === "owner" ? "Owner" : "Viewer")} (sample sign-in)`
           : "Guest",
-        business: brand?.brandName ?? BUSINESS.name,
+        business: user?.partner ? user.partner.orgName : (brand?.brandName ?? BUSINESS.name),
       }}
       backend={backend}
       // Sign out exists (decision 32): it marks the browser signed out and opens the sign-in page.
@@ -79,6 +88,7 @@ export default function AppSidebar() {
         user
           ? () => {
               forgetLogin();
+              signOutBrand();
               signOutUser();
               router.push("/login");
             }

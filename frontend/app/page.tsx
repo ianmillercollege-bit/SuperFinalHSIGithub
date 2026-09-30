@@ -9,7 +9,8 @@ import { getUserSession } from "@/lib/auth/userSession";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    router.replace(getUserSession().signedOut ? "/login" : "/dashboard");
+    const session = getUserSession();
+    router.replace(session.signedOut ? "/login" : session.user?.partner ? "/community" : "/dashboard");
   }, [router]);
   return (
     <main className="page">
