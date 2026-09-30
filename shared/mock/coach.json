@@ -1,0 +1,26 @@
+{
+  "answer": "Built-in answer from your data, without an AI call. Visibility is 58%, up 6 points in 30 days. Claude recommends Kestrel in 52% of answers, ChatGPT in 30%. Price outdated caused 23 of 71 misses. The biggest lever in the data is \"Add a comparison page\", worth 6 points and about $150 per month (estimate) at High effort. 4 claims are waiting for a person, so review those first.",
+  "actions": [
+    {"id": "act_1", "title": "Add a comparison page", "why": "One of the largest gaps in the opportunity data.",
+     "expectedImpact": "+6 points, about $150 per month (estimate)", "effort": "High", "metric": "AI visibility score",
+     "steps": ["Pick an owner and start this week."], "basedOn": ["opportunities"]},
+    {"id": "act_2", "title": "Refresh the price feed", "why": "23 misses came from outdated prices.",
+     "expectedImpact": "+5 points, about $125 per month (estimate)", "effort": "Low", "metric": "AI visibility score",
+     "steps": ["Re-export prices from the store."], "basedOn": ["opportunities"]},
+    {"id": "act_3", "title": "Fill in battery hours", "why": "One of the largest gaps in the opportunity data.",
+     "expectedImpact": "+4 points, about $100 per month (estimate)", "effort": "Medium", "metric": "AI visibility score",
+     "steps": ["Pick an owner and start this week."], "basedOn": ["opportunities"]}
+  ],
+  "sources": [
+    {"label": "AI visibility score", "value": "58%"},
+    {"label": "Recommendation frequency", "value": "41%"},
+    {"label": "Revenue estimate per month", "value": "$1,433"},
+    {"label": "Market rank", "value": "7 of 40"},
+    {"label": "Outstanding claims", "value": "4"}
+  ],
+  "source": "mock",
+  "verified": true,
+  "unverifiedNumbers": [],
+  "generatedAt": "2026-09-30T06:00:00Z",
+  "note": "Built-in answer from your data. Live coaching is off (MOCK_MODE)."
+}

@@ -3,6 +3,7 @@
 Python uses snake_case; JSON uses camelCase (section 1).
 """
 
+import json
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -721,3 +722,69 @@ class ClaimIn(CamelModel):
 
 class ClaimOut(OnboardOut):
     opted_in: Literal[True] = True
+
+
+# ---- AI Coach (section 7f) -----------------------------------------------------------------------
+
+CoachEffort = Literal["Low", "Medium", "High"]
+
+
+class CoachTurnIn(CamelModel):
+    role: Literal["user", "coach"]
+    text: str = Field(max_length=500)
+
+
+class CoachRequestIn(CamelModel):
+    """question, the last turns of the chat, and the dashboard figures the answer may quote.
+    The context is the frontend's CoachContext object; only business.name and asOf are required
+    here, the rest is passed through to the coach as data."""
+
+    question: str = Field(min_length=1, max_length=500)
+    history: list[CoachTurnIn] = Field(default_factory=list)
+    context: dict
+
+    @field_validator("question")
+    @classmethod
+    def question_not_blank(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("must not be blank")
+        return value
+
+    @field_validator("context")
+    @classmethod
+    def context_shape(cls, value: dict) -> dict:
+        business = value.get("business")
+        if not isinstance(business, dict) or not isinstance(business.get("name"), str) or not business["name"].strip():
+            raise ValueError("business.name is required")
+        if not isinstance(value.get("asOf"), str) or not value["asOf"].strip():
+            raise ValueError("asOf is required")
+        if len(json.dumps(value, separators=(",", ":"))) > 20000:
+            raise ValueError("is too large (20000 bytes max)")
+        return value
+
+
+class CoachActionOut(CamelModel):
+    id: str
+    title: str
+    why: str
+    expected_impact: str
+    effort: CoachEffort
+    metric: str
+    steps: list[str]
+    based_on: list[str]
+
+
+class CoachSourceOut(CamelModel):
+    label: str
+    value: str
+
+
+class CoachReplyOut(CamelModel):
+    answer: str
+    actions: list[CoachActionOut]
+    sources: list[CoachSourceOut]
+    source: Source
+    verified: bool
+    unverified_numbers: list[str]
+    generated_at: str
+    note: str | None = None
