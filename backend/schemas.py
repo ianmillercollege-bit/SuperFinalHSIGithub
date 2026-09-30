@@ -53,7 +53,11 @@ class ProductOut(CamelModel):
     price: float
     currency: str
     availability: Availability
-    specs: Specs
+    # v1.4.1: categories follow the catalog sheet.
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"]
+    subcategory: str
+    # Laptops: the six contract specs (Specs) plus extras. Other categories: the sheet's spec columns.
+    specs: dict
     return_policy_days: int
     updated_at: str
     # v1.2 Verified Data Layer. factSource is not called "source": that word means live|mock|fallback.
@@ -465,6 +469,8 @@ class DemoAccountsOut(CamelModel):
 
 class OnboardProductIn(CamelModel):
     name: str = Field(max_length=C.MAX_NAME_CHARS)
+    category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"] = "laptops"  # v1.4.1
+    subcategory: str | None = Field(None, max_length=60)
     price: float = Field(gt=0, allow_inf_nan=False)
     availability: Availability = "in_stock"
     specs: dict = {}

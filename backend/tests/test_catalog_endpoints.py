@@ -3,7 +3,8 @@
 from conftest import load_mock
 
 PRODUCT_KEYS = {"productId", "brandId", "brandName", "name", "price", "currency", "availability", "specs",
-                "returnPolicyDays", "updatedAt", "factSource", "factSourceUrl", "verifiedAt"}  # v1.2
+                "returnPolicyDays", "updatedAt", "factSource", "factSourceUrl", "verifiedAt",  # v1.2
+                "category", "subcategory"}  # v1.4.1
 FACT_SOURCES = {"Brand product feed", "Brand website", "Manufacturer spec sheet"}
 SPEC_KEYS = {"ramGb", "storageGb", "screenInches", "batteryHours", "weightLb", "touchscreen"}
 INCIDENT_RULES = {"PRICE_MISMATCH", "PRICE_OUTDATED", "SPEC_MISMATCH", "INVENTED_FEATURE", "AVAILABILITY_MISMATCH",

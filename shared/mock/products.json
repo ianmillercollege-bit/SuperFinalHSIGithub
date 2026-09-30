@@ -8,6 +8,8 @@
       "price": 449.99,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 8,
         "storageGb": 256,
@@ -30,6 +32,8 @@
       "price": 329.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 4,
         "storageGb": 128,
@@ -52,6 +56,8 @@
       "price": 479.99,
       "currency": "USD",
       "availability": "low_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 8,
         "storageGb": 256,
@@ -74,6 +80,8 @@
       "price": 599.99,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 16,
         "storageGb": 512,
@@ -96,6 +104,8 @@
       "price": 549.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 16,
         "storageGb": 512,
@@ -118,6 +128,8 @@
       "price": 379.0,
       "currency": "USD",
       "availability": "out_of_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 4,
         "storageGb": 128,
@@ -140,6 +152,8 @@
       "price": 479.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 8,
         "storageGb": 256,
@@ -162,6 +176,8 @@
       "price": 349.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 4,
         "storageGb": 128,
@@ -184,6 +200,8 @@
       "price": 529.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 12,
         "storageGb": 512,
@@ -206,6 +224,8 @@
       "price": 469.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 8,
         "storageGb": 256,
@@ -228,6 +248,8 @@
       "price": 499.0,
       "currency": "USD",
       "availability": "in_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 8,
         "storageGb": 512,
@@ -250,6 +272,8 @@
       "price": 699.0,
       "currency": "USD",
       "availability": "low_stock",
+      "category": "laptops",
+      "subcategory": "Laptop",
       "specs": {
         "ramGb": 16,
         "storageGb": 1024,

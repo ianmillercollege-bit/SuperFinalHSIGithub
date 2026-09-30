@@ -1,0 +1,5819 @@
+{
+ "profiles": [
+  {
+   "brandId": "brand_001",
+   "tagline": "Thin laptops for students and travelers",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2016,
+   "employees": 140,
+   "ceo": {
+    "name": "Priya Natarajan"
+   },
+   "website": "https://www.kestrel.example"
+  },
+  {
+   "brandId": "brand_002",
+   "tagline": "Big-screen laptops for creators and gamers",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Seattle, WA",
+   "founded": 2009,
+   "employees": 820,
+   "ceo": {
+    "name": "Marcus Hale"
+   },
+   "website": "https://www.arcton.example"
+  },
+  {
+   "brandId": "brand_003",
+   "tagline": "Reliable everyday laptops",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Boston, MA",
+   "founded": 2012,
+   "employees": 410,
+   "ceo": {
+    "name": "Hannah Osei"
+   },
+   "website": "https://www.novex.example"
+  },
+  {
+   "brandId": "brand_004",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2014,
+   "employees": 60,
+   "ceo": {
+    "name": "Jonah Quintero"
+   },
+   "website": "https://www.morpheusaudio.example",
+   "otherNames": [
+    "Morpheus Audio",
+    "MORPHEUS",
+    "Morpheuss",
+    "Morppheus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "audiophile",
+    "outdoor"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_005",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2022,
+   "employees": 1600,
+   "ceo": {
+    "name": "Ines Varga"
+   },
+   "website": "https://www.carpoaudio.example",
+   "otherNames": [
+    "Carpo Audio",
+    "CARPO",
+    "Carpoo",
+    "Crapo"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "school",
+    "commute"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones"
+   ]
+  },
+  {
+   "brandId": "brand_006",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2022,
+   "employees": 900,
+   "ceo": {
+    "name": "Celia Jensen"
+   },
+   "website": "https://www.himerosaudio.example",
+   "otherNames": [
+    "Himeros Audio",
+    "HIMEROS",
+    "Himeroos",
+    "Himeeros"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "school",
+    "outdoor"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_007",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2019,
+   "employees": 60,
+   "ceo": {
+    "name": "Kai Xu"
+   },
+   "website": "https://www.dorisaudio.example",
+   "otherNames": [
+    "Doris Audio",
+    "DORIS",
+    "Dooris",
+    "Doirs"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "everyday"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_008",
+   "tagline": "Headphones and earbuds for commute, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2018,
+   "employees": 35,
+   "ceo": {
+    "name": "Ines Hale"
+   },
+   "website": "https://www.deimosaudio.example",
+   "otherNames": [
+    "Deimos Audio",
+    "DEIMOS",
+    "Deimmos",
+    "Diemos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "commute",
+    "running",
+    "travel",
+    "everyday"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones"
+   ]
+  },
+  {
+   "brandId": "brand_009",
+   "tagline": "Headphones and earbuds for commute, travel",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2016,
+   "employees": 900,
+   "ceo": {
+    "name": "Gia Zimmer"
+   },
+   "website": "https://www.asteriaaudio.example",
+   "otherNames": [
+    "Asteria Audio",
+    "ASTERIA",
+    "Asteri",
+    "Atseria"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "commute",
+    "travel",
+    "everyday",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_010",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 1998,
+   "employees": 35,
+   "ceo": {
+    "name": "Ava Rossi"
+   },
+   "website": "https://www.tethysaudio.example",
+   "otherNames": [
+    "Tethys Audio",
+    "TETHYS",
+    "Tethyys",
+    "Teethys"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_011",
+   "tagline": "Headphones and earbuds for commute, travel",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Columbus, OH",
+   "founded": 2016,
+   "employees": 120,
+   "ceo": {
+    "name": "Dmitri Walsh"
+   },
+   "website": "https://www.menoetiusaudio.example",
+   "otherNames": [
+    "Menoetius Audio",
+    "MENOETIUS",
+    "Menoetuis",
+    "Menoeetius"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "commute",
+    "travel",
+    "everyday",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_012",
+   "tagline": "Headphones and earbuds for travel, school",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Madison, WI",
+   "founded": 2005,
+   "employees": 480,
+   "ceo": {
+    "name": "Jonah Garcia"
+   },
+   "website": "https://www.phosphorusaudio.example",
+   "otherNames": [
+    "Phosphorus Audio",
+    "PHOSPHORUS",
+    "Phosphrous",
+    "Phosphhorus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "school",
+    "running",
+    "commute"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_013",
+   "tagline": "Headphones and earbuds for running, travel",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2005,
+   "employees": 120,
+   "ceo": {
+    "name": "Amara Hale"
+   },
+   "website": "https://www.hedoneaudio.example",
+   "otherNames": [
+    "Hedone Audio",
+    "HEDONE",
+    "Hedonee",
+    "Hedonne"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "running",
+    "travel",
+    "everyday",
+    "commute"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_014",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2007,
+   "employees": 240,
+   "ceo": {
+    "name": "Priya Hale"
+   },
+   "website": "https://www.hebeaudio.example",
+   "otherNames": [
+    "Hebe Audio",
+    "HEBE",
+    "Heb",
+    "Hebbe"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "audiophile",
+    "school"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_015",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2022,
+   "employees": 60,
+   "ceo": {
+    "name": "Dmitri Jensen"
+   },
+   "website": "https://www.glaucusaudio.example",
+   "otherNames": [
+    "Glaucus Audio",
+    "GLAUCUS",
+    "Glaucu",
+    "Glauucus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "commute",
+    "school"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_016",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2008,
+   "employees": 480,
+   "ceo": {
+    "name": "Elena Evans"
+   },
+   "website": "https://www.zeusaudio.example",
+   "otherNames": [
+    "Zeus Audio",
+    "ZEUS",
+    "Zeuss",
+    "Zeu"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_017",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Madison, WI",
+   "founded": 2015,
+   "employees": 120,
+   "ceo": {
+    "name": "Tara Dubois"
+   },
+   "website": "https://www.soteriaaudio.example",
+   "otherNames": [
+    "Soteria Audio",
+    "SOTERIA",
+    "Soteriia",
+    "Soetria"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "everyday"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones"
+   ]
+  },
+  {
+   "brandId": "brand_018",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Boise, ID",
+   "founded": 2014,
+   "employees": 480,
+   "ceo": {
+    "name": "Bruno Adeyemi"
+   },
+   "website": "https://www.auraiaudio.example",
+   "otherNames": [
+    "Aurai Audio",
+    "AURAI",
+    "Aurra",
+    "Auura"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_019",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Portland, OR",
+   "founded": 2019,
+   "employees": 120,
+   "ceo": {
+    "name": "Ben Evans"
+   },
+   "website": "https://www.chaosaudio.example",
+   "otherNames": [
+    "Chaos Audio",
+    "CHAOS",
+    "Chaoos",
+    "Khaos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "audiophile"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_020",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2013,
+   "employees": 480,
+   "ceo": {
+    "name": "Jonah Xu"
+   },
+   "website": "https://www.tartarusaudio.example",
+   "otherNames": [
+    "Tartarus Audio",
+    "TARTARUS",
+    "Taartarus",
+    "Tartaruus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "school",
+    "outdoor"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_021",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 1999,
+   "employees": 1600,
+   "ceo": {
+    "name": "Kai Bauer"
+   },
+   "website": "https://www.achelousaudio.example",
+   "otherNames": [
+    "Achelous Audio",
+    "ACHELOUS",
+    "Achellous",
+    "Achelouus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "everyday"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones"
+   ]
+  },
+  {
+   "brandId": "brand_022",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Boise, ID",
+   "founded": 2016,
+   "employees": 35,
+   "ceo": {
+    "name": "Gia Bauer"
+   },
+   "website": "https://www.euphrosyneaudio.example",
+   "otherNames": [
+    "Euphrosyne Audio",
+    "EUPHROSYNE",
+    "Euphrosnye",
+    "Euphroysne"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "everyday"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_023",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2014,
+   "employees": 35,
+   "ceo": {
+    "name": "Ava Xu"
+   },
+   "website": "https://www.nereusaudio.example",
+   "otherNames": [
+    "Nereus Audio",
+    "NEREUS",
+    "Nereuus",
+    "Nreeus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "audiophile",
+    "commute"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_024",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2003,
+   "employees": 120,
+   "ceo": {
+    "name": "Ines Garcia"
+   },
+   "website": "https://www.poseidonaudio.example",
+   "otherNames": [
+    "Poseidon Audio",
+    "POSEIDON",
+    "Posedion",
+    "Posiedon"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_025",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2000,
+   "employees": 480,
+   "ceo": {
+    "name": "Ava Singh"
+   },
+   "website": "https://www.clioaudio.example",
+   "otherNames": [
+    "Clio Audio",
+    "CLIO",
+    "Cliio",
+    "Klio"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "running",
+    "office"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_026",
+   "tagline": "Headphones and earbuds for travel, running",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2017,
+   "employees": 120,
+   "ceo": {
+    "name": "Victor Okafor"
+   },
+   "website": "https://www.anankeaudio.example",
+   "otherNames": [
+    "Ananke Audio",
+    "ANANKE",
+    "Annanke",
+    "Anankee"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "running",
+    "school",
+    "outdoor"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_027",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2018,
+   "employees": 60,
+   "ceo": {
+    "name": "Hugo Park"
+   },
+   "website": "https://www.asclepiusaudio.example",
+   "otherNames": [
+    "Asclepius Audio",
+    "ASCLEPIUS",
+    "Ascleipus",
+    "Ascelpius"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_028",
+   "tagline": "Headphones and earbuds for travel, commute",
+   "categories": [
+    "headphones"
+   ],
+   "hqCity": "Portland, OR",
+   "founded": 1999,
+   "employees": 35,
+   "ceo": {
+    "name": "Esme Rossi"
+   },
+   "website": "https://www.hesperusaudio.example",
+   "otherNames": [
+    "Hesperus Audio",
+    "HESPERUS",
+    "Hespperus",
+    "Hespeerus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "travel",
+    "commute",
+    "school",
+    "running"
+   ],
+   "productCategories": [
+    "Earbuds",
+    "Headphones",
+    "Headset"
+   ]
+  },
+  {
+   "brandId": "brand_029",
+   "tagline": "Laptops for school, travel",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2001,
+   "employees": 1600,
+   "ceo": {
+    "name": "Dmitri Young"
+   },
+   "website": "https://www.melpomenecomputing.example",
+   "otherNames": [
+    "Melpomene Computing",
+    "MELPOMENE",
+    "Melpommene",
+    "Melpoomene"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "travel",
+    "content creation",
+    "budget"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_030",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2015,
+   "employees": 60,
+   "ceo": {
+    "name": "Kai Lindqvist"
+   },
+   "website": "https://www.aristaeuscomputing.example",
+   "otherNames": [
+    "Aristaeus Computing",
+    "ARISTAEUS",
+    "Arisstaeus",
+    "Aristaeeus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_031",
+   "tagline": "Laptops for school, content creation",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2018,
+   "employees": 1600,
+   "ceo": {
+    "name": "Jonah Alvarez"
+   },
+   "website": "https://www.demetercomputing.example",
+   "otherNames": [
+    "Demeter Computing",
+    "DEMETER",
+    "Dmeeter",
+    "Demeterr"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "school",
+    "content creation",
+    "budget",
+    "everyday"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_032",
+   "tagline": "Laptops for school, content creation",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2013,
+   "employees": 60,
+   "ceo": {
+    "name": "Dmitri Fischer"
+   },
+   "website": "https://www.metiscomputing.example",
+   "otherNames": [
+    "Metis Computing",
+    "METIS",
+    "Meits",
+    "Meetis"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "school",
+    "content creation",
+    "budget",
+    "travel"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_033",
+   "tagline": "Laptops for school, travel",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2009,
+   "employees": 35,
+   "ceo": {
+    "name": "Rosa Singh"
+   },
+   "website": "https://www.thaliacomputing.example",
+   "otherNames": [
+    "Thalia Computing",
+    "THALIA",
+    "Thaila",
+    "Thaliaa"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "school",
+    "travel",
+    "budget",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_034",
+   "tagline": "Laptops for school, everyday",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2000,
+   "employees": 900,
+   "ceo": {
+    "name": "Amara Varga"
+   },
+   "website": "https://www.aeoluscomputing.example",
+   "otherNames": [
+    "Aeolus Computing",
+    "AEOLUS",
+    "Eolus",
+    "Aeouls"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "school",
+    "everyday",
+    "work",
+    "travel"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_035",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2010,
+   "employees": 480,
+   "ceo": {
+    "name": "Nadia Walsh"
+   },
+   "website": "https://www.zephyruscomputing.example",
+   "otherNames": [
+    "Zephyrus Computing",
+    "ZEPHYRUS",
+    "Zepyhrus",
+    "Zephyrrus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_036",
+   "tagline": "Laptops for school, everyday",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2012,
+   "employees": 240,
+   "ceo": {
+    "name": "Ava Nakamura"
+   },
+   "website": "https://www.homonoiacomputing.example",
+   "otherNames": [
+    "Homonoia Computing",
+    "HOMONOIA",
+    "Homoonoia",
+    "Hmoonoia"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "everyday",
+    "travel",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_037",
+   "tagline": "Laptops for school, everyday",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2018,
+   "employees": 120,
+   "ceo": {
+    "name": "Samir Jensen"
+   },
+   "website": "https://www.selenecomputing.example",
+   "otherNames": [
+    "Selene Computing",
+    "SELENE",
+    "Selnee",
+    "Selenee"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "everyday",
+    "travel",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_038",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Boise, ID",
+   "founded": 2019,
+   "employees": 3200,
+   "ceo": {
+    "name": "Wen Evans"
+   },
+   "website": "https://www.atroposcomputing.example",
+   "otherNames": [
+    "Atropos Computing",
+    "ATROPOS",
+    "Atropoos",
+    "Atrpoos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_039",
+   "tagline": "Laptops for school, work",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2002,
+   "employees": 60,
+   "ceo": {
+    "name": "Uma Ueda"
+   },
+   "website": "https://www.persephonecomputing.example",
+   "otherNames": [
+    "Persephone Computing",
+    "PERSEPHONE",
+    "Pesrephone",
+    "Persephonee"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "work",
+    "travel",
+    "everyday"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_040",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 2002,
+   "employees": 60,
+   "ceo": {
+    "name": "Victor Garcia"
+   },
+   "website": "https://www.heraclescomputing.example",
+   "otherNames": [
+    "Heracles Computing",
+    "HERACLES",
+    "Hreacles",
+    "Heralces"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_041",
+   "tagline": "Laptops for school, content creation",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2004,
+   "employees": 120,
+   "ceo": {
+    "name": "Jonah Walsh"
+   },
+   "website": "https://www.auxocomputing.example",
+   "otherNames": [
+    "Auxo Computing",
+    "AUXO",
+    "Auuxo",
+    "Axuo"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "content creation",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_042",
+   "tagline": "Laptops for school, travel",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2002,
+   "employees": 35,
+   "ceo": {
+    "name": "Ben Quintero"
+   },
+   "website": "https://www.terpsichorecomputing.example",
+   "otherNames": [
+    "Terpsichore Computing",
+    "TERPSICHORE",
+    "Teerpsichore",
+    "Terpsihcore"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "school",
+    "travel",
+    "work",
+    "everyday"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_043",
+   "tagline": "Laptops for school, content creation",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2010,
+   "employees": 1600,
+   "ceo": {
+    "name": "Farid Dubois"
+   },
+   "website": "https://www.calliopecomputing.example",
+   "otherNames": [
+    "Calliope Computing",
+    "CALLIOPE",
+    "Callipoe",
+    "Callioppe"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "content creation",
+    "budget",
+    "everyday"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_044",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2007,
+   "employees": 3200,
+   "ceo": {
+    "name": "Chloe Ito"
+   },
+   "website": "https://www.polyhymniacomputing.example",
+   "otherNames": [
+    "Polyhymnia Computing",
+    "POLYHYMNIA",
+    "Polyhhymnia",
+    "Polyhymni"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "travel"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_045",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2007,
+   "employees": 120,
+   "ceo": {
+    "name": "Priya Ito"
+   },
+   "website": "https://www.priapuscomputing.example",
+   "otherNames": [
+    "Priapus Computing",
+    "PRIAPUS",
+    "Priaapus",
+    "Priapos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "travel"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_046",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 2007,
+   "employees": 120,
+   "ceo": {
+    "name": "Samir Adeyemi"
+   },
+   "website": "https://www.momuscomputing.example",
+   "otherNames": [
+    "Momus Computing",
+    "MOMUS",
+    "Moomus",
+    "Momos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_047",
+   "tagline": "Laptops for everyday, school",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2017,
+   "employees": 1600,
+   "ceo": {
+    "name": "Elena Dubois"
+   },
+   "website": "https://www.boreascomputing.example",
+   "otherNames": [
+    "Boreas Computing",
+    "BOREAS",
+    "Boraes",
+    "Borea"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "school",
+    "content creation",
+    "budget"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_048",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Boise, ID",
+   "founded": 2007,
+   "employees": 900,
+   "ceo": {
+    "name": "Omar Alvarez"
+   },
+   "website": "https://www.doloscomputing.example",
+   "otherNames": [
+    "Dolos Computing",
+    "DOLOS",
+    "Dloos",
+    "Dools"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_049",
+   "tagline": "Laptops for school, everyday",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2007,
+   "employees": 480,
+   "ceo": {
+    "name": "Jonah Dubois"
+   },
+   "website": "https://www.thallocomputing.example",
+   "otherNames": [
+    "Thallo Computing",
+    "THALLO",
+    "Thall",
+    "Thlalo"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "school",
+    "everyday",
+    "budget",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_050",
+   "tagline": "Laptops for school, budget",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2007,
+   "employees": 60,
+   "ceo": {
+    "name": "Tara Quintero"
+   },
+   "website": "https://www.rheacomputing.example",
+   "otherNames": [
+    "Rhea Computing",
+    "RHEA",
+    "Rheaa",
+    "Rea"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "budget",
+    "everyday",
+    "travel"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_051",
+   "tagline": "Laptops for school, work",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2019,
+   "employees": 900,
+   "ceo": {
+    "name": "Rosa Rossi"
+   },
+   "website": "https://www.hygieiacomputing.example",
+   "otherNames": [
+    "Hygieia Computing",
+    "HYGIEIA",
+    "Hyygieia",
+    "Hygiieia"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "school",
+    "work",
+    "travel",
+    "content creation"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_052",
+   "tagline": "Laptops for school, everyday",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2006,
+   "employees": 3200,
+   "ceo": {
+    "name": "Nadia Jensen"
+   },
+   "website": "https://www.thanatoscomputing.example",
+   "otherNames": [
+    "Thanatos Computing",
+    "THANATOS",
+    "Thaanatos",
+    "Thanattos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "everyday",
+    "budget",
+    "work"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_053",
+   "tagline": "Laptops for school, travel",
+   "categories": [
+    "laptops"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 2002,
+   "employees": 120,
+   "ceo": {
+    "name": "Wen Moreau"
+   },
+   "website": "https://www.chronoscomputing.example",
+   "otherNames": [
+    "Chronos Computing",
+    "CHRONOS",
+    "Chrono",
+    "Chroonos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "school",
+    "travel",
+    "work",
+    "content creation"
+   ],
+   "productCategories": [
+    "Laptop"
+   ]
+  },
+  {
+   "brandId": "brand_054",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2003,
+   "employees": 240,
+   "ceo": {
+    "name": "Uma Dubois"
+   },
+   "website": "https://www.nemesismobile.example",
+   "otherNames": [
+    "Nemesis Mobile",
+    "NEMESIS",
+    "Neemsis",
+    "Nemesiss"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_055",
+   "tagline": "Phones and tablets for reading, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2005,
+   "employees": 60,
+   "ceo": {
+    "name": "Hugo Alvarez"
+   },
+   "website": "https://www.hecatemobile.example",
+   "otherNames": [
+    "Hecate Mobile",
+    "HECATE",
+    "Hecaate",
+    "Hecatee"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "travel",
+    "school",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_056",
+   "tagline": "Phones and tablets for everyday, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Boise, ID",
+   "founded": 2022,
+   "employees": 120,
+   "ceo": {
+    "name": "Ines Singh"
+   },
+   "website": "https://www.phobosmobile.example",
+   "otherNames": [
+    "Phobos Mobile",
+    "PHOBOS",
+    "Phboos",
+    "Phobbos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "travel",
+    "drawing",
+    "kids"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_057",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2002,
+   "employees": 120,
+   "ceo": {
+    "name": "Victor Castro"
+   },
+   "website": "https://www.aretemobile.example",
+   "otherNames": [
+    "Arete Mobile",
+    "ARETE",
+    "Aret",
+    "Artee"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "travel",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_058",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2001,
+   "employees": 60,
+   "ceo": {
+    "name": "Hugo Evans"
+   },
+   "website": "https://www.tychemobile.example",
+   "otherNames": [
+    "Tyche Mobile",
+    "TYCHE",
+    "Tychee",
+    "Tyhce"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "school",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_059",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2000,
+   "employees": 1600,
+   "ceo": {
+    "name": "Samir Castro"
+   },
+   "website": "https://www.eunomiamobile.example",
+   "otherNames": [
+    "Eunomia Mobile",
+    "EUNOMIA",
+    "Euunomia",
+    "Eunnomia"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "school",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_060",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2015,
+   "employees": 3200,
+   "ceo": {
+    "name": "Priya Alvarez"
+   },
+   "website": "https://www.pallasmobile.example",
+   "otherNames": [
+    "Pallas Mobile",
+    "PALLAS",
+    "Palla",
+    "Palllas"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_061",
+   "tagline": "Phones and tablets for everyday, photography",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2017,
+   "employees": 3200,
+   "ceo": {
+    "name": "Quinn Quintero"
+   },
+   "website": "https://www.styxmobile.example",
+   "otherNames": [
+    "Styx Mobile",
+    "STYX",
+    "Styyx",
+    "Sttyx"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "photography",
+    "business",
+    "kids"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_062",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 2010,
+   "employees": 35,
+   "ceo": {
+    "name": "Kai Evans"
+   },
+   "website": "https://www.hypnosmobile.example",
+   "otherNames": [
+    "Hypnos Mobile",
+    "HYPNOS",
+    "Hyypnos",
+    "Hypons"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "school",
+    "business"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_063",
+   "tagline": "Phones and tablets for everyday, note-taking",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 2008,
+   "employees": 1600,
+   "ceo": {
+    "name": "Bruno Moreau"
+   },
+   "website": "https://www.oceanusmobile.example",
+   "otherNames": [
+    "Oceanus Mobile",
+    "OCEANUS",
+    "Oceanos",
+    "Oceeanus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "note-taking",
+    "drawing",
+    "kids"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_064",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 2000,
+   "employees": 35,
+   "ceo": {
+    "name": "Farid Duarte"
+   },
+   "website": "https://www.mnemosynemobile.example",
+   "otherNames": [
+    "Mnemosyne Mobile",
+    "MNEMOSYNE",
+    "Mneomsyne",
+    "Mnemsoyne"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_065",
+   "tagline": "Phones and tablets for reading, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Salt Lake City, UT",
+   "founded": 2017,
+   "employees": 240,
+   "ceo": {
+    "name": "Quinn Xu"
+   },
+   "website": "https://www.clothomobile.example",
+   "otherNames": [
+    "Clotho Mobile",
+    "CLOTHO",
+    "Clootho",
+    "Cloto"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "travel",
+    "school",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_066",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Columbus, OH",
+   "founded": 1998,
+   "employees": 480,
+   "ceo": {
+    "name": "Zane Moreau"
+   },
+   "website": "https://www.pontusmobile.example",
+   "otherNames": [
+    "Pontus Mobile",
+    "PONTUS",
+    "Ponuts",
+    "Ponttus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "drawing"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_067",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2001,
+   "employees": 480,
+   "ceo": {
+    "name": "Chloe Castro"
+   },
+   "website": "https://www.athenamobile.example",
+   "otherNames": [
+    "Athena Mobile",
+    "ATHENA",
+    "Atehna",
+    "Athen"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_068",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 1998,
+   "employees": 480,
+   "ceo": {
+    "name": "Priya Fischer"
+   },
+   "website": "https://www.amphitritemobile.example",
+   "otherNames": [
+    "Amphitrite Mobile",
+    "AMPHITRITE",
+    "Amphitrrite",
+    "Ampihtrite"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_069",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Chattanooga, TN",
+   "founded": 2019,
+   "employees": 3200,
+   "ceo": {
+    "name": "Jonah Young"
+   },
+   "website": "https://www.paeanmobile.example",
+   "otherNames": [
+    "Paean Mobile",
+    "PAEAN",
+    "Paaen",
+    "Paeann"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_070",
+   "tagline": "Phones and tablets for reading, note-taking",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2013,
+   "employees": 3200,
+   "ceo": {
+    "name": "Jonah Alvarez"
+   },
+   "website": "https://www.clymenemobile.example",
+   "otherNames": [
+    "Clymene Mobile",
+    "CLYMENE",
+    "Clymmene",
+    "Clmyene"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "note-taking",
+    "school",
+    "travel"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_071",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2011,
+   "employees": 60,
+   "ceo": {
+    "name": "Bruno Walsh"
+   },
+   "website": "https://www.circemobile.example",
+   "otherNames": [
+    "Circe Mobile",
+    "CIRCE",
+    "Cirrce",
+    "Ciirce"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "travel",
+    "budget"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_072",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2006,
+   "employees": 1600,
+   "ceo": {
+    "name": "Elena Quintero"
+   },
+   "website": "https://www.panaceamobile.example",
+   "otherNames": [
+    "Panacea Mobile",
+    "PANACEA",
+    "Pnaacea",
+    "Panaeca"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_073",
+   "tagline": "Phones and tablets for everyday, drawing",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Columbus, OH",
+   "founded": 2013,
+   "employees": 60,
+   "ceo": {
+    "name": "Quinn Chen"
+   },
+   "website": "https://www.proteusmobile.example",
+   "otherNames": [
+    "Proteus Mobile",
+    "PROTEUS",
+    "Proteeus",
+    "Proetus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "drawing",
+    "streaming",
+    "photography"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_074",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2016,
+   "employees": 35,
+   "ceo": {
+    "name": "Ava Ueda"
+   },
+   "website": "https://www.lachesismobile.example",
+   "otherNames": [
+    "Lachesis Mobile",
+    "LACHESIS",
+    "Lachessis",
+    "Lachhesis"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "travel",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_075",
+   "tagline": "Phones and tablets for everyday, note-taking",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 2022,
+   "employees": 900,
+   "ceo": {
+    "name": "Farid Moreau"
+   },
+   "website": "https://www.pothosmobile.example",
+   "otherNames": [
+    "Pothos Mobile",
+    "POTHOS",
+    "Pothoss",
+    "Potthos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "note-taking",
+    "photography",
+    "drawing"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_076",
+   "tagline": "Phones and tablets for everyday, note-taking",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Portland, OR",
+   "founded": 2014,
+   "employees": 3200,
+   "ceo": {
+    "name": "Elena Okafor"
+   },
+   "website": "https://www.heliosmobile.example",
+   "otherNames": [
+    "Helios Mobile",
+    "HELIOS",
+    "Helioss",
+    "Helioos"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "note-taking",
+    "drawing",
+    "kids"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_077",
+   "tagline": "Phones and tablets for reading, school",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2008,
+   "employees": 120,
+   "ceo": {
+    "name": "Omar Tanaka"
+   },
+   "website": "https://www.elpismobile.example",
+   "otherNames": [
+    "Elpis Mobile",
+    "ELPIS",
+    "Elpiis",
+    "Elips"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "school",
+    "everyday",
+    "photography"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_078",
+   "tagline": "Phones and tablets for everyday, note-taking",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Salt Lake City, UT",
+   "founded": 2004,
+   "employees": 240,
+   "ceo": {
+    "name": "Jonah Xu"
+   },
+   "website": "https://www.coeusmobile.example",
+   "otherNames": [
+    "Coeus Mobile",
+    "COEUS",
+    "Coeuss",
+    "Koeus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "note-taking",
+    "drawing",
+    "photography"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_079",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2017,
+   "employees": 900,
+   "ceo": {
+    "name": "Celia Khan"
+   },
+   "website": "https://www.hephaestusmobile.example",
+   "otherNames": [
+    "Hephaestus Mobile",
+    "HEPHAESTUS",
+    "Hpehaestus",
+    "Heephaestus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_080",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2018,
+   "employees": 480,
+   "ceo": {
+    "name": "Rosa Xu"
+   },
+   "website": "https://www.letomobile.example",
+   "otherNames": [
+    "Leto Mobile",
+    "LETO",
+    "Lteo",
+    "Let"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "drawing",
+    "note-taking"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_081",
+   "tagline": "Phones and tablets for everyday, business",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2018,
+   "employees": 900,
+   "ceo": {
+    "name": "Farid Xu"
+   },
+   "website": "https://www.comusmobile.example",
+   "otherNames": [
+    "Comus Mobile",
+    "COMUS",
+    "Komus",
+    "Comuus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "business",
+    "drawing",
+    "kids"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_082",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2002,
+   "employees": 35,
+   "ceo": {
+    "name": "Tara Adeyemi"
+   },
+   "website": "https://www.aglaeamobile.example",
+   "otherNames": [
+    "Aglaea Mobile",
+    "AGLAEA",
+    "Aglea",
+    "Aglaeaa"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "school",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_083",
+   "tagline": "Phones and tablets for everyday, drawing",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2014,
+   "employees": 60,
+   "ceo": {
+    "name": "Jonah Park"
+   },
+   "website": "https://www.aethermobile.example",
+   "otherNames": [
+    "Aether Mobile",
+    "AETHER",
+    "Aetehr",
+    "Aethher"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "drawing",
+    "photography",
+    "business"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_084",
+   "tagline": "Phones and tablets for everyday, drawing",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 2014,
+   "employees": 240,
+   "ceo": {
+    "name": "Lila Duarte"
+   },
+   "website": "https://www.theiamobile.example",
+   "otherNames": [
+    "Theia Mobile",
+    "THEIA",
+    "Teia",
+    "Thheia"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "drawing",
+    "kids",
+    "learning"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_085",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2020,
+   "employees": 35,
+   "ceo": {
+    "name": "Samir Tanaka"
+   },
+   "website": "https://www.alpheusmobile.example",
+   "otherNames": [
+    "Alpheus Mobile",
+    "ALPHEUS",
+    "Alfeus",
+    "Alpheu"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_086",
+   "tagline": "Phones and tablets for reading, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2016,
+   "employees": 3200,
+   "ceo": {
+    "name": "Rosa Dubois"
+   },
+   "website": "https://www.peithomobile.example",
+   "otherNames": [
+    "Peitho Mobile",
+    "PEITHO",
+    "Peittho",
+    "Peito"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "travel",
+    "school",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_087",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Salt Lake City, UT",
+   "founded": 2012,
+   "employees": 240,
+   "ceo": {
+    "name": "Farid Walsh"
+   },
+   "website": "https://www.euphememobile.example",
+   "otherNames": [
+    "Eupheme Mobile",
+    "EUPHEME",
+    "Eupehme",
+    "Euphemee"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "school",
+    "kids"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_088",
+   "tagline": "Phones and tablets for reading, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Chattanooga, TN",
+   "founded": 2016,
+   "employees": 60,
+   "ceo": {
+    "name": "Diego Castro"
+   },
+   "website": "https://www.eratomobile.example",
+   "otherNames": [
+    "Erato Mobile",
+    "ERATO",
+    "Earto",
+    "Eratoo"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "travel",
+    "drawing",
+    "note-taking"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_089",
+   "tagline": "Phones and tablets for reading, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2009,
+   "employees": 35,
+   "ceo": {
+    "name": "Tara Hale"
+   },
+   "website": "https://www.lethemobile.example",
+   "otherNames": [
+    "Lethe Mobile",
+    "LETHE",
+    "Lethhe",
+    "Lete"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "travel",
+    "note-taking",
+    "everyday"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_090",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 1998,
+   "employees": 120,
+   "ceo": {
+    "name": "Zane Varga"
+   },
+   "website": "https://www.phorcysmobile.example",
+   "otherNames": [
+    "Phorcys Mobile",
+    "PHORCYS",
+    "Pohrcys",
+    "Phorcyss"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_091",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2009,
+   "employees": 240,
+   "ceo": {
+    "name": "Esme Xu"
+   },
+   "website": "https://www.eurusmobile.example",
+   "otherNames": [
+    "Eurus Mobile",
+    "EURUS",
+    "Euurs",
+    "Euruss"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "travel",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_092",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2010,
+   "employees": 60,
+   "ceo": {
+    "name": "Dmitri Rossi"
+   },
+   "website": "https://www.aletheiamobile.example",
+   "otherNames": [
+    "Aletheia Mobile",
+    "ALETHEIA",
+    "Alethei",
+    "Aleteia"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "school",
+    "note-taking"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_093",
+   "tagline": "Phones and tablets for reading, everyday",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2020,
+   "employees": 900,
+   "ceo": {
+    "name": "Farid Okafor"
+   },
+   "website": "https://www.anterosmobile.example",
+   "otherNames": [
+    "Anteros Mobile",
+    "ANTEROS",
+    "Anteeros",
+    "Anetros"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "everyday",
+    "travel",
+    "note-taking"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_094",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 1999,
+   "employees": 60,
+   "ceo": {
+    "name": "Esme Brooks"
+   },
+   "website": "https://www.epimetheusmobile.example",
+   "otherNames": [
+    "Epimetheus Mobile",
+    "EPIMETHEUS",
+    "Epimteheus",
+    "Epimetheeus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_095",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2007,
+   "employees": 60,
+   "ceo": {
+    "name": "Kai Alvarez"
+   },
+   "website": "https://www.tritonmobile.example",
+   "otherNames": [
+    "Triton Mobile",
+    "TRITON",
+    "Trito",
+    "Triotn"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "travel",
+    "drawing"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_096",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2004,
+   "employees": 480,
+   "ceo": {
+    "name": "Hugo Nakamura"
+   },
+   "website": "https://www.thetismobile.example",
+   "otherNames": [
+    "Thetis Mobile",
+    "THETIS",
+    "Tehtis",
+    "Thhetis"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "travel",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_097",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Salt Lake City, UT",
+   "founded": 2016,
+   "employees": 480,
+   "ceo": {
+    "name": "Ava Khan"
+   },
+   "website": "https://www.adrasteamobile.example",
+   "otherNames": [
+    "Adrastea Mobile",
+    "ADRASTEA",
+    "Adrasteea",
+    "Adrrastea"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_098",
+   "tagline": "Phones and tablets for reading, drawing",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Columbus, OH",
+   "founded": 1999,
+   "employees": 3200,
+   "ceo": {
+    "name": "Dmitri Dubois"
+   },
+   "website": "https://www.leucotheamobile.example",
+   "otherNames": [
+    "Leucothea Mobile",
+    "LEUCOTHEA",
+    "Leucoothea",
+    "Leeucothea"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "drawing",
+    "note-taking",
+    "everyday"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_099",
+   "tagline": "Phones and tablets for everyday, drawing",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 1999,
+   "employees": 3200,
+   "ceo": {
+    "name": "Ines Quintero"
+   },
+   "website": "https://www.iapetusmobile.example",
+   "otherNames": [
+    "Iapetus Mobile",
+    "IAPETUS",
+    "Iapetuss",
+    "Iapeuts"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "drawing",
+    "photography",
+    "business"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_100",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2018,
+   "employees": 120,
+   "ceo": {
+    "name": "Zane Zimmer"
+   },
+   "website": "https://www.panmobile.example",
+   "otherNames": [
+    "Pan Mobile",
+    "PAN",
+    "Paan",
+    "Pann"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "photography"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_101",
+   "tagline": "Phones and tablets for reading, travel",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Salt Lake City, UT",
+   "founded": 2000,
+   "employees": 240,
+   "ceo": {
+    "name": "Yara Quintero"
+   },
+   "website": "https://www.erebusmobile.example",
+   "otherNames": [
+    "Erebus Mobile",
+    "EREBUS",
+    "Erebuss",
+    "Eerbus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "reading",
+    "travel",
+    "note-taking",
+    "school"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_102",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2011,
+   "employees": 900,
+   "ceo": {
+    "name": "Farid Okafor"
+   },
+   "website": "https://www.dikemobile.example",
+   "otherNames": [
+    "Dike Mobile",
+    "DIKE",
+    "Diike",
+    "Dkie"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "note-taking",
+    "photography"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_103",
+   "tagline": "Phones and tablets for everyday, reading",
+   "categories": [
+    "phones_tablets"
+   ],
+   "hqCity": "Boise, ID",
+   "founded": 1998,
+   "employees": 120,
+   "ceo": {
+    "name": "Ava Khan"
+   },
+   "website": "https://www.plutusmobile.example",
+   "otherNames": [
+    "Plutus Mobile",
+    "PLUTUS",
+    "Pluuts",
+    "Pllutus"
+   ],
+   "warranty": "1 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "everyday",
+    "reading",
+    "travel",
+    "streaming"
+   ],
+   "productCategories": [
+    "Smartphone",
+    "Tablet"
+   ]
+  },
+  {
+   "brandId": "brand_104",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Madison, WI",
+   "founded": 2004,
+   "employees": 1600,
+   "ceo": {
+    "name": "Wen Ueda"
+   },
+   "website": "https://www.perseshardware.example",
+   "otherNames": [
+    "Perses Hardware",
+    "PERSES",
+    "Preses",
+    "Persess"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "content creation"
+   ],
+   "productCategories": [
+    "Graphics Card",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_105",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 1998,
+   "employees": 240,
+   "ceo": {
+    "name": "Rosa Adeyemi"
+   },
+   "website": "https://www.phemehardware.example",
+   "otherNames": [
+    "Pheme Hardware",
+    "PHEME",
+    "Phmee",
+    "Feme"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_106",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2007,
+   "employees": 1600,
+   "ceo": {
+    "name": "Rosa Evans"
+   },
+   "website": "https://www.hersehardware.example",
+   "otherNames": [
+    "Herse Hardware",
+    "HERSE",
+    "Herems",
+    "Hermees"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_107",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2011,
+   "employees": 3200,
+   "ceo": {
+    "name": "Dmitri Hale"
+   },
+   "website": "https://www.eurybiahardware.example",
+   "otherNames": [
+    "Eurybia Hardware",
+    "EURYBIA",
+    "Eruybia",
+    "Eurybiia"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "workstation builds"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_108",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2021,
+   "employees": 900,
+   "ceo": {
+    "name": "Omar Bauer"
+   },
+   "website": "https://www.cronushardware.example",
+   "otherNames": [
+    "Cronus Hardware",
+    "CRONUS",
+    "Crronus",
+    "Cornus"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "remote work",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_109",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2020,
+   "employees": 480,
+   "ceo": {
+    "name": "Jonah Zimmer"
+   },
+   "website": "https://www.harmoniahardware.example",
+   "otherNames": [
+    "Harmonia Hardware",
+    "HARMONIA",
+    "Haarmonia",
+    "Hramonia"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_110",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Portland, OR",
+   "founded": 2014,
+   "employees": 35,
+   "ceo": {
+    "name": "Victor Park"
+   },
+   "website": "https://www.biahardware.example",
+   "otherNames": [
+    "Bia Hardware",
+    "BIA",
+    "Biia",
+    "Biaa"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "PC Case",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_111",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Chattanooga, TN",
+   "founded": 2013,
+   "employees": 3200,
+   "ceo": {
+    "name": "Zane Hale"
+   },
+   "website": "https://www.notushardware.example",
+   "otherNames": [
+    "Notus Hardware",
+    "NOTUS",
+    "Ntous",
+    "Notuss"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "PC Case",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_112",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2019,
+   "employees": 3200,
+   "ceo": {
+    "name": "Ava Alvarez"
+   },
+   "website": "https://www.delphynehardware.example",
+   "otherNames": [
+    "Delphyne Hardware",
+    "DELPHYNE",
+    "Apolllo",
+    "Aopllo"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "streaming"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_113",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 2007,
+   "employees": 35,
+   "ceo": {
+    "name": "Nadia Duarte"
+   },
+   "website": "https://www.apatehardware.example",
+   "otherNames": [
+    "Apate Hardware",
+    "APATE",
+    "Appate",
+    "Apaate"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_114",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2004,
+   "employees": 1600,
+   "ceo": {
+    "name": "Gia Dubois"
+   },
+   "website": "https://www.eosphoroshardware.example",
+   "otherNames": [
+    "Eosphoros Hardware",
+    "EOSPHOROS",
+    "Eoss",
+    "Eoos"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "PC Case",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_115",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2020,
+   "employees": 120,
+   "ceo": {
+    "name": "Celia Ito"
+   },
+   "website": "https://www.eirenehardware.example",
+   "otherNames": [
+    "Eirene Hardware",
+    "EIRENE",
+    "Eireene",
+    "Eirenne"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "office"
+   ],
+   "productCategories": [
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_116",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2014,
+   "employees": 3200,
+   "ceo": {
+    "name": "Wen Zimmer"
+   },
+   "website": "https://www.uranushardware.example",
+   "otherNames": [
+    "Uranus Hardware",
+    "URANUS",
+    "Urauns",
+    "Urannus"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Memory",
+    "Monitor",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_117",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2013,
+   "employees": 3200,
+   "ceo": {
+    "name": "Kai Duarte"
+   },
+   "website": "https://www.enyohardware.example",
+   "otherNames": [
+    "Enyo Hardware",
+    "ENYO",
+    "Enyoo",
+    "Eyno"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "office"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_118",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2020,
+   "employees": 900,
+   "ceo": {
+    "name": "Tara Walsh"
+   },
+   "website": "https://www.nykteishardware.example",
+   "otherNames": [
+    "Nykteis Hardware",
+    "NYKTEIS",
+    "Nyxx",
+    "Nix"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "workstation builds"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_119",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Columbus, OH",
+   "founded": 1999,
+   "employees": 900,
+   "ceo": {
+    "name": "Jonah Okafor"
+   },
+   "website": "https://www.hestiahardware.example",
+   "otherNames": [
+    "Hestia Hardware",
+    "HESTIA",
+    "Hesita",
+    "Hestiaa"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_120",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2003,
+   "employees": 60,
+   "ceo": {
+    "name": "Victor Fischer"
+   },
+   "website": "https://www.hemerahardware.example",
+   "otherNames": [
+    "Hemera Hardware",
+    "HEMERA",
+    "Hemeera",
+    "Hemerra"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "office"
+   ],
+   "productCategories": [
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_121",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Burlington, VT",
+   "founded": 2020,
+   "employees": 1600,
+   "ceo": {
+    "name": "Chloe Khan"
+   },
+   "website": "https://www.dionysushardware.example",
+   "otherNames": [
+    "Dionysus Hardware",
+    "DIONYSUS",
+    "Dioynsus",
+    "Dionyuss"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_122",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2008,
+   "employees": 900,
+   "ceo": {
+    "name": "Tara Singh"
+   },
+   "website": "https://www.hadeshardware.example",
+   "otherNames": [
+    "Hades Hardware",
+    "HADES",
+    "Hade",
+    "Haeds"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "remote work",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Memory",
+    "Mouse",
+    "PC Case",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_123",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Portland, OR",
+   "founded": 2011,
+   "employees": 1600,
+   "ceo": {
+    "name": "Lila Khan"
+   },
+   "website": "https://www.euterpehardware.example",
+   "otherNames": [
+    "Euterpe Hardware",
+    "EUTERPE",
+    "Eutrepe",
+    "Euuterpe"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_124",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2020,
+   "employees": 60,
+   "ceo": {
+    "name": "Lila Rossi"
+   },
+   "website": "https://www.hymenaeushardware.example",
+   "otherNames": [
+    "Hymenaeus Hardware",
+    "HYMENAEUS",
+    "Hymeneaus",
+    "Hmyenaeus"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_125",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2020,
+   "employees": 480,
+   "ceo": {
+    "name": "Dmitri Park"
+   },
+   "website": "https://www.pleionehardware.example",
+   "otherNames": [
+    "Pleione Hardware",
+    "PLEIONE",
+    "Atlass",
+    "Atlaas"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Keyboard",
+    "Monitor",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_126",
+   "tagline": "PC parts and accessories for gaming, office",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Madison, WI",
+   "founded": 2002,
+   "employees": 480,
+   "ceo": {
+    "name": "Ben Duarte"
+   },
+   "website": "https://www.hyperionhardware.example",
+   "otherNames": [
+    "Hyperion Hardware",
+    "HYPERION",
+    "Hyperiion",
+    "Hypperion"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "office",
+    "remote work",
+    "PC building"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_127",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2019,
+   "employees": 120,
+   "ceo": {
+    "name": "Celia Bauer"
+   },
+   "website": "https://www.eucleiahardware.example",
+   "otherNames": [
+    "Eucleia Hardware",
+    "EUCLEIA",
+    "Euucleia",
+    "Euclleia"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "cooling"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Graphics Card",
+    "Memory",
+    "Monitor",
+    "Mouse",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_128",
+   "tagline": "PC parts and accessories for gaming, office",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Columbus, OH",
+   "founded": 2011,
+   "employees": 35,
+   "ceo": {
+    "name": "Diego Quintero"
+   },
+   "website": "https://www.gaiahardware.example",
+   "otherNames": [
+    "Gaia Hardware",
+    "GAIA",
+    "Gaiia",
+    "Giaa"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "office",
+    "remote work",
+    "content creation"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_129",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2018,
+   "employees": 240,
+   "ceo": {
+    "name": "Quinn Garcia"
+   },
+   "website": "https://www.thalassahardware.example",
+   "otherNames": [
+    "Thalassa Hardware",
+    "THALASSA",
+    "Thhalassa",
+    "Thaalssa"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Keyboard",
+    "Monitor",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_130",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2002,
+   "employees": 35,
+   "ceo": {
+    "name": "Elena Ito"
+   },
+   "website": "https://www.palaemonhardware.example",
+   "otherNames": [
+    "Palaemon Hardware",
+    "PALAEMON",
+    "Palaemonn",
+    "Paalaemon"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "workstation builds"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "PC Case",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_131",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Chattanooga, TN",
+   "founded": 2000,
+   "employees": 120,
+   "ceo": {
+    "name": "Diego Jensen"
+   },
+   "website": "https://www.dionehardware.example",
+   "otherNames": [
+    "Dione Hardware",
+    "DIONE",
+    "Dionne",
+    "Dioone"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Networking",
+    "Power Supply",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_132",
+   "tagline": "PC parts and accessories for gaming, office",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Sacramento, CA",
+   "founded": 2008,
+   "employees": 240,
+   "ceo": {
+    "name": "Dmitri Alvarez"
+   },
+   "website": "https://www.herahardware.example",
+   "otherNames": [
+    "Hera Hardware",
+    "HERA",
+    "Herra",
+    "Hrea"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "office",
+    "PC building",
+    "streaming"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_133",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Denver, CO",
+   "founded": 2011,
+   "employees": 60,
+   "ceo": {
+    "name": "Kai Duarte"
+   },
+   "website": "https://www.thaumashardware.example",
+   "otherNames": [
+    "Thaumas Hardware",
+    "THAUMAS",
+    "Iriis",
+    "Iri"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Mouse",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_134",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2009,
+   "employees": 1600,
+   "ceo": {
+    "name": "Wen Castro"
+   },
+   "website": "https://www.cetohardware.example",
+   "otherNames": [
+    "Ceto Hardware",
+    "CETO",
+    "Keto",
+    "Ceeto"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "workstation builds",
+    "office"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_135",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 2018,
+   "employees": 120,
+   "ceo": {
+    "name": "Yara Fischer"
+   },
+   "website": "https://www.nikaiahardware.example",
+   "otherNames": [
+    "Nikaia Hardware",
+    "NIKAIA",
+    "Nik",
+    "Nikee"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "cooling"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Graphics Card",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_136",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Chattanooga, TN",
+   "founded": 2018,
+   "employees": 480,
+   "ceo": {
+    "name": "Gia Alvarez"
+   },
+   "website": "https://www.gerashardware.example",
+   "otherNames": [
+    "Geras Hardware",
+    "GERAS",
+    "Gerras",
+    "Geraas"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_137",
+   "tagline": "PC parts and accessories for gaming, office",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2011,
+   "employees": 480,
+   "ceo": {
+    "name": "Mateo Brooks"
+   },
+   "website": "https://www.eroshardware.example",
+   "otherNames": [
+    "Eros Hardware",
+    "EROS",
+    "Erros",
+    "Ero"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "office",
+    "content creation",
+    "PC building"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Keyboard",
+    "Monitor",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_138",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Chattanooga, TN",
+   "founded": 2000,
+   "employees": 1600,
+   "ceo": {
+    "name": "Samir Khan"
+   },
+   "website": "https://www.aidoshardware.example",
+   "otherNames": [
+    "Aidos Hardware",
+    "AIDOS",
+    "Adios",
+    "Aidoss"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "workstation builds"
+   ],
+   "productCategories": [
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Motherboard",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_139",
+   "tagline": "PC parts and accessories for gaming, content creation",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2009,
+   "employees": 240,
+   "ceo": {
+    "name": "Omar Park"
+   },
+   "website": "https://www.uraniahardware.example",
+   "otherNames": [
+    "Urania Hardware",
+    "URANIA",
+    "Uraniaa",
+    "Urrania"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "content creation",
+    "office",
+    "PC building"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Graphics Card",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "PC Case",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_140",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Austin, TX",
+   "founded": 1998,
+   "employees": 900,
+   "ceo": {
+    "name": "Diego Garcia"
+   },
+   "website": "https://www.zelushardware.example",
+   "otherNames": [
+    "Zelus Hardware",
+    "ZELUS",
+    "Zeluss",
+    "Zelos"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "content creation",
+    "streaming"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Mouse",
+    "Networking",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_141",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Salt Lake City, UT",
+   "founded": 2002,
+   "employees": 900,
+   "ceo": {
+    "name": "Dmitri Moreau"
+   },
+   "website": "https://www.phaneshardware.example",
+   "otherNames": [
+    "Phanes Hardware",
+    "PHANES",
+    "Phannes",
+    "Phanees"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "cooling"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "PC Case",
+    "Power Supply",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_142",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Omaha, NE",
+   "founded": 2012,
+   "employees": 3200,
+   "ceo": {
+    "name": "Ben Khan"
+   },
+   "website": "https://www.criushardware.example",
+   "otherNames": [
+    "Crius Hardware",
+    "CRIUS",
+    "Cirus",
+    "Criu"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_143",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 2001,
+   "employees": 120,
+   "ceo": {
+    "name": "Tara Okafor"
+   },
+   "website": "https://www.areshardware.example",
+   "otherNames": [
+    "Ares Hardware",
+    "ARES",
+    "Arres",
+    "Aress"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "workstation builds"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_144",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2019,
+   "employees": 120,
+   "ceo": {
+    "name": "Victor Brooks"
+   },
+   "website": "https://www.aphroditehardware.example",
+   "otherNames": [
+    "Aphrodite Hardware",
+    "APHRODITE",
+    "Afrodite",
+    "Aprhodite"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "cooling"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply"
+   ]
+  },
+  {
+   "brandId": "brand_145",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Pittsburgh, PA",
+   "founded": 2015,
+   "employees": 480,
+   "ceo": {
+    "name": "Bruno Young"
+   },
+   "website": "https://www.kairoshardware.example",
+   "otherNames": [
+    "Kairos Hardware",
+    "KAIROS",
+    "Kairoos",
+    "Kaiiros"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "RoHS Compliant"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "streaming"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Keyboard",
+    "Monitor",
+    "Mouse",
+    "Networking",
+    "PC Case",
+    "Power Supply",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_146",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Albuquerque, NM",
+   "founded": 2015,
+   "employees": 900,
+   "ceo": {
+    "name": "Esme Xu"
+   },
+   "website": "https://www.phoebehardware.example",
+   "otherNames": [
+    "Phoebe Hardware",
+    "PHOEBE",
+    "Phhoebe",
+    "Phoebee"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "WEEE Registered",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Monitor",
+    "Motherboard",
+    "Networking",
+    "PC Case",
+    "Processor",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_147",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Minneapolis, MN",
+   "founded": 2013,
+   "employees": 60,
+   "ceo": {
+    "name": "Gia Hale"
+   },
+   "website": "https://www.psychehardware.example",
+   "otherNames": [
+    "Psyche Hardware",
+    "PSYCHE",
+    "Psyyche",
+    "Psychee"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "remote work"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Networking",
+    "Power Supply"
+   ]
+  },
+  {
+   "brandId": "brand_148",
+   "tagline": "PC parts and accessories for gaming, content creation",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2016,
+   "employees": 480,
+   "ceo": {
+    "name": "Chloe Tanaka"
+   },
+   "website": "https://www.themishardware.example",
+   "otherNames": [
+    "Themis Hardware",
+    "THEMIS",
+    "Thhemis",
+    "Thmeis"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO 45001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "content creation",
+    "office",
+    "remote work"
+   ],
+   "productCategories": [
+    "Docking Station",
+    "Keyboard",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_149",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Portland, OR",
+   "founded": 2018,
+   "employees": 1600,
+   "ceo": {
+    "name": "Uma Dubois"
+   },
+   "website": "https://www.astraeushardware.example",
+   "otherNames": [
+    "Astraeus Hardware",
+    "ASTRAEUS",
+    "Astraeos",
+    "Asstraeus"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 14001",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Cooling",
+    "Docking Station",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_150",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Ann Arbor, MI",
+   "founded": 2002,
+   "employees": 120,
+   "ceo": {
+    "name": "Rosa Okafor"
+   },
+   "website": "https://www.alastorhardware.example",
+   "otherNames": [
+    "Alastor Hardware",
+    "ALASTOR",
+    "Krattos",
+    "Krato"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO/IEC 27001",
+    "ISO 14001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Mouse",
+    "Networking",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_151",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Tucson, AZ",
+   "founded": 2014,
+   "employees": 480,
+   "ceo": {
+    "name": "Omar Chen"
+   },
+   "website": "https://www.erishardware.example",
+   "otherNames": [
+    "Eris Hardware",
+    "ERIS",
+    "Eriis",
+    "Eriss"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "office",
+    "content creation"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Docking Station",
+    "Keyboard",
+    "Memory",
+    "Monitor",
+    "Motherboard",
+    "Mouse",
+    "Power Supply",
+    "Storage"
+   ]
+  },
+  {
+   "brandId": "brand_152",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Richmond, VA",
+   "founded": 2004,
+   "employees": 35,
+   "ceo": {
+    "name": "Jonah Zimmer"
+   },
+   "website": "https://www.eileithyiahardware.example",
+   "otherNames": [
+    "Eileithyia Hardware",
+    "EILEITHYIA",
+    "Eileithyi",
+    "Eiletihyia"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "ISO 45001",
+    "WEEE Registered"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "streaming",
+    "remote work"
+   ],
+   "productCategories": [
+    "Case Fans",
+    "Cooling",
+    "Docking Station",
+    "Graphics Card",
+    "Memory",
+    "Motherboard",
+    "Networking",
+    "PC Case",
+    "Storage",
+    "Webcam"
+   ]
+  },
+  {
+   "brandId": "brand_153",
+   "tagline": "PC parts and accessories for gaming, PC building",
+   "categories": [
+    "computer_hardware"
+   ],
+   "hqCity": "Raleigh, NC",
+   "founded": 2022,
+   "employees": 60,
+   "ceo": {
+    "name": "Jonah Chen"
+   },
+   "website": "https://www.artemishardware.example",
+   "otherNames": [
+    "Artemis Hardware",
+    "ARTEMIS",
+    "Arteemis",
+    "Aretmis"
+   ],
+   "warranty": "2 year limited",
+   "certifications": [
+    "ISO 9001",
+    "RoHS Compliant",
+    "ISO/IEC 27001"
+   ],
+   "useCaseFocus": [
+    "gaming",
+    "PC building",
+    "workstation builds",
+    "multitasking"
+   ],
+   "productCategories": [
+    "Graphics Card",
+    "Keyboard",
+    "Memory",
+    "Motherboard",
+    "Mouse",
+    "PC Case",
+    "Power Supply",
+    "Processor",
+    "Storage",
+    "Webcam"
+   ]
+  }
+ ]
+}
