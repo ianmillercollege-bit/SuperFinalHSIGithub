@@ -386,7 +386,7 @@ Response (201):
  "owners": [{"ownerId": "own_10", "name": "Sam Rivera", "role": "Brand Data Owner"}],
  "connectorReady": true, "note": "Demo data. Resets when the server restarts."}
 ```
-Rules: 1 to 50 products; `name` and `price` required, other fields optional with the Product defaults; `specs` keys are
+Rules: 1 or more products (no upper limit); `name` and `price` required, other fields optional with the Product defaults; `specs` keys are
 the Product spec keys (unknown keys are kept as-is). Creates the brand (`isClient: true`, `billingTier: "starter"`),
 its products (`prod_` ids), an owner with role Brand Data Owner covering every `ruleId`, an audit entry
 `action: "brand_onboarded"`, and an owner API key for `/client/*` and `brandId` use. The new brand is ranked by the

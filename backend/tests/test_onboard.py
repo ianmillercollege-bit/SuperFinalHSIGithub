@@ -149,13 +149,12 @@ def test_onboarded_data_resets_on_restart(client):
     {"products": [{"name": "A", "price": 10, "specs": {"touchscreen": "yes"}}]},
     {"products": [{"name": "A", "price": 10, "factSource": "Rumour"}]},
     {"products": [{"name": "A", "price": 10, "factSourceUrl": "not a url"}]},
-    {"products": [{"name": f"P{i}", "price": 10} for i in range(51)]},
     {"products": [{"name": "Twin", "price": 10}, {"name": "twin", "price": 11}]},
     {"products": [{"name": "Kestrel Aero 14", "price": 10}]},
     {"products": "Lumen Buds 2"},
 ], ids=["empty-brand", "blank-brand", "empty-owner", "long-brand", "no-name", "no-price", "zero-price",
         "negative-price", "text-price", "blank-name", "bad-availability", "negative-spec", "text-spec",
-        "text-touchscreen", "bad-fact-source", "bad-url", "51-products", "duplicate-in-request",
+        "text-touchscreen", "bad-fact-source", "bad-url", "duplicate-in-request",
         "duplicate-in-catalog", "products-not-a-list"])
 def test_validation_is_422(client, change):
     res = onboard(client, dict(BODY, **change))
@@ -163,6 +162,6 @@ def test_validation_is_422(client, change):
     assert res.json()["error"]["code"] == "VALIDATION_ERROR"
 
 
-def test_fifty_products_is_allowed(client):
-    res = onboard(client, dict(BODY, products=[{"name": f"Lumen Item {i}", "price": 10 + i} for i in range(50)]))
-    assert res.status_code == 201 and res.json()["productsCreated"] == 50
+def test_many_products_are_allowed_no_cap(client):
+    res = onboard(client, dict(BODY, products=[{"name": f"Lumen Item {i}", "price": 10 + i} for i in range(600)]))
+    assert res.status_code == 201 and res.json()["productsCreated"] == 600
