@@ -54,7 +54,7 @@ export default function ReviewedView({ stats, rows, insights, pageSize = 5, head
         </div>
         <div className="cq-card cq-flex1 cq-card-col">
           <TitleBlock title="Insights" sub="Every action, by a named person or the system" />
-          <Dropdown label="Filter by actor" hideLabel value={actor} onChange={setActor} options={[{ value: 'all', label: 'All actors' }, ...actors.map((a) => ({ value: a, label: a }))]} />
+          <Dropdown label="Filter by actor" hideLabel compact value={actor} onChange={setActor} options={[{ value: 'all', label: 'All actors' }, ...actors.map((a) => ({ value: a, label: a }))]} />
           {feed.map((i, k) => (
             <div key={k} className="cq-list-row"><span className="cq-sub">{i.who}</span><span style={{ fontSize: 14, lineHeight: 1.4 }}>{i.what}</span></div>
           ))}

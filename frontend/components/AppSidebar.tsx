@@ -11,7 +11,7 @@ import { forgetLogin } from "@/lib/auth/signIn";
 import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
 import { onIncidentsChanged } from "@/lib/events";
-import { NAV } from "@/lib/nav";
+import { buildNavGroups } from "@/lib/nav";
 import { PROFILE_KEY, useProfileDefaults } from "@/lib/profile/defaults";
 import { defaultProfile } from "@/lib/profile/types";
 import { useSidebarUser } from "@/lib/profile/useProfile";
@@ -55,15 +55,18 @@ export default function AppSidebar() {
     };
   }, []);
 
-  const groups: KitNavGroup[] = NAV.map((group) => ({
-    title: group.title,
-    tone: group.tone,
-    items: group.items.filter((item) => !item.staffOnly || user?.staff).map((item) => ({
-      label: item.label,
-      href: item.href,
-      ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
-    })),
-  }));
+  // The one navigation definition is the kit's lib/nav.ts; only the routes are ours.
+  const groups: KitNavGroup[] = buildNavGroups(
+    {
+      dashboard: "/dashboard", visibility: "/visibility", market: "/market", company: "/company", products: "/products",
+      companies: "/companies",
+      gaps: "/gaps", simulator: "/growth-simulator", coach: "/coach", preview: "/preview",
+      connect: "/connect",
+      fileClaim: "/claims/new", outstanding: "/claims/outstanding", reviewed: "/claims/reviewed",
+    },
+    open.data,
+    !!user?.staff,
+  );
 
   // With nobody signed in there is no Sign out button, so the sidebar offers the way back to the sign-in page.
   if (!user) groups.push({ title: "Account", tone: "default", items: [{ label: "Sign in", href: "/login" }] });

@@ -22,7 +22,7 @@ async function main() {
   ]);
   const answers = answersRes.answers;
   const open = pending.incidents.length + escalated.incidents.length;
-  const vm = toViewModel({ firstName: "Test", businessName: summary.brandName, trust, claims: { open, pending: pending.incidents.length, decided: 27, decidedCapped: false }, audit: [], visibility: { summary, answers } });
+  const vm = toViewModel({ firstName: "Test", businessName: summary.brandName, trust, claims: { open, pending: pending.incidents.length, decided: 27, decidedCapped: false, insights: [] }, audit: [], visibility: { summary, answers } });
   const live = liveVisibility(summary, answers);
   const base = contextFromKit({ businessName: summary.brandName, vm, opportunities: sampleOpportunities, live: liveCoachInputs(trust, { open, decided: 27 }) });
   const ctx = withLiveVisibility(base, live, vm.score?.changeVsLastWeek ?? 0);

@@ -130,7 +130,7 @@ export default function ProfileView({ saved, onSave, onReset, headerRight, logos
                         ? <span className="logo" aria-hidden="true"><img src={logos[a.id]} alt="" onError={() => setBrokenLogo((b) => ({ ...b, [a.id]: true }))} /></span>
                         : <span className="mono" aria-hidden="true">{a.mono}</span>}
                       <span className="t"><b>{a.name}</b><span>{a.maker}'s assistant</span></span>
-                      <span className="cq-pill is-neutral is-md" style={{ whiteSpace: 'nowrap' }}>Not connected yet</span>
+                      <span className={`cq-pill ${on ? 'is-ok' : 'is-neutral'} is-md`} style={{ whiteSpace: 'nowrap' }}>{on ? 'Connected' : 'Not connected yet'}</span>
                       <span className="chk" aria-hidden="true"><Tick /></span>
                     </label>
                   );

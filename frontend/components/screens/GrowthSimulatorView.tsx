@@ -51,7 +51,7 @@ export default function GrowthSimulatorView({ baselineScore, levers, initialLeve
           <div className="cq-card cq-card-col" style={{ gap: 16, padding: 24 }} aria-live="polite">
             <div><span className="cq-score-label">Visibility score</span><div className="cq-hero" style={{ fontSize: 44 }}>{baselineScore} <span style={{ color: '#7C8BA1' }}>→</span> {Math.round(r.after * 10) / 10}</div></div>
             <div><span className="cq-score-label">Projected revenue</span><div className="cq-hero" style={{ fontSize: 36, color: 'var(--cq-ok)' }}>+{usd(r.revenue)}<span style={{ fontFamily: 'var(--cq-font-ui)', fontSize: 14, fontWeight: 400, color: 'var(--cq-text-muted)' }}> /month</span></div></div>
-            {[['Now', baselineScore, '#7C8BA1'], ['After', r.after, 'var(--cq-you, var(--cq-navy))']].map(([t, v, c]) => (
+            {[['Now', baselineScore, '#7C8BA1'], ['After', r.after, 'var(--cq-navy)']].map(([t, v, c]) => (
               <div key={String(t)} className="cq-inc-meta"><span style={{ width: 52 }}>{t}</span><div className="cq-bar"><div style={{ width: `${v}%`, background: String(c) }} /></div></div>
             ))}
             <span className="cq-pill is-warn" style={{ alignSelf: 'flex-start' }}>Illustrative estimate, not a guarantee</span>

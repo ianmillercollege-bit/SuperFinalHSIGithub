@@ -43,18 +43,21 @@ export default function Sidebar({ groups, user, profileHref, backend, onSignOut,
         <Image src={logoSrc} alt="CIRQO Analytics logo" width={192} height={58} priority />
         <span className="cq-lockup-sub" aria-hidden="true">ANALYTICS</span>
       </div>
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-        {groups.map((g) => g.tone === 'claims' ? (
-          <div key={g.title} className="cq-claims">
-            <span className="cq-claims-title">{g.title}</span>
-            {g.items.map((it) => renderItem(it, true))}
-          </div>
-        ) : (
-          <div key={g.title} className="cq-nav-group">
-            <span className="cq-nav-label">{g.title}</span>
-            {g.items.map((it) => renderItem(it, false))}
-          </div>
-        ))}
+      <nav className="cq-nav">
+        {groups.map((g) => {
+          const gid = `cq-navg-${g.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+          return g.tone === 'claims' ? (
+            <div key={g.title} className="cq-claims" role="group" aria-labelledby={gid}>
+              <span id={gid} className="cq-claims-title">{g.title}</span>
+              {g.items.map((it) => renderItem(it, true))}
+            </div>
+          ) : (
+            <div key={g.title} className="cq-nav-group" role="group" aria-labelledby={gid}>
+              <span id={gid} className="cq-nav-label">{g.title}</span>
+              {g.items.map((it) => renderItem(it, false))}
+            </div>
+          );
+        })}
       </nav>
       <div className="cq-side-foot">
         {(() => {

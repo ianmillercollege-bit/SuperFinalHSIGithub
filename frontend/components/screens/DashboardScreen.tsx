@@ -19,7 +19,7 @@ export default function DashboardScreen() {
 
   return (
     <>
-      <DashboardView vm={vm!} afterCharts={<DashboardPlan session={coach} />} afterOpportunities={vm!.storefront ? <StorefrontRevenue data={vm!.storefront} /> : undefined} />
+      <DashboardView vm={vm!} afterStats={<DashboardPlan session={coach} />} afterOpportunities={vm!.storefront ? <StorefrontRevenue data={vm!.storefront} /> : undefined} />
       <ReportDownload />
       {claims.error !== undefined && <ErrorNotice error={claims.error} onRetry={claims.reload} />}
       {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}

@@ -9,6 +9,7 @@ import "@/styles/cirqo-coach.css";
 import "@/styles/cirqo-profile.css";
 import "@/styles/cirqo-splash.css";
 import "@/styles/cirqo-overrides.css";
+import "@/styles/cirqo-polish.css";
 
 const publicSans = Public_Sans({
   variable: "--font-public-sans",

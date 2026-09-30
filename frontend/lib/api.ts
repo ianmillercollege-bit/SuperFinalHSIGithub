@@ -160,16 +160,26 @@ export function connectorSearch(body: ConnectorSearchRequest): Promise<Connector
   return request("POST", "/api/v1/connector/search", {}, body, MOCK_FILES.connectorSearch, CONNECTOR_TIMEOUT_MS);
 }
 
+// The backend names its assistants "Assistant A/B/C"; the dashboard shows these names instead.
+const ASSISTANT_DISPLAY: Record<string, string> = { "Assistant A": "Claude", "Assistant B": "ChatGPT", "Assistant C": "Gemini" };
+const shownAssistant = (name: string) => ASSISTANT_DISPLAY[name] ?? name;
+const renameInText = (text: string) => text.replace(/Assistant [ABC]\b/g, (m) => ASSISTANT_DISPLAY[m]);
+const shownIncident = (i: Incident): Incident => ({ ...i, summary: renameInText(i.summary) });
+
 // GET /api/v1/visibility/summary?days=  (days: 1 to 30, default 30)
 export function getVisibilitySummary(days?: number): Promise<VisibilitySummary> {
-  return cached(`summary:${days ?? ""}`, () => request("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary));
+  return cached(`summary:${days ?? ""}`, async () => {
+    const data = await request<VisibilitySummary>("GET", "/api/v1/visibility/summary", { days }, undefined, MOCK_FILES.visibilitySummary);
+    return { ...data, byAssistant: data.byAssistant.map((a) => ({ ...a, name: shownAssistant(a.name) })) };
+  });
 }
 
 // GET /api/v1/answers?assistantId=&limit=  (newest first)
 export async function getAnswers(filters: AnswerFilters = {}): Promise<AnswersResponse> {
-  const data = await cached(`answers:${JSON.stringify(filters)}`, () =>
-    request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers),
-  );
+  const data = await cached(`answers:${JSON.stringify(filters)}`, async () => {
+    const res = await request<AnswersResponse>("GET", "/api/v1/answers", { ...filters }, undefined, MOCK_FILES.answers);
+    return { ...res, answers: res.answers.map((a) => ({ ...a, assistantName: shownAssistant(a.assistantName) })) };
+  });
   if (!USE_MOCK) return data;
   const { assistantId, limit = 50 } = filters;
   return { answers: data.answers.filter((a) => !assistantId || a.assistantId === assistantId).slice(0, limit) };
@@ -200,7 +210,8 @@ export async function getClaims(filters: ClaimFilters = {}): Promise<ClaimsRespo
 
 // GET /api/v1/incidents?status=&severity=&limit=  (filters optional, newest first)
 export async function getIncidents(filters: IncidentFilters = {}): Promise<IncidentsResponse> {
-  const data = await request<IncidentsResponse>("GET", "/api/v1/incidents", { ...filters }, undefined, MOCK_FILES.incidents);
+  const raw = await request<IncidentsResponse>("GET", "/api/v1/incidents", { ...filters }, undefined, MOCK_FILES.incidents);
+  const data = { ...raw, incidents: raw.incidents.map(shownIncident) };
   if (!USE_MOCK) return data;
   const { status, severity, limit = 50 } = filters;
   return {
@@ -212,8 +223,8 @@ export async function getIncidents(filters: IncidentFilters = {}): Promise<Incid
 }
 
 // GET /api/v1/incidents/{incidentId}
-export function getIncident(incidentId: string): Promise<Incident> {
-  return request("GET", `/api/v1/incidents/${encodeURIComponent(incidentId)}`, {}, undefined, MOCK_FILES.incidentDetail);
+export async function getIncident(incidentId: string): Promise<Incident> {
+  return shownIncident(await request<Incident>("GET", `/api/v1/incidents/${encodeURIComponent(incidentId)}`, {}, undefined, MOCK_FILES.incidentDetail));
 }
 
 // POST /api/v1/incidents/{incidentId}/approve
@@ -349,23 +360,32 @@ async function request<T>(
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
   const hadToken = getToken() !== null;
-  try {
-    return await readJson<T>(
-      await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
+  const url = `${API_URL}${path}${toQueryString(withBrand(path, query))}`;
+  const send = async () =>
+    readJson<T>(
+      await fetchOrThrow(url, {
         method,
         headers: requestHeaders(body !== undefined),
         body: body === undefined ? undefined : JSON.stringify(body),
         cache: "no-store",
       }, timeoutMs),
     );
+  try {
+    // Reads share a recent copy (and one request in flight); any write drops every saved copy so the
+    // next read is fresh. Login and logout change who is asking, so they clear it too.
+    if (method !== "GET") {
+      cache.clear();
+      return await send();
+    }
+    return await cached(url, send);
   } catch (error) {
     // A 401 while signed in means the token ended (tokens die when the demo server restarts). Drop back to the
-    // guest path so the app keeps working, and say so.
+    // sign-in page and say so.
     if (hadToken && path !== "/api/v1/auth/login" && error instanceof ApiError && error.code === "UNAUTHORIZED") {
       clearToken();
       signOutBrand();
       resetUserSession();
-      throw new ApiError("Your sign-in ended (the demo server restarted). You are now a guest. Sign in again to continue.", "UNAUTHORIZED", error.status);
+      throw new ApiError("Your sign-in ended (the demo server restarted). Sign in again to continue.", "UNAUTHORIZED", error.status);
     }
     throw error;
   }

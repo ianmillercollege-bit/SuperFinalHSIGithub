@@ -15,7 +15,11 @@ export interface StatCardData {
 
 export interface OpportunityRow { id: string; title: string; effort: string; liftPoints: number; revenuePerMonth: number }
 export interface ListRow { title: string; detail: string; href?: string }
-export interface ListCardData { id: string; title: string; rows: ListRow[]; emptyText?: string; sample?: boolean }
+export type GroupTone = 'blue' | 'orange' | 'slate';   // dot colors: Accepted = blue, Needs your info = orange, Escalated = slate
+export interface GroupRow { code: string; detail: string; href?: string }
+export interface ListGroup { title: string; tone: GroupTone; rows: GroupRow[] }
+// When `groups` is set the card shows bold group headers with a colored dot and the claim code under each (Latest insights); otherwise `rows` as before.
+export interface ListCardData { id: string; title: string; rows: ListRow[]; groups?: ListGroup[]; emptyText?: string; sample?: boolean }
 
 export type SeriesKind = 'percent' | 'hours';
 export interface TrustSeries { key: string; label: string; title?: string; kind: SeriesKind; values: number[] } // percent values are 0..1; title defaults to "<n>-day <label>"

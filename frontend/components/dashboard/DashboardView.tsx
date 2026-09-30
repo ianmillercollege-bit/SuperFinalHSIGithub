@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { buildChart, CHART, type ChartKind } from '../../lib/dashboard/chart';
 import type { DashboardViewModel, ListCardData, OpportunityRow, StatCardData, TrustSeries } from '../../lib/dashboard/types';
 
@@ -15,27 +15,10 @@ function useGreeting(): string {
 }
 
 function TrendChart({ values, kind, startLabel, endLabel, label }: { values: number[]; kind: ChartKind; startLabel: string; endLabel: string; label: string }) {
-  // The drawing scales with the card, so its text would shrink on narrow windows. Measure the scale and
-  // counter it, so axis text stays the same size at every window width.
-  const svgRef = useRef<SVGSVGElement>(null);
-  const [scale, setScale] = useState(1);
-  useEffect(() => {
-    const el = svgRef.current;
-    if (!el) return;
-    const measure = () => setScale(Math.max(0.1, el.getBoundingClientRect().width / CHART.w));
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
-    window.addEventListener('resize', measure); // also covers browsers that skip observer callbacks while hidden
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', measure);
-    };
-  }, [values.length]);
   if (values.length < 2) return <p className="cq-chart-empty">Not enough data yet.</p>;
   const g = buildChart(values, kind);
   return (
-    <svg ref={svgRef} className="cq-chart" style={{ fontSize: `${11 / scale}px` }} viewBox={`0 0 ${CHART.w} ${CHART.h}`} role="img" aria-label={label}>
+    <svg className="cq-chart" viewBox={`0 0 ${CHART.w} ${CHART.h}`} role="img" aria-label={label}>
       {g.ticks.map((t) => (
         <g key={t.y}>
           <line className="g" x1={CHART.left} x2={CHART.right} y1={t.y} y2={t.y} />
@@ -61,7 +44,7 @@ function Chips<T extends string | number>({ options, value, onChange, format }: 
   );
 }
 
-function WeeklyCard({ scores, badge }: { scores: number[]; badge?: string }) {
+function WeeklyCard({ scores }: { scores: number[] }) {
   const options = ([4, 8] as const).filter((n) => scores.length >= n);
   const [weeks, setWeeks] = useState<number>(options.length ? options[options.length - 1] : scores.length);
   const shown = options.length ? scores.slice(-weeks) : scores;
@@ -69,7 +52,6 @@ function WeeklyCard({ scores, badge }: { scores: number[]; badge?: string }) {
     <div className="cq-card cq-card-col cq-flex1">
       <div className="cq-chart-head">
         <h2 className="cq-h2">Weekly visibility score</h2>
-        {badge && <span className="cq-pill is-warn is-badge">{badge}</span>}
         {options.length > 1 && <Chips options={[...options]} value={weeks} onChange={setWeeks} format={(n) => `${n} weeks`} />}
       </div>
       <TrendChart values={shown} kind="score" startLabel={`${shown.length} weeks ago`} endLabel="This week"
@@ -131,7 +113,6 @@ function StatInner({ s }: { s: StatCardData }) {
       </div>
       {(s.pill || s.note) && (
         <div className="cq-stat-foot">
-          {s.sample && <span className="cq-pill is-neutral">Sample</span>}
           {s.pill && <span className="cq-pill is-warn">{s.pill}</span>}
           {s.note && <span className="cq-stat-note">{s.note}</span>}
         </div>
@@ -140,14 +121,14 @@ function StatInner({ s }: { s: StatCardData }) {
   );
 }
 
-function OpportunityPanel({ rows, links, sample }: { rows: OpportunityRow[]; links?: DashboardViewModel['links']; sample?: boolean }) {
+function OpportunityPanel({ rows, links }: { rows: OpportunityRow[]; links?: DashboardViewModel['links'] }) {
   const lift = rows.reduce((a, r) => a + r.liftPoints, 0);
   const money = rows.reduce((a, r) => a + r.revenuePerMonth, 0);
   return (
     <section className="cq-opps" aria-labelledby="cq-opps-title">
       <div className="cq-opps-left">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <span className="cq-opps-eyebrow">Opportunity gaps{sample ? " · Sample" : ""}</span>
+          <span className="cq-opps-eyebrow">Opportunity gaps</span>
           <h2 className="cq-opps-title" id="cq-opps-title">{rows.length} thing{rows.length === 1 ? '' : 's'} to improve now</h2>
           <span className="cq-opps-sub">Together they lift your score by {lift} points, worth about {usd(money)} a month (illustrative estimate).</span>
         </div>
@@ -174,17 +155,26 @@ function OpportunityPanel({ rows, links, sample }: { rows: OpportunityRow[]; lin
 }
 
 function ListCard({ card }: { card: ListCardData }) {
+  const groups = card.groups?.filter((g) => g.rows.length > 0);
+  const empty = groups ? groups.length === 0 : card.rows.length === 0;
   return (
     <div className="cq-card cq-card-col cq-flex1">
-      <div className="cq-chart-head">
-        <h2 className="cq-h2">{card.title}</h2>
-        {card.sample && <span className="cq-pill is-neutral">Sample</span>}
-      </div>
-      {card.rows.length === 0 && <span className="cq-stat-note">{card.emptyText ?? 'Nothing to show yet.'}</span>}
-      {card.rows.map((r, i) => {
-        const inner = (<><span className="cq-list-title">{r.title}</span><span className="cq-list-detail">{r.detail}</span></>);
-        return r.href ? <Link key={i} className="cq-list-row" href={r.href}>{inner}</Link> : <div key={i} className="cq-list-row">{inner}</div>;
-      })}
+      <h2 className="cq-h2">{card.title}</h2>
+      {empty && <span className="cq-stat-note">{card.emptyText ?? 'Nothing to show yet.'}</span>}
+      {groups
+        ? groups.map((g) => (
+            <section key={g.title} className="cq-igroup">
+              <h3 className="cq-igroup-head"><span className={`cq-igroup-dot is-${g.tone}`} aria-hidden="true" />{g.title}</h3>
+              {g.rows.map((r, i) => {
+                const inner = (<><span className="cq-igroup-code">{r.code}</span><span className="cq-list-detail">{r.detail}</span></>);
+                return r.href ? <Link key={i} className="cq-igroup-row" href={r.href}>{inner}</Link> : <div key={i} className="cq-igroup-row">{inner}</div>;
+              })}
+            </section>
+          ))
+        : card.rows.map((r, i) => {
+            const inner = (<><span className="cq-list-title">{r.title}</span><span className="cq-list-detail">{r.detail}</span></>);
+            return r.href ? <Link key={i} className="cq-list-row" href={r.href}>{inner}</Link> : <div key={i} className="cq-list-row">{inner}</div>;
+          })}
     </div>
   );
 }
@@ -192,11 +182,12 @@ function ListCard({ card }: { card: ListCardData }) {
 export interface DashboardViewProps {
   vm: DashboardViewModel;
   headerRight?: ReactNode;          // existing "Sample data" badge and Reset button go here
+  afterStats?: ReactNode;           // e.g. the coach's ActionPlanPanel (prime spot on the front page)
   afterOpportunities?: ReactNode;   // e.g. the Assistant Simulator link card
   afterCharts?: ReactNode;          // e.g. the static Storefront revenue card
 }
 
-export default function DashboardView({ vm, headerRight, afterOpportunities, afterCharts }: DashboardViewProps) {
+export default function DashboardView({ vm, headerRight, afterStats, afterOpportunities, afterCharts }: DashboardViewProps) {
   const greeting = useGreeting();
   const hasCharts = (vm.weeklyScores && vm.weeklyScores.length > 1) || (vm.trust && vm.trust.series.length > 0);
   return (
@@ -222,12 +213,14 @@ export default function DashboardView({ vm, headerRight, afterOpportunities, aft
         </div>
       )}
 
-      {vm.opportunities && vm.opportunities.length > 0 && <OpportunityPanel rows={vm.opportunities} links={vm.links} sample={vm.opportunitiesAreSample} />}
+      {afterStats}
+
+      {vm.opportunities && vm.opportunities.length > 0 && <OpportunityPanel rows={vm.opportunities} links={vm.links} />}
       {afterOpportunities}
 
       {hasCharts && (
         <div className="cq-row">
-          {vm.weeklyScores && vm.weeklyScores.length > 1 && <WeeklyCard scores={vm.weeklyScores} badge={vm.weeklyBadge} />}
+          {vm.weeklyScores && vm.weeklyScores.length > 1 && <WeeklyCard scores={vm.weeklyScores} />}
           {vm.trust && vm.trust.series.length > 0 && <TrustCard series={vm.trust.series} badge={vm.trust.badge} />}
         </div>
       )}

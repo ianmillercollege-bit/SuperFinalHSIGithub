@@ -18,7 +18,7 @@ type SortKey = 'score' | 'averageRank' | 'shareOfVoice' | 'frequency';
 const ord = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10 > 3 ? 0 : n % 10]}`;
 const pct = (v: number) => `${Math.round(v * 100)}%`;
 const TYPE: Record<MarketGroup, { label: string; cls: string }> = { you: { label: 'You', cls: 'is-you' }, peer: { label: 'Small business', cls: 'is-peer' }, national: { label: 'National brand', cls: 'is-neutral' } };
-const COLOR: Record<MarketGroup, string> = { you: 'var(--cq-you, var(--cq-navy))', peer: 'var(--cq-peer)', national: 'var(--cq-national)' };
+const COLOR: Record<MarketGroup, string> = { you: 'var(--cq-navy)', peer: 'var(--cq-peer)', national: 'var(--cq-national)' };
 const COLS = '1.9fr 1.3fr 0.7fr 0.8fr 0.95fr 0.85fr';
 const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const num = (n: number) => WORDS[n] ?? String(n);
