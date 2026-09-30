@@ -13,10 +13,23 @@
       "currency": "USD",
       "availability": "in_stock",
       "matchScore": 0.88,
+      "verified": true,
       "facts": [
-        {"text": "8-hour battery", "claimStatus": "correct", "factId": "fact_9001"},
-        {"text": "Wireless, weighs 0.4 oz per bud", "claimStatus": "correct", "factId": "fact_9002"},
-        {"text": "No noise cancelling", "claimStatus": "correct", "factId": "fact_9003"}
+        {
+          "text": "8-hour battery",
+          "claimStatus": "correct",
+          "factId": "fact_9001"
+        },
+        {
+          "text": "Wireless, weighs 0.4 oz per bud",
+          "claimStatus": "correct",
+          "factId": "fact_9002"
+        },
+        {
+          "text": "No noise cancelling",
+          "claimStatus": "correct",
+          "factId": "fact_9003"
+        }
       ]
     },
     {
@@ -27,10 +40,23 @@
       "currency": "USD",
       "availability": "in_stock",
       "matchScore": 0.84,
+      "verified": true,
       "facts": [
-        {"text": "10-hour battery", "claimStatus": "correct", "factId": "fact_9010"},
-        {"text": "Wireless, weighs 0.5 oz per bud", "claimStatus": "correct", "factId": "fact_9011"},
-        {"text": "Active noise cancelling", "claimStatus": "correct", "factId": "fact_9012"}
+        {
+          "text": "10-hour battery",
+          "claimStatus": "correct",
+          "factId": "fact_9010"
+        },
+        {
+          "text": "Wireless, weighs 0.5 oz per bud",
+          "claimStatus": "correct",
+          "factId": "fact_9011"
+        },
+        {
+          "text": "Active noise cancelling",
+          "claimStatus": "correct",
+          "factId": "fact_9012"
+        }
       ]
     },
     {
@@ -41,24 +67,50 @@
       "currency": "USD",
       "availability": "in_stock",
       "matchScore": 0.79,
+      "verified": false,
       "facts": [
-        {"text": "7-hour battery", "claimStatus": "correct", "factId": "fact_9020"},
-        {"text": "Wireless, weighs 1.1 oz with ear hooks", "claimStatus": "correct", "factId": "fact_9021"},
-        {"text": "No noise cancelling", "claimStatus": "correct", "factId": "fact_9022"}
+        {
+          "text": "7-hour battery",
+          "claimStatus": "unverifiable",
+          "factId": "fact_9020"
+        },
+        {
+          "text": "Wireless, weighs 1.1 oz with ear hooks",
+          "claimStatus": "unverifiable",
+          "factId": "fact_9021"
+        },
+        {
+          "text": "No noise cancelling",
+          "claimStatus": "unverifiable",
+          "factId": "fact_9022"
+        }
       ]
     },
     {
       "productId": "prod_341",
-      "name": "Lumen Buds Pro",
-      "brandName": "Lumen Audio",
+      "name": "Halcyon Buds Pro",
+      "brandName": "Halcyon",
       "price": 148.0,
       "currency": "USD",
       "availability": "low_stock",
       "matchScore": 0.75,
+      "verified": false,
       "facts": [
-        {"text": "9-hour battery", "claimStatus": "correct", "factId": "fact_9030"},
-        {"text": "Wireless, weighs 1.2 oz with charging case", "claimStatus": "correct", "factId": "fact_9031"},
-        {"text": "Active noise cancelling", "claimStatus": "correct", "factId": "fact_9032"}
+        {
+          "text": "9-hour battery",
+          "claimStatus": "unverifiable",
+          "factId": "fact_9030"
+        },
+        {
+          "text": "Wireless, weighs 1.2 oz with charging case",
+          "claimStatus": "unverifiable",
+          "factId": "fact_9031"
+        },
+        {
+          "text": "Active noise cancelling",
+          "claimStatus": "unverifiable",
+          "factId": "fact_9032"
+        }
       ]
     },
     {
@@ -69,10 +121,23 @@
       "currency": "USD",
       "availability": "in_stock",
       "matchScore": 0.71,
+      "verified": true,
       "facts": [
-        {"text": "6-hour battery", "claimStatus": "correct", "factId": "fact_9040"},
-        {"text": "Wireless, weighs 1.3 oz with neckband", "claimStatus": "correct", "factId": "fact_9041"},
-        {"text": "No noise cancelling", "claimStatus": "correct", "factId": "fact_9042"}
+        {
+          "text": "6-hour battery",
+          "claimStatus": "correct",
+          "factId": "fact_9040"
+        },
+        {
+          "text": "Wireless, weighs 1.3 oz with neckband",
+          "claimStatus": "correct",
+          "factId": "fact_9041"
+        },
+        {
+          "text": "No noise cancelling",
+          "claimStatus": "correct",
+          "factId": "fact_9042"
+        }
       ]
     }
   ],
@@ -80,14 +145,22 @@
     {
       "attribute": "noiseCancelling",
       "question": "Do you want noise cancelling?",
-      "splits": {"yes": 2, "no": 3}
+      "splits": {
+        "yes": 2,
+        "no": 3
+      }
     },
     {
       "attribute": "weightOz",
       "question": "Does weight matter? Two are under 1 oz.",
-      "splits": {"under1oz": 2, "over1oz": 3}
+      "splits": {
+        "under1oz": 2,
+        "over1oz": 3
+      }
     }
   ],
+  "verifiedCount": 9,
+  "unverifiedCount": 6,
   "rankingNote": "Neutral ranking. No brand can pay for placement.",
   "verifiedAt": "2026-09-28T12:00:00Z",
   "source": "mock"
