@@ -173,6 +173,12 @@ otherProductName, attribute, text}]` (the verified comparison facts). 404 for an
 takes `?optedIn=true|false` (section 7d). The MCP tool `cirqo_details` calls this so an assistant asked for depth
 quotes catalog facts instead of its memory.
 
+### Comparison slot (v1.7, decision 50)
+`POST /connector/search` adds `"publicComparison"`: `null` whenever any of the five options comes from a brand that
+has not opted in; otherwise the best-ranked not-opted-in product (same shape as an option, `verified: false`, facts
+`unverifiable`). The five `options` are the neutral ranking and are never changed by it; the neutrality test still
+holds. The MCP tool passes it through with `verificationLabel` and tells the assistant to show it as a separate line.
+
 ### Remote MCP endpoint (v1.7)
 `POST /mcp` (no `/api/v1` prefix) serves the two MCP tools `cirqo_search` and `cirqo_query` over Streamable HTTP,
 stateless, JSON responses; clients send `Accept: application/json, text/event-stream`. It is the same code as

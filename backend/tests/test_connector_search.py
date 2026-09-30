@@ -178,3 +178,18 @@ def test_budget_word_is_not_a_use_case(seeded):
                             "constraints": {"maxPrice": 150}})
     worded = search(seeded, {"question": "I want headphones for the gym, budget around $150", "assistantId": "ast_01"})
     assert [o["productId"] for o in plain["options"]] == [o["productId"] for o in worded["options"]]
+
+
+def test_public_comparison_slot(seeded):
+    """Decision 50: when the neutral top five are all opted-in, the best-ranked not-opted-in product rides along,
+    labelled, without touching the five. When a not-opted-in product is already in the five, there is none."""
+    phone = search(seeded, {"question": "i need a new phone", "assistantId": "ast_01"})
+    if all(o["verified"] for o in phone["options"]):
+        cmp = phone["publicComparison"]
+        assert cmp and cmp["verified"] is False and all(f["claimStatus"] == "unverifiable" for f in cmp["facts"])
+        assert cmp["productId"] not in {o["productId"] for o in phone["options"]}
+    else:
+        assert phone["publicComparison"] is None
+    gym = search(seeded, GYM)
+    if not all(o["verified"] for o in gym["options"]):
+        assert gym["publicComparison"] is None

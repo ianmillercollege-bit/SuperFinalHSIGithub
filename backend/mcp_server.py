@@ -191,7 +191,8 @@ server = MCPServer(
         "nothing matches, so say that instead of guessing. Each option carries verified (true when the brand "
         "opted in and its facts were checked, false when the facts come from a public listing) and each fact "
         "carries claimStatus (correct or unverifiable); verifiedCount and unverifiedCount total them. Show the "
-        "shopper the ranked list first, every product with its verificationLabel. " + VERIFIED_RULE + " " + ONLY_RULE),
+        "shopper the ranked list first, every product with its verificationLabel, then publicComparison (when "
+        "present) as a sixth, clearly separate line. " + VERIFIED_RULE + " " + ONLY_RULE),
 )
 async def cirqo_search(
     question: str = Field(description='What the shopper said, e.g. "I want headphones for the gym".'),

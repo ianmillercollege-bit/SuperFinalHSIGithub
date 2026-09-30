@@ -462,3 +462,17 @@ def test_search_and_query_label_every_product(mock_api):
     assert pick["recommendation"]["verificationLabel"] == "CIRQO Verified"
     assert all("verificationLabel" in a for a in pick["alternatives"])
     assert "at most ONE narrowing question" in mcp_server.server.instructions
+
+
+def test_search_passes_the_comparison_slot_through_with_a_label(mock_api):
+    _, replies = mock_api
+    reply = copy.deepcopy(load_mock("connector_search.json"))
+    reply["publicComparison"] = {**reply["options"][0], "productId": "prod_9001", "name": "Apple AirPods Pro 2",
+                                 "brandName": "Apple", "verified": False,
+                                 "facts": [{"text": "$249.00", "claimStatus": "unverifiable", "factId": None}]}
+    replies[mcp_server.SEARCH_PATH]["json"] = reply
+    out = call("cirqo_search", SEARCH).structured_content
+    assert out["publicComparison"]["verificationLabel"] == "Not CIRQO Verified"
+    assert "publicComparison" in mcp_server.server.instructions
+    replies[mcp_server.SEARCH_PATH]["json"] = load_mock("connector_search.json")
+    assert call("cirqo_search", SEARCH).structured_content["publicComparison"] is None
