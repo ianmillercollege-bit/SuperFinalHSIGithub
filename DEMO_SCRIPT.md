@@ -64,7 +64,7 @@ answers sound confident and are often wrong: made-up specs, stale prices, produc
 hurt twice: the AI rarely mentions them, and when it does, it gets them wrong."
 
 **Product (15 s).** "CIRQO is a plug-in a shopper turns on inside their AI assistant, and a dashboard the brand gets
-when it opts in. The assistant asks CIRQO instead of guessing. CIRQO answers from facts the brand verified, and every
+when it opts in. It is not preloaded in Claude or ChatGPT; the shopper adds it once, in about thirty seconds, and can turn it off any time. The assistant asks CIRQO instead of guessing. CIRQO answers from facts the brand verified, and every
 product carries a badge: CIRQO Verified, or Not CIRQO Verified."
 
 **Live demo, shopper side (45 s).** In ChatGPT or Claude with the connector on and web search off, type

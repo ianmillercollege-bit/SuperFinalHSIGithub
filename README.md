@@ -24,8 +24,8 @@ Brands lose visibility, and the AI can state wrong prices, features, availabilit
 CIRQO is an **API plugin for AI assistants plus a brand dashboard**, for consumer technology brands. It is not a
 shopping app. A brand connects its product catalog to CIRQO. When a shopper asks an AI assistant a shopping question,
 the assistant calls CIRQO instead of guessing and gets verified facts back. CIRQO records what was asked and answered,
-checks every claim, and shows the brand the results. Shoppers never see CIRQO: they only talk to their AI assistant,
-and CIRQO works behind it. The dashboard is for brands; the Preview as shopper page stands in for the assistant so a
+checks every claim, and shows the brand the results. Shoppers turn CIRQO on in their own assistant (it is a connector they add, not something preloaded) and then only
+talk to their AI assistant; CIRQO works behind it. The dashboard is for brands; the Preview as shopper page stands in for the assistant so a
 judge can watch the exchange. The three components from the business plan:
 
 | Component (business plan) | Who it serves | Where it is in this repo |
@@ -62,6 +62,11 @@ never for placement.
 fields, and `backend/tests/test_ranking_neutral.py` proves the results are identical when those fields change.
 
 ## Get CIRQO: two ways in
+
+**CIRQO is opt-in on both sides.** It does not come preloaded in Claude, ChatGPT or Gemini. A shopper adds it to their
+own assistant once, as a connector, and can switch it off at any time; until they do, their assistant works exactly as
+before. A brand opts in by connecting its catalog; until it does, its products appear only as unverified public listings.
+Nothing is installed on the assistant's side by CIRQO, and the assistant vendors are partners, not gatekeepers.
 
 **Shoppers (30 seconds, nothing to install).** In Claude (web, desktop or phone): Settings, Connectors,
 Add custom connector, name `CIRQO`, URL `https://frontdoor-api-hiel.onrender.com/mcp`, no authentication.
