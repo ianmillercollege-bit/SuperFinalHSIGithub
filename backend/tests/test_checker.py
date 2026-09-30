@@ -57,11 +57,11 @@ def test_pronoun_refers_to_last_product():
 
 
 @pytest.mark.parametrize("rule, pct, severity, handling", [
-    ("PRICE_MISMATCH", 0.049, "low", "auto_fix"),
-    ("PRICE_MISMATCH", 0.05, "medium", "auto_fix"),
-    ("PRICE_MISMATCH", 0.149, "medium", "auto_fix"),
+    ("PRICE_MISMATCH", 0.049, "low", "human_approval"),  # plan 5.1: every price change is reviewed by a person
+    ("PRICE_MISMATCH", 0.05, "medium", "human_approval"),
+    ("PRICE_MISMATCH", 0.149, "medium", "human_approval"),
     ("PRICE_MISMATCH", 0.15, "high", "human_approval"),
-    ("PRICE_OUTDATED", 0.02, "low", "auto_fix"),
+    ("PRICE_OUTDATED", 0.02, "low", "human_approval"),
     ("PRICE_OUTDATED", 0.20, "high", "human_approval"),
     ("AVAILABILITY_MISMATCH", None, "medium", "auto_fix"),
     ("SPEC_MISMATCH", None, "medium", "auto_fix"),

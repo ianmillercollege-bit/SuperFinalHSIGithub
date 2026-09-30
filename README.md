@@ -1,4 +1,4 @@
-# CIRQO: Trustworthy AI Product Discovery
+# CIRQO by CIRQO AI: Trustworthy AI Product Discovery
 
 [![CI](https://github.com/ianmillercollege-bit/UTSA_TECH_09302026/actions/workflows/ci.yml/badge.svg)](https://github.com/ianmillercollege-bit/UTSA_TECH_09302026/actions/workflows/ci.yml)
 
@@ -41,8 +41,8 @@ A brand connects its verified product facts, and CIRQO:
 3. **Checks accuracy**: AI only *extracts* claims from answers. Plain, testable code decides whether each claim is
    correct, incorrect, outdated, or unverifiable against the verified facts.
 4. **Governs fixes**: every wrong claim becomes an incident with a severity.
-   - Low and medium risk (small price, spec, or stock errors): fixed automatically.
-   - High risk (large price errors, invented features, policy misstatements, unfair comparisons): waits for a named human owner to approve or reject.
+   - Low and medium risk spec or stock errors: fixed automatically.
+   - Anything about price, promotions, return or warranty policy, invented features or unfair comparisons: waits for a named human owner to approve or reject, as the business plan's governance table requires.
    - Safety and legal claims: escalated only. No automatic fix, ever.
 5. **Keeps an audit log** of every action by the system, the AI, and people. Every incident type has a named owner.
 6. **Measures trust over time**, using the success metrics from the business plan: AI-answer inclusion rate
@@ -51,6 +51,11 @@ A brand connects its verified product facts, and CIRQO:
    `GET /api/v1/report` is the aggregated summary of errors and resolutions that the plan commits to publishing each quarter.
 7. **Answers the assistant from verified facts**: the connector composes its answer from checked facts only, with
    neutral ranking, and every sentence passes through the checker before it leaves CIRQO.
+
+**Plans (business plan 4.1):** the dashboard's `plan` field maps to the plan's tiers: `starter` = Base ($450 per
+quarter, up to 50 SKUs, weekly updates), `growth` = Pro ($1,200, up to 250 SKUs, error alerts), `enterprise` =
+Enterprise ($3,000, full catalog, real-time data). The first quarter of analytics is free. Brands pay for the service,
+never for placement.
 
 **Neutral ranking:** brands can never pay for placement. The ranking code never receives the client or billing
 fields, and `backend/tests/test_ranking_neutral.py` proves the results are identical when those fields change.

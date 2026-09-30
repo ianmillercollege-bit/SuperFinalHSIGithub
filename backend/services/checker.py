@@ -413,7 +413,9 @@ def severity_and_handling(rule_id: str, pct_off: float | None = None) -> tuple[s
         pct = pct_off or 0.0
         # Anything beyond the last band (including an infinite or NaN gap) is "high".
         severity = next((sev for limit, sev in C.PRICE_SEVERITY_BANDS if pct < limit), "high")
-        return severity, ("human_approval" if severity == "high" else "auto_fix")
+        # Business plan 5.1 (decision 21, closed 1:00 AM): any modification to pricing requires human review
+        # first, whatever the size. Severity still grades the queue; handling never auto-fixes a price.
+        return severity, "human_approval"
     return C.SEVERITY_AND_HANDLING[rule_id]
 
 

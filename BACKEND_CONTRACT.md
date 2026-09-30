@@ -116,7 +116,7 @@ Status is decided per claim against the verified product facts:
 
 | ruleId | Severity | Handling |
 |--------|----------|----------|
-| `PRICE_MISMATCH`, `PRICE_OUTDATED` | under 5% off: `low`; 5% to under 15%: `medium`; 15% or more: `high` | low/medium: `auto_fix`; high: `human_approval` |
+| `PRICE_MISMATCH`, `PRICE_OUTDATED` | under 5% off: `low`; 5% to under 15%: `medium`; 15% or more: `high` | `human_approval` at every severity (business plan 5.1: any modification to pricing requires human review first; v1.7, decision 21) |
 | `AVAILABILITY_MISMATCH` | `medium` | `auto_fix` |
 | `SPEC_MISMATCH` | `medium` | `auto_fix` |
 | `INVENTED_FEATURE` | `high` | `human_approval` |

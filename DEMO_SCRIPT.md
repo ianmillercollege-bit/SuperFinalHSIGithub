@@ -52,8 +52,9 @@ it under **Community requests**. "Brands pledge units they'd otherwise write off
 groups get them. CIRQO never checks anyone's income."
 
 ## 7. Close (15 seconds)
-"Brands pay a quarterly subscription for the dashboard and the connector. Shoppers pay nothing. AI platforms pay
-nothing; they're partners, because CIRQO makes their answers accurate. Never for ranking."
+"Brands pay a quarterly subscription: Base $450 for up to 50 SKUs, Pro $1,200 for up to 250, Enterprise $3,000 for the
+full catalog, with the first quarter's analytics free. Shoppers pay nothing. AI platforms pay nothing; they're partners,
+because CIRQO makes their answers accurate. Brands pay for the service, never for placement."
 
 ## If something goes wrong
 - "Backend offline": open the health link above, wait a minute, refresh.
