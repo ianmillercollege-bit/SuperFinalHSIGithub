@@ -1,6 +1,6 @@
 # Tech submission checklist (lead), 9/30/2026
 
-Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 AM CT**, reopened by the lead for website fixes until **4:00 AM CT**; nothing after that. Cut anything unmerged at **1:30 AM CT**.
+Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 AM CT**, reopened by the lead for website fixes until **4:30 AM CT**; nothing after that. Cut anything unmerged at **1:30 AM CT**.
 
 ## 3:30 AM: freeze
 - [ ] Last merge to `main` done. CI green on `main` (Actions tab).
