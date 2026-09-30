@@ -45,16 +45,15 @@ def price_from_question(question: str) -> float | None:
 
 def compose_sentences(top: Product, brand: str, alternatives: list[Product], must_have: list[str]) -> list[str]:
     """The answer, one verifiable fact per sentence, from the verified catalog only."""
-    s, name = top.specs, top.name
+    s, name = {k: v for k, v in top.specs.items() if v is not None}, top.name  # only facts on file
     sentences = [
-        f"Based on verified data, the {name} (${top.price:.2f}, {human_availability(top.availability)}) fits best.",
-        f"The {name} is rated for {num(s['batteryHours'])} hours of battery life.",
-        f"The {name} weighs {num(s['weightLb'])} lb.",
-        f"The {name} has {num(s['ramGb'])} GB of RAM.",
-        f"The {name} comes with {num(s['storageGb'])} GB of storage.",
-        f"The {name} has a {num(s['screenInches'])}-inch display.",
-    ]
-    if "touch" in must_have:
+        f"Based on verified data, the {name} (${top.price:.2f}, {human_availability(top.availability)}) fits best."]
+    templates = [("batteryHours", "The {name} is rated for {v} hours of battery life."),
+                 ("weightLb", "The {name} weighs {v} lb."), ("ramGb", "The {name} has {v} GB of RAM."),
+                 ("storageGb", "The {name} comes with {v} GB of storage."),
+                 ("screenInches", "The {name} has a {v}-inch display.")]
+    sentences += [t.format(name=name, v=num(s[key])) for key, t in templates if key in s]
+    if "touch" in must_have and "touchscreen" in s:
         sentences.append(f"The {name} has a touchscreen." if s["touchscreen"] else f"The {name} has no touchscreen.")
     sentences.append(f"{brand} offers a {top.return_policy_days}-day return policy on the {name}.")
     for alt in alternatives:

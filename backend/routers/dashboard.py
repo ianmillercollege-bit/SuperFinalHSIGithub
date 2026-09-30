@@ -21,6 +21,8 @@ from timeutil import now_iso
 
 router = APIRouter(tags=["Dashboard"])
 
+SPEC_KEYS = ("ramGb", "storageGb", "screenInches", "batteryHours", "weightLb", "touchscreen")
+
 DAYS = Query(30, ge=1, le=30)
 LIMIT = Query(50, ge=1, le=100)
 
@@ -29,8 +31,8 @@ def product_out(p: Product, brands: dict[str, str]) -> dict:
     # Built field by field so seed-only fields (isClient, billingTier, priceHistory) can never leak.
     return {"productId": p.product_id, "brandId": p.brand_id, "brandName": brands.get(p.brand_id, ""),
             "name": p.name, "price": p.price, "currency": p.currency, "availability": p.availability,
-            "specs": {k: p.specs[k] for k in ("ramGb", "storageGb", "screenInches", "batteryHours", "weightLb",
-                                              "touchscreen")},
+            # The six contract specs (null when not on file) plus any extra keys a brand sent at onboarding.
+            "specs": {**{k: p.specs.get(k) for k in SPEC_KEYS}, **{k: v for k, v in p.specs.items() if k not in SPEC_KEYS}},
             "returnPolicyDays": p.return_policy_days, "updatedAt": p.updated_at,
             "factSource": p.fact_source, "factSourceUrl": p.fact_source_url, "verifiedAt": p.verified_at}
 

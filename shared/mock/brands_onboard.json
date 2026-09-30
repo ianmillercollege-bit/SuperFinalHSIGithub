@@ -1,0 +1,15 @@
+{
+  "brandId": "brand_004",
+  "brandName": "Lumen Audio",
+  "apiKey": "fd_lumen-audio_8f3a",
+  "productsCreated": 1,
+  "owners": [
+    {
+      "ownerId": "own_08",
+      "name": "Sam Rivera",
+      "role": "Brand Data Owner"
+    }
+  ],
+  "connectorReady": true,
+  "note": "Demo data. Resets when the server restarts."
+}

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
-from routers import auth, client, connector, dashboard, governance, shopper
+from routers import auth, brands, client, connector, dashboard, governance, shopper
 from schemas import HealthResponse
 from seed_loader import rebuild_database
 from settings import settings
@@ -33,7 +33,7 @@ app.add_middleware(
 register_error_handlers(app)
 
 # Everything except /health lives under /api/v1 (BACKEND_CONTRACT.md section 1).
-for module in (shopper, connector, dashboard, governance, client, auth):
+for module in (shopper, connector, dashboard, governance, client, auth, brands):
     app.include_router(module.router, prefix="/api/v1")
 
 

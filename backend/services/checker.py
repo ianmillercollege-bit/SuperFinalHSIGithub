@@ -306,9 +306,10 @@ def check(c: Extracted, catalog: Catalog) -> Result:
     if c.kind == "spec":
         label = SPEC_LABELS[c.attr]
         fid = fact_id(p.product_id, c.attr)
-        if c.attr not in p.specs:
-            return Result("incorrect", "INVENTED_FEATURE", str(c.value), None, None,
-                          f"The verified spec sheet has no {label}.")
+        if p.specs.get(c.attr) is None:
+            # No verified value on file (onboarded products may omit specs): nothing to judge against.
+            return Result("unverifiable", "NO_FACT", str(c.value).lower() if isinstance(c.value, bool) else num(c.value),
+                          None, None, f"No verified {label} on file for this product.")
         verified = p.specs[c.attr]
         if c.attr == "touchscreen":
             ext, ver = str(c.value).lower(), str(verified).lower()

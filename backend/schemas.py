@@ -34,12 +34,15 @@ class HealthResponse(CamelModel):
 
 class Specs(CamelModel):
     # int | float keeps whole numbers as 8 (not 8.0), matching the contract examples.
-    ram_gb: int | float
-    storage_gb: int | float
-    screen_inches: int | float
-    battery_hours: int | float
-    weight_lb: int | float
-    touchscreen: bool
+    # null = not on file (v1.3 onboarding lets a brand omit specs); extra keys a brand sent are kept.
+    model_config = ConfigDict(extra="allow")
+
+    ram_gb: int | float | None
+    storage_gb: int | float | None
+    screen_inches: int | float | None
+    battery_hours: int | float | None
+    weight_lb: int | float | None
+    touchscreen: bool | None
 
 
 class ProductOut(CamelModel):
@@ -358,7 +361,7 @@ class AuditOut(CamelModel):
     actor: str
     actor_type: Literal["system", "human", "ai"]
     action: Literal["claim_extracted", "claim_checked", "incident_created", "auto_fix_applied", "approved",
-                    "rejected", "escalated", "resolved", "connector_query"]
+                    "rejected", "escalated", "resolved", "connector_query", "brand_onboarded"]
     target_id: str
     details: str
 
@@ -455,3 +458,62 @@ class DemoAccount(CamelModel):
 
 class DemoAccountsOut(CamelModel):
     accounts: list[DemoAccount]
+
+
+# ---- Onboarding: "Connect your catalog" (v1.3 section 7b) ------------------------------------------
+
+
+class OnboardProductIn(CamelModel):
+    name: str = Field(max_length=C.MAX_NAME_CHARS)
+    price: float = Field(gt=0, allow_inf_nan=False)
+    availability: Availability = "in_stock"
+    specs: dict = {}
+    return_policy_days: int = Field(30, ge=0, le=3650)
+    fact_source: Literal["Brand product feed", "Brand website", "Manufacturer spec sheet"] = "Brand product feed"
+    fact_source_url: str | None = Field(None, max_length=500, pattern=r"^https?://\S+$")
+
+    @field_validator("name")
+    @classmethod
+    def not_blank(cls, v: str) -> str:
+        return _not_blank(v)
+
+    @field_validator("specs")
+    @classmethod
+    def known_specs_have_the_right_type(cls, v: dict) -> dict:
+        """Product spec keys must be finite numbers >= 0 (touchscreen a boolean); unknown keys are kept."""
+        import math
+        for key in ("ramGb", "storageGb", "screenInches", "batteryHours", "weightLb"):
+            value = v.get(key)
+            if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))
+                                      or not math.isfinite(value) or value < 0):
+                raise ValueError(f"{key} must be a number >= 0")
+        if v.get("touchscreen") is not None and not isinstance(v["touchscreen"], bool):
+            raise ValueError("touchscreen must be true or false")
+        return v
+
+
+class OnboardIn(CamelModel):
+    brand_name: str = Field(max_length=100)
+    owner_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    products: list[OnboardProductIn] = Field(min_length=1, max_length=50)
+
+    @field_validator("brand_name", "owner_name")
+    @classmethod
+    def not_blank(cls, v: str) -> str:
+        return _not_blank(v)
+
+
+class OnboardOwner(CamelModel):
+    owner_id: str
+    name: str
+    role: str
+
+
+class OnboardOut(CamelModel):
+    brand_id: str
+    brand_name: str
+    api_key: str
+    products_created: int
+    owners: list[OnboardOwner]
+    connector_ready: bool
+    note: str
