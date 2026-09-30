@@ -2,7 +2,7 @@
 
 For judges and for the pitch presenter. Everything shown is fictional sample data and labeled as such.
 
-**Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. The free backend sleeps after
+**Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. Optional: log in at `/login` as any demo admin (password `cirqo-demo`) to show a different company; the guest view is Kestrel. The free backend sleeps after
 15 minutes idle and takes about a minute to wake. Then open https://super-final-hsi-github.vercel.app.
 
 ## 1. Dashboard (30 seconds)
@@ -10,8 +10,8 @@ For judges and for the pitch presenter. Everything shown is fictional sample dat
 products right. Today it's about 93%, and Kestrel shows up in 56% of relevant AI answers instead of 35%."
 Point at the trend chart and the four trust numbers: claim accuracy, hallucination rate, median time to resolve, false alarm rate.
 
-## 2. Assistant Simulator (60 seconds)
-"This is what happens inside a shopper's AI assistant once a brand is on CIRQO."
+## 2. Preview as shopper (60 seconds)
+"This is what happens inside a shopper's AI assistant once a brand is on CIRQO. Shoppers never see CIRQO; their assistant calls it."
 Keep the pre-filled question ("best laptop under $500 for school"), pick an assistant, choose a use case and one or two
 must-haves, and submit.
 "The assistant didn't guess. It called CIRQO's connector, got the brand's verified facts, and every sentence in this
@@ -34,7 +34,10 @@ Approve it as the named owner.
 "Every decision, by the system or a person, is in the audit log."
 Find the item you just approved at the top.
 
-## 6. Close (15 seconds)
+## 6. Scale, one line (10 seconds)
+"153 companies, 1,500 products, a dashboard for each. Every company here is fictional." Click **All companies** if logged in as CIRQO Staff.
+
+## 7. Close (15 seconds)
 "Brands pay a quarterly subscription for the dashboard and the connector. Shoppers pay nothing. AI platforms pay
 nothing; they're partners, because CIRQO makes their answers accurate. Never for ranking."
 

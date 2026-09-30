@@ -57,18 +57,33 @@ fields, and `backend/tests/test_ranking_neutral.py` proves the results are ident
 
 ## How a judge should navigate it
 
-Open https://super-final-hsi-github.vercel.app (it opens on the Dashboard). The sidebar has two groups.
+Open https://super-final-hsi-github.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
 A click-by-click script with talking points is in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md).
+
+**Logging in (optional):** the login page lists demo usernames. Every demo password is `cirqo-demo`. Each admin lands on
+their own company's dashboard. There is also a "Continue as guest" link, so nobody can be locked out. Sign-in is real
+(hashed passwords, server-side tokens), but every account is fictional and reset on restart.
 
 | Sidebar item | What to look at |
 |--------------|-----------------|
-| **Dashboard** | The brand's trust numbers and the 30-day trend: claim accuracy rising from 62% to about 93%, hallucination rate falling, AI-answer inclusion rising. This is the proof of impact. |
-| **AI Visibility** | How often the brand appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. |
-| **Market Position** | The brand against its competitors (Arcton, Novex) on the same measures. |
-| **Assistant Simulator** | Type a shopper question as if you were in ChatGPT or Claude. The "assistant" calls CIRQO's connector and returns a verified answer with every fact checked. The interaction is recorded and shows up in AI Visibility. |
-| **File a Claim** | Paste any AI answer about the brand. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
-| **Outstanding Claims** | Wrong claims waiting for a named person: high-risk fixes to approve or reject, and safety or legal claims that only a person can close. Try approving one (the approver must be the incident's owner). |
+| **Dashboard** | The company's trust numbers and the 30-day trend: claim accuracy rising, hallucination rate falling, AI-answer inclusion rising. The chart moves during a demo: every claim you check counts toward today. |
+| **AI Visibility** | How often the company appears in AI answers, average rank, share of voice, per assistant, and the recorded answers behind the numbers. |
+| **Market Position** | The company against its competitors on the same measures. |
+| **Company** and **Products** | Profile (CEO, admins, plan), and the verified catalog with its sources and timestamps: the Verified Data Layer. |
+| **Preview as shopper** | See what a shopper's AI assistant answers when it uses the verified catalog. Type a question as if you were in ChatGPT or Claude; every fact comes back checked. Shoppers never see CIRQO; their assistant calls it. |
+| **Connect your catalog** | Onboard a new company with a small product file. It is ranked by the connector immediately, and neutrally. |
+| **File a Claim** | Paste any AI answer about the company. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
+| **Outstanding Claims** | Wrong claims waiting for a named person: high-risk fixes to approve or reject, and safety or legal claims that only a person can close. Try approving one as its owner. |
 | **Claims Reviewed** | Everything already decided, by the system or by a person, with the full audit trail. |
+| **All companies** (CIRQO Staff login) | Cross-company oversight: inclusion, open incidents and escalations for every company. |
+
+**Scale:** 153 fictional companies (Greek-god names, no real brands) across headphones, laptops, phones and tablets, and
+computer hardware; 1,500 products with real spec sheets; 2,946 verified comparison facts; a dashboard for every company.
+The whole database rebuilds from seed in under a second on every restart.
+
+**In a real AI assistant:** `backend/connector/README.md` explains how to add CIRQO to Claude Desktop as an MCP tool.
+The assistant then runs the shopping funnel itself: search, ask one narrowing question at a time, pick one, and say
+which facts the brand verified.
 
 To explore the API directly, open https://frontdoor-api-hiel.onrender.com/docs and click any endpoint, then "Try it out".
 The read-only client API needs the header `X-API-Key: fd_demo_owner_2026` (demo key, sample data only).
