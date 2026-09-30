@@ -13,8 +13,9 @@
 //
 // These functions are meant to be called from the browser (client components).
 
-import { brandScope } from "./auth/brandSession";
-import { getToken } from "./auth/token";
+import { brandScope, signOutBrand } from "./auth/brandSession";
+import { clearToken, getToken } from "./auth/token";
+import { resetUserSession } from "./auth/userSession";
 import { USE_MOCK } from "./config";
 import type {
   AnswerFilters,
@@ -314,14 +315,27 @@ async function request<T>(
   if (!API_URL) {
     throw new ApiError("NEXT_PUBLIC_API_URL is not set");
   }
-  return readJson<T>(
-    await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
-      method,
-      headers: requestHeaders(body !== undefined),
-      body: body === undefined ? undefined : JSON.stringify(body),
-      cache: "no-store",
-    }, timeoutMs),
-  );
+  const hadToken = getToken() !== null;
+  try {
+    return await readJson<T>(
+      await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
+        method,
+        headers: requestHeaders(body !== undefined),
+        body: body === undefined ? undefined : JSON.stringify(body),
+        cache: "no-store",
+      }, timeoutMs),
+    );
+  } catch (error) {
+    // A 401 while signed in means the token ended (tokens die when the demo server restarts). Drop back to the
+    // guest path so the app keeps working, and say so.
+    if (hadToken && path !== "/api/v1/auth/login" && error instanceof ApiError && error.code === "UNAUTHORIZED") {
+      clearToken();
+      signOutBrand();
+      resetUserSession();
+      throw new ApiError("Your sign-in ended (the demo server restarted). You are now a guest. Sign in again to continue.", "UNAUTHORIZED", error.status);
+    }
+    throw error;
+  }
 }
 
 // Contract v1.3, section 7b: these dashboard endpoints accept `brandId`. With no account chosen

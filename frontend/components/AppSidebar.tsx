@@ -65,8 +65,12 @@ export default function AppSidebar() {
       groups={groups}
       user={{
         name: user ? user.name : "Signed out",
-        // Decision 32: the user chip carries the sample-sign-in label.
-        role: user ? `${user.role === "owner" ? "Owner" : "Viewer"} (sample sign-in)` : "Sample sign-in",
+        // A backend login shows the user's real role; the local sample check keeps its label (decision 32).
+        role: user
+          ? user.backend
+            ? user.title ?? (user.role === "owner" ? "Owner" : "Viewer")
+            : `${user.title?.split(" · ")[0] ?? (user.role === "owner" ? "Owner" : "Viewer")} (sample sign-in)`
+          : "Guest",
         business: brand?.brandName ?? BUSINESS.name,
       }}
       backend={backend}

@@ -471,6 +471,8 @@ export interface DemoAccount {
   brandName: string;
   role: "owner" | "viewer";
   apiKey: string;
+  /** v1.4: the login username, when the backend sends one. */
+  username?: string;
 }
 
 export interface DemoAccountsResponse {

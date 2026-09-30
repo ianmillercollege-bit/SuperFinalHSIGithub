@@ -21,7 +21,8 @@ export async function signInWithPassword(username: string, password: string): Pr
   try {
     const result = await login({ username, password });
     setToken(result.token);
-    signInUser({ name: result.user.name, role: result.user.role === "Viewer" ? "viewer" : "owner", title: result.user.role });
+    const staff = result.user.role === "CIRQO Staff";
+    signInUser({ name: result.user.name, role: result.user.role === "Viewer" ? "viewer" : "owner", title: result.user.role, backend: true, staff });
     if (result.brand) signInAs({ brandId: result.brand.brandId, brandName: result.brand.brandName, role: result.user.role === "Viewer" ? "viewer" : "owner", apiKey: "" });
     else signOutBrand();
     return {};
@@ -34,7 +35,7 @@ export async function signInWithPassword(username: string, password: string): Pr
   const account = DEMO_LOGINS.find((a) => a.username.toLowerCase() === username.trim().toLowerCase());
   if (!account || password !== DEMO_PASSWORD) return { error: WRONG_LOGIN };
   clearToken();
-  signInUser({ name: account.name, role: "owner", title: account.role });
+  signInUser({ name: account.name, role: "owner", title: account.role, staff: account.staff });
   signInAs(DEFAULT_BRAND);
   return { local: true };
 }
