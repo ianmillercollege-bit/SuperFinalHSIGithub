@@ -109,7 +109,7 @@ function ActionPanel({ incident, onDone }: { incident: Incident; onDone: (incide
     return (
       <section className="card">
         <p className="muted">
-          {session.user ? "Your role is read-only, so approve, reject and resolve are hidden." : "Sign in as an owner to approve, reject or resolve."} Owner of this
+          {session.user && !session.user.guest ? "Your role is read-only, so approve, reject and resolve are hidden." : "Sign in as an owner to approve, reject or resolve."} Owner of this
           claim: {incident.ownerName}.
         </p>
       </section>

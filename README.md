@@ -88,11 +88,13 @@ Launch segment: small Shopify stores; the dashboard's storefront revenue panel i
 
 ## How a judge should navigate it
 
-Open https://utsa-tech-09302026.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
+Open https://utsa-tech-09302026.vercel.app. It opens on the sign-in page. Pick any demo account from the list (the
+password fills in), or click **Continue as guest** for a read-only look at Kestrel. The opening animation plays once, then the dashboard.
 A click-by-click script with talking points is in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md).
 
-**Logging in (optional):** the login page lists demo usernames. Every demo password is `cirqo-demo`. Each admin lands on
-their own company's dashboard. There is also a "Continue as guest" link, so nobody can be locked out. Sign-in is real
+**Logging in:** the login page lists demo usernames. Every demo password is `cirqo-demo`. Each admin lands on
+their own company's dashboard and can approve, reject and file claims. A guest sees everything but cannot act; the
+"Continue as guest" link means nobody can be locked out. Sign-in is real
 (hashed passwords, server-side tokens), but every account is fictional and reset on restart.
 
 | Sidebar item | What to look at |

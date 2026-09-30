@@ -111,10 +111,12 @@ export default function LoginScreen() {
             className="cq-btn guest-link"
             onClick={() => {
               continueAsGuest();
+              // The opening splash plays once, exactly as after a sign-in, then the dashboard appears read-only.
+              replaySplash();
               window.location.assign("/dashboard");
             }}
           >
-            Continue as guest (Kestrel)
+            Continue as guest (Kestrel, read-only)
           </button>
           <span className="cq-note is-warn">{`Demo login: not real authentication. Don't enter a real password. All demo passwords: ${DEMO_PASSWORD}.`}</span>
         </form>

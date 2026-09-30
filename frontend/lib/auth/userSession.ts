@@ -3,8 +3,9 @@
 // The signed-in person lives in this browser only (localStorage). The backend accepts any caller;
 // hiding buttons from the Viewer is a frontend convenience, not security.
 //
-// - First visit: signed in as the default owner, so "/" lands on the dashboard (decision 29).
-// - After an explicit sign-out: `signedOut` is set, and "/" goes to /login. Every other page still works.
+// - First visit and "Continue as guest": a read-only Guest on the default company; "/" goes to /login
+//   until someone signs in (decision 58 supersedes decision 29). Every other page still works as the guest.
+// - After an explicit sign-out: `signedOut` is set, and "/" goes to /login.
 // - Owners are the seeded owners from GET /api/v1/owners; the approve and reject forms pre-fill the
 //   signed-in owner's name, and a 403 for a mismatch is the demo of accountability.
 import { useSyncExternalStore } from "react";
@@ -23,10 +24,14 @@ export interface SignedInUser {
   backend?: boolean;
   /** Role "CIRQO Staff" (contract v1.4): sees the cross-company pages. */
   staff?: boolean;
+  /** Nobody signed in: a read-only look at the default company (decision 58). */
+  guest?: boolean;
 }
 
-/** Signed in as this owner on a first visit (a seeded owner, contract section 9). */
-export const DEFAULT_USER: SignedInUser = { name: "Maria Lopez", role: "owner" };
+/** A first visit and "Continue as guest": read-only, nobody's name, the default company (decision 58). */
+export const GUEST_USER: SignedInUser = { name: "Guest", role: "viewer", title: "Guest · read-only", guest: true };
+/** Kept for older imports: the first-visit user is now the guest, never a seeded owner. */
+export const DEFAULT_USER: SignedInUser = GUEST_USER;
 
 export const VIEWER_USER: SignedInUser = { name: "Viewer", role: "viewer", title: "Read-only" };
 
@@ -36,7 +41,7 @@ export interface UserSession {
   signedOut: boolean;
 }
 
-const FIRST_VISIT: UserSession = { user: DEFAULT_USER, signedOut: false };
+const FIRST_VISIT: UserSession = { user: GUEST_USER, signedOut: false };
 const SIGNED_OUT: UserSession = { user: null, signedOut: true };
 
 let cachedRaw: string | null = null;
@@ -106,6 +111,11 @@ function subscribe(onChange: () => void): () => void {
 
 export function useUserSession(): UserSession {
   return useSyncExternalStore(subscribe, getUserSession, () => FIRST_VISIT);
+}
+
+/** Someone chose an account (sign-in), as opposed to the guest or a signed-out browser. */
+export function isSignedIn(session: UserSession): boolean {
+  return session.user !== null && !session.user.guest;
 }
 
 /** Only a signed-in owner can approve, reject, resolve or file claims. */

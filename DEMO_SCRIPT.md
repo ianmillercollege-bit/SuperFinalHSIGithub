@@ -2,7 +2,7 @@
 
 For judges and for the pitch presenter. Everything shown is fictional sample data and labeled as such.
 
-**Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. Optional: log in at `/login` as any demo admin (password `cirqo-demo`) to show a different company; the guest view is Kestrel. The free backend sleeps after
+**Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. The app opens on the sign-in page: pick a demo admin (password `cirqo-demo` fills in) and the opening animation plays into that company's dashboard. Sign in as Maria Lopez (Kestrel) for this script; a guest is read-only and cannot approve in step 4. The free backend sleeps after
 15 minutes idle and takes about a minute to wake. Then open https://utsa-tech-09302026.vercel.app.
 
 ## 1. Dashboard (30 seconds)
