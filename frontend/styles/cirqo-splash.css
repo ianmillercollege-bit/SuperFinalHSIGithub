@@ -1,0 +1,55 @@
+/* Opening splash: the ring sweeps and spins into place from nothing, the dot pings, the wordmark slides in, then it fades out.
+   "Welcome to" rises in first, then glides up above the logo as the ring starts. About 2.2 s in total (1.75 s without the greeting).
+   Tune the --cq-splash-* values below. CSS only, no libraries. */
+@property --cq-sweep { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+:root {
+  --cq-splash-bg: #0C2340;        /* must equal the navy baked into the logo */
+  --cq-splash-spin: -300deg;      /* how far the ring rotates in from */
+  --cq-splash-ring: 0.9s;         /* ring sweep + spin */
+  --cq-splash-word-delay: 0.38s;  /* when the wordmark starts, after the ring starts */
+  --cq-splash-logo-delay: 0.6s;   /* when the ring starts (0s when there is no greeting) */
+  --cq-splash-gap: clamp(16px, 3.4vw, 28px);
+}
+
+.cq-splash { position: fixed; inset: 0; z-index: 9999; background: var(--cq-splash-bg, #0C2340); display: grid; place-items: center; overflow: hidden; touch-action: none; cursor: pointer;
+  animation: cq-splash-failsafe 0.01s linear 4s forwards; }            /* if JS never runs, the overlay still disappears */
+html[data-splash='done'] .cq-splash { display: none; }
+.cq-splash[data-welcome='0'] { --cq-splash-logo-delay: 0s; }
+.cq-splash-stage { --lock-w: min(420px, 78vw); display: flex; flex-direction: column; align-items: center; gap: var(--cq-splash-gap); }
+.cq-splash[data-welcome='0'] .cq-splash-stage { gap: 0; }
+.cq-splash-lock { position: relative; width: var(--lock-w); aspect-ratio: 759 / 229; }
+/* the greeting starts in the middle of the screen: half of (gap + logo height) below its final spot */
+.cq-splash-hello { --dy: calc((var(--cq-splash-gap) + var(--lock-w) * 229 / 759) / 2); margin: 0; font-family: var(--cq-font-display, 'Archivo', system-ui, sans-serif); font-weight: 400; font-stretch: 125%; font-size: clamp(26px, 5.4vw, 42px); line-height: 1.15; letter-spacing: 0.14em; text-indent: 0.14em; white-space: nowrap; color: #C4D0E0; opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(var(--dy)) scale(1.25); will-change: transform, opacity; }
+/* Type contrast on purpose: the wordmark is heavy, wide and white; the greeting is the same wide family but light and a cool blue (10:1 on the navy), so it reads as the lead-in, not a second logo. */
+.cq-splash[data-welcome='0'] .cq-splash-hello { display: none; }
+.cq-splash-lock img { position: absolute; display: block; height: auto; user-select: none; -webkit-user-drag: none; pointer-events: none; }
+
+/* geometry copied from the original lockup (759 x 229) so the finished frame equals the logo exactly */
+.cq-splash-mark { left: 0.527%; top: 1.747%; width: 28.986%; opacity: 0; transform-origin: 50% 50%; will-change: transform, opacity; }
+.cq-splash-word { left: 31.225%; top: 20.524%; width: 68.116%; opacity: 0; clip-path: inset(0 100% 0 0); }
+.cq-splash-ping { position: absolute; left: 23.149%; top: 76.987%; width: 5.2%; aspect-ratio: 1; border-radius: 50%; border: 2px solid #F15A22; opacity: 0; transform: translate(-50%, -50%) scale(0.5); pointer-events: none; }
+
+.cq-splash[data-sweep='1'] .cq-splash-mark { -webkit-mask-image: conic-gradient(from 0deg, #000 var(--cq-sweep), transparent calc(var(--cq-sweep) + 0.4deg)); mask-image: conic-gradient(from 0deg, #000 var(--cq-sweep), transparent calc(var(--cq-sweep) + 0.4deg)); }
+
+.cq-splash[data-phase='play'] .cq-splash-mark { animation: cq-rot var(--cq-splash-ring) cubic-bezier(0.16, 1, 0.3, 1) var(--cq-splash-logo-delay) both, cq-sweep var(--cq-splash-ring) cubic-bezier(0.22, 1, 0.36, 1) var(--cq-splash-logo-delay) both, cq-fadein 0.12s linear var(--cq-splash-logo-delay) both; }
+.cq-splash[data-phase='play'] .cq-splash-word { animation: cq-word 0.55s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--cq-splash-logo-delay) + var(--cq-splash-word-delay)) both; }
+.cq-splash[data-phase='play'] .cq-splash-ping { animation: cq-ping 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--cq-splash-logo-delay) + 0.62s) forwards; }
+.cq-splash[data-phase='play'] .cq-splash-hello { animation: cq-hello-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both, cq-hello-move 0.5s cubic-bezier(0.65, 0, 0.35, 1) 0.5s forwards; }
+.cq-splash[data-phase='exit'] { animation: cq-splash-out 0.26s ease-in forwards, cq-splash-failsafe 0.01s linear 4s forwards; pointer-events: none; }
+.cq-splash[data-phase='exit'] .cq-splash-mark, .cq-splash[data-phase='exit'] .cq-splash-word { opacity: 1; clip-path: none; transform: none; }
+.cq-splash[data-phase='exit'] .cq-splash-hello { animation: none; opacity: 1; clip-path: none; transform: none; }
+.cq-splash[data-phase='exit'] .cq-splash-lock { animation: cq-lock-out 0.26s ease-in forwards; }
+
+@keyframes cq-hello-in { from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(calc(var(--dy) + 0.6em)) scale(1.25); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: translateY(var(--dy)) scale(1.25); } }
+@keyframes cq-hello-move { from { transform: translateY(var(--dy)) scale(1.25); } to { transform: translateY(0) scale(1); } }
+@keyframes cq-rot { from { transform: rotate(var(--cq-splash-spin)) scale(0.55); } to { transform: rotate(0deg) scale(1); } }
+@keyframes cq-sweep { from { --cq-sweep: 0deg; } to { --cq-sweep: 360deg; } }
+@keyframes cq-fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cq-word { from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translateX(-14px); } to { opacity: 1; clip-path: inset(0 0 0 0); transform: none; } }
+@keyframes cq-ping { 0% { opacity: 0.9; transform: translate(-50%, -50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(3.4); } }
+@keyframes cq-splash-out { to { opacity: 0; } }
+@keyframes cq-lock-out { to { transform: scale(1.06); } }
+@keyframes cq-splash-failsafe { to { visibility: hidden; pointer-events: none; } }
+
+@media (prefers-reduced-motion: reduce) { .cq-splash { display: none; } }
