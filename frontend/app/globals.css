@@ -1699,3 +1699,30 @@ details > summary {
   gap: 8px 16px;
   list-style: none;
 }
+
+/* ---- Login page extras: the guest link and theme switch float over the kit's LoginView ---- */
+
+.guest-link {
+  position: fixed;
+  right: 40px;
+  bottom: 24px;
+  z-index: 5;
+}
+
+.auth-theme {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 5;
+}
+
+.auth-theme .theme-toggle {
+  margin-left: 0;
+}
+
+@media (max-width: 900px) {
+  .guest-link {
+    position: static;
+    margin: 0 24px 24px;
+  }
+}

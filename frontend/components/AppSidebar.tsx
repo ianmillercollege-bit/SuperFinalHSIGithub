@@ -6,6 +6,7 @@ import Sidebar from "@/components/dashboard/Sidebar";
 import type { NavGroup as KitNavGroup } from "@/components/dashboard/Sidebar";
 import { API_URL, checkHealth, getIncidents } from "@/lib/api";
 import { useBrandSession } from "@/lib/auth/brandSession";
+import { forgetLogin } from "@/lib/auth/signIn";
 import { signOutUser, useUserSession } from "@/lib/auth/userSession";
 import { BUSINESS } from "@/lib/business";
 import { onIncidentsChanged } from "@/lib/events";
@@ -73,6 +74,7 @@ export default function AppSidebar() {
       onSignOut={
         user
           ? () => {
+              forgetLogin();
               signOutUser();
               router.push("/login");
             }

@@ -476,3 +476,18 @@ export interface DemoAccount {
 export interface DemoAccountsResponse {
   accounts: DemoAccount[];
 }
+
+// ---- Login (v1.4, section 7c): POST /api/v1/auth/login ----
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: string;
+  expiresAt: Timestamp;
+  user: { userId: string; name: string; role: string; username: string };
+  /** Staff are not tied to a brand, so this may be missing. */
+  brand?: { brandId: string; brandName: string } | null;
+}

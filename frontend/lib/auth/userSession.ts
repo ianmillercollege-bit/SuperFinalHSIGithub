@@ -77,6 +77,16 @@ export function signInUser(user: SignedInUser): void {
   write(user);
 }
 
+/** Back to the first-visit state: the default owner, no sign-out marker (the guest path, DECISIONS.md #33). */
+export function resetUserSession(): void {
+  try {
+    window.localStorage.removeItem(KEY);
+  } catch {
+    // Nothing to clear.
+  }
+  window.dispatchEvent(new Event(CHANGED));
+}
+
 export function signOutUser(): void {
   write("signed-out");
 }

@@ -14,6 +14,7 @@
 // These functions are meant to be called from the browser (client components).
 
 import { brandScope } from "./auth/brandSession";
+import { getToken } from "./auth/token";
 import { USE_MOCK } from "./config";
 import type {
   AnswerFilters,
@@ -26,6 +27,8 @@ import type {
   CheckerRunRequest,
   CheckerRunResponse,
   ConnectorQueryRequest,
+  LoginRequest,
+  LoginResponse,
   DemoAccountsResponse,
   ConnectorQueryResponse,
   ClaimFilters,
@@ -80,6 +83,8 @@ export const MOCK_FILES = {
   connectorManifest: "connector_manifest",
   /** v1.3. No file in shared/mock/ yet; mock mode falls back to the contract example on screen. */
   demoAccounts: "demo_accounts",
+  /** v1.4. No file in shared/mock/, so mock mode reports NOT_FOUND. */
+  authLogin: "auth_login",
 } as const;
 
 type Query = Record<string, string | number | undefined>;
@@ -236,6 +241,16 @@ export function getDemoAccounts(): Promise<DemoAccountsResponse> {
   return request("GET", "/api/v1/auth/demo-accounts", {}, undefined, MOCK_FILES.demoAccounts);
 }
 
+// POST /api/v1/auth/login  (v1.4). 401 UNAUTHORIZED "Wrong username or password." for either mistake.
+export function login(body: LoginRequest): Promise<LoginResponse> {
+  return request("POST", "/api/v1/auth/login", {}, body, MOCK_FILES.authLogin);
+}
+
+// POST /api/v1/auth/logout  (v1.4). Best effort: the browser forgets the token either way.
+export function logoutRequest(): Promise<{ ok: boolean }> {
+  return request("POST", "/api/v1/auth/logout", {}, {}, MOCK_FILES.authLogin);
+}
+
 // GET /api/v1/owners
 export function getOwners(): Promise<OwnersResponse> {
   return request("GET", "/api/v1/owners", {}, undefined, MOCK_FILES.owners);
@@ -293,7 +308,7 @@ async function request<T>(
   return readJson<T>(
     await fetchOrThrow(`${API_URL}${path}${toQueryString(withBrand(path, query))}`, {
       method,
-      headers: body === undefined ? undefined : { "Content-Type": "application/json" },
+      headers: requestHeaders(body !== undefined),
       body: body === undefined ? undefined : JSON.stringify(body),
       cache: "no-store",
     }, timeoutMs),
@@ -318,6 +333,12 @@ function withBrand(path: string, query: Query): Query {
   const brandId = brandScope();
   if (!brandId || query.brandId !== undefined || !BRAND_SCOPED_PATHS.includes(path)) return query;
   return { ...query, brandId };
+}
+
+function requestHeaders(hasBody: boolean): Record<string, string> | undefined {
+  const token = getToken();
+  if (!hasBody && !token) return undefined;
+  return { ...(hasBody ? { "Content-Type": "application/json" } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 }
 
 async function readMock<T>(mockFile: string): Promise<T> {
