@@ -22,7 +22,8 @@ import constants as C
 from sqlalchemy import insert
 
 from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, CommunityOrg, CommunityRequest,
-                ComparisonFact, DailyMetric, Incident, Owner, Product, SessionLocal, Source, User, engine)
+                ComparisonFact, DailyMetric, Incident, LoginAlias, Owner, Product, SessionLocal, Source, User,
+                engine)
 from seed.community import opted_in_brands
 from services.community import PUBLIC_LISTING, load_community
 from services.passwords import hash_password
@@ -118,7 +119,8 @@ def load(db, folder: Path) -> dict:
         return shift_iso_seconds(value, offset)
 
     rows = {table: [] for table in (Brand, Product, Assistant, Source, ComparisonFact, User, Owner, Answer, Claim,
-                                    Incident, AuditEntry, DailyMetric, ApiKey, CommunityOrg, CommunityRequest)}
+                                    Incident, AuditEntry, DailyMetric, ApiKey, CommunityOrg, CommunityRequest,
+                                    LoginAlias)}
     profiles = {r["brandId"]: {k: v for k, v in r.items() if k != "brandId"}
                 for r in (read_list(catalog, "profiles", "profiles") if catalog else [])}
     brands = read_list(folder, "brands", "brands") + (read_list(catalog, "brands", "brands") if catalog else [])
@@ -158,7 +160,10 @@ def load(db, folder: Path) -> dict:
         for r in read_list(catalog, "users", "users"):
             rows[User].append(dict(user_id=r["userId"], username=r["username"].lower(), name=r["name"],
                                    role=r["role"], title=pick(r, "title"), brand_id=pick(r, "brandId"),
-                                   password_hash=demo_hash))
+                                   password_hash=demo_hash, sheet_password_hash=pick(r, "sheetPasswordHash")))
+            # v1.7: the 9 renamed companies also sign in with their original sheet email.
+            for alias in r.get("aliases", []):
+                rows[LoginAlias].append(dict(alias=alias.lower(), user_id=r["userId"]))
 
     answer_brand, incident_brand, claim_answer = {}, {}, {}
     for brand_id, path in accounts:

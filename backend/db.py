@@ -72,7 +72,8 @@ class ComparisonFact(Base):
 
 
 class User(Base):
-    """Demo users (v1.4 login). Passwords are stored hashed; every demo password is cirqo-demo."""
+    """Demo users (v1.4 login). Passwords are stored hashed. cirqo-demo works for everyone; v1.7: a sheet
+    company's admin also accepts the company's own password from the sheet (sheet_password_hash)."""
 
     __tablename__ = "users"
     user_id: Mapped[str] = mapped_column(String, primary_key=True)
@@ -83,6 +84,7 @@ class User(Base):
     brand_id: Mapped[str | None] = mapped_column(String, nullable=True)  # None for CIRQO Staff
     org_id: Mapped[str | None] = mapped_column(String, nullable=True)  # v1.6: Community Partner organization
     password_hash: Mapped[str] = mapped_column(String)
+    sheet_password_hash: Mapped[str | None] = mapped_column(String, nullable=True)  # v1.7, decision #41
 
 
 class CommunityOrg(Base):
@@ -230,6 +232,14 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+class LoginAlias(Base):
+    """v1.7: another username that signs in as a user (the 9 renamed companies' original sheet emails)."""
+
+    __tablename__ = "login_aliases"
+    alias: Mapped[str] = mapped_column(String, primary_key=True)
+    user_id: Mapped[str] = mapped_column(String, index=True)
 
 
 class Token(Base):

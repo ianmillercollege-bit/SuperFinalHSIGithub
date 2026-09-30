@@ -9,7 +9,8 @@ Writes data/catalog/:
   profiles.json     a company profile for all 153 brands (Kestrel, Arcton and Novex included)
   products.json     the sheet's 1,500 products (category, subcategory, specs, price history, VDL fields)
   comparisons.json  the sheet's "Verified Comparisons" as comparison facts
-  users.json        demo users (password: cirqo-demo for everyone; the sheet's passwords are ignored)
+  users.json        demo users (cirqo-demo works for everyone; v1.7: sheet admins also carry the hash of
+                    their company's own password and, if renamed, their original sheet email as an alias)
   owners.json, answers.json, claims.json, incidents.json, audit.json, daily_metrics.json
                     dashboard data for every sheet company (each row carries its brandId)
 
@@ -17,6 +18,7 @@ Company names that match real brands are renamed to other fictional Greek-myth n
 """
 
 import hashlib
+import json
 import random
 import re
 from datetime import datetime, timedelta, timezone
@@ -25,6 +27,8 @@ from pathlib import Path
 import openpyxl
 
 SOURCE = Path(__file__).resolve().parent / "source" / "greek_god_tech_companies.xlsx"
+# v1.7 (decision #41): hashes of the sheet companies' own passwords, written once by hash_sheet_passwords.py.
+PASSWORD_HASHES = Path(__file__).resolve().parent / "source" / "sheet_password_hashes.json"
 REFERENCE = datetime(2026, 9, 29, 18, 0, 0, tzinfo=timezone.utc)
 
 # Greek-myth names that are also well-known real brands -> other fictional Greek-myth names.
@@ -129,6 +133,8 @@ def build_catalog(data: dict, checker) -> dict[str, list[dict]]:
     companies = read_table(wb, "Companies")
     details = read_table(wb, "Product Details")
     logins = {row["Company"]: row for row in read_table(wb, "Login Credentials", 6)}
+    sheet_hashes = {a["loginEmail"]: a["passwordHash"]
+                    for a in json.loads(PASSWORD_HASHES.read_text(encoding="utf-8"))["accounts"]}
 
     # ---- Brands, profiles, users ----------------------------------------------------------------
     brands, profiles, users, owners = [], [], [], []
@@ -161,8 +167,11 @@ def build_catalog(data: dict, checker) -> dict[str, list[dict]]:
             "productCategories": split_list(c["Product Categories"], ","),
         })
         admin_name = f"{g.choice(FIRST_NAMES)} {g.choice(LAST_NAMES)}"
+        sheet_email = login["Login Email"].strip().lower()
         users.append({"userId": f"usr_{100 + i:03d}", "name": admin_name, "username": email,
-                      "role": "Brand Data Owner", "title": None, "brandId": brand_id})  # sheet "Brand Admin"
+                      "role": "Brand Data Owner", "title": None, "brandId": brand_id,  # sheet "Brand Admin"
+                      "sheetPasswordHash": sheet_hashes[sheet_email],
+                      "aliases": [sheet_email] if sheet_email != email else []})
         owners.append({"ownerId": f"own_{1000 + i}", "name": admin_name, "role": "Brand Data Owner",
                        "incidentTypes": list(INCIDENT_RULES), "brandId": brand_id})
     users = [{"userId": u, "name": n, "username": un, "role": r, "title": t, "brandId": b}
