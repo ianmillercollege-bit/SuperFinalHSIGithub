@@ -343,7 +343,7 @@ export const prompts: VisibilityPrompt[] = [
 export const market: MarketEntry[] = [
   {
     "id": "biz_you",
-    "name": "Harbor Home Goods",
+    "name": "Kestrel",
     "group": "you",
     "score": 63,
     "averageRank": null,
