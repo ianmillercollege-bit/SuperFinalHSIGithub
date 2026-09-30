@@ -1427,8 +1427,8 @@ details > summary {
 }
 
 .dd-label {
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--fg);
 }
 
@@ -1437,21 +1437,22 @@ details > summary {
   align-items: center;
   gap: 12px;
   width: 100%;
-  min-height: 48px;
+  min-height: 44px;
   padding: 8px 14px;
   border: 1px solid var(--border-strong);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--bg-card);
   color: var(--fg);
   font: inherit;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   text-align: left;
   cursor: pointer;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .dd-compact .dd-trigger {
-  min-height: 40px;
+  min-height: 38px;
   padding: 6px 12px;
 }
 
@@ -1487,8 +1488,13 @@ details > summary {
 
 .dd-chevron {
   flex: none;
-  color: var(--ink);
-  transition: transform 0.15s;
+  color: var(--muted);
+  transition: transform 0.15s, color 0.15s;
+}
+
+.dd-trigger:hover:not(:disabled) .dd-chevron,
+.dd-trigger[aria-expanded="true"] .dd-chevron {
+  color: var(--orange-text);
 }
 
 .dd-trigger[aria-expanded="true"] .dd-chevron {
@@ -1519,31 +1525,52 @@ details > summary {
 .dd-list {
   position: absolute;
   z-index: 20;
-  left: 0;
+  left: auto;
   right: 0;
-  top: calc(100% + 4px);
+  min-width: 100%;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 32px));
+  top: calc(100% + 6px);
   max-height: 264px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   padding: 6px;
   list-style: none;
   border: 1px solid var(--border-strong);
   border-radius: 12px;
   background: var(--bg-card);
-  box-shadow: 0 12px 28px var(--shadow);
+  box-shadow: 0 2px 4px var(--shadow), 0 16px 32px -8px var(--shadow);
+  scrollbar-width: thin;
+  animation: dd-in 0.12s ease-out;
+  transform-origin: top center;
+}
+
+@keyframes dd-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dd-list { animation: none; }
 }
 
 .dd-list.is-up {
   top: auto;
-  bottom: calc(100% + 4px);
+  bottom: calc(100% + 6px);
+  transform-origin: bottom center;
 }
 
 .dd-option {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 10px;
+  min-height: 38px;
+  padding: 8px 10px;
   border-radius: 8px;
   color: var(--fg);
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
 }
@@ -1553,7 +1580,16 @@ details > summary {
 }
 
 .dd-option.is-selected {
-  font-weight: 700;
+  background: var(--orange-tint);
+  font-weight: 600;
+}
+
+.dd-option.is-selected.is-active {
+  background: var(--orange-tint);
+  box-shadow: inset 0 0 0 1px var(--orange-border);
+}
+
+.dd-option.is-selected .dd-check {
   color: var(--orange-text);
 }
 
@@ -1581,10 +1617,10 @@ details > summary {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 48px;
+  min-height: 44px;
   padding: 8px 14px;
   border: 1px solid var(--border-strong);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--bg-card);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
@@ -1610,7 +1646,8 @@ details > summary {
   background: transparent;
   color: var(--fg);
   font: inherit;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   outline: none;
 }
 
@@ -1813,4 +1850,12 @@ html:root {
 /* A hairline gap keeps neighbouring segments of the stacked bar apart where their colors are close. */
 .cq-stack {
   gap: 2px;
+}
+/* The sign-in combobox toggle uses the same muted chevron as every other dropdown. */
+.dd-combo-toggle {
+  color: var(--muted);
+}
+.dd-combo-toggle:hover,
+.dd-combo-toggle[aria-expanded="true"] {
+  color: var(--orange-text);
 }
