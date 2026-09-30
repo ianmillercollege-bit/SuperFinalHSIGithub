@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import DashboardActionPlan from "@/components/screens/DashboardActionPlan";
 import CommunityImpactTile from "@/components/screens/CommunityImpactTile";
 import StorefrontRevenue from "@/components/dashboard/StorefrontRevenue";
 import DashboardView from "@/components/dashboard/DashboardView";
@@ -50,7 +51,7 @@ export default function DashboardScreen() {
   });
   return (
     <>
-      <DashboardView vm={vm} afterOpportunities={vm.storefront ? <StorefrontRevenue data={vm.storefront} /> : undefined} />
+      <DashboardView vm={vm} afterCharts={<DashboardActionPlan />} afterOpportunities={vm.storefront ? <StorefrontRevenue data={vm.storefront} /> : undefined} />
       <CommunityImpactTile />
       {claims.error !== undefined && <ErrorNotice error={claims.error} onRetry={claims.reload} />}
       {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}

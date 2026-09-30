@@ -4,6 +4,7 @@ import "@/styles/tokens.css";
 import "./globals.css";
 import "@/styles/cirqo-dashboard.css";
 import "@/styles/cirqo-screens.css";
+import "@/styles/cirqo-coach.css";
 import "@/styles/cirqo-overrides.css";
 
 const publicSans = Public_Sans({

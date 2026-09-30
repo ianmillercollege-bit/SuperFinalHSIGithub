@@ -1,267 +1,131 @@
-// A rule-based coach that needs no AI. It spots what the question is about by
-// keywords, then builds the answer from the current dashboard data, so every
-// number in it matches the rest of the app.
-import { formatChange, formatPercent, formatUsd } from "../format";
-import { RULE_LABELS } from "../labels";
-import type { CoachReply, CoachSourceChip, Opportunity } from "../schema";
-import type { RuleId } from "../types";
-import { allLeversOn, simulate } from "../simulator";
-import type { CoachContext, CoachProvider } from "./types";
+import type { ActionItem, Coach, CoachContext, CoachReply, CoachRequest, CoachSource } from './types';
 
-export type IntentId =
-  | "what_if"
-  | "increase_sales"
-  | "why_not_appearing"
-  | "vs_competitors"
-  | "biggest_gap"
-  | "weekly_change"
-  | "revenue"
-  | "accuracy"
-  | "fallback";
+// Deterministic coach built only from the context. It is the offline mode, the fallback when the AI is
+// unavailable or fails verification, and the default action plan before anyone asks the model.
+const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const pct = (v: number) => `${Math.round(v * 100)}%`;
+const W = { Low: 1, Medium: 2, High: 3 } as const;
+const pts = (n: number) => `${n} ${n === 1 ? 'point' : 'points'}`;
 
-type Answer = Pick<CoachReply, "text" | "sources">;
-
-interface Intent {
-  id: Exclude<IntentId, "fallback">;
-  keywords: string[];
-  answer: (ctx: CoachContext, question: string) => Answer;
+export function buildPlan(ctx: CoachContext): ActionItem[] {
+  const out: Omit<ActionItem, 'id'>[] = [];
+  const opps = [...(ctx.opportunities ?? [])].sort((a, b) => b.liftPoints / W[b.effort] - a.liftPoints / W[a.effort] || b.revenuePerMonth - a.revenuePerMonth).slice(0, 3);
+  for (const o of opps) out.push({
+    title: o.title, why: o.why ?? `Closing this gap is worth about ${usd(o.revenuePerMonth)} a month (estimate).`,
+    expectedImpact: `+${o.liftPoints} ${o.liftPoints === 1 ? 'point' : 'points'}, about ${usd(o.revenuePerMonth)}/month (estimate)`,
+    effort: o.effort, metric: 'AI Visibility Score',
+    steps: [o.firstStep ?? 'Assign an owner and finish the first step this week.', 'Re-run your shopper questions next week to confirm the change.'], basedOn: ['Opportunity gaps'],
+  });
+  const top = ctx.visibility?.missReasons?.[0];
+  if (top && !opps.some((o) => o.title === top.fix)) out.push({
+    title: top.fix, why: `${top.label} caused ${top.count} of the ${ctx.visibility!.answersMissed} answers that missed you.`,
+    expectedImpact: `Addresses ${top.count} missed answers`, effort: 'Medium', metric: 'Recommendation frequency',
+    steps: [`Start with the pages behind "${top.label}".`], basedOn: ['AI Visibility'],
+  });
+  if (ctx.claims && ctx.claims.outstanding > 0) out.push({
+    title: 'Clear the claims waiting for approval', why: `${ctx.claims.outstanding} claims are waiting, and each one is a wrong fact shoppers may still see.`,
+    expectedImpact: `${ctx.claims.outstanding} open items resolved`, effort: 'Low', metric: 'Outstanding claims',
+    steps: ['Open Outstanding Claims.', 'Approve or reject each item with a reason.'], basedOn: ['Claims'],
+  });
+  return out.slice(0, 5).map((a, i) => ({ ...a, id: `act_${i + 1}` }));
 }
 
-// Order matters only for ties: the intent listed first wins.
-const INTENTS: Intent[] = [
-  {
-    id: "what_if",
-    keywords: ["what if", "what happens if", "simulate", "if i fix", "if i add", "if i improve"],
-    answer: (ctx, question) => {
-      const opportunity = mentionedOpportunity(question, ctx) ?? topByLift(ctx)[0];
-      const result = simulate({ [opportunity.id]: 1 }, ctx.baseline, ctx.baseline.assumptions);
-      return {
-        text:
-          `If you fully complete "${opportunity.title}", the simulator estimates your AI Visibility Score ` +
-          `goes from ${result.visibilityBefore} to ${result.visibilityAfter}, about ` +
-          `${formatUsd(result.revenueDeltaPerMonth)} more in sales per month (illustrative estimate). ` +
-          `Effort: ${opportunity.effort}. First step: ${opportunity.steps[0]}`,
-        sources: [
-          chip("Opportunity", `${opportunity.title} (+${opportunity.liftPoints} pts)`),
-          chip("Simulator", `${result.visibilityBefore} → ${result.visibilityAfter}`),
-        ],
-      };
-    },
-  },
-  {
-    id: "increase_sales",
-    keywords: ["increase sales", "more sales", "sell more", "grow", "more customers", "boost"],
-    answer: (ctx) => {
-      const [first, second] = topByLift(ctx);
-      const all = simulate(allLeversOn(ctx.baseline.levers), ctx.baseline, ctx.baseline.assumptions);
-      return {
-        text:
-          `Your biggest levers are "${first.title}" (+${first.liftPoints} points, ${first.effort} effort) ` +
-          `and "${second.title}" (+${second.liftPoints} points, ${second.effort} effort). Doing all ` +
-          `${ctx.opportunities.opportunities.length} opportunities could lift your AI Visibility Score from ` +
-          `${all.visibilityBefore} to ${all.visibilityAfter}, worth about ${formatUsd(all.revenueDeltaPerMonth)} ` +
-          `a month in extra sales (illustrative estimate).`,
-        sources: [
-          chip("Top opportunity", first.title),
-          chip("Potential (illustrative estimate)", `${all.visibilityAfter}/100, +${formatUsd(all.revenueDeltaPerMonth)}/mo`),
-        ],
-      };
-    },
-  },
-  {
-    id: "why_not_appearing",
-    keywords: ["why", "not showing", "not appearing", "missing", "don't show", "left out", "invisible"],
-    answer: (ctx) => {
-      const { checks, appearances, reasons } = ctx.visibility;
-      const top = reasons.slice(0, 3);
-      return {
-        text:
-          `You were missing from ${checks - appearances} of ${checks} tracked AI answers. The most common ` +
-          `reasons: ${top.map((r) => `${r.text} (${r.count} answers)`).join(" ")}`,
-        sources: [
-          chip("Tracked answers", `${appearances} of ${checks} include you`),
-          ...top.map((r) => chip("Reason", `${RULE_LABELS[r.ruleId]} × ${r.count}`)),
-        ],
-      };
-    },
-  },
-  {
-    id: "vs_competitors",
-    keywords: ["competitor", "compare", "versus", " vs", "national", "similar business", "peers", "other stores"],
-    answer: (ctx) => {
-      const { shares, entities } = ctx.market;
-      const name = ctx.overview.business.name;
-      const leader = [...entities].sort((a, b) => b.mentions - a.mentions)[0];
-      return {
-        text:
-          `In the tracked AI answers, national chains get ${formatPercent(shares.national)} of mentions, ` +
-          `similar small businesses ${formatPercent(shares.peers)}, and ${name} ` +
-          `${formatPercent(shares.thisBusiness)}. The most-mentioned business is ${leader.name} ` +
-          `(${leader.mentions} mentions). Rankings are neutral: businesses can't pay to be recommended, ` +
-          `so the way to gain ground is better data, reviews, and policies.`,
-        sources: [
-          chip("National share", formatPercent(shares.national)),
-          chip("Peer share", formatPercent(shares.peers)),
-          chip("Your share", formatPercent(shares.thisBusiness)),
-        ],
-      };
-    },
-  },
-  {
-    id: "biggest_gap",
-    keywords: ["biggest gap", "gap", "weakness", "weakest", "biggest problem", "fix first"],
-    answer: (ctx) => {
-      const weakness = ctx.overview.weaknesses[0];
-      const fix = opportunityById(ctx, weakness.opportunityId);
-      return {
-        text:
-          `Your biggest gap: ${weakness.title} It affected ${weakness.count} tracked answers. ` +
-          `The fix is "${fix.title}" (+${fix.liftPoints} points, ${fix.effort} effort). ` +
-          `Start here: ${fix.steps[0]}`,
-        sources: [
-          chip("Weakness", `${RULE_LABELS[weakness.ruleId]} × ${weakness.count}`),
-          chip("Fix", `${fix.title} (+${fix.liftPoints} pts)`),
-        ],
-      };
-    },
-  },
-  {
-    id: "weekly_change",
-    keywords: ["this week", "last week", "week", "trend", "change", "progress"],
-    answer: (ctx) => {
-      const { visibilityScore, previousScore, weeklyChange, history } = ctx.overview;
-      const direction = weeklyChange > 0 ? "up" : weeklyChange < 0 ? "down" : "flat";
-      return {
-        text:
-          `Your AI Visibility Score is ${visibilityScore}/100 this week, ${direction} ` +
-          `${formatChange(weeklyChange)} from ${previousScore} last week. Over ${history.length} weeks ` +
-          `it moved from ${history[0].score} to ${visibilityScore}.`,
-        sources: [
-          chip("This week", `${visibilityScore}/100`),
-          chip("Change", `${formatChange(weeklyChange)} pts`),
-          chip(`${history.length}-week start`, `${history[0].score}/100`),
-        ],
-      };
-    },
-  },
-  {
-    id: "revenue",
-    keywords: ["revenue", "money", "worth", "dollar", "income", "$"],
-    answer: (ctx) => {
-      const { assumptions } = ctx.baseline;
-      const all = simulate(allLeversOn(ctx.baseline.levers), ctx.baseline, assumptions);
-      return {
-        text:
-          `Illustrative estimate: each AI Visibility point is worth about ${formatUsd(assumptions.revenuePerVisibilityPoint)} a month. ` +
-          `Completing every opportunity (${all.visibilityBefore} → ${all.visibilityAfter}) is worth about ` +
-          `${formatUsd(all.revenueDeltaPerMonth)} a month. It is based on these assumptions: ` +
-          `${assumptions.explanation.map((a) => a.label.toLowerCase()).join(", ")}. You can change these assumptions.`,
-        sources: [
-          chip("Per point (illustrative estimate)", `${formatUsd(assumptions.revenuePerVisibilityPoint)}/mo`),
-          chip("All opportunities (illustrative estimate)", `+${formatUsd(all.revenueDeltaPerMonth)}/mo`),
-        ],
-      };
-    },
-  },
-  {
-    id: "accuracy",
-    keywords: ["wrong", "accura", "incorrect", "outdated", "mistake", "hallucinat", "stock"],
-    answer: (ctx) => {
-      const accuracyRules: RuleId[] = ["PRICE_MISMATCH", "PRICE_OUTDATED", "AVAILABILITY_MISMATCH", "SPEC_MISMATCH", "INVENTED_FEATURE", "POLICY_MISMATCH"];
-      const found = ctx.visibility.reasons.filter((r) => accuracyRules.includes(r.ruleId));
-      if (found.length === 0) {
-        return {
-          text: "No tracked answers were affected by outdated details, unclear policies, or unknown stock.",
-          sources: [chip("Tracked answers", `${ctx.visibility.checks}`)],
-        };
+type Intent = 'growth' | 'missing' | 'market' | 'claims' | 'trust' | 'trend' | 'plan' | 'forecast' | 'product' | 'assistants' | 'explain' | 'overview';
+const INTENTS: [Intent, RegExp][] = [
+  ['forecast', /next (year|month|quarter)|forecast|predict|projection|will my|customers did i lose|customers.*lost|profit|margin|churn|how much will/i],
+  ['product', /how does (cirqo|the checker|it) (work|check)|what is cirqo|who approves|pay to rank|paid placement|can i pay|how do you check/i],
+  ['assistants', /which (assistant|ai)|worst|best (for me)?.*assistant|assistant.*(worst|best|focus)|focus on first/i],
+  ['market', /compar|competitor|national|peer|market|rank|share of voice/i],
+  ['missing', /missing|missed|appear|show up|mention|why not|not shown|recommend(ed)? me/i],
+  ['claims', /claim|approve|incident|escalat|outstanding|reviewed/i],
+  ['trust', /accura|hallucin|wrong|trust|correct|false alarm|resolve/i],
+  ['trend', /week|trend|change|last month|progress|improv/i],
+  ['growth', /revenue|sales|money|grow|increase|sell|income|earn|cheap|easiest|quick|fastest|least|gain|points|one hour/i],
+  ['plan', /plan|action|steps|priorit|next|what should|todo|to do/i],
+  ['explain', /explain|dashboard|summar|overview|what does this|new to/i],
+];
+const detect = (q: string): Intent => INTENTS.find(([, re]) => re.test(q))?.[0] ?? 'overview';
+
+export function answerFor(question: string, ctx: CoachContext): { answer: string; sources: CoachSource[] } {
+  const v = ctx.visibility, m = ctx.market, r = ctx.revenue, opp = ctx.opportunities ?? [];
+  const sources: CoachSource[] = [];
+  const src = (label: string, value: string) => sources.push({ label, value });
+  const top = [...opp].sort((a, b) => b.liftPoints - a.liftPoints).slice(0, 3);
+  const totalLift = opp.reduce((s, o) => s + o.liftPoints, 0), totalRev = opp.reduce((s, o) => s + o.revenuePerMonth, 0);
+  const rival = ctx.competitors?.find((c) => { const q = question.toLowerCase(), n = c.name.toLowerCase(); return q.includes(n) || (n.split(' ')[0].length >= 5 && !n.startsWith('national') && q.includes(n.split(' ')[0])); });
+  if (rival && v) {
+    const d = rival.score - v.score, you = ctx.market?.shareOfVoice, to = ctx.market?.scoreIfAllGapsClosed;
+    src(`${rival.name} score`, String(rival.score)); src('Your score', String(v.score));
+    return { answer: `${rival.name} (${rival.type}) scores ${rival.score} against your ${v.score}, so ${d > 0 ? `it is ${d} points ahead` : d < 0 ? `you are ${-d} points ahead` : 'you are level'}. It averages rank ${rival.averageRank} in AI answers, holds ${pct(rival.shareOfVoice)} of recommendations${you !== undefined ? ` (you hold ${pct(you)})` : ''}, and is recommended in ${pct(rival.recommendationFrequency)} of answers (you: ${pct(v.recommendationFrequency)}).${to !== undefined && d > 0 ? ` Closing every gap would take your score to ${to}${to > rival.score ? `, past ${rival.name}` : `, still ${rival.score - to} points short of ${rival.name}`} (estimate).` : ''}`, sources };
+  }
+  switch (detect(question)) {
+    case 'forecast': {
+      if (r) src('Revenue estimate', `${usd(r.estimatePerMonth)}/month`);
+      return { answer: `I can't tell that from your dashboard data. It covers visibility, competitors, claims, accuracy and an illustrative revenue estimate, but not sales history, customers, costs or forecasts.${r ? ` The closest figure I have is the revenue estimate of ${usd(r.estimatePerMonth)}/month at your current score (estimate, not a forecast).` : ''} If your store data were connected I could answer this.`, sources };
+    }
+    case 'product':
+      return { answer: 'CIRQO tracks how AI shopping assistants describe your business and checks what they say against your verified facts. AI extracts the claims and plain code decides whether each one is correct, incorrect, outdated or unverifiable. Mistakes open incidents, low-risk fixes are applied automatically, and high-risk fixes wait for a named person to approve. Safety or legal issues are only escalated, every action is logged, and ranking is neutral: nothing can be paid for.', sources };
+    case 'assistants': {
+      const a = [...(ctx.assistants ?? [])].sort((x, y) => y.frequency - x.frequency);
+      if (a.length < 2) return { answer: 'I do not have per-assistant data yet.', sources };
+      const best = a[0], worst = a[a.length - 1], reason = v?.missReasons[0];
+      a.forEach((x) => src(x.name, pct(x.frequency)));
+      return { answer: `${worst.name} recommends you least (${pct(worst.frequency)} of its answers) and ${best.name} most (${pct(best.frequency)}), a gap of ${Math.round((best.frequency - worst.frequency) * 100)} percentage points. Start with ${worst.name}${reason ? `: the biggest reason you are missed overall is ${reason.label.toLowerCase()} (${reason.count} answers), and the fix is "${reason.fix.toLowerCase()}"` : ''}.`, sources };
+    }
+    case 'explain': {
+      if (!v) return { answer: 'I do not have dashboard data yet.', sources };
+      src('Visibility score', String(v.score));
+      return { answer: `Your AI Visibility Score is ${v.score} out of 100. It shows how often and how well AI shopping assistants recommend you, and it was ${v.previousScore} last week. Assistants named you in ${pct(v.recommendationFrequency)} of tested answers${m ? `, which ranks you ${m.rankAmongSmallBusinesses} of ${m.smallBusinessCount} among small businesses` : ''}. ${r ? `The revenue figure of ${usd(r.estimatePerMonth)}/month is an illustrative estimate, not your real sales. ` : ''}${ctx.claims ? `Claims are wrong facts assistants may show, and ${ctx.claims.outstanding} are waiting for your approval. ` : ''}Opportunity gaps list the fixes, and the action plan turns them into steps.`, sources };
+    }
+    case 'growth': {
+      if (!v || !top.length) return { answer: 'I need your visibility and opportunity data to give revenue advice. Once it is available I can rank the changes by impact.', sources };
+      src('Visibility score', String(v.score)); if (r) src('Revenue estimate', `${usd(r.estimatePerMonth)}/month`); top.forEach((o) => src(o.title, `+${o.liftPoints} points`));
+      if (/cheap|least|easiest|quick|hour|low effort|fastest|lowest/i.test(question)) {
+        const low = opp.filter((o) => o.effort === 'Low').sort((a, b) => b.liftPoints - a.liftPoints);
+        if (low.length) return { answer: `The lowest-effort gaps are ${low.map((o) => `${o.title.toLowerCase()} (+${pts(o.liftPoints)}, about ${usd(o.revenuePerMonth)}/month)`).join(', ')}. Together they add ${pts(low.reduce((s, o) => s + o.liftPoints, 0))}, about ${usd(low.reduce((s, o) => s + o.revenuePerMonth, 0))} a month (estimate). Start with "${low[0].title.toLowerCase()}".`, sources };
       }
-      return {
-        text:
-          `Detail problems cost you these answers: ${found.map((r) => `${r.text} (${r.count})`).join(" ")} ` +
-          `Fixing them is covered by: ${[...new Set(found.map((r) => opportunityById(ctx, r.opportunityId).title))].join("; ")}.`,
-        sources: found.map((r) => chip("Reason", `${RULE_LABELS[r.ruleId]} × ${r.count}`)),
-      };
-    },
-  },
-];
-
-/** Shown on screen with the coach and on every answer (DECISIONS.md #11). */
-export const COACH_DEMO_DISCLAIMER =
-  "Demo coach: pre-written answers filled in from sample data. Not a live AI.";
-
-/** Questions offered as one-tap chips in the coach UI. Each maps to one intent. */
-export const SUGGESTED_QUESTIONS: { question: string; intent: IntentId }[] = [
-  { question: "How can I increase sales?", intent: "increase_sales" },
-  { question: "Why am I not showing up in AI answers?", intent: "why_not_appearing" },
-  { question: "How do I compare to competitors?", intent: "vs_competitors" },
-  { question: "What's my biggest gap?", intent: "biggest_gap" },
-  { question: "What if I fix my structured data?", intent: "what_if" },
-  { question: "How did I do this week?", intent: "weekly_change" },
-  { question: "How much revenue could better AI visibility bring me?", intent: "revenue" },
-  { question: "Are AI assistants getting my details wrong?", intent: "accuracy" },
-];
-
-/** Which intent a question matches: the one with the most keyword hits. */
-export function matchIntent(question: string): IntentId {
-  const q = question.toLowerCase();
-  let best: Intent | null = null;
-  let bestHits = 0;
-  for (const intent of INTENTS) {
-    const hits = intent.keywords.filter((k) => q.includes(k)).length;
-    if (hits > bestHits) {
-      best = intent;
-      bestHits = hits;
+      return { answer: `The fastest way to grow is to raise your AI Visibility Score, now ${v.score} out of 100. Your top changes are ${top.map((o) => `${o.title.toLowerCase()} (+${pts(o.liftPoints)}, about ${usd(o.revenuePerMonth)}/month)`).join(', ')}. Together all ${opp.length} gaps add ${totalLift} points and about ${usd(totalRev)} a month (estimate, not a guarantee).`, sources };
+    }
+    case 'missing': {
+      if (!v) return { answer: 'I do not have visibility data yet, so I cannot say why you are missing from answers.', sources };
+      src('Answers that missed you', `${v.answersMissed} of ${v.answersTested}`); const rs = v.missReasons.slice(0, 3); rs.forEach((x) => src(x.label, `${x.count} answers`));
+      return { answer: `You were not named in ${v.answersMissed} of ${v.answersTested} answers (${pct(v.recommendationFrequency)} recommendation frequency). ${rs.length ? `The biggest reasons are ${rs.map((x) => `${x.label.toLowerCase()} (${x.count} answers)`).join(', ')}.` : ''} Each reason has a matching fix in Opportunity gaps.`, sources };
+    }
+    case 'market': {
+      if (!m) return { answer: 'I do not have market comparison data yet.', sources };
+      src('Rank among small businesses', `${m.rankAmongSmallBusinesses} of ${m.smallBusinessCount}`); src('Rank overall', `${m.rankOverall} of ${m.businessCount}`); src('Share of voice', pct(m.shareOfVoice));
+      return { answer: `You rank ${m.rankAmongSmallBusinesses} of ${m.smallBusinessCount} among small businesses and ${m.rankOverall} of ${m.businessCount} overall, with a ${pct(m.shareOfVoice)} share of AI recommendations. National brands hold ${pct(m.nationalShare)}.${m.scoreIfAllGapsClosed ? ` If you close every gap your score would reach ${m.scoreIfAllGapsClosed}, ranking you ${m.rankOverallIfAllGapsClosed} of ${m.businessCount} overall (estimate).` : ''}`, sources };
+    }
+    case 'claims': {
+      if (!ctx.claims) return { answer: 'I do not have claims data yet.', sources };
+      src('Outstanding claims', String(ctx.claims.outstanding)); src('Reviewed in 30 days', String(ctx.claims.reviewedLast30Days));
+      return { answer: `You have ${ctx.claims.outstanding} claims waiting for approval and ${ctx.claims.reviewedLast30Days} reviewed in the last 30 days. Open Outstanding Claims to approve or reject each item; safety and legal items go to a person.`, sources };
+    }
+    case 'trust': {
+      if (!ctx.trust) return { answer: 'I do not have accuracy data yet.', sources };
+      const t = ctx.trust; src('Accuracy', pct(t.accuracyRate)); src('Hallucination rate', pct(t.hallucinationRate)); src('Time to resolve', `${t.timeToResolveHours} hours`);
+      return { answer: `AI answers about you are ${pct(t.accuracyRate)} accurate, up from ${pct(t.accuracyRateStart)} ${t.days} days ago. The hallucination rate is ${pct(t.hallucinationRate)} and issues take about ${t.timeToResolveHours} hours to resolve.`, sources };
+    }
+    case 'trend': {
+      const w = ctx.weeklyScores; if (!w || w.length < 2 || !v) return { answer: 'I need a few weeks of visibility scores to describe the trend.', sources };
+      src('Score now', String(w[w.length - 1])); src('Score first week', String(w[0]));
+      return { answer: `Your visibility score moved from ${w[0]} to ${w[w.length - 1]} over ${w.length} weeks, and ${v.score - v.previousScore >= 0 ? 'rose' : 'fell'} ${Math.abs(v.score - v.previousScore)} points last week.`, sources };
+    }
+    case 'plan': {
+      const plan = buildPlan(ctx); plan.forEach((a) => src(a.title, a.effort));
+      return { answer: plan.length ? `Here is what I would do first: ${plan.map((a, i) => `${i + 1}. ${a.title}`).join(' ')}. They are ordered by impact and effort, and the checklist is on your dashboard.` : 'I do not have enough data to build a plan yet.', sources };
+    }
+    default: {
+      if (!v) return { answer: 'I can help with visibility, accuracy, claims, market position and revenue. Try: "How can I increase sales?" or "Why am I missing from some AI answers?"', sources };
+      src('Visibility score', String(v.score)); src('Recommendation frequency', pct(v.recommendationFrequency));
+      return { answer: `Your AI Visibility Score is ${v.score}, and assistants recommended you in ${pct(v.recommendationFrequency)} of tested answers. I can help with revenue, missed answers, market position, claims or accuracy. Try: "How can I increase sales?"`, sources };
     }
   }
-  return best?.id ?? "fallback";
 }
 
-export const sampleCoach: CoachProvider = {
-  async ask(question, _history, context) {
-    const intentId = matchIntent(question);
-    const intent = INTENTS.find((i) => i.id === intentId);
-    const answer = intent ? intent.answer(context, question) : fallbackAnswer(context);
-    return { ...answer, source: "sample", disclaimer: COACH_DEMO_DISCLAIMER };
+export const sampleCoach: Coach = {
+  async ask(req: CoachRequest): Promise<CoachReply> {
+    const { answer, sources } = answerFor(req.question, req.context);
+    return { answer, sources, actions: buildPlan(req.context), mode: 'sample', verified: true, generatedAt: new Date().toISOString() };
   },
 };
-
-function fallbackAnswer(ctx: CoachContext): Answer {
-  const { business, visibilityScore } = ctx.overview;
-  return {
-    text:
-      `I'm a demo coach with pre-written answers, and I don't have one for that yet. I can help ${business.name} with sales ideas, why you're missing ` +
-      `from AI answers, how you compare to competitors, your biggest gap, what-if scenarios, weekly changes, ` +
-      `revenue estimates, and wrong details. Try one of the suggested questions.`,
-    sources: [chip("AI Visibility Score", `${visibilityScore}/100`)],
-  };
-}
-
-function topByLift(ctx: CoachContext): Opportunity[] {
-  return [...ctx.opportunities.opportunities].sort((a, b) => b.liftPoints - a.liftPoints);
-}
-
-function opportunityById(ctx: CoachContext, id: string): Opportunity {
-  const found = ctx.opportunities.opportunities.find((o) => o.id === id);
-  if (!found) throw new Error(`Unknown opportunity ${id}`);
-  return found;
-}
-
-// Finds the opportunity whose title words (5+ letters) best match the question.
-function mentionedOpportunity(question: string, ctx: CoachContext): Opportunity | undefined {
-  const q = question.toLowerCase();
-  let best: Opportunity | undefined;
-  let bestHits = 0;
-  for (const opportunity of ctx.opportunities.opportunities) {
-    const words = opportunity.title.toLowerCase().split(/\W+/).filter((w) => w.length >= 5);
-    const hits = words.filter((w) => q.includes(w)).length;
-    if (hits > bestHits) {
-      best = opportunity;
-      bestHits = hits;
-    }
-  }
-  return best;
-}
-
-function chip(label: string, value: string): CoachSourceChip {
-  return { label, value };
-}

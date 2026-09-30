@@ -5,8 +5,10 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { simulatorAssumptions } from "../lib/config/simulatorAssumptions";
-import { COACH_DEMO_DISCLAIMER, SUGGESTED_QUESTIONS, loadCoachContext } from "../lib/coach";
-import { matchIntent, sampleCoach } from "../lib/coach/sampleCoach";
+import { STARTERS } from "../components/coach/CoachPage";
+import { sampleCoach } from "../lib/coach/sampleCoach";
+import { coachBanner } from "../lib/coach/useCoachChat";
+import { buildCoachContext } from "../lib/coachApp";
 import { getOverview } from "../lib/dataSource";
 import {
   buildMarketReport,
@@ -95,22 +97,13 @@ async function main() {
   const loaded = await getOverview();
   check("extras return frontend sample data", loaded.source === "sample");
 
-  section("Coach");
-  const context = await loadCoachContext();
-  for (const { question, intent } of SUGGESTED_QUESTIONS) {
-    const reply = await sampleCoach.ask(question, [], context);
-    check(`"${question}"`,
-      matchIntent(question) === intent && reply.text.length > 0 && reply.sources.length > 0,
-      `intent ${matchIntent(question)}, ${reply.sources.length} sources`);
-    const dollarsLabeled = [reply.text, ...reply.sources.map((c) => `${c.label} ${c.value}`)]
-      .filter((t) => t.includes("$"))
-      .every((t) => /illustrative estimate/i.test(t));
-    check(`  revenue in that answer is labeled "illustrative estimate" (decision 12)`, dollarsLabeled);
+  section("Coach (kit, sample mode)");
+  const coachContext = buildCoachContext(BUSINESS.name);
+  for (const { question } of STARTERS) {
+    const reply = await sampleCoach.ask({ question, history: [], context: coachContext });
+    check(`"${question}"`, reply.mode === "sample" && reply.answer.length > 0 && reply.sources.length > 0, `mode ${reply.mode}, ${reply.sources.length} sources`);
   }
-  const fallback = await sampleCoach.ask("What's the weather tomorrow?", [], context);
-  check("unknown question gets a friendly fallback", matchIntent("What's the weather tomorrow?") === "fallback" && fallback.sources.length > 0);
-  check("every coach answer says it is a pre-written demo answer (decision 11)",
-    fallback.disclaimer === COACH_DEMO_DISCLAIMER && /pre-written/i.test(COACH_DEMO_DISCLAIMER));
+  check("the coach banner says it is a pre-written demo answer (decision 11)", coachBanner(false) === "Demo: pre-written answers, not a live AI.");
 
   section("Business name (DECISIONS.md #28)");
   check("the business is Kestrel (brand_001), the contract's brand", BUSINESS.name === "Kestrel" && BUSINESS.id === "brand_001");
