@@ -1778,3 +1778,17 @@ details > summary {
   width: 100%;
   min-width: 90px;
 }
+
+/* ---- Night mode readability (contrast fixes on top of the kit styles) ---- */
+/* The polish layer paints titles and big numbers with a navy-to-blue gradient; on the dark page that is unreadable, so night mode uses a light one. */
+:root[data-theme="dark"] {
+  --cq-ink-grad: linear-gradient(100deg, #eef3f9 18%, #9cc3ff 100%);
+}
+/* The kit's blue "Accepted" dot is 2.6:1 on the dark card; a lighter blue reaches 3:1 or more. */
+:root[data-theme="dark"] .cq-igroup-dot.is-blue {
+  background: #6fa8e8;
+}
+/* The Growth Simulator's grey "Now" bar is 2.8:1 on its light track (graphics need 3:1); a deeper grey reaches about 4:1. */
+:root:not([data-theme="dark"]) .cq-bar > div[style*="124, 139, 161"] {
+  background: #5f6f86 !important;
+}
