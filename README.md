@@ -24,7 +24,9 @@ Brands lose visibility, and the AI can state wrong prices, features, availabilit
 CIRQO is an **API plugin for AI assistants plus a brand dashboard**, for consumer technology brands. It is not a
 shopping app. A brand connects its product catalog to CIRQO. When a shopper asks an AI assistant a shopping question,
 the assistant calls CIRQO instead of guessing and gets verified facts back. CIRQO records what was asked and answered,
-checks every claim, and shows the brand the results. The three components from the business plan:
+checks every claim, and shows the brand the results. Shoppers never see CIRQO: they only talk to their AI assistant,
+and CIRQO works behind it. The dashboard is for brands; the Assistant Simulator page stands in for the assistant so a
+judge can watch the exchange. The three components from the business plan:
 
 | Component (business plan) | Who it serves | Where it is in this repo |
 |---------------------------|---------------|--------------------------|

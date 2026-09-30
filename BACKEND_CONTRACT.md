@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.2** (approved by lead engineer, 2026-09-29; v1.1 added the Connector endpoint, section 7; v1.2 added the Verified Data Layer fields on Product, section 4). Any change to a path,
+Status: **FINAL v1.3** (approved by lead engineer, 2026-09-29; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, section 7b). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -285,7 +285,7 @@ Rules for all three:
   "action": "auto_fix_applied", "targetId": "inc_12", "details": "Published verified price $449.99."}]}
 ```
 `actorType`: `system` | `human` | `ai`.
-`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query`.
+`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded`.
 
 ### Trust metrics
 **`GET /api/v1/metrics/trust?days=30`**
@@ -317,6 +317,64 @@ Definitions:
                 "owners": [{"name": "Maria Lopez", "role": "Pricing Manager"}]}}
 ```
 `*Start` = first day of the period, `*End` = the `current` value from trust metrics.
+
+## 7b. Brand accounts and onboarding (v1.3)
+
+CIRQO serves many brands. Every brand-facing endpoint is scoped to one brand. **Backward compatible:** with no brand
+given, everything behaves exactly as v1.2 (Kestrel, `brand_001`).
+
+### Choosing the brand
+- Dashboard endpoints accept an optional query parameter **`brandId`** (default `brand_001`):
+  `/visibility/summary`, `/answers`, `/sources`, `/claims`, `/incidents`, `/owners`, `/audit`, `/metrics/trust`, `/report`.
+  `visibilityRate`, `shareOfVoice`, `competitors`, incidents, owners, audit entries and trend are computed for that brand.
+  `competitors` lists the other brands. 404 `NOT_FOUND` for an unknown `brandId`.
+- `/incidents/{id}` and the approve/reject/resolve actions need no `brandId` (the incident already belongs to a brand).
+- `POST /checker/run` is unchanged: incidents attach to the brand that owns the product mentioned.
+- `POST /connector/query` is unchanged and deliberately brand-neutral: it ranks every brand's products.
+- Client API (`/client/*`): the key decides the brand. Each brand has its own keys (below).
+
+### Demo accounts
+**`GET /api/v1/auth/demo-accounts`** (no auth; these are demo-only keys already in the repo)
+```json
+{"accounts": [
+  {"brandId": "brand_001", "brandName": "Kestrel", "role": "owner",  "apiKey": "fd_demo_owner_2026"},
+  {"brandId": "brand_001", "brandName": "Kestrel", "role": "viewer", "apiKey": "fd_demo_viewer_2026"},
+  {"brandId": "brand_002", "brandName": "Arcton",  "role": "owner",  "apiKey": "fd_demo_arcton_2026"},
+  {"brandId": "brand_003", "brandName": "Novex",   "role": "owner",  "apiKey": "fd_demo_novex_2026"}]}
+```
+Never returns `isClient` or `billingTier`.
+
+### Onboarding: "Connect your catalog"
+**`POST /api/v1/brands/onboard`**
+Request:
+```json
+{"brandName": "Lumen Audio", "ownerName": "Sam Rivera",
+ "products": [{"name": "Lumen Buds 2", "price": 129.00, "availability": "in_stock",
+   "specs": {"batteryHours": 8, "weightLb": 0.1, "touchscreen": false},
+   "returnPolicyDays": 30, "factSource": "Brand product feed", "factSourceUrl": "https://www.lumenaudio.example/buds-2"}]}
+```
+Response (201):
+```json
+{"brandId": "brand_004", "brandName": "Lumen Audio", "apiKey": "fd_lumen-audio_8f3a", "productsCreated": 1,
+ "owners": [{"ownerId": "own_10", "name": "Sam Rivera", "role": "Brand Data Owner"}],
+ "connectorReady": true, "note": "Demo data. Resets when the server restarts."}
+```
+Rules: 1 to 50 products; `name` and `price` required, other fields optional with the Product defaults; `specs` keys are
+the Product spec keys (unknown keys are kept as-is). Creates the brand (`isClient: true`, `billingTier: "starter"`),
+its products (`prod_` ids), an owner with role Brand Data Owner covering every `ruleId`, an audit entry
+`action: "brand_onboarded"`, and an owner API key for `/client/*` and `brandId` use. The new brand is ranked by the
+connector immediately and neutrally. Duplicate `brandName` (case-insensitive) → 409 `CONFLICT`. Validation → 422.
+Onboarded data lives in SQLite until the next restart, by design.
+
+### Seed (section 9 additions)
+Arcton (`brand_002`) and Novex (`brand_003`) each get: 2 owners (Brand Data Owner, Trust and Safety Lead), at least
+12 answers, at least 30 claims, at least 8 incidents covering `auto_fixed`, `pending_approval`, `approved`, `rejected`,
+and their own 30-day daily metrics (accuracy improving, but different start and end values from Kestrel's).
+
+### Tests
+`test_brand_scope` (Arcton view shows Arcton's incidents only and lists Kestrel as a competitor; unknown brandId → 404;
+default equals Kestrel), `test_onboard` (201 shape, new brand appears in `GET /products` and in a `connector/query`
+result when it fits, duplicate → 409, 0 products → 422, audit entry written, `isClient` never in any response).
 
 ## 8. Neutral ranking (required test)
 
