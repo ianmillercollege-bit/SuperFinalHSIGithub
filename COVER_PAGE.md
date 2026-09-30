@@ -15,7 +15,7 @@ Theme: "The New Front Door: Trustworthy AI Product Discovery"
 **Date:** September 30, 2026
 
 **Links**
-- Live app: https://super-final-hsi-github.vercel.app
+- Live app: https://utsa-tech-09302026.vercel.app
 - Live API and interactive docs: https://frontdoor-api-hiel.onrender.com/docs
 - Repository: https://github.com/ianmillercollege-bit/UTSA_TECH_09302026
 
