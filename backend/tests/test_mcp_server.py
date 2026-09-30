@@ -98,7 +98,7 @@ def tool_schemas() -> dict:
 
 def test_exposes_search_and_query_tools():
     tools = tool_schemas()
-    assert list(tools) == ["cirqo_search", "cirqo_query", "cirqo_details"]
+    assert list(tools) == ["cirqo_search", "cirqo_query", "cirqo_details", "search", "fetch"]
 
     query = tools["cirqo_query"].input_schema
     assert query["required"] == ["question", "assistantId"]
@@ -414,7 +414,7 @@ def test_speaks_mcp_over_stdio():
                 tools = await session.list_tools()
                 return init.server_info.name, [t.name for t in tools.tools]
 
-    assert asyncio.run(handshake()) == ("cirqo", ["cirqo_search", "cirqo_query", "cirqo_details"])
+    assert asyncio.run(handshake()) == ("cirqo", ["cirqo_search", "cirqo_query", "cirqo_details", "search", "fetch"])
 
 
 # --- the two drift rules and cirqo_details -----------------------------------------------------------------
@@ -476,3 +476,20 @@ def test_search_passes_the_comparison_slot_through_with_a_label(mock_api):
     assert "publicComparison" in mcp_server.server.instructions
     replies[mcp_server.SEARCH_PATH]["json"] = load_mock("connector_search.json")
     assert call("cirqo_search", SEARCH).structured_content["publicComparison"] is None
+
+
+def test_chatgpt_search_and_fetch_wrap_the_same_calls(mock_api):
+    _, replies = mock_api
+    out = call("search", {"query": "headphones for the gym"}).structured_content
+    expected = load_mock("connector_search.json")["options"]
+    assert [r["id"] for r in out["results"]] == [o["productId"] for o in expected]
+    assert all(r["title"].endswith(")") is False and "CIRQO Verified" in r["title"] for r in out["results"])
+    replies["/api/v1/products/prod_001"] = {"status": 200, "json": {
+        "productId": "prod_001", "name": "Kestrel Aero 14", "brandName": "Kestrel", "verified": True, "price": 449.99,
+        "currency": "USD", "availability": "in_stock", "category": "laptops", "subcategory": "Laptop",
+        "specs": {"ramGb": 8, "otherNames": ["Aero"]}, "returnPolicyDays": 30, "factSource": "Brand product feed",
+        "factSourceUrl": "https://www.kestrel.example/aero-14", "verifiedAt": "2026-09-26T18:00:00Z",
+        "condition": "new", "comparisons": []}}
+    doc = call("fetch", {"id": "prod_001"}).structured_content
+    assert doc["id"] == "prod_001" and "CIRQO Verified" in doc["title"] and "ramGb: 8" in doc["text"]
+    assert "otherNames" not in doc["text"] and doc["metadata"]["verified"] is True

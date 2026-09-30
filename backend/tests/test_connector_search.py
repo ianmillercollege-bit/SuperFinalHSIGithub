@@ -193,3 +193,21 @@ def test_public_comparison_slot(seeded):
     gym = search(seeded, GYM)
     if not all(o["verified"] for o in gym["options"]):
         assert gym["publicComparison"] is None
+
+
+def test_constraint_compliance_is_measured(seeded):
+    """Plan 5.2 KPI: a constrained search records how many hard constraints were stated and that every shown
+    product met them; the trust metrics report the share."""
+    from db import Answer, SessionLocal
+    body = search(seeded, {"question": "headphones for the gym", "assistantId": "ast_01",
+                           "constraints": {"maxPrice": 120, "mustHave": ["wireless"]}})
+    assert all(o["price"] <= 120 for o in body["options"])
+    with SessionLocal() as db:
+        row = db.scalars(select(Answer).order_by(Answer.answer_id.desc())).first()
+        assert row.constraints_stated == 2 and row.constraints_met is True
+    assert seeded.get("/api/v1/metrics/trust").json()["current"]["constraintComplianceRate"] == 1.0
+    with SessionLocal() as db:
+        row = db.scalars(select(Answer).order_by(Answer.answer_id.desc())).first()
+        row.constraints_met = False
+        db.commit()
+    assert seeded.get("/api/v1/metrics/trust").json()["current"]["constraintComplianceRate"] < 1.0

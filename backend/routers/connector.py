@@ -122,10 +122,13 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
     at = now_iso()
     order = brand_mentions(answer_text, catalog)
     client_rank = next((i + 1 for i, b in enumerate(order) if b in catalog.client_brand_ids), None)
+    shown = ([top] if top else []) + [p for p, _ in alt_rows]
     answer = Answer(answer_id=next_id(db, Answer.answer_id, "ans"), query_text=body.question,
                     assistant_id=assistant.assistant_id, answer_text=answer_text,
                     brand_mentioned=client_rank is not None, rank=client_rank,
-                    source_ids=[C.CONNECTOR_SOURCE_ID], captured_at=at, source=source_label())
+                    source_ids=[C.CONNECTOR_SOURCE_ID], captured_at=at, source=source_label(),
+                    constraints_stated=constraints_stated(max_price, must_have),
+                    constraints_met=constraints_met(shown, max_price, must_have))
     db.add(answer)
     db.flush()
 
@@ -171,6 +174,21 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
 # ---- Connector search: the funnel (v1.4 section 7c) ---------------------------------------------
 
 SEARCH_LIMIT = 5
+
+
+def constraints_stated(max_price: float | None, must_have: list[str]) -> int:
+    """Plan 5.2: the shopper's hard constraints, a budget and each must-have."""
+    return (1 if max_price is not None else 0) + len(must_have)
+
+
+def constraints_met(shown: list[Product], max_price: float | None, must_have: list[str]) -> bool:
+    """True when every product shown meets every stated constraint (the filters enforce this before display;
+    this measures it, so the KPI is a number and not a promise)."""
+    def meets(p: Product) -> bool:
+        if max_price is not None and p.price > max_price:
+            return False
+        return all(matches_must_have(p, m) for m in must_have)  # laptop words, hint attributes or fact words
+    return all(meets(p) for p in shown)
 
 
 def option_facts(p: Product, catalog: Catalog, verified: bool = True) -> list[dict]:
@@ -280,7 +298,9 @@ def search(body: ConnectorSearchIn, db=Depends(get_db)):
     answer = Answer(answer_id=next_id(db, Answer.answer_id, "ans"), query_text=body.question,
                     assistant_id=assistant.assistant_id, answer_text=answer_text,
                     brand_mentioned=client_rank is not None, rank=client_rank,
-                    source_ids=[C.CONNECTOR_SOURCE_ID], captured_at=at, source=source_label())
+                    source_ids=[C.CONNECTOR_SOURCE_ID], captured_at=at, source=source_label(),
+                    constraints_stated=constraints_stated(max_price, must_have),
+                    constraints_met=constraints_met(picked, max_price, must_have))
     db.add(answer)
     db.flush()
     claims = []

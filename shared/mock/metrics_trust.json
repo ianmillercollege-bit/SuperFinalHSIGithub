@@ -5,7 +5,8 @@
     "hallucinationRate": 0.04,
     "medianTimeToResolveHours": 2.5,
     "falseAlarmRate": 0.06,
-    "visibilityRate": 0.54
+    "visibilityRate": 0.54,
+    "constraintComplianceRate": 1.0
   },
   "daily": [
     {

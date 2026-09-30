@@ -66,8 +66,9 @@ fields, and `backend/tests/test_ranking_neutral.py` proves the results are ident
 Add custom connector, name `CIRQO`, URL `https://frontdoor-api-hiel.onrender.com/mcp`, no authentication.
 Start a chat and ask the way you normally would: "I need headphones for the gym around $150." (For a clean demo, switch web search off in that chat so the assistant does not add web results after the catalog list.)
 The assistant searches the verified catalog, asks one narrowing question, and picks. Every product it names is
-labelled **CIRQO Verified** or **Not CIRQO Verified**. Any assistant that supports MCP can use the
-same URL; `backend/connector/README.md` also covers a local install for Claude Desktop.
+labelled **CIRQO Verified** or **Not CIRQO Verified**. The same URL works in ChatGPT (Developer mode
+connector, which uses the server's `search` and `fetch` tools) and in Gemini CLI; `backend/connector/README.md` has
+the three sets of steps and a local install for Claude Desktop.
 
 **Brands (2 minutes).** Open https://utsa-tech-09302026.vercel.app, click **Connect your catalog**, enter the
 company name, the owner's name and a few products. The company gets a dashboard, an API key and verified facts

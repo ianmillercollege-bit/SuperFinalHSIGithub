@@ -304,5 +304,50 @@ async def cirqo_details(
     }
 
 
+# ---- ChatGPT-compatible tool names -----------------------------------------------------------------------------
+# ChatGPT's connector framework (and its deep research mode) looks for two tools named exactly `search` and `fetch`
+# with fixed shapes. They wrap the same CIRQO calls, so one endpoint serves Claude, ChatGPT and Gemini.
+# Gemini clients (Gemini CLI, Vertex agents) call the cirqo_* tools directly over the same streamable HTTP URL.
+
+DEFAULT_ASSISTANT_ID = os.environ.get("CIRQO_ASSISTANT_ID", "ast_01")
+
+
+@server.tool(
+    name="search",
+    description=(
+        "ChatGPT connector search. " + USE_RULE + " Returns CIRQO's ranked product matches for a shopping query as "
+        "{id, title, url} results; the title ends with (CIRQO Verified) or (Not CIRQO Verified). Call fetch with an "
+        "id for the product's full record. " + ONLY_RULE),
+)
+async def search(query: str = Field(description="What the shopper is looking for, in their words.")) -> dict[str, Any]:
+    body = await post_to_cirqo(SEARCH_PATH, build_payload(query, DEFAULT_ASSISTANT_ID, None))
+    options = list(body.get("options", []))
+    if body.get("publicComparison"):
+        options.append(body["publicComparison"])
+    return {"results": [{"id": o["productId"],
+                         "title": f"{o['name']} ({label(o.get('verified'))}) ${o['price']:.2f}",
+                         "url": f"{api_url()}{DETAILS_PATH}/{o['productId']}"} for o in options]}
+
+
+@server.tool(
+    name="fetch",
+    description=(
+        "ChatGPT connector fetch. Returns one CIRQO product record by id (from search): price, availability, specs, "
+        "verified comparisons and whether it is CIRQO Verified, as {id, title, text, url, metadata}. " + ONLY_RULE),
+)
+async def fetch(id: str = Field(description="A product id from search, e.g. prod_DEI-005-02.")) -> dict[str, Any]:
+    p = await get_from_cirqo(f"{DETAILS_PATH}/{id}")
+    lab = label(p.get("verified"))
+    specs = ", ".join(f"{k}: {v}" for k, v in (p.get("specs") or {}).items() if k not in ("otherNames",))
+    comparisons = "; ".join(c.get("text", "") for c in p.get("comparisons", [])) or "none recorded"
+    text = (f"{p.get('name')} by {p.get('brandName')} ({lab}). Price ${p.get('price'):.2f} {p.get('currency', 'USD')}, "
+            f"{p.get('availability')}, {p.get('returnPolicyDays')}-day returns. Specs: {specs}. "
+            f"Verified comparisons: {comparisons}. Fact source: {p.get('factSource')} (verified {p.get('verifiedAt')}).")
+    return {"id": p.get("productId"), "title": f"{p.get('name')} ({lab})", "text": text,
+            "url": f"{api_url()}{DETAILS_PATH}/{p.get('productId')}",
+            "metadata": {"verified": p.get("verified"), "verificationLabel": lab, "brandName": p.get("brandName"),
+                         "price": p.get("price"), "category": p.get("category")}}
+
+
 if __name__ == "__main__":
     server.run(transport="stdio")
