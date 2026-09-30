@@ -190,6 +190,118 @@
       ],
       "capturedAt": "2026-09-28T15:00:00Z",
       "source": "mock"
+    },
+    {
+      "answerId": "ans_215",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 14 comes with 256 GB of storage. The Kestrel Aero 14 Plus weighs 3 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_02",
+        "src_06"
+      ],
+      "capturedAt": "2026-08-31T15:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_216",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_02",
+      "answerText": "The Novex Slate 14 comes with 256 GB of storage. The Novex Go 13 is rated for 8 hours of battery life.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-03T10:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_217",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Studio 15 has a 15.6-inch display. The Novex Canvas 15 is in stock.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-09-07T10:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_218",
+      "queryText": "laptop for streaming and media",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 14 Plus has a 14-inch display. The Kestrel Aero 14 costs $449.99.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_05",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-10T09:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_219",
+      "queryText": "most reliable laptop brand",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 14 Plus weighs 3 lb. The Kestrel Flex 14 Touch comes with 256 GB of storage.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_06"
+      ],
+      "capturedAt": "2026-09-14T09:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_220",
+      "queryText": "most reliable laptop brand",
+      "assistantId": "ast_03",
+      "answerText": "The Novex Go 13 has 4 GB of RAM. The Kestrel Aero 14 is rated for 11 hours of battery life.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-17T15:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_221",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Novex Canvas 15 weighs 4.1 lb. The Novex Go 13 comes with 128 GB of storage.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-21T10:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_222",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 14 is in stock. The Novex Slate 14 is rated for 10 hours of battery life.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_03",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-24T10:15:00Z",
+      "source": "mock"
     }
   ]
 }
