@@ -10,7 +10,6 @@ v1.1 endpoint. `NEXT_PUBLIC_USE_MOCK=true` reads the contract-named files in `sh
 | Dashboard `/dashboard` | `GET /metrics/trust?days=30` |
 | AI Visibility `/visibility` | `GET /visibility/summary`, `GET /answers` |
 | Market Position `/market` | `competitors` in `GET /visibility/summary` |
-| Assistant Simulator `/assistant` | `POST /connector/query` (v1.1), assistants from `GET /visibility/summary`. Always live. It reads `shared/mock/connector_query.json`, labeled "Mock data", only when mock mode is on. Allowed `useCase` / `mustHave` values live in `lib/connectorOptions.ts`. |
 | File a Claim `/claims/new` | `POST /checker/run` (pasted answer or recorded `answerId`) |
 | Outstanding Claims `/claims/outstanding` | `GET /incidents?status=pending_approval` and `status=escalated` |
 | Claim detail `/claims/[id]` | `GET /incidents/{id}`, `POST .../approve`, `.../reject`, `.../resolve`, `GET /audit?targetId=` |

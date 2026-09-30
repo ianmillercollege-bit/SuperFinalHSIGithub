@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 import BackendStatus from "@/components/BackendStatus";
 import { getIncidents } from "@/lib/api";
 import { onIncidentsChanged } from "@/lib/events";
 import { NAV, isActive } from "@/lib/nav";
-import { initialsOf, sampleUser } from "@/lib/sample/sampleUser";
+import { useBrandSession } from "@/lib/auth/brandSession";
+import { signOutUser, useUserSession } from "@/lib/auth/userSession";
+import { BUSINESS } from "@/lib/business";
 import { useApi } from "@/lib/useApi";
 
 // Open incidents = pending_approval + escalated (contract v1.1).
@@ -22,6 +24,10 @@ async function countOpenIncidents(): Promise<number> {
 /** 240px navy sidebar: brand, sample user chip, navigation from lib/nav.ts, data badge, backend status. */
 export default function NavBar({ brand }: { brand: React.ReactNode }) {
   const pathname = usePathname();
+  const session = useBrandSession();
+  const brandName = session?.brandName ?? BUSINESS.name;
+  const { user } = useUserSession();
+  const router = useRouter();
   const open = useApi(useCallback(() => countOpenIncidents(), []));
   const { reload } = open;
   useEffect(() => onIncidentsChanged(reload), [reload]);
@@ -33,16 +39,32 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
         {brand}
       </Link>
 
-      <div className="user-chip" title="Sample account: CIRQO has no sign-in in this demo.">
+      <div className="user-chip">
         <span className="user-initials" aria-hidden>
-          {initialsOf(sampleUser.name)}
+          {(user?.name ?? "?").split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase()}
         </span>
         <span className="user-text">
-          <span className="user-name">
-            {sampleUser.name} <span className="soon-tag">Sample</span>
-          </span>
+          <span className="user-name">{user ? user.name : "Signed out"}</span>
           <span className="user-meta">
-            {sampleUser.role} · {sampleUser.business}
+            {user ? `${user.role === "owner" ? "Owner" : "Viewer"} · ${brandName}` : brandName}
+          </span>
+          <span className="user-note">Sample sign-in. No real authentication.</span>
+          <span className="user-links">
+            <Link href="/login" className="user-switch">
+              {user ? "Switch account" : "Sign in"}
+            </Link>
+            {user && (
+              <button
+                type="button"
+                className="user-signout"
+                onClick={() => {
+                  signOutUser();
+                  router.push("/login");
+                }}
+              >
+                Sign out
+              </button>
+            )}
           </span>
         </span>
       </div>
@@ -76,14 +98,6 @@ export default function NavBar({ brand }: { brand: React.ReactNode }) {
           </div>
         ))}
       </nav>
-
-      {/* DECISIONS.md #12: every screen shows this badge. */}
-      <span
-        className="sample-badge"
-        title="Everything shown is seeded or simulated demo data, not real customer results."
-      >
-        Sample data
-      </span>
 
       <BackendStatus />
     </aside>

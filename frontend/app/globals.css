@@ -6,6 +6,11 @@
   padding: 0;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   min-height: 100vh;
   background: var(--bg);
@@ -1008,4 +1013,447 @@ details > summary {
   color: var(--orange-text);
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* The "Sample data" bar: top of every page, sticky so it is always visible. */
+.sample-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 36px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.sample-bar .sample-badge {
+  align-self: center;
+}
+
+@media (max-width: 760px) {
+  .sample-bar {
+    padding: 8px 16px;
+  }
+}
+
+/* ---- Dashboard layout: rings across the top, chart with a side column, then the latest insights ---- */
+
+.page-wide {
+  max-width: 1360px;
+}
+
+.dash {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ring-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ring-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ring {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+}
+
+.ring-track {
+  fill: none;
+  stroke: var(--bg-raised);
+  stroke-width: 10;
+}
+
+.ring-fill {
+  fill: none;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.ring-value {
+  fill: var(--fg);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ring-label {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.dash-main {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dash-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dash-side > .card:last-child {
+  flex: 1;
+}
+
+.action-card {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--on-navy);
+}
+
+.action-card h2,
+.action-card .big-number {
+  color: var(--on-navy);
+}
+
+.action-card .muted {
+  color: var(--on-navy-muted);
+}
+
+.action-numbers {
+  display: flex;
+  gap: 32px;
+}
+
+.action-card .button {
+  align-self: flex-start;
+  text-decoration: none;
+}
+
+@media (max-width: 1180px) {
+  .ring-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .dash-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .ring-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.change-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.change-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.change-list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.change-list li > span:first-child {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.change-list li > span:nth-child(3) {
+  grid-column: 1 / -1;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.change-good { color: var(--good); }
+.change-bad { color: var(--bad); }
+
+.user-switch {
+  color: var(--on-navy-muted);
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
+.user-switch:hover,
+.user-switch:focus-visible {
+  color: var(--on-navy);
+}
+
+/* ---- Demo account cards (/login) ---- */
+
+.account-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.account-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.account-card:hover,
+.account-card:focus-visible,
+.account-card[aria-current="true"] {
+  border-color: var(--orange);
+  background: var(--orange-tint);
+}
+
+.account-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sample-signin-label {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.user-signout {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--on-navy-muted);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.user-signout:hover,
+.user-signout:focus-visible {
+  color: var(--on-navy);
+}
+
+.user-note {
+  color: var(--on-navy-muted);
+  font-size: 0.72rem;
+}
+
+.user-links {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+
+/* ---- Sign-in page: its own screen, separate from the dashboard shell ---- */
+
+.auth-shell {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(300px, 5fr) minmax(0, 7fr);
+}
+
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  padding: 48px clamp(24px, 5vw, 72px);
+  background: var(--navy);
+  color: var(--on-navy);
+}
+
+.auth-headline {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--on-navy);
+  max-width: 16ch;
+}
+
+.auth-sub {
+  color: var(--on-navy-muted);
+  max-width: 40ch;
+}
+
+.auth-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px clamp(16px, 4vw, 56px);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 640px;
+}
+
+@media (max-width: 800px) {
+  .auth-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .auth-panel {
+    padding: 32px 24px;
+  }
+
+  .auth-headline {
+    font-size: 1.6rem;
+  }
+}
+
+.auth-card .account-grid {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+/* One screen, no scrolling: the bar, then a row that fills the rest of the window. */
+.auth-main {
+  min-height: 0;
+}
+
+.auth-panel,
+.auth-form {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.login-form {
+  gap: 14px;
+}
+
+@media (max-width: 800px) {
+  .auth-shell {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .auth-main {
+    grid-template-rows: auto 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .auth-panel {
+    padding: 16px 20px;
+    gap: 10px;
+  }
+
+  .auth-sub {
+    display: none;
+  }
+
+  .auth-headline {
+    font-size: 1.3rem;
+    max-width: none;
+  }
+
+  .auth-form {
+    padding: 16px;
+    align-items: flex-start;
+  }
+}
+
+/* ---- Styled dropdowns (sign-in form): avatar on the left, chevron on the right ---- */
+
+.select-field {
+  position: relative;
+  display: block;
+}
+
+.select-field select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 12px 40px 12px 54px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-card);
+  color: var(--fg);
+  font-weight: 600;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.select-field select:hover:not(:disabled) {
+  border-color: var(--orange);
+}
+
+.select-field select:focus-visible {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px var(--orange-tint);
+}
+
+.select-field select:disabled {
+  background: var(--bg-raised);
+  color: var(--muted);
+  cursor: default;
+}
+
+.select-avatar {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--on-navy);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.select-field::after {
+  content: "";
+  position: absolute;
+  right: 17px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--navy);
+  border-bottom: 2px solid var(--navy);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.login-form .field {
+  font-weight: 700;
+  gap: 6px;
 }

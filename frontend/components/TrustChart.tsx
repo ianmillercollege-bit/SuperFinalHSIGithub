@@ -1,8 +1,11 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { formatDay, formatPercent } from "@/lib/format";
 import type { TrustDaily } from "@/lib/types";
 
-const W = 640;
-const H = 240;
+const DEFAULT_W = 640;
+const H = 300;
 const PAD = { left: 44, right: 12, top: 12, bottom: 28 };
 
 type SeriesKey = "accuracyRate" | "hallucinationRate" | "visibilityRate";
@@ -15,6 +18,21 @@ const SERIES: { key: SeriesKey; label: string; className: string }[] = [
 
 /** Hand-drawn SVG line chart of the contract's daily trust metrics (all 0 to 1). */
 export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
+  const [shown, setShown] = useState<SeriesKey | "all">("all");
+  // The drawing is as wide as the box it sits in (1 unit = 1 pixel), so axis text stays the same
+  // size at every window width instead of shrinking with the chart.
+  const box = useRef<HTMLElement>(null);
+  const [W, setW] = useState(DEFAULT_W);
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const measure = () => setW(Math.max(280, Math.round(el.clientWidth)));
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const visible = SERIES.filter((s) => shown === "all" || s.key === shown);
   const n = daily.length;
   const x = (i: number) => (n === 1 ? W / 2 : PAD.left + (i * (W - PAD.left - PAD.right)) / (n - 1));
   const y = (v: number) => PAD.top + (1 - v) * (H - PAD.top - PAD.bottom);
@@ -26,7 +44,7 @@ export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
   const tickDays = [0, Math.floor((n - 1) / 2), n - 1].filter((v, i, all) => all.indexOf(v) === i);
 
   return (
-    <figure className="chart">
+    <figure className="chart" ref={box}>
       <svg
         viewBox={`0 0 ${W} ${H}`}
         role="img"
@@ -45,8 +63,8 @@ export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
             {formatDay(daily[i].date)}
           </text>
         ))}
-        <path className="area-accuracy" d={areaPath} />
-        {SERIES.map((s) => (
+        {visible.some((s) => s.key === "accuracyRate") && <path className="area-accuracy" d={areaPath} />}
+        {visible.map((s) => (
           <path key={s.key} className={`line ${s.className}`} d={pathFor(s.key)} />
         ))}
         {daily.map((d, i) => (
@@ -59,8 +77,17 @@ export default function TrustChart({ daily }: { daily: TrustDaily[] }) {
           </circle>
         ))}
       </svg>
+      <fieldset className="mode-toggle">
+        <legend className="small">Show</legend>
+        {[{ key: "all" as const, label: "All three" }, ...SERIES].map((o) => (
+          <label key={o.key} className="check">
+            <input type="radio" name="trust-series" checked={shown === o.key} onChange={() => setShown(o.key)} />
+            {o.label}
+          </label>
+        ))}
+      </fieldset>
       <figcaption className="legend">
-        {SERIES.map((s) => (
+        {visible.map((s) => (
           <span key={s.key} className="legend-item">
             <span className={`legend-swatch ${s.className}`} aria-hidden />
             {s.label} {formatPercent(first[s.key])} → {formatPercent(last[s.key])}

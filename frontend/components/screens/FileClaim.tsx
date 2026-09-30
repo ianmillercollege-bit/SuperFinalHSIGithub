@@ -1,5 +1,6 @@
 "use client";
 
+import { canAct, useUserSession } from "@/lib/auth/userSession";
 import SourceChip from "@/components/SourceChip";
 import Link from "next/link";
 import { useCallback, useState } from "react";
@@ -18,6 +19,8 @@ type Mode = "paste" | "recorded";
 export default function FileClaim() {
   const summary = useApi(useCallback(() => getVisibilitySummary(), []));
   const answers = useApi(useCallback(() => getAnswers({ limit: 50 }), []));
+  const userSession = useUserSession();
+  const canFile = canAct(userSession);
   const [mode, setMode] = useState<Mode>("paste");
   const [queryText, setQueryText] = useState("");
   const [assistantId, setAssistantId] = useState("");
@@ -125,7 +128,12 @@ export default function FileClaim() {
           </p>
         )}
         <div>
-          <button type="submit" className="button" disabled={sending}>
+          {!canFile && (
+            <p className="muted small" role="note">
+              Your role can&apos;t file claims.
+            </p>
+          )}
+          <button type="submit" className="button" disabled={sending || !canFile}>
             {sending ? "Checking…" : "Check this answer"}
           </button>
         </div>
