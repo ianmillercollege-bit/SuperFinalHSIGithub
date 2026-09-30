@@ -1,12 +1,13 @@
 """CIRQO API. Run locally from backend/: uvicorn main:app --reload"""
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
-from routers import auth, brands, client, connector, dashboard, governance, shopper
+from routers import auth, brands, client, community, connector, dashboard, governance, shopper
 from schemas import HealthResponse
 from seed_loader import rebuild_database
+from services.community import connector_gate
 from settings import settings
 
 VERSION = "0.1.0"
@@ -33,8 +34,10 @@ app.add_middleware(
 register_error_handlers(app)
 
 # Everything except /health lives under /api/v1 (BACKEND_CONTRACT.md section 1).
-for module in (shopper, connector, dashboard, governance, client, auth, brands):
-    app.include_router(module.router, prefix="/api/v1")
+# v1.6: connector calls see refurbished and surplus products only with constraints.includeRefurbished.
+for module in (shopper, connector, dashboard, governance, client, auth, brands, community):
+    gates = [Depends(connector_gate)] if module is connector else []
+    app.include_router(module.router, prefix="/api/v1", dependencies=gates)
 
 
 @app.get("/health", response_model=HealthResponse)

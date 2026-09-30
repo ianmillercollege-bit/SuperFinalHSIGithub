@@ -674,6 +674,7 @@ def main() -> None:
         text = json.dumps({key: catalog[name]}, indent=1, ensure_ascii=False) + "\n"
         (folder / f"{name}.json").write_text(text, encoding="utf-8", newline="\n")
     print(f"Wrote {folder}: " + ", ".join(f"{len(catalog[n])} {n}" for n in CATALOG_FILES))
+    __import__("seed.community", fromlist=["write_community"]).write_community(args.out)  # contract v1.6 section 7e
 
 
 if __name__ == "__main__":

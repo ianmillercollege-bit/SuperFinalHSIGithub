@@ -1,0 +1,17 @@
+{
+  "requestId": "creq_109",
+  "status": "rejected",
+  "productId": "prod_004",
+  "productName": "Kestrel Studio 15",
+  "brandId": "brand_001",
+  "partner": {
+    "orgId": "org_02",
+    "orgName": "Lone Star Veterans Network"
+  },
+  "units": 15,
+  "purpose": "Training lab for the certification course",
+  "createdAt": "2026-09-25T15:42:44Z",
+  "decidedAt": "2026-09-30T03:23:47Z",
+  "decidedBy": "Maria Lopez",
+  "note": "Those units are committed to an earlier request."
+}

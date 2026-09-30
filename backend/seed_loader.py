@@ -21,8 +21,9 @@ from pathlib import Path
 import constants as C
 from sqlalchemy import insert
 
-from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, ComparisonFact, DailyMetric, Incident,
-                Owner, Product, SessionLocal, Source, User, engine)
+from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, CommunityOrg, CommunityRequest,
+                ComparisonFact, DailyMetric, Incident, Owner, Product, SessionLocal, Source, User, engine)
+from services.community import load_community
 from services.passwords import hash_password
 from timeutil import now, parse_iso, shift_date, shift_iso_seconds, today
 
@@ -116,7 +117,7 @@ def load(db, folder: Path) -> dict:
         return shift_iso_seconds(value, offset)
 
     rows = {table: [] for table in (Brand, Product, Assistant, Source, ComparisonFact, User, Owner, Answer, Claim,
-                                    Incident, AuditEntry, DailyMetric, ApiKey)}
+                                    Incident, AuditEntry, DailyMetric, ApiKey, CommunityOrg, CommunityRequest)}
     profiles = {r["brandId"]: {k: v for k, v in r.items() if k != "brandId"}
                 for r in (read_list(catalog, "profiles", "profiles") if catalog else [])}
     brands = read_list(folder, "brands", "brands") + (read_list(catalog, "brands", "brands") if catalog else [])
@@ -180,6 +181,9 @@ def load(db, folder: Path) -> dict:
                                           date=shift_date(r["date"], shift), accuracy_rate=r["accuracyRate"],
                                           hallucination_rate=r["hallucinationRate"], claims_checked=r["claimsChecked"],
                                           incidents_opened=r["incidentsOpened"], visibility_rate=r["visibilityRate"]))
+
+    # Community program (contract v1.6 section 7e): condition, pledges, partner logins and requests.
+    load_community(rows, folder, moved)
 
     # Client API keys (CLIENT_API_CONTRACT.md v1.1): the demo keys of the brands that exist, plus one owner
     # key for each of the first spreadsheet companies (v1.4 demo accounts).
