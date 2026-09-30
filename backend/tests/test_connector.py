@@ -125,7 +125,9 @@ def test_connector_shows_up_in_dashboard(client):
     assert len(client.get("/api/v1/answers?limit=100").json()["answers"]) == answers_before + 1
     daily_after = client.get("/api/v1/metrics/trust").json()["daily"][-1]
     assert daily_after["date"] == today().isoformat()
-    assert daily_after["claimsChecked"] == daily_before["claimsChecked"] + len(body["claims"])
+    kestrel = {p["productId"] for p in client.get("/api/v1/products").json()["products"] if p["brandId"] == "brand_001"}
+    # Each claim counts toward the brand whose product it is about (Kestrel here; a Novex alternative counts for Novex).
+    assert daily_after["claimsChecked"] == daily_before["claimsChecked"] + sum(c["productId"] in kestrel for c in body["claims"])
     assert daily_after["accuracyRate"] >= daily_before["accuracyRate"]  # only correct claims were added
     sources = {s["sourceId"]: s for s in client.get("/api/v1/sources").json()["sources"]}
     assert sources["src_brand"]["citationCount"] >= 1 and sources["src_brand"]["accuracyRate"] == 1.0

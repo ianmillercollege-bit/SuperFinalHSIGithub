@@ -13,6 +13,7 @@ from sqlalchemy import select
 import constants as C
 from db import Answer, Assistant, AuditEntry, Brand, Claim, Incident, Owner, Product
 from ids import next_id
+from services.activity import record_activity
 from services.scope import brand_of_target
 from timeutil import now_iso
 
@@ -459,7 +460,7 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
     audit(db, actor, actor_type, "claim_extracted", answer.answer_id,
           f"Extracted {found} claim(s) {how}.{limit_note}")
 
-    new_incidents = []
+    new_incidents, new_claims, opened = [], [], []
     for c in extracted:
         if (c.text.strip().lower(), c.claim_type) in seen:
             continue  # already checked when the answer was first captured
@@ -471,11 +472,15 @@ def run_on_answer(db, answer: Answer, extracted: list[Extracted] | None = None,
                       rule_id=r.rule_id, fact_id=r.fact_id, reason=r.reason, checked_at=now_iso())
         db.add(claim)
         db.flush()
+        new_claims.append(claim)
         audit(db, "system", "system", "claim_checked", claim.claim_id, f"{r.rule_id or 'correct'}: {r.reason}")
         if r.rule_id and r.rule_id not in C.RULES_WITHOUT_INCIDENT:
             product = catalog.by_id.get(c.product_id) if c.product_id else None
-            new_incidents.append(create_incident(db, claim, c, r, product, assistant_name).incident_id)
+            incident = create_incident(db, claim, c, r, product, assistant_name)
+            new_incidents.append(incident.incident_id)
+            opened.append(incident)
 
+    record_activity(db, new_claims, opened)  # today's trend point moves with real use
     db.commit()
     claims = db.scalars(select(Claim).where(Claim.answer_id == answer.answer_id).order_by(Claim.claim_id)).all()
     return claims, new_incidents

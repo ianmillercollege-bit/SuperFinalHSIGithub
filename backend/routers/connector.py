@@ -14,15 +14,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 
 import constants as C
-from db import Answer, Assistant, Brand, Claim, DailyMetric, Product, get_db
+from db import Answer, Assistant, Brand, Claim, Product, get_db
 from ids import next_id
 from routers.shopper import reasons_for, to_rankable
 from schemas import ConnectorQueryIn, ConnectorQueryOut
 from services.ai_client import source_label
 from services.checker import (Catalog, audit, brand_mentions, check, extract_claims, human_availability, num,
                               usable_number)
+from services.activity import record_activity
 from services.ranking import rank
-from timeutil import now_iso, today
+from timeutil import now_iso
 
 router = APIRouter(prefix="/connector", tags=["Connector"])
 
@@ -67,21 +68,6 @@ def no_match_sentence(max_price: float | None, use_case: str | None, must_have: 
     suffix = f" ({', '.join(details)})" if details else ""
     return (f"No product in the verified catalog matches this request{suffix}. "
             "CIRQO does not guess when verified data has no match.")
-
-
-def record_in_daily_metrics(db, claims: list[Claim]) -> None:
-    """Fold today's checked claims into today's trust-metric row (accuracy and hallucination are re-weighted)."""
-    row = db.get(DailyMetric, (C.DEFAULT_BRAND_ID, today().isoformat()))  # brand-neutral: default brand row
-    if row is None or not claims:
-        return
-    n, k = row.claims_checked, len(claims)
-    judged = [c for c in claims if c.status != "unverifiable"]
-    correct = sum(c.status == "correct" for c in judged)
-    invented = sum(c.rule_id == "INVENTED_FEATURE" for c in claims)
-    if judged:
-        row.accuracy_rate = round((row.accuracy_rate * n + correct) / (n + len(judged)), 3)
-    row.hallucination_rate = round((row.hallucination_rate * n + invented) / (n + k), 3)
-    row.claims_checked = n + k
 
 
 @router.post("/query", response_model=ConnectorQueryOut)
@@ -140,7 +126,7 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
         db.add(claim)
         db.flush()
         claims.append(claim)
-    record_in_daily_metrics(db, claims)
+    record_activity(db, claims)  # today's trend point for each product's brand
 
     picked = f"recommended the {top.name}" if top else "found no matching product"
     audit(db, assistant.name, "ai", "connector_query", answer.answer_id,
