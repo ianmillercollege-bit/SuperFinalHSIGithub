@@ -134,6 +134,7 @@ def test_search_ranking_ignores_billing(seeded):
     with SessionLocal() as db:
         for b in db.scalars(select(Brand)).all():
             b.is_client = not b.is_client
+            b.opted_in = not b.opted_in  # v1.5: the verified label never moves a product
             b.billing_tier = "enterprise" if b.billing_tier != "enterprise" else "starter"
         db.commit()
     assert [o["productId"] for o in search(seeded, GYM)["options"]] == before

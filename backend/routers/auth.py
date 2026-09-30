@@ -55,7 +55,8 @@ def logout(authorization: str | None = Header(None), db=Depends(get_db)):
 @router.get("/demo-accounts", response_model=DemoAccountsOut)
 def demo_accounts(db=Depends(get_db)):
     """The original brands' accounts plus the first spreadsheet companies (v1.4), each with a username."""
-    names = {b.brand_id: b.name for b in db.scalars(select(Brand)).all()}
+    rows = db.scalars(select(Brand)).all()
+    names = {b.brand_id: b.name for b in rows if b.opted_in}  # v1.5: login lists only opted-in companies
     keys = db.scalars(select(ApiKey).order_by(ApiKey.api_key)).all()
     users = db.scalars(select(User).order_by(User.user_id)).all()
     listed = [dict(a) for a in C.DEMO_ACCOUNTS if a["brandId"] in names]
@@ -64,10 +65,10 @@ def demo_accounts(db=Depends(get_db)):
     for key in sorted((k for k in keys if k.brand_id not in originals and k.api_key.startswith("fd_demo_")),
                       key=lambda k: k.brand_id):
         admin = next((u for u in users if u.brand_id == key.brand_id), None)
-        if admin and key.api_key not in listed_keys:
+        if admin and key.api_key not in listed_keys and key.brand_id in names:
             listed.append({"brandId": key.brand_id, "role": key.role, "apiKey": key.api_key, "username": admin.username})
     return {"accounts": [{"brandId": a["brandId"], "brandName": names[a["brandId"]], "role": a["role"],
-                          "apiKey": a["apiKey"], "username": a["username"]} for a in listed],
+                          "apiKey": a["apiKey"], "username": a["username"], "optedIn": True} for a in listed],
             "passwordNote": f"Every demo password is {C.DEMO_PASSWORD}."}
 
 

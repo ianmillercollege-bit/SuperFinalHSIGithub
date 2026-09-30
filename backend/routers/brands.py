@@ -15,7 +15,7 @@ from sqlalchemy import func, select
 import constants as C
 from db import ApiKey, Brand, DailyMetric, Incident, Owner, Product, User, get_db
 from ids import next_id
-from schemas import BrandProfileOut, BrandsOut, OnboardIn, OnboardOut
+from schemas import BrandProfileOut, BrandsOut, ClaimIn, ClaimOut, OnboardIn, OnboardOut
 from services.checker import audit
 from services.session import STAFF, VIEWER, optional_user, required_user
 from timeutil import now_iso
@@ -125,7 +125,7 @@ def all_brands(user: User = Depends(required_user), db=Depends(get_db)):
     return {"brands": [{"brandId": b.brand_id, "brandName": b.name, "categories": brand_categories(db, b),
                         "productCount": counts.get(b.brand_id, 0), "visibilityRate": last7(b.brand_id, "visibility_rate"),
                         "openIncidents": open_.get(b.brand_id, 0), "escalatedIncidents": escalated.get(b.brand_id, 0),
-                        "accuracyRate": last7(b.brand_id, "accuracy_rate")} for b in brands]}
+                        "accuracyRate": last7(b.brand_id, "accuracy_rate"), "optedIn": bool(b.opted_in)} for b in brands]}
 
 
 @router.get("/{brand_id}", response_model=BrandProfileOut, response_model_exclude_none=True)
@@ -146,4 +146,39 @@ def brand_profile(brand_id: str, user: User | None = Depends(optional_user), db=
             "website": profile.get("website"),
             "admins": [{"userId": u.user_id, "name": u.name, "role": u.role} for u in admins],
             "productCount": db.scalar(select(func.count()).select_from(Product).where(Product.brand_id == brand_id)),
+            "optedIn": bool(brand.opted_in),
             "plan": brand.billing_tier if own and brand.billing_tier in ("starter", "growth", "enterprise") else None}
+
+
+@router.post("/{brand_id}/claim", response_model=ClaimOut, status_code=201)
+def claim_company(brand_id: str, body: ClaimIn, db=Depends(get_db)):
+    """v1.5 section 7d: a company that has not opted in claims its listing. It gains a Brand Data Owner, an API
+    key and a dashboard; its products become verified (fact source "Brand product feed", verified now).
+    409 if the company already opted in. Ranking never changes: it does not read optedIn."""
+    brand = db.get(Brand, brand_id)
+    if brand is None:
+        raise HTTPException(404, f"Brand {brand_id} does not exist.")
+    if brand.opted_in:
+        raise HTTPException(409, f"{brand.name} has already opted in.")
+    owner_name = body.owner_name.strip()
+    at = now_iso()
+    brand.opted_in = True
+    brand.is_client = True
+    brand.billing_tier = brand.billing_tier or "starter"
+    products = db.scalars(select(Product).where(Product.brand_id == brand_id)).all()
+    for p in products:
+        p.fact_source = "Brand product feed"
+        p.verified_at = at
+    owner = Owner(owner_id=next_id(db, Owner.owner_id, "own"), name=owner_name, role="Brand Data Owner",
+                  incident_types=list(C.INCIDENT_RULE_IDS), brand_id=brand_id)
+    db.add(owner)
+    key = ApiKey(api_key=new_api_key(db, brand.name), brand_id=brand_id, role="owner")
+    db.add(key)
+    db.flush()
+    audit(db, owner_name, "human", "brand_claimed", brand_id,
+          f"{owner_name} ({body.email.strip()}) claimed {brand.name}: {len(products)} product(s) now verified by the brand.", at)
+    db.commit()
+    return {"brandId": brand_id, "brandName": brand.name, "apiKey": key.api_key, "productsCreated": len(products),
+            "owners": [{"ownerId": owner.owner_id, "name": owner.name, "role": owner.role}],
+            "connectorReady": True, "optedIn": True,
+            "note": f"{brand.name} has opted in. Its facts are now verified by the brand in every assistant answer."}

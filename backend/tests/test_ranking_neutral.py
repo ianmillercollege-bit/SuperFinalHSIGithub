@@ -40,6 +40,7 @@ def flip_every_brand():
     with SessionLocal() as db:
         for b in db.scalars(select(Brand)).all():
             b.is_client = not b.is_client
+            b.opted_in = not b.opted_in
             b.billing_tier = "enterprise" if b.billing_tier in (None, "", "free") else None
         db.commit()
 
@@ -57,8 +58,8 @@ def test_ranking_code_never_reads_billing_fields():
     used = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)} | \
            {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)} | \
            {a.name for n in ast.walk(tree) if isinstance(n, (ast.Import, ast.ImportFrom)) for a in n.names}
-    assert not used & {"is_client", "isClient", "billing_tier", "billingTier", "Brand", "db"}
-    assert not {"is_client", "billing_tier", "brand_id"} & set(RankableProduct.model_fields)
+    assert not used & {"is_client", "isClient", "billing_tier", "billingTier", "opted_in", "optedIn", "Brand", "db"}
+    assert not {"is_client", "billing_tier", "opted_in", "brand_id"} & set(RankableProduct.model_fields)
 
 
 def test_default_path_has_clear_winner(client):
