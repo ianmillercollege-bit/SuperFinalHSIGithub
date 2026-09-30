@@ -83,10 +83,20 @@ def test_every_brand_sees_only_its_own_records(seeded):
 def test_answers_and_claims_follow_the_brand(seeded):
     answers = get(seeded, "/api/v1/answers", "brand_002", limit=100)["answers"]
     assert all(a["answerId"].startswith("ans_2") for a in answers)
-    assert all(a["brandMentioned"] and a["rank"] >= 1 for a in answers)  # Arcton's tracked prompts mention Arcton
+    # Arcton's tracked prompts: most answers name Arcton (rank >= 1), some name only other brands (rank null).
+    assert all((a["rank"] or 0) >= 1 if a["brandMentioned"] else a["rank"] is None for a in answers)
+    share = sum(a["brandMentioned"] for a in answers) / len(answers)
+    assert 0.4 <= share <= 0.8  # realistic, not ~100%
     ids = {a["answerId"] for a in answers}
     claims = get(seeded, "/api/v1/claims", "brand_002", limit=100)["claims"]
     assert claims and all(c["answerId"] in ids for c in claims)
+
+
+def test_visibility_matches_each_brands_trend(seeded):
+    for brand in KEYS:
+        visibility = get(seeded, "/api/v1/visibility/summary", brand)["visibilityRate"]
+        trend_end = get(seeded, "/api/v1/metrics/trust", brand)["current"]["visibilityRate"]
+        assert abs(visibility - trend_end) <= 0.1, (brand, visibility, trend_end)
 
 
 def test_audit_follows_the_brand(seeded):

@@ -4,63 +4,63 @@
       "date": "2026-08-31",
       "accuracyRate": 0.55,
       "hallucinationRate": 0.15,
-      "claimsChecked": 64,
-      "incidentsOpened": 8,
+      "claimsChecked": 59,
+      "incidentsOpened": 9,
       "visibilityRate": 0.58
     },
     {
       "date": "2026-09-01",
-      "accuracyRate": 0.56,
-      "hallucinationRate": 0.146,
-      "claimsChecked": 49,
-      "incidentsOpened": 9,
-      "visibilityRate": 0.59
-    },
-    {
-      "date": "2026-09-02",
-      "accuracyRate": 0.56,
-      "hallucinationRate": 0.142,
-      "claimsChecked": 69,
+      "accuracyRate": 0.57,
+      "hallucinationRate": 0.149,
+      "claimsChecked": 54,
       "incidentsOpened": 8,
       "visibilityRate": 0.58
     },
     {
-      "date": "2026-09-03",
+      "date": "2026-09-02",
       "accuracyRate": 0.57,
-      "hallucinationRate": 0.139,
-      "claimsChecked": 46,
+      "hallucinationRate": 0.144,
+      "claimsChecked": 62,
       "incidentsOpened": 9,
       "visibilityRate": 0.59
     },
     {
+      "date": "2026-09-03",
+      "accuracyRate": 0.58,
+      "hallucinationRate": 0.14,
+      "claimsChecked": 58,
+      "incidentsOpened": 8,
+      "visibilityRate": 0.59
+    },
+    {
       "date": "2026-09-04",
-      "accuracyRate": 0.59,
-      "hallucinationRate": 0.137,
-      "claimsChecked": 52,
-      "incidentsOpened": 7,
+      "accuracyRate": 0.58,
+      "hallucinationRate": 0.14,
+      "claimsChecked": 64,
+      "incidentsOpened": 8,
       "visibilityRate": 0.59
     },
     {
       "date": "2026-09-05",
-      "accuracyRate": 0.59,
-      "hallucinationRate": 0.136,
-      "claimsChecked": 55,
-      "incidentsOpened": 8,
+      "accuracyRate": 0.6,
+      "hallucinationRate": 0.135,
+      "claimsChecked": 47,
+      "incidentsOpened": 7,
       "visibilityRate": 0.59
     },
     {
       "date": "2026-09-06",
-      "accuracyRate": 0.6,
-      "hallucinationRate": 0.129,
-      "claimsChecked": 49,
-      "incidentsOpened": 8,
+      "accuracyRate": 0.61,
+      "hallucinationRate": 0.13,
+      "claimsChecked": 41,
+      "incidentsOpened": 7,
       "visibilityRate": 0.59
     },
     {
       "date": "2026-09-07",
       "accuracyRate": 0.62,
-      "hallucinationRate": 0.128,
-      "claimsChecked": 41,
+      "hallucinationRate": 0.126,
+      "claimsChecked": 65,
       "incidentsOpened": 7,
       "visibilityRate": 0.6
     },
@@ -68,119 +68,119 @@
       "date": "2026-09-08",
       "accuracyRate": 0.62,
       "hallucinationRate": 0.125,
-      "claimsChecked": 58,
-      "incidentsOpened": 6,
-      "visibilityRate": 0.61
+      "claimsChecked": 44,
+      "incidentsOpened": 7,
+      "visibilityRate": 0.6
     },
     {
       "date": "2026-09-09",
       "accuracyRate": 0.64,
-      "hallucinationRate": 0.122,
-      "claimsChecked": 48,
+      "hallucinationRate": 0.123,
+      "claimsChecked": 68,
       "incidentsOpened": 7,
-      "visibilityRate": 0.61
+      "visibilityRate": 0.6
     },
     {
       "date": "2026-09-10",
       "accuracyRate": 0.64,
-      "hallucinationRate": 0.118,
-      "claimsChecked": 67,
+      "hallucinationRate": 0.119,
+      "claimsChecked": 58,
       "incidentsOpened": 6,
       "visibilityRate": 0.61
     },
     {
       "date": "2026-09-11",
       "accuracyRate": 0.65,
-      "hallucinationRate": 0.114,
-      "claimsChecked": 61,
-      "incidentsOpened": 7,
-      "visibilityRate": 0.6
+      "hallucinationRate": 0.116,
+      "claimsChecked": 49,
+      "incidentsOpened": 6,
+      "visibilityRate": 0.61
     },
     {
       "date": "2026-09-12",
       "accuracyRate": 0.67,
       "hallucinationRate": 0.112,
-      "claimsChecked": 55,
-      "incidentsOpened": 7,
+      "claimsChecked": 47,
+      "incidentsOpened": 6,
       "visibilityRate": 0.62
     },
     {
       "date": "2026-09-13",
-      "accuracyRate": 0.68,
-      "hallucinationRate": 0.11,
-      "claimsChecked": 54,
+      "accuracyRate": 0.67,
+      "hallucinationRate": 0.108,
+      "claimsChecked": 49,
       "incidentsOpened": 6,
-      "visibilityRate": 0.62
+      "visibilityRate": 0.61
     },
     {
       "date": "2026-09-14",
       "accuracyRate": 0.68,
-      "hallucinationRate": 0.107,
-      "claimsChecked": 51,
+      "hallucinationRate": 0.105,
+      "claimsChecked": 56,
+      "incidentsOpened": 5,
+      "visibilityRate": 0.61
+    },
+    {
+      "date": "2026-09-15",
+      "accuracyRate": 0.68,
+      "hallucinationRate": 0.105,
+      "claimsChecked": 61,
       "incidentsOpened": 6,
       "visibilityRate": 0.62
     },
     {
-      "date": "2026-09-15",
-      "accuracyRate": 0.69,
-      "hallucinationRate": 0.103,
-      "claimsChecked": 53,
-      "incidentsOpened": 5,
-      "visibilityRate": 0.62
-    },
-    {
       "date": "2026-09-16",
-      "accuracyRate": 0.71,
-      "hallucinationRate": 0.101,
-      "claimsChecked": 60,
-      "incidentsOpened": 4,
+      "accuracyRate": 0.69,
+      "hallucinationRate": 0.102,
+      "claimsChecked": 57,
+      "incidentsOpened": 5,
       "visibilityRate": 0.63
     },
     {
       "date": "2026-09-17",
       "accuracyRate": 0.7,
       "hallucinationRate": 0.097,
-      "claimsChecked": 50,
+      "claimsChecked": 49,
+      "incidentsOpened": 4,
+      "visibilityRate": 0.62
+    },
+    {
+      "date": "2026-09-18",
+      "accuracyRate": 0.72,
+      "hallucinationRate": 0.095,
+      "claimsChecked": 54,
       "incidentsOpened": 6,
       "visibilityRate": 0.63
     },
     {
-      "date": "2026-09-18",
-      "accuracyRate": 0.71,
-      "hallucinationRate": 0.094,
-      "claimsChecked": 42,
-      "incidentsOpened": 5,
-      "visibilityRate": 0.62
-    },
-    {
       "date": "2026-09-19",
       "accuracyRate": 0.72,
-      "hallucinationRate": 0.093,
-      "claimsChecked": 49,
+      "hallucinationRate": 0.09,
+      "claimsChecked": 58,
       "incidentsOpened": 4,
-      "visibilityRate": 0.64
+      "visibilityRate": 0.63
     },
     {
       "date": "2026-09-20",
       "accuracyRate": 0.74,
-      "hallucinationRate": 0.09,
-      "claimsChecked": 56,
+      "hallucinationRate": 0.088,
+      "claimsChecked": 61,
       "incidentsOpened": 4,
-      "visibilityRate": 0.63
+      "visibilityRate": 0.64
     },
     {
       "date": "2026-09-21",
       "accuracyRate": 0.75,
-      "hallucinationRate": 0.083,
-      "claimsChecked": 55,
-      "incidentsOpened": 4,
+      "hallucinationRate": 0.085,
+      "claimsChecked": 58,
+      "incidentsOpened": 3,
       "visibilityRate": 0.63
     },
     {
       "date": "2026-09-22",
-      "accuracyRate": 0.75,
+      "accuracyRate": 0.76,
       "hallucinationRate": 0.084,
-      "claimsChecked": 45,
+      "claimsChecked": 69,
       "incidentsOpened": 3,
       "visibilityRate": 0.64
     },
@@ -188,55 +188,55 @@
       "date": "2026-09-23",
       "accuracyRate": 0.76,
       "hallucinationRate": 0.078,
-      "claimsChecked": 58,
+      "claimsChecked": 47,
       "incidentsOpened": 3,
-      "visibilityRate": 0.65
+      "visibilityRate": 0.64
     },
     {
       "date": "2026-09-24",
       "accuracyRate": 0.77,
-      "hallucinationRate": 0.073,
-      "claimsChecked": 52,
+      "hallucinationRate": 0.077,
+      "claimsChecked": 65,
       "incidentsOpened": 3,
       "visibilityRate": 0.65
     },
     {
       "date": "2026-09-25",
-      "accuracyRate": 0.79,
-      "hallucinationRate": 0.071,
-      "claimsChecked": 61,
+      "accuracyRate": 0.78,
+      "hallucinationRate": 0.072,
+      "claimsChecked": 53,
       "incidentsOpened": 2,
-      "visibilityRate": 0.65
+      "visibilityRate": 0.64
     },
     {
       "date": "2026-09-26",
       "accuracyRate": 0.8,
-      "hallucinationRate": 0.068,
-      "claimsChecked": 48,
-      "incidentsOpened": 3,
-      "visibilityRate": 0.65
-    },
-    {
-      "date": "2026-09-27",
-      "accuracyRate": 0.8,
-      "hallucinationRate": 0.066,
-      "claimsChecked": 69,
-      "incidentsOpened": 3,
-      "visibilityRate": 0.65
-    },
-    {
-      "date": "2026-09-28",
-      "accuracyRate": 0.8,
-      "hallucinationRate": 0.062,
+      "hallucinationRate": 0.07,
       "claimsChecked": 59,
       "incidentsOpened": 3,
       "visibilityRate": 0.66
     },
     {
+      "date": "2026-09-27",
+      "accuracyRate": 0.8,
+      "hallucinationRate": 0.065,
+      "claimsChecked": 53,
+      "incidentsOpened": 2,
+      "visibilityRate": 0.66
+    },
+    {
+      "date": "2026-09-28",
+      "accuracyRate": 0.81,
+      "hallucinationRate": 0.064,
+      "claimsChecked": 44,
+      "incidentsOpened": 1,
+      "visibilityRate": 0.65
+    },
+    {
       "date": "2026-09-29",
       "accuracyRate": 0.82,
       "hallucinationRate": 0.06,
-      "claimsChecked": 47,
+      "claimsChecked": 56,
       "incidentsOpened": 2,
       "visibilityRate": 0.66
     }

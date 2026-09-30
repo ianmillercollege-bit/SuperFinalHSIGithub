@@ -423,13 +423,13 @@ BRAND_ACCOUNTS = {
                    ("own_05", "Tom Becker", "CIRQO Trust and Safety Lead", TRUST_SAFETY_RULES)],
         "first_ids": {"ans": 201, "clm": 401, "inc": 50, "aud": 601},
         "trend": {"accuracyRate": (0.55, 0.82), "hallucinationRate": (0.15, 0.06), "visibilityRate": (0.58, 0.66)},
-        "seed": 2},
+        "seed": 2, "unmentioned_answers": 8},
     "brand_003": {  # Novex: accurate from the start, less visible
         "owners": [("own_06", "Lena Ortiz", "Brand Data Owner", DATA_OWNER_RULES),
                    ("own_07", "Marcus Webb", "CIRQO Trust and Safety Lead", TRUST_SAFETY_RULES)],
         "first_ids": {"ans": 301, "clm": 501, "inc": 70, "aud": 801},
         "trend": {"accuracyRate": (0.70, 0.87), "hallucinationRate": (0.09, 0.035), "visibilityRate": (0.40, 0.47)},
-        "seed": 3},
+        "seed": 3, "unmentioned_answers": 16},
 }
 # One answer every two days: (days ago, mistake or None, outcome for a human-reviewed incident).
 BRAND_SCHEDULE = [
@@ -491,7 +491,8 @@ def build_brand_account(brand_id: str, data: dict[str, list[dict]]) -> dict[str,
 
     def id_sequence(prefix: str, start: int):
         width = 2 if prefix == "inc" else 3  # same widths as the main seed (inc_12, clm_300, ...)
-        return iter([f"{prefix}_{n:0{width}d}" for n in range(start, start + 100)])
+        size = 199 if prefix == "aud" else 100  # aud_601-799 and aud_801-999 do not overlap
+        return iter([f"{prefix}_{n:0{width}d}" for n in range(start, start + size)])
 
     ids = {prefix: id_sequence(prefix, start) for prefix, start in cfg["first_ids"].items()}
     answers, claims, incidents, audit = [], [], [], []
@@ -577,6 +578,39 @@ def build_brand_account(brand_id: str, data: dict[str, list[dict]]) -> dict[str,
                               "Rejected. No fix applied. Note: Low impact; source already corrected."))
         if expected and expected not in found:
             raise AssertionError(f"{brand_id}: the checker did not find {expected} in: {text}")
+
+    # Tracked prompts the brand does not appear in: the assistant names only other brands. Keeps the
+    # brand's visibility realistic (close to its own trend) instead of ~100%.
+    others = [p for p in products if p["brandId"] != brand_id]
+    for k in range(cfg["unmentioned_answers"]):
+        days_ago = 29 - (k * 28) // cfg["unmentioned_answers"]
+        captured = (REFERENCE - timedelta(days=days_ago)).replace(hour=rng.randint(9, 15), minute=15)
+        sentences = []
+        for p in rng.sample(others, 2):
+            sentence = correct_sentence(rng, p, brand_name[p["brandId"]])
+            if sentence not in sentences:
+                sentences.append(sentence)
+        text = " ".join(sentences)
+        answer_id = next(ids["ans"])
+        assistant_id = ASSISTANTS[k % 3]["assistantId"]
+        answers.append({"answerId": answer_id, "queryText": rng.choice(QUERIES), "assistantId": assistant_id,
+                        "answerText": text, "brandMentioned": False, "rank": None,
+                        "sourceIds": sorted(rng.sample(third_party_sources, rng.randint(1, 3))),
+                        "capturedAt": iso(captured), "source": "mock"})
+        checked_at = captured + timedelta(minutes=5)
+        extracted = extract_claims(text, catalog)
+        audit.append((checked_at, "system", "system", "claim_extracted", answer_id,
+                      f"Extracted {len(extracted)} claim(s) with plain regex and keyword rules."))
+        for c in extracted:
+            r = check(c, catalog)
+            if r.rule_id:
+                raise AssertionError(f"{brand_id}: an unmentioned answer should be all correct: {text}")
+            claim_id = next(ids["clm"])
+            claims.append({"claimId": claim_id, "answerId": answer_id, "productId": c.product_id, "text": c.text,
+                           "claimType": c.claim_type, "extractedValue": r.extracted_value,
+                           "verifiedValue": r.verified_value, "status": r.status, "ruleId": r.rule_id,
+                           "factId": r.fact_id, "reason": r.reason, "checkedAt": iso(checked_at)})
+            audit.append((checked_at, "system", "system", "claim_checked", claim_id, f"correct: {r.reason}"))
 
     # 30-day trend: same dates as Kestrel's, the brand's own start and end values, improving every week.
     dates = [d["date"] for d in data["daily_metrics"]]

@@ -196,6 +196,228 @@
       ],
       "capturedAt": "2026-09-28T13:30:00Z",
       "source": "mock"
+    },
+    {
+      "answerId": "ans_315",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Flex 14 Touch has limited stock. The Kestrel Pocket 12 costs $379.00.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-08-31T10:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_316",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 14 is rated for 11 hours of battery life. Arcton offers a 15-day return policy on the Arcton Swift 14.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_03"
+      ],
+      "capturedAt": "2026-09-01T13:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_317",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Flex 14 Touch has limited stock. The Kestrel Studio 15 has 16 GB of RAM.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-03T09:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_318",
+      "queryText": "best 15 inch laptop for work",
+      "assistantId": "ast_01",
+      "answerText": "Arcton offers a 15-day return policy on the Arcton Titan 16. The Kestrel Pocket 12 is rated for 8 hours of battery life.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-05T14:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_319",
+      "queryText": "best laptop for students",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Pocket 12 is out of stock. The Kestrel Aero 13 Lite weighs 2.6 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-07T13:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_320",
+      "queryText": "laptop with the longest battery life",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Aero 14 has 8 GB of RAM. The Kestrel Aero 14 Plus is in stock.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-08T09:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_321",
+      "queryText": "cheapest decent laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 14 Plus has 16 GB of RAM. Arcton offers a 15-day return policy on the Arcton Titan 16.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02"
+      ],
+      "capturedAt": "2026-09-10T12:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_322",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 14 Plus has a 14-inch display. The Arcton Titan 16 weighs 4.6 lb.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_04",
+        "src_06"
+      ],
+      "capturedAt": "2026-09-12T15:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_323",
+      "queryText": "touchscreen laptop under $500",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Aero 13 Lite costs $329.00. The Kestrel Flex 14 Touch has limited stock.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-14T12:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_324",
+      "queryText": "laptop for streaming and media",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 14 comes with 256 GB of storage. Arcton offers a 15-day return policy on the Arcton Swift 14.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-15T15:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_325",
+      "queryText": "lightweight laptop for college",
+      "assistantId": "ast_02",
+      "answerText": "Kestrel offers a 30-day return policy on the Kestrel Studio 15. Arcton offers a 15-day return policy on the Arcton Swift 14.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_03"
+      ],
+      "capturedAt": "2026-09-17T12:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_326",
+      "queryText": "best laptops under $500",
+      "assistantId": "ast_03",
+      "answerText": "The Kestrel Pocket 12 weighs 2.4 lb. The Kestrel Studio 15 is rated for 7 hours of battery life.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-19T13:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_327",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Arcton Vista 15 weighs 4 lb. The Kestrel Pocket 12 has a 11.6-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_04",
+        "src_05"
+      ],
+      "capturedAt": "2026-09-21T09:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_328",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_02",
+      "answerText": "The Kestrel Aero 13 Lite is rated for 9 hours of battery life. The Kestrel Aero 14 Plus has a 14-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_02",
+        "src_04"
+      ],
+      "capturedAt": "2026-09-22T13:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_329",
+      "queryText": "laptop for streaming and media",
+      "assistantId": "ast_03",
+      "answerText": "The Arcton Vista 15 has a 15.6-inch display. The Kestrel Aero 14 is rated for 11 hours of battery life.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_04"
+      ],
+      "capturedAt": "2026-09-24T09:15:00Z",
+      "source": "mock"
+    },
+    {
+      "answerId": "ans_330",
+      "queryText": "best budget laptop",
+      "assistantId": "ast_01",
+      "answerText": "The Kestrel Aero 14 weighs 2.9 lb. The Kestrel Aero 13 Lite has a 13.3-inch display.",
+      "brandMentioned": false,
+      "rank": null,
+      "sourceIds": [
+        "src_01"
+      ],
+      "capturedAt": "2026-09-26T12:15:00Z",
+      "source": "mock"
     }
   ]
 }
