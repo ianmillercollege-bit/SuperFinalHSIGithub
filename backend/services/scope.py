@@ -14,11 +14,17 @@ from fastapi import Depends, HTTPException, Query
 from sqlalchemy import or_, select
 
 import constants as C
-from db import Answer, Brand, Claim, Incident, get_db
+from db import Answer, Brand, Claim, Incident, User, get_db
+from services.session import optional_user
 
 
-def brand_scope(brand_id: str = Query(C.DEFAULT_BRAND_ID, alias="brandId"), db=Depends(get_db)) -> str:
-    """The ?brandId= query parameter. 404 NOT_FOUND for an unknown brand."""
+def brand_scope(brand_id: str = Query(C.DEFAULT_BRAND_ID, alias="brandId"),
+                user: User | None = Depends(optional_user), db=Depends(get_db)) -> str:
+    """The brand a dashboard call is about. v1.4: a login token decides it (brandId is then ignored);
+    CIRQO Staff belong to no brand and use brandId. Without a token: ?brandId=, default Kestrel.
+    404 NOT_FOUND for an unknown brand."""
+    if user is not None and user.brand_id:
+        return user.brand_id
     if db.get(Brand, brand_id) is None:
         raise HTTPException(404, f"Brand {brand_id} does not exist.")
     return brand_id

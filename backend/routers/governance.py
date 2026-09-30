@@ -9,11 +9,12 @@ from typing import Literal
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import or_, select
 
-from db import AuditEntry, Incident, Owner, get_db
+from db import AuditEntry, Incident, Owner, User, get_db
 from schemas import ApproveIn, AuditListOut, IncidentOut, IncidentsOut, OwnersOut, RejectIn, ResolveIn
 import constants as C
 from services.checker import audit
 from services.scope import brand_scope
+from services.session import VIEWER, optional_user
 from timeutil import now_iso
 
 router = APIRouter(tags=["Governance"])
@@ -55,9 +56,21 @@ def same_person(a: str, b: str) -> bool:
     return a.strip().casefold() == b.strip().casefold()
 
 
-def decide(db, incident_id: str, action: str, name: str, note: str | None, false_alarm: bool = False) -> Incident:
-    """Rules for approve / reject / resolve. Order: 404, then 403, then 409 (the contract requires 403 first)."""
+def decide(db, incident_id: str, action: str, name: str | None, note: str | None, false_alarm: bool = False,
+           user: User | None = None) -> Incident:
+    """Rules for approve / reject / resolve. Order: 404, then 403, then 409 (the contract requires 403 first).
+
+    v1.4: with a login token, a Viewer gets 403 and the name defaults to the signed-in user's name; the
+    owner-match rule still applies. Without a token the name is required, as before (422).
+    """
     incident = get_incident(db, incident_id)
+    if user is not None and user.role == VIEWER:
+        raise HTTPException(403, "Viewers can read incidents but cannot approve, reject or resolve them.")
+    if not name:
+        if user is None:
+            field = "resolverName" if action == "resolve" else "approverName"
+            raise HTTPException(422, f"body.{field}: Field required (or sign in and send your token).")
+        name = user.name
     if action in ("approve", "reject"):
         if incident.severity == "critical":
             raise HTTPException(403, f"Incident {incident_id} is critical (safety/legal). It can only be resolved "
@@ -92,18 +105,18 @@ def decide(db, incident_id: str, action: str, name: str, note: str | None, false
 
 
 @router.post("/incidents/{incident_id}/approve", response_model=IncidentOut)
-def approve(incident_id: str, body: ApproveIn, db=Depends(get_db)):
-    return decide(db, incident_id, "approve", body.approver_name, body.note)
+def approve(incident_id: str, body: ApproveIn, user: User | None = Depends(optional_user), db=Depends(get_db)):
+    return decide(db, incident_id, "approve", body.approver_name, body.note, user=user)
 
 
 @router.post("/incidents/{incident_id}/reject", response_model=IncidentOut)
-def reject(incident_id: str, body: RejectIn, db=Depends(get_db)):
-    return decide(db, incident_id, "reject", body.approver_name, body.note, body.false_alarm)
+def reject(incident_id: str, body: RejectIn, user: User | None = Depends(optional_user), db=Depends(get_db)):
+    return decide(db, incident_id, "reject", body.approver_name, body.note, body.false_alarm, user=user)
 
 
 @router.post("/incidents/{incident_id}/resolve", response_model=IncidentOut)
-def resolve(incident_id: str, body: ResolveIn, db=Depends(get_db)):
-    return decide(db, incident_id, "resolve", body.resolver_name, body.note)
+def resolve(incident_id: str, body: ResolveIn, user: User | None = Depends(optional_user), db=Depends(get_db)):
+    return decide(db, incident_id, "resolve", body.resolver_name, body.note, user=user)
 
 
 @router.get("/owners", response_model=OwnersOut)

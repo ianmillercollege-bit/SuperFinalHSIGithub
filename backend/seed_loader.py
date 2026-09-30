@@ -181,10 +181,10 @@ def load(db, folder: Path) -> dict:
                                           hallucination_rate=r["hallucinationRate"], claims_checked=r["claimsChecked"],
                                           incidents_opened=r["incidentsOpened"], visibility_rate=r["visibilityRate"]))
 
-    # Client API keys (CLIENT_API_CONTRACT.md v1.1): the demo keys of the brands that exist.
-    for account in C.DEMO_ACCOUNTS:
-        if account["brandId"] in brand_ids:
-            rows[ApiKey].append(dict(api_key=account["apiKey"], brand_id=account["brandId"], role=account["role"]))
+    # Client API keys (CLIENT_API_CONTRACT.md v1.1): the demo keys of the brands that exist, plus one owner
+    # key for each of the first spreadsheet companies (v1.4 demo accounts).
+    for account in demo_accounts(brands, rows[User]):
+        rows[ApiKey].append(dict(api_key=account["apiKey"], brand_id=account["brandId"], role=account["role"]))
 
     # Bulk inserts: about 25,000 rows at catalog scale, well inside the 10-second rebuild (contract v1.4.1).
     for table, table_rows in rows.items():
@@ -193,6 +193,21 @@ def load(db, folder: Path) -> dict:
     db.commit()
     return {"folder": str(folder), "shiftDays": shift, "shiftSeconds": offset,
             "brandAccounts": [brand_id for brand_id, _ in accounts], "catalog": bool(catalog)}
+
+
+def demo_accounts(brands: list[dict], users: list[dict]) -> list[dict]:
+    """The demo logins: the original brands' accounts, then the first spreadsheet companies' admins."""
+    known = {b["brandId"]: b for b in brands}
+    accounts = [dict(a) for a in C.DEMO_ACCOUNTS if a["brandId"] in known]
+    originals = {a["brandId"] for a in C.DEMO_ACCOUNTS}
+    sheet = [b for b in brands if b["brandId"] not in originals and b.get("isClient") is False][:C.SHEET_DEMO_COMPANIES]
+    for b in sheet:
+        admin = next((u for u in users if u["brand_id"] == b["brandId"]), None)
+        if admin:
+            slug = "".join(ch if ch.isalnum() else "-" for ch in b["name"].lower()).strip("-")
+            accounts.append({"brandId": b["brandId"], "role": "owner", "apiKey": f"fd_demo_{slug}_2026",
+                             "username": admin["username"]})
+    return accounts
 
 
 def load_account(rows: dict, path: Path, brand_id: str, moved, product_brand: dict, answer_brand: dict,
