@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { Empty, ErrorNotice, Loading } from "@/components/LoadState";
+import SourcesPanel from "@/components/screens/SourcesPanel";
 import VisibilityView from "@/components/screens/VisibilityView";
 import { getAnswers, getVisibilitySummary } from "@/lib/api";
 import { ANSWERS_LIMIT } from "@/lib/dashboard/liveVisibility";
@@ -40,6 +41,7 @@ export default function VisibilityScreen() {
           {props.hiddenQuestions} more {props.hiddenQuestions === 1 ? "question was" : "questions were"} not shown because not every assistant has answered {props.hiddenQuestions === 1 ? "it" : "them"} yet.
         </p>
       )}
+      <SourcesPanel />
     </>
   );
 }

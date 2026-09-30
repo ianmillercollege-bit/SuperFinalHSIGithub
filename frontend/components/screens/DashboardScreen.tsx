@@ -3,6 +3,7 @@
 import DashboardPlan from "@/components/coach/DashboardPlan";
 import StorefrontRevenue from "@/components/dashboard/StorefrontRevenue";
 import DashboardView from "@/components/dashboard/DashboardView";
+import ReportDownload from "@/components/screens/ReportDownload";
 import { ErrorNotice, Loading } from "@/components/LoadState";
 import { useCoachContextFrom } from "@/lib/coach/session";
 import { useDashboardVm } from "@/lib/dashboard/useDashboardVm";
@@ -19,6 +20,7 @@ export default function DashboardScreen() {
   return (
     <>
       <DashboardView vm={vm!} afterCharts={<DashboardPlan session={coach} />} afterOpportunities={vm!.storefront ? <StorefrontRevenue data={vm!.storefront} /> : undefined} />
+      <ReportDownload />
       {claims.error !== undefined && <ErrorNotice error={claims.error} onRetry={claims.reload} />}
       {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}
     </>
