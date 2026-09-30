@@ -13,8 +13,8 @@ It exposes two tools that together form **the funnel**: search wide, narrow with
 
 | Tool | Endpoint | What it returns |
 |---|---|---|
-| **`cirqo_search`** | `POST /api/v1/connector/search` | Up to 5 verified options in neutral order, each with checked facts, plus `narrowingHints`: the attributes on which those options differ most, each phrased as a question to ask the shopper. Also a `nextStep` line saying whether to ask a hint or go for the pick. |
-| **`cirqo_query`** | `POST /api/v1/connector/query` | The one pick: an answer text built only from verified facts, the recommendation with alternatives, the checked claims behind it (each with the value stated, the verified value and its status), and the neutral-ranking note. Unchanged from v1. |
+| **`cirqo_search`** | `POST /api/v1/connector/search` | Up to 5 options in neutral order, each marked `verified` (true when the brand opted in and its facts were checked, false when they come from a public listing) with its facts and their `claimStatus`, plus `narrowingHints`: the attributes on which those options differ most, each phrased as a question to ask the shopper. Also `verifiedCount`, `unverifiedCount`, and a `nextStep` line saying whether to ask a hint or go for the pick. |
+| **`cirqo_query`** | `POST /api/v1/connector/query` | The one pick: an answer text in which unverified facts are prefixed "Not verified by the brand:", the recommendation and alternatives each marked `verified`, the checked claims behind it (each with the value stated, the verified value and its status, `correct` or `unverifiable`), `verifiedCount`, `unverifiedCount`, and the neutral-ranking note. |
 
 Both take the same three arguments:
 
@@ -33,10 +33,14 @@ The descriptions and the server's instructions are written so an assistant runs 
 3. **Call `cirqo_search` again** with the answer added to `constraints`.
 4. **When one or two options remain**, or no hints come back, **call `cirqo_query`** and present the single pick with its verified facts and the neutral-ranking note.
 5. **Never invent a fact** that is not in the results. If CIRQO finds nothing, say so instead of guessing.
+6. **Tell the shopper which facts are verified by the brand and which are not. Never present an unverified fact
+   as verified.** Since v1.5 the catalog holds both brands that opted in (their products are `verified: true` and
+   their facts were checked, `claimStatus: "correct"`) and brands that have not (products `verified: false`, facts
+   from public listings, `claimStatus: "unverifiable"`). Both rank on fit alone.
 
 **No AI key is involved.** Every fact and every sentence is checked by plain code on the CIRQO server before it is
-returned, and ranking is neutral: no brand can pay for placement. Claude only reads the results. Sample data uses
-fictional brands.
+returned, and ranking is neutral: no brand can pay for placement, and opting in does not move a brand up the list.
+Claude only reads the results. Sample data uses fictional brands.
 
 ## 1. Install
 
@@ -94,7 +98,7 @@ The hosted API runs on a free tier and may take up to a minute to wake up on the
 
 **Claude:** *(calls `cirqo_search` with `question`: "headphones for the gym", `assistantId`: "ast_01")*
 
-*(CIRQO returns five options and two hints:)*
+*(CIRQO returns five options, three from brands that opted in and two from brands that have not, plus two hints:)*
 
 ```json
 {
@@ -102,69 +106,82 @@ The hosted API runs on a free tier and may take up to a minute to wake up on the
   "category": "headphones",
   "optionCount": 5,
   "options": [
-    {"productId": "prod_310", "name": "Lumen Buds 2", "brandName": "Lumen Audio", "price": 129.0, "availability": "in_stock", "matchScore": 0.88,
+    {"productId": "prod_310", "name": "Lumen Buds 2", "brandName": "Lumen Audio", "price": 129.0, "availability": "in_stock", "matchScore": 0.88, "verified": true,
      "facts": [{"text": "8-hour battery", "claimStatus": "correct", "factId": "fact_9001"},
                {"text": "Wireless, weighs 0.4 oz per bud", "claimStatus": "correct", "factId": "fact_9002"},
                {"text": "No noise cancelling", "claimStatus": "correct", "factId": "fact_9003"}]},
-    {"productId": "prod_322", "name": "Tidewave Pulse", "brandName": "Tidewave", "price": 149.0, "availability": "in_stock", "matchScore": 0.84,
+    {"productId": "prod_322", "name": "Tidewave Pulse", "brandName": "Tidewave", "price": 149.0, "availability": "in_stock", "matchScore": 0.84, "verified": true,
      "facts": [{"text": "10-hour battery", "claimStatus": "correct", "factId": "fact_9010"},
-               {"text": "Active noise cancelling", "claimStatus": "correct", "factId": "fact_9012"}]}
+               {"text": "Active noise cancelling", "claimStatus": "correct", "factId": "fact_9012"}]},
+    {"productId": "prod_341", "name": "Halcyon Buds Pro", "brandName": "Halcyon", "price": 148.0, "availability": "low_stock", "matchScore": 0.75, "verified": false,
+     "facts": [{"text": "9-hour battery", "claimStatus": "unverifiable", "factId": "fact_9030"},
+               {"text": "Active noise cancelling", "claimStatus": "unverifiable", "factId": "fact_9032"}]}
   ],
   "narrowingHints": [
     {"attribute": "noiseCancelling", "question": "Do you want noise cancelling?", "splits": {"yes": 2, "no": 3}},
     {"attribute": "weightOz", "question": "Does weight matter? Two are under 1 oz.", "splits": {"under1oz": 2, "over1oz": 3}}
   ],
   "nextStep": "Ask the shopper the first narrowingHints question in plain words, then call cirqo_search again with their answer added to constraints.",
+  "verifiedCount": 9,
+  "unverifiedCount": 6,
   "rankingNote": "Neutral ranking. No brand can pay for placement."
 }
 ```
 
-*(three more options omitted here for space)*
+*(two more options omitted here for space)*
 
-**Claude:** CIRQO found five verified pairs of gym headphones, from $89 to $149. Quick question to narrow it down:
-do you want noise cancelling, or would you rather hear what's around you?
+**Claude:** CIRQO found five pairs of gym headphones from $89 to $149. Three are from brands that verify their
+product data with CIRQO; two, including the Halcyon Buds Pro, are listed from public sources and their specs are
+not verified by the brand. Quick question to narrow it down: do you want noise cancelling, or would you rather
+hear what's around you?
 
 **You:** Noise cancelling, please.
 
 **Claude:** *(calls `cirqo_search` with `question`: "headphones for the gym", `assistantId`: "ast_01",
 `constraints`: `{"category": "headphones", "mustHave": ["noiseCancelling"]}`)*
 
-*(CIRQO returns two options, the Tidewave Pulse and the Lumen Buds Pro, and `nextStep` now says:
-"Narrow enough. Call cirqo_query with the same question and constraints for the single pick.")*
+*(CIRQO returns two options, the Tidewave Pulse (`verified: true`) and the Halcyon Buds Pro (`verified: false`),
+and `nextStep` now says: "Narrow enough. Call cirqo_query with the same question and constraints for the single pick.")*
 
 **Claude:** *(calls `cirqo_query` with `question`: "noise cancelling headphones for the gym", `assistantId`: "ast_01")*
 
-*(CIRQO returns the one pick with its checked claims:)*
+*(CIRQO returns the one pick with its checked claims. The unverified alternative is labelled in the text and in the claims:)*
 
 ```json
 {
-  "answerText": "Based on verified data, the Tidewave Pulse ($149.00, in stock) fits best. The Tidewave Pulse is rated for 10 hours of battery life. The Tidewave Pulse has active noise cancelling. The Tidewave Pulse weighs 0.5 oz per bud. Another verified option is the Lumen Buds Pro at $148.00.",
-  "recommendation": {"productId": "prod_322", "name": "Tidewave Pulse", "brandName": "Tidewave", "price": 149.0, "availability": "in_stock"},
-  "alternatives": [{"productId": "prod_341", "name": "Lumen Buds Pro", "brandName": "Lumen Audio", "price": 148.0}],
+  "answerText": "Based on verified data, the Tidewave Pulse ($149.00, in stock) fits best. The Tidewave Pulse is rated for 10 hours of battery life. The Tidewave Pulse has active noise cancelling. The Tidewave Pulse weighs 0.5 oz per bud. Not verified by the brand: the Halcyon Buds Pro lists active noise cancelling at $148.00.",
+  "recommendation": {"productId": "prod_322", "name": "Tidewave Pulse", "brandName": "Tidewave", "price": 149.0, "availability": "in_stock", "verified": true},
+  "alternatives": [{"productId": "prod_341", "name": "Halcyon Buds Pro", "brandName": "Halcyon", "price": 148.0, "availability": "low_stock", "verified": false}],
   "claims": [
     {"text": "The Tidewave Pulse is rated for 10 hours of battery life.", "claimType": "feature", "extractedValue": "10", "verifiedValue": "10", "status": "correct", "factId": "fact_9010"},
-    {"text": "The Tidewave Pulse has active noise cancelling.", "claimType": "feature", "extractedValue": "true", "verifiedValue": "true", "status": "correct", "factId": "fact_9012"}
+    {"text": "The Tidewave Pulse has active noise cancelling.", "claimType": "feature", "extractedValue": "true", "verifiedValue": "true", "status": "correct", "factId": "fact_9012"},
+    {"text": "The Tidewave Pulse weighs 0.5 oz per bud.", "claimType": "feature", "extractedValue": "0.5", "verifiedValue": "0.5", "status": "correct", "factId": "fact_9011"},
+    {"text": "Not verified by the brand: the Halcyon Buds Pro lists active noise cancelling at $148.00.", "claimType": "feature", "extractedValue": "true", "verifiedValue": null, "status": "unverifiable", "factId": null}
   ],
+  "verifiedCount": 3,
+  "unverifiedCount": 1,
   "rankingNote": "Neutral ranking. No brand can pay for placement."
 }
 ```
 
-**Claude:** CIRQO's pick is the **Tidewave Pulse** at $149.00, in stock. It has active noise cancelling, a 10-hour
-rated battery, and weighs 0.5 oz per bud. The one verified alternative is the Lumen Buds Pro at $148.00, which is
-low on stock. Every fact here was checked against the brand's verified data (4 claims, all correct), and the
-ranking is neutral: no brand paid for placement.
+**Claude:** CIRQO's pick is the **Tidewave Pulse** at $149.00, in stock. Tidewave verifies its data with CIRQO, so
+these three facts were checked against the brand's own records: active noise cancelling, a 10-hour rated battery,
+and 0.5 oz per bud. The alternative is the **Halcyon Buds Pro** at $148.00, low on stock. Halcyon has not opted in,
+so its noise cancelling comes from a public listing and is **not verified by the brand**; treat that spec as
+unconfirmed. Ranking is neutral: no brand paid for placement, and being verified did not move Tidewave up the list.
 
 **You:** Anything under $80?
 
 **Claude:** *(calls `cirqo_search` with `question`: "noise cancelling headphones for the gym under $80", `assistantId`: "ast_01")*
 
-CIRQO found nothing under $80 with noise cancelling in the verified catalog, and it does not guess when verified
-data has no match. The cheapest noise-cancelling pair it verified is the Lumen Buds Pro at $148.00. Want me to
-drop the noise-cancelling requirement instead? There are pairs from $89 without it.
+CIRQO found nothing under $80 with noise cancelling, and it does not guess when the data has no match. The cheapest
+noise-cancelling pair it returned is the Halcyon Buds Pro at $148.00, and that one is not verified by the brand.
+Want me to drop the noise-cancelling requirement instead? There are verified pairs from $89 without it.
 
 Notice what Claude did not do: it did not ask three questions up front, it did not describe features that were not
-in the results, and it did not fill the gap under $80 with a guess. Each search and query is also recorded on the
-CIRQO dashboard as an answer with its checked claims and an audit entry.
+in the results, it did not fill the gap under $80 with a guess, and it did not present the Halcyon spec as if a
+brand had confirmed it. Each search and query is also recorded on the CIRQO dashboard as an answer with its checked
+claims and an audit entry.
 
 ## Troubleshooting
 
@@ -179,6 +196,8 @@ CIRQO dashboard as an answer with its checked claims and an audit entry.
   `ast_01`, `ast_02` or `ast_03` in the sample data.
 - **Claude asks every hint at once, or invents a spec.** That is the assistant ignoring the tool descriptions.
   Remind it in chat: "Ask me one question at a time and only use facts CIRQO returned."
+- **`verifiedCount` and `unverifiedCount` come back `null`.** The backend you are talking to predates contract
+  v1.5. The server passes the counts through as sent and never computes them itself.
 
 ## Tests
 

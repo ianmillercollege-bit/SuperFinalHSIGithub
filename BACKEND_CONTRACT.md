@@ -1,6 +1,6 @@
 # CIRQO Backend Contract
 
-Status: **FINAL v1.4.1** (approved by lead engineer, 2026-09-30; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
+Status: **FINAL v1.5** (approved by lead engineer, 2026-09-30; v1.5 adds opted-in vs not-opted-in brands, section 7d; v1.4.1 loads the catalog from the backend engineer's spreadsheet; v1.1 Connector, v1.2 Verified Data Layer fields, v1.3 brand accounts and onboarding, v1.4 login, company profiles, catalog at scale, connector search, section 7c). Any change to a path,
 field name, or data type needs the lead's approval and an update here BEFORE code changes.
 If this file and the brief disagree, this file wins. Decisions referenced here live in `DECISIONS.md`.
 
@@ -285,7 +285,7 @@ Rules for all three:
   "action": "auto_fix_applied", "targetId": "inc_12", "details": "Published verified price $449.99."}]}
 ```
 `actorType`: `system` | `human` | `ai`.
-`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded` | `connector_search` | `login`.
+`action`: `claim_extracted` | `claim_checked` | `incident_created` | `auto_fix_applied` | `approved` | `rejected` | `escalated` | `resolved` | `connector_query` | `brand_onboarded` | `connector_search` | `login` | `brand_claimed`.
 
 ### Trust metrics
 **`GET /api/v1/metrics/trust?days=30`**
@@ -476,6 +476,33 @@ on approve, staff `GET /brands` 200 and brand token 403, approve without `approv
 `test_brand_profile`, `test_connector_search` (5 options max, hints name real differing attributes, all facts correct,
 recorded and audited, category inferred from "headphones"), `test_seed_scale` (153 brands, 1,500 sheet products plus the originals, every
 brand has at least one admin, a trend and incidents, rebuild under 10 s, no real brand names in company names), and the existing `test_ranking_neutral` extended to flip `plan`.
+
+## 7d. Opted-in and not-opted-in brands (v1.5)
+
+**Who the plugin is for:** the shopper. They enable CIRQO in their AI assistant to get more accurate, personalized
+shopping answers. Brands benefit by opting in: their verified facts are what the assistant repeats, they get the
+dashboard, and they see the interactions. The catalog therefore contains **both** kinds of brand. All are fictional.
+
+- Brand gains **`optedIn: true | false`** (public; the same fact the seed calls `isClient`). Opted-in brands have admins,
+  dashboards and verified facts. Not-opted-in brands have products only, from "public listings", and no dashboard until
+  they claim their company.
+- Product gains **`verified: true | false`** (true only for opted-in brands). For not-opted-in products `factSource` is
+  `"Public listing (not verified by brand)"`, `verifiedAt` is `null`, and any claim about them is `unverifiable`
+  (`NO_FACT`), never `correct`.
+- **`/connector/search` and `/connector/query`** rank every brand's products on fit alone, opted in or not (section 8;
+  the neutrality test now also flips `optedIn` and asserts the order is unchanged). Each option carries `verified` and
+  its facts carry `claimStatus` `correct` (verified) or `unverifiable` (not verified). `answerText` labels them honestly:
+  verified facts are stated; unverified ones are prefixed "Not verified by the brand:". Responses add
+  `"verifiedCount"` and `"unverifiedCount"`.
+- **Claim your company:** `POST /api/v1/brands/{brandId}/claim` body `{"ownerName": "...", "email": "..."}` turns a
+  not-opted-in brand into an opted-in one: creates a Brand Data Owner (password `cirqo-demo`), an API key, marks every
+  product `verified: true` with `factSource: "Brand product feed"` and `verifiedAt` now, starts an empty trend, and
+  audits `brand_claimed`. 409 if already opted in. Response is the `/brands/onboard` shape plus `optedIn: true`.
+- **Seed split:** of the 150 sheet companies, the 60 with the lowest sheet ids per category are opted in (Kestrel,
+  Arcton, Novex too); the other 90 are not. `GET /brands` (staff) and `GET /brands/{id}` show `optedIn`. Login pages list
+  only opted-in companies. `GET /products?optedIn=false` filters.
+- **Privacy:** shopper preferences (budget, use, must-haves) live in the assistant conversation only. CIRQO stores the
+  question, the constraints sent, and which products were returned. No shopper identity, ever.
 
 ## 8. Neutral ranking (required test)
 

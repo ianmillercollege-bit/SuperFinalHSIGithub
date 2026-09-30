@@ -11,6 +11,9 @@ The funnel an assistant runs on its own: search from whatever the shopper said; 
 ask one hint question at a time in plain words and search again with the added constraint; when one or two
 options remain, query for the single pick. No AI key is involved: every fact is checked by plain code on the
 CIRQO server, ranking is neutral, and the assistant must never state a fact that is not in the results.
+Since v1.5 the catalog also holds brands that have not opted in: their products carry verified=false, their
+facts are claimStatus "unverifiable", and every response counts verifiedCount and unverifiedCount. The
+assistant must tell the shopper which facts are verified by the brand and which are not.
 
 Run it by hand:      python backend/mcp_server.py
 Point it elsewhere:  CIRQO_API_URL=http://localhost:8000 python backend/mcp_server.py
@@ -35,6 +38,9 @@ QUERY_PATH = "/api/v1/connector/query"
 TIMEOUT_SECONDS = 60.0
 # With this many options or fewer, the funnel is narrow enough to ask for the one pick.
 PICK_THRESHOLD = 2
+# Spelled out on both tools and in the server instructions: the one rule about unverified facts.
+VERIFIED_RULE = ("Tell the shopper which facts are verified by the brand and which are not. "
+                 "Never present an unverified fact as verified.")
 
 Category = Literal["laptops", "headphones", "smart_home", "monitors", "accessories"]
 
@@ -114,7 +120,7 @@ async def post_to_cirqo(path: str, payload: dict[str, Any]) -> dict[str, Any]:
 def next_step(option_count: int, hints: list[Any]) -> str:
     """What the assistant should do after a search, spelled out so it does not have to work it out."""
     if option_count == 0:
-        return "No verified option matches. Tell the shopper so and offer to relax a constraint. Do not guess."
+        return "No option matches. Tell the shopper so and offer to relax a constraint. Do not guess."
     if option_count <= PICK_THRESHOLD or not hints:
         return "Narrow enough. Call cirqo_query with the same question and constraints for the single pick."
     return ("Ask the shopper the first narrowingHints question in plain words, then call cirqo_search again "
@@ -136,7 +142,10 @@ server = MCPServer(
         "3. Call cirqo_search again with the answer added to constraints (or restated in the question).\n"
         "4. When one or two options remain, or no hints come back, call cirqo_query for the single pick and "
         "present it: the product, its verified facts, and the rankingNote about neutral ranking.\n"
-        "5. Never state a fact that is not in the results. If CIRQO finds nothing, say so rather than guessing."),
+        "5. Never state a fact that is not in the results. If CIRQO finds nothing, say so rather than guessing.\n"
+        "6. Results mix opted-in brands (verified: true, facts checked against the brand's data, claimStatus "
+        "correct) and brands that have not opted in (verified: false, facts from public listings, claimStatus "
+        "unverifiable); verifiedCount and unverifiedCount total them. " + VERIFIED_RULE),
 )
 
 
@@ -150,7 +159,10 @@ server = MCPServer(
         "remain, ask the shopper ONE hint question in plain words and call cirqo_search again with their "
         "answer added to constraints; when one or two options remain (or no hints), call cirqo_query for the "
         "single pick. Present only facts from options[].facts; never invent one. An empty options list means "
-        "nothing verified matches, so say that instead of guessing."),
+        "nothing matches, so say that instead of guessing. Each option carries verified (true when the brand "
+        "opted in and its facts were checked, false when the facts come from a public listing) and each fact "
+        "carries claimStatus (correct or unverifiable); verifiedCount and unverifiedCount total them. "
+        + VERIFIED_RULE),
 )
 async def cirqo_search(
     question: str = Field(description='What the shopper said, e.g. "I want headphones for the gym".'),
@@ -171,6 +183,8 @@ async def cirqo_search(
         "options": options,
         "narrowingHints": hints,
         "nextStep": next_step(option_count, hints),
+        "verifiedCount": body.get("verifiedCount"),
+        "unverifiedCount": body.get("unverifiedCount"),
         "rankingNote": body.get("rankingNote"),
         "verifiedAt": body.get("verifiedAt"),
         "source": body.get("source"),
@@ -186,7 +200,10 @@ async def cirqo_search(
         "recommendation with alternatives, the list of checked claims behind it (each with the value stated, "
         "the verified value, and its status), and the rankingNote. Present the single pick with its verified "
         "facts and mention the neutral-ranking note. Never add a fact that is not in the result. If nothing in "
-        "the verified catalog matches, CIRQO says so rather than guessing; pass that on."),
+        "the catalog matches, CIRQO says so rather than guessing; pass that on. The recommendation and each "
+        "alternative carry verified (true when the brand opted in, false when its facts come from a public "
+        "listing); claims carry status correct or unverifiable, answerText prefixes unverified facts with "
+        "\"Not verified by the brand:\", and verifiedCount and unverifiedCount total them. " + VERIFIED_RULE),
 )
 async def cirqo_query(
     question: str = Field(description='The shopper\'s question, e.g. "What is the best laptop under $500 for school?"'),
@@ -203,6 +220,8 @@ async def cirqo_query(
         "recommendation": body.get("recommendation"),
         "alternatives": body.get("alternatives", []),
         "claims": body.get("claims", []),
+        "verifiedCount": body.get("verifiedCount"),
+        "unverifiedCount": body.get("unverifiedCount"),
         "rankingNote": body.get("rankingNote"),
         "verifiedAt": body.get("verifiedAt"),
         "source": body.get("source"),

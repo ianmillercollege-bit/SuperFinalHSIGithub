@@ -25,6 +25,43 @@ SEARCH = {"question": "I want headphones for the gym", "assistantId": "ast_01",
           "constraints": {"category": "headphones", "maxPrice": 150, "mustHave": ["wireless"]}}
 
 
+def query_reply_v15() -> dict:
+    """A /connector/query reply in the v1.5 shape: verified flags, an unverifiable claim, and the two counts.
+
+    shared/mock/connector_query.json stays in the shape the live backend returns today (test_contract_shapes
+    compares them key for key), so the v1.5 fields are added here on a copy.
+    """
+    reply = copy.deepcopy(load_mock("connector_query.json"))
+    reply["recommendation"] = {
+        "productId": "prod_322", "name": "Tidewave Pulse", "brandName": "Tidewave", "price": 149.0,
+        "currency": "USD", "availability": "in_stock", "matchScore": 0.91, "verified": True,
+        "facts": [{"text": "10-hour battery", "claimStatus": "correct", "factId": "fact_9010"},
+                  {"text": "Active noise cancelling", "claimStatus": "correct", "factId": "fact_9012"},
+                  {"text": "Weighs 0.5 oz per bud", "claimStatus": "correct", "factId": "fact_9011"}],
+        "verifiedAt": "2026-09-28T12:00:00Z"}
+    reply["alternatives"] = [{
+        "productId": "prod_341", "name": "Halcyon Buds Pro", "brandName": "Halcyon", "price": 148.0,
+        "currency": "USD", "availability": "low_stock", "matchScore": 0.80, "verified": False,
+        "facts": [{"text": "Active noise cancelling", "claimStatus": "unverifiable", "factId": "fact_9032"}],
+        "verifiedAt": None}]
+    reply["answerText"] = (
+        "Based on verified data, the Tidewave Pulse ($149.00, in stock) fits best. The Tidewave Pulse is rated "
+        "for 10 hours of battery life. The Tidewave Pulse has active noise cancelling. The Tidewave Pulse weighs "
+        "0.5 oz per bud. Not verified by the brand: the Halcyon Buds Pro lists active noise cancelling at $148.00.")
+    reply["claims"] = [
+        {"text": "The Tidewave Pulse is rated for 10 hours of battery life.", "claimType": "feature",
+         "extractedValue": "10", "verifiedValue": "10", "status": "correct", "factId": "fact_9010"},
+        {"text": "The Tidewave Pulse has active noise cancelling.", "claimType": "feature",
+         "extractedValue": "true", "verifiedValue": "true", "status": "correct", "factId": "fact_9012"},
+        {"text": "The Tidewave Pulse weighs 0.5 oz per bud.", "claimType": "feature",
+         "extractedValue": "0.5", "verifiedValue": "0.5", "status": "correct", "factId": "fact_9011"},
+        {"text": "Not verified by the brand: the Halcyon Buds Pro lists active noise cancelling at $148.00.",
+         "claimType": "feature", "extractedValue": "true", "verifiedValue": None, "status": "unverifiable",
+         "factId": None}]
+    reply["verifiedCount"], reply["unverifiedCount"] = 3, 1
+    return reply
+
+
 @pytest.fixture
 def mock_api(monkeypatch):
     """Replace the network with a fake CIRQO that serves both connector endpoints.
@@ -95,6 +132,18 @@ def test_descriptions_teach_the_funnel():
     assert "Never state a fact that is not in the results" in instructions
 
 
+def test_descriptions_carry_the_verified_rule():
+    """Both tools and the instructions say, word for word, how to treat facts a brand has not verified."""
+    rule = ("Tell the shopper which facts are verified by the brand and which are not. "
+            "Never present an unverified fact as verified.")
+    assert mcp_server.VERIFIED_RULE == rule
+    tools = tool_schemas()
+    for text in (tools["cirqo_search"].description, tools["cirqo_query"].description, mcp_server.server.instructions):
+        assert rule in text
+        assert "verifiedCount" in text and "unverifiedCount" in text and "unverifiable" in text
+    assert "Not verified by the brand:" in tools["cirqo_query"].description
+
+
 # --- cirqo_search --------------------------------------------------------------------------------------------
 
 def test_search_posts_to_connector_and_returns_options_and_hints(mock_api):
@@ -115,15 +164,42 @@ def test_search_posts_to_connector_and_returns_options_and_hints(mock_api):
     assert out["optionCount"] == 5
     assert out["options"] == expected["options"]
     assert [o["name"] for o in out["options"]] == [
-        "Lumen Buds 2", "Tidewave Pulse", "Orbell Sport Fit", "Lumen Buds Pro", "Tidewave Run Lite"]
-    # Options come back in CIRQO's neutral order; the server does not reorder.
+        "Lumen Buds 2", "Tidewave Pulse", "Orbell Sport Fit", "Halcyon Buds Pro", "Tidewave Run Lite"]
+    # Options come back in CIRQO's neutral order; the server does not reorder, opted in or not.
     scores = [o["matchScore"] for o in out["options"]]
     assert scores == sorted(scores, reverse=True)
-    assert all(f["claimStatus"] == "correct" for o in out["options"] for f in o["facts"])
     assert out["narrowingHints"] == expected["narrowingHints"]
     assert out["narrowingHints"][0]["question"] == "Do you want noise cancelling?"
     assert out["rankingNote"] == "Neutral ranking. No brand can pay for placement."
     assert json.loads(result.content[0].text)["searchId"] == "srch_12"
+
+
+def test_search_passes_through_verified_flags_and_counts(mock_api):
+    """Opted-in and not-opted-in brands both come back, marked, with the totals CIRQO sent."""
+    out = call("cirqo_search", SEARCH).structured_content
+    by_name = {o["name"]: o for o in out["options"]}
+    assert by_name["Lumen Buds 2"]["verified"] is True
+    assert by_name["Halcyon Buds Pro"]["verified"] is False
+    assert {o["name"] for o in out["options"] if not o["verified"]} == {"Orbell Sport Fit", "Halcyon Buds Pro"}
+    # A verified option's facts are checked; an unverified option's facts are marked unverifiable, never correct.
+    for o in out["options"]:
+        expected_status = "correct" if o["verified"] else "unverifiable"
+        assert all(f["claimStatus"] == expected_status for f in o["facts"]), o["name"]
+    assert out["verifiedCount"] == 9
+    assert out["unverifiedCount"] == 6
+    assert out["verifiedCount"] == sum(len(o["facts"]) for o in out["options"] if o["verified"])
+    assert out["unverifiedCount"] == sum(len(o["facts"]) for o in out["options"] if not o["verified"])
+
+
+def test_search_counts_are_null_when_cirqo_does_not_send_them(mock_api):
+    """A pre-v1.5 backend sends no counts. The server passes them through as null rather than inventing them."""
+    _, replies = mock_api
+    old = copy.deepcopy(load_mock("connector_search.json"))
+    del old["verifiedCount"], old["unverifiedCount"]
+    replies[mcp_server.SEARCH_PATH]["json"] = old
+    out = call("cirqo_search", SEARCH).structured_content
+    assert out["verifiedCount"] is None and out["unverifiedCount"] is None
+    assert out["optionCount"] == 5
 
 
 def test_search_next_step_says_ask_a_hint_when_the_field_is_wide(mock_api):
@@ -165,7 +241,7 @@ def test_search_with_no_match_says_so(mock_api):
 
     out = call("cirqo_search", SEARCH).structured_content
     assert out["options"] == [] and out["optionCount"] == 0
-    assert "No verified option matches" in out["nextStep"] and "Do not guess" in out["nextStep"]
+    assert "No option matches" in out["nextStep"] and "Do not guess" in out["nextStep"]
 
 
 def test_search_constraints_are_optional(mock_api):
@@ -204,21 +280,29 @@ def test_funnel_search_ask_search_again_then_query(mock_api):
     assert hint["attribute"] == "noiseCancelling"
     assert "Ask the shopper" in first["nextStep"]
 
-    # 2. The shopper answered yes to the hint. Search again with the attribute added. CIRQO narrows to two.
+    # 2. The shopper answered yes to the hint. Search again with the attribute added. CIRQO narrows to two:
+    #    one from an opted-in brand, one from a brand that has not opted in.
     narrowed = copy.deepcopy(load_mock("connector_search.json"))
-    narrowed["options"] = [o for o in narrowed["options"] if o["name"] in ("Tidewave Pulse", "Lumen Buds Pro")]
+    narrowed["options"] = [o for o in narrowed["options"] if o["name"] in ("Tidewave Pulse", "Halcyon Buds Pro")]
     narrowed["optionCount"] = 2
+    narrowed["verifiedCount"], narrowed["unverifiedCount"] = 3, 3
     narrowed["narrowingHints"] = [{"attribute": "price", "question": "Is $1 more worth it?", "splits": {}}]
     replies[mcp_server.SEARCH_PATH]["json"] = narrowed
     with_answer = {**SEARCH, "constraints": {**SEARCH["constraints"], "mustHave": ["wireless", hint["attribute"]]}}
     second = call("cirqo_search", with_answer).structured_content
     assert second["optionCount"] == 2
+    assert [o["verified"] for o in second["options"]] == [True, False]
+    assert (second["verifiedCount"], second["unverifiedCount"]) == (3, 3)
     assert "Call cirqo_query" in second["nextStep"]
 
-    # 3. Narrow enough: the one pick.
+    # 3. Narrow enough: the one pick, with the unverified alternative marked as such.
+    replies[mcp_server.QUERY_PATH]["json"] = query_reply_v15()
     pick = call("cirqo_query", {"question": SEARCH["question"], "assistantId": "ast_01"}).structured_content
-    assert pick["recommendation"]["productId"] == "prod_001"
-    assert pick["claims"] and all(c["status"] == "correct" for c in pick["claims"])
+    assert pick["recommendation"]["productId"] == "prod_322"
+    assert pick["recommendation"]["verified"] is True
+    assert pick["alternatives"][0]["verified"] is False
+    assert {c["status"] for c in pick["claims"]} == {"correct", "unverifiable"}
+    assert (pick["verifiedCount"], pick["unverifiedCount"]) == (3, 1)
     assert pick["rankingNote"] == "Neutral ranking. No brand can pay for placement."
 
     # Exactly three HTTP calls, in funnel order, and the second search carried the answered hint.
@@ -252,6 +336,24 @@ def test_query_posts_to_connector_and_returns_answer_and_claims(mock_api):
     assert out["rankingNote"] == "Neutral ranking. No brand can pay for placement."
     # The text content is the same JSON, for clients that ignore structured output.
     assert json.loads(result.content[0].text)["answerText"] == expected["answerText"]
+    # Today's backend sends no counts; they pass through as null, never made up.
+    assert out["verifiedCount"] is None and out["unverifiedCount"] is None
+
+
+def test_query_passes_through_verified_flags_and_counts(mock_api):
+    """v1.5: the pick and each alternative say whether the brand verified them; claims and counts come through."""
+    _, replies = mock_api
+    replies[mcp_server.QUERY_PATH]["json"] = query_reply_v15()
+    out = call("cirqo_query", QUERY).structured_content
+    assert out["recommendation"]["verified"] is True
+    assert out["alternatives"][0]["verified"] is False
+    assert out["alternatives"][0]["facts"][0]["claimStatus"] == "unverifiable"
+    assert "Not verified by the brand: the Halcyon Buds Pro" in out["answerText"]
+    assert [c["status"] for c in out["claims"]] == ["correct", "correct", "correct", "unverifiable"]
+    assert out["claims"][-1]["verifiedValue"] is None
+    assert out["verifiedCount"] == 3 and out["unverifiedCount"] == 1
+    assert out["verifiedCount"] == sum(c["status"] == "correct" for c in out["claims"])
+    assert out["unverifiedCount"] == sum(c["status"] == "unverifiable" for c in out["claims"])
 
 
 def test_query_constraints_are_optional(mock_api):
