@@ -48,3 +48,8 @@
     margin: -16px -16px 0;
   }
 }
+
+/* The score card is shorter than the stat grid beside it: center its content instead of leaving a gap below. */
+.cq-score {
+  justify-content: center;
+}

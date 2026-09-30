@@ -1,5 +1,6 @@
-// Builds the dashboard view model (lib/dashboard/types.ts) from live contract data, then adds the
-// sample-only sections from sampleDashboard.ts when showSampleSections is on (lib/config/dashboardSample.ts).
+// Builds the dashboard view model (lib/dashboard/types.ts): starts from sampleDashboard.ts, then overrides every
+// section the contract covers with live data. When showSampleSections is false (lib/config/dashboardSample.ts),
+// every section with no live source is dropped.
 //
 // Live (contract): AI Visibility Score and its weekly change (round(visibilityRate x 100), decision 13),
 // the 30-day accuracy and hallucination trend, description accuracy, median time to resolve, claim
@@ -32,14 +33,10 @@ function weeklyScores(daily: TrustMetrics["daily"]): number[] {
 }
 
 function auditRow(entry: AuditEntry): ListRow {
-  return {
-    title: AUDIT_ACTION_LABELS[entry.action],
-    detail: entry.details,
-    ...(entry.targetId.startsWith("inc_") ? { href: `/claims/${encodeURIComponent(entry.targetId)}` } : {}),
-  };
+  return { title: AUDIT_ACTION_LABELS[entry.action], detail: entry.details, href: "/claims/reviewed" };
 }
 
-export function buildDashboard(input: LiveDashboardInput): DashboardViewModel {
+export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
   const { trust, claims, audit } = input;
   const { current, daily } = trust;
 
@@ -80,6 +77,10 @@ export function buildDashboard(input: LiveDashboardInput): DashboardViewModel {
       series: [
         { key: "accuracy", label: "Accuracy", title: `${daily.length}-day AI accuracy`, kind: "percent", values: daily.map((d) => d.accuracyRate) },
         { key: "hallucination", label: "Hallucination rate", kind: "percent", values: daily.map((d) => d.hallucinationRate) },
+        // The contract has no daily time-to-resolve, so this series is sample-only.
+        ...(showSampleSections
+          ? sampleDashboard.trust!.series.filter((x) => x.key === "resolve").map((x) => ({ ...x, label: "Time to resolve (sample)" }))
+          : []),
       ],
     },
     lists,
