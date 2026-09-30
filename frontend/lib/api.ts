@@ -62,7 +62,7 @@ import type {
 export { USE_MOCK };
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/+$/, "");
 
-const TIMEOUT_MS = 8000;
+const TIMEOUT_MS = 20000;
 /** The connector is the first call a visitor makes; a sleeping Render backend can take about a minute to wake. */
 const CONNECTOR_TIMEOUT_MS = 60000;
 
