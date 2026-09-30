@@ -3,7 +3,10 @@
 backend/seed/generate.py writes the JSON files to backend/seed/data/ (DECISIONS.md #17).
 Tests point SEED_DIR at backend/tests/fixtures/, a small set in the same shapes.
 
-All seed dates are shifted by whole days so the 30-day trend always ends today (UTC).
+Dates are moved to the present on load: daily metric dates by whole days, so the 30-day trend ends
+today (UTC); event timestamps by an exact offset, so the newest seeded event lands one minute before
+now. (Whole days alone put seed events up to a day in the future right after midnight UTC, which made
+a fresh approval look older than the incident it closed.)
 """
 
 import json
@@ -13,7 +16,7 @@ from pathlib import Path
 
 from db import (Answer, Assistant, AuditEntry, Base, Brand, Claim, DailyMetric, Incident, Owner, Product,
                 SessionLocal, Source, engine)
-from timeutil import shift_date, shift_iso, today
+from timeutil import now, parse_iso, shift_date, shift_iso_seconds, today
 
 BACKEND_DIR = Path(__file__).resolve().parent
 DEFAULT_SEED_DIR = BACKEND_DIR / "seed" / "data"
@@ -62,12 +65,32 @@ def previous_prices(row: dict) -> list[float]:
     return [p for p in prices if abs(p - current) > 0.005]
 
 
+EVENT_FIELDS = {"products": ("updatedAt", "verifiedAt"), "answers": ("capturedAt",), "claims": ("checkedAt",),
+                "incidents": ("createdAt", "resolvedAt"), "audit": ("timestamp",)}
+LIST_KEYS = {"products": "products", "answers": "answers", "claims": "claims", "incidents": "incidents",
+             "audit": "entries"}
+
+
+def event_offset(folder: Path) -> float:
+    """Seconds to add to every seeded timestamp so the newest one is one minute before now."""
+    stamps = [parse_iso(r[f]) for name, fields in EVENT_FIELDS.items()
+              for r in read_list(folder, name, LIST_KEYS[name]) for f in fields if r.get(f)]
+    if not stamps:
+        return 0.0
+    return (now() - max(stamps)).total_seconds() - 60
+
+
 def load(db, folder: Path) -> dict:
     daily_rows = read_list(folder, "daily_metrics", "daily")
     shift = 0
     if daily_rows:
         last = max(date.fromisoformat(r["date"]) for r in daily_rows)
         shift = (today() - last).days
+
+    offset = event_offset(folder)
+
+    def moved(value):
+        return shift_iso_seconds(value, offset)
 
     brands = read_list(folder, "brands", "brands")
     for r in brands:
@@ -78,8 +101,8 @@ def load(db, folder: Path) -> dict:
         db.add(Product(product_id=r["productId"], brand_id=r["brandId"], name=r["name"], price=float(r["price"]),
                        currency=pick(r, "currency", default="USD"), availability=r["availability"],
                        specs=r["specs"], return_policy_days=int(r["returnPolicyDays"]),
-                       updated_at=shift_iso(r["updatedAt"], shift), fact_source=r["factSource"],
-                       fact_source_url=r["factSourceUrl"], verified_at=shift_iso(r["verifiedAt"], shift),
+                       updated_at=moved(r["updatedAt"]), fact_source=r["factSource"],
+                       fact_source_url=r["factSourceUrl"], verified_at=moved(r["verifiedAt"]),
                        price_history=previous_prices(r),
                        features=[f.lower() for f in pick(r, "features", default=[])]))
 
@@ -96,14 +119,14 @@ def load(db, folder: Path) -> dict:
         db.add(Answer(answer_id=r["answerId"], query_text=r["queryText"], assistant_id=r["assistantId"],
                       answer_text=r["answerText"], brand_mentioned=bool(pick(r, "brandMentioned", default=False)),
                       rank=pick(r, "rank"), source_ids=pick(r, "sourceIds", default=[]),
-                      captured_at=shift_iso(r["capturedAt"], shift), source=pick(r, "source", default="mock")))
+                      captured_at=moved(r["capturedAt"]), source=pick(r, "source", default="mock")))
 
     for r in read_list(folder, "claims", "claims"):
         db.add(Claim(claim_id=r["claimId"], answer_id=r["answerId"], product_id=pick(r, "productId"), text=r["text"],
                      claim_type=r["claimType"], extracted_value=pick(r, "extractedValue"),
                      verified_value=pick(r, "verifiedValue"), status=r["status"], rule_id=pick(r, "ruleId"),
                      fact_id=pick(r, "factId"), reason=pick(r, "reason", default=""),
-                     checked_at=shift_iso(r["checkedAt"], shift)))
+                     checked_at=moved(r["checkedAt"])))
 
     for r in read_list(folder, "incidents", "incidents"):
         db.add(Incident(incident_id=r["incidentId"], claim_id=r["claimId"], answer_id=r["answerId"],
@@ -112,11 +135,11 @@ def load(db, folder: Path) -> dict:
                         verified_fact=pick(r, "verifiedFact"), proposed_fix=pick(r, "proposedFix"),
                         owner_id=r["ownerId"], owner_name=r["ownerName"],
                         false_alarm=bool(pick(r, "falseAlarm", default=False)),
-                        created_at=shift_iso(r["createdAt"], shift),
-                        resolved_at=shift_iso(pick(r, "resolvedAt"), shift), resolved_by=pick(r, "resolvedBy")))
+                        created_at=moved(r["createdAt"]),
+                        resolved_at=moved(pick(r, "resolvedAt")), resolved_by=pick(r, "resolvedBy")))
 
     for r in read_list(folder, "audit", "entries"):
-        db.add(AuditEntry(audit_id=r["auditId"], timestamp=shift_iso(r["timestamp"], shift), actor=r["actor"],
+        db.add(AuditEntry(audit_id=r["auditId"], timestamp=moved(r["timestamp"]), actor=r["actor"],
                           actor_type=r["actorType"], action=r["action"], target_id=r["targetId"],
                           details=pick(r, "details", default="")))
 
@@ -126,7 +149,7 @@ def load(db, folder: Path) -> dict:
                            incidents_opened=r["incidentsOpened"], visibility_rate=r["visibilityRate"]))
 
     db.commit()
-    return {"folder": str(folder), "shiftDays": shift}
+    return {"folder": str(folder), "shiftDays": shift, "shiftSeconds": offset}
 
 
 def rebuild_database() -> dict:
