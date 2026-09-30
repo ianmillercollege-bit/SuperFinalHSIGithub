@@ -50,3 +50,7 @@ backend would. The frontend never writes to `shared/mock/`.
 
 The footer calls the backend's `/health` on every page load and shows online/offline. The
 backend must allow this site's address in its CORS settings.
+
+## Trademarks
+
+Names and logos belong to their owners; CIRQO is not affiliated with or endorsed by them.

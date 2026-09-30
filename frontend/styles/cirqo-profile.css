@@ -1,0 +1,50 @@
+/* Profile page + the clickable sidebar user chip. Needs cirqo-dashboard.css, cirqo-screens.css and cirqo-coach.css (for .cq-rise). */
+.cq-avatar { overflow: hidden; }
+.cq-avatar img, .cq-prof-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cq-user.is-link { text-decoration: none; color: inherit; border-radius: 10px; padding: 6px; margin: -6px; transition: background 0.15s; }
+.cq-user.is-link:hover, .cq-user.is-link.is-active { background: var(--cq-navy-raised); }
+.cq-user.is-link:focus-visible { outline: 2px solid var(--cq-on-navy); outline-offset: 2px; }
+.cq-user-go { font-size: 20px; line-height: 1; color: var(--cq-on-navy-muted); transition: transform 0.15s; }
+.cq-user.is-link:hover .cq-user-go { transform: translateX(2px); color: var(--cq-on-navy); }
+
+.cq-prof { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 16px; align-items: start; }
+.cq-prof-id { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; padding: 28px 22px; position: sticky; top: 16px; }
+.cq-prof-drop { position: relative; border-radius: 50%; padding: 6px; border: 2px dashed transparent; transition: border-color 0.15s, background 0.15s; }
+.cq-prof-drop.is-over { border-color: var(--cq-navy); background: var(--cq-muted-bg); }
+.cq-prof-avatar { display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--cq-navy); color: var(--cq-on-navy); font-family: var(--cq-font-display); font-weight: 700; overflow: hidden; box-shadow: 0 6px 20px rgba(12, 35, 64, 0.18); }
+.cq-prof-cam { position: absolute; right: 6px; bottom: 6px; width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--cq-card); background: var(--cq-orange); color: var(--cq-navy); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.15s; }
+.cq-prof-cam:hover:not(:disabled) { transform: scale(1.08); }
+.cq-prof-cam:focus-visible { outline: 2px solid var(--cq-navy); outline-offset: 2px; }
+.cq-prof-photo-actions { display: flex; align-items: center; gap: 8px; }
+.cq-prof-name { display: flex; flex-direction: column; gap: 2px; min-width: 0; max-width: 100%; }
+.cq-prof-name h2 { overflow-wrap: anywhere; } .cq-prof-name span { font-size: 14px; color: var(--cq-text-muted); overflow-wrap: anywhere; }
+.cq-prof-meter { width: 100%; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--cq-text-muted); }
+.cq-prof-meter .cq-bar > div { transition: width 0.4s ease; }
+.cq-prof-main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+.cq-tiles { display: flex; flex-direction: column; gap: 10px; }
+.cq-tile { display: flex; align-items: center; gap: 12px; border: 1px solid var(--cq-border); border-radius: 12px; padding: 12px 14px; background: var(--cq-card); cursor: pointer; position: relative; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; }
+.cq-tile:hover { border-color: var(--cq-border-strong); box-shadow: 0 4px 14px rgba(12, 35, 64, 0.07); }
+.cq-tile:focus-within { outline: 2px solid var(--cq-navy); outline-offset: 2px; }
+.cq-tile.is-on { border-color: var(--cq-navy); background: var(--cq-muted-bg); }
+.cq-tile input { width: 20px; height: 20px; accent-color: var(--cq-navy); flex-shrink: 0; margin: 0; cursor: pointer; }
+.cq-tile .mono { width: 40px; height: 40px; border-radius: 10px; background: var(--cq-navy); color: var(--cq-on-navy); font-family: var(--cq-font-display); font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cq-tile .t { display: flex; flex-direction: column; flex: 1; min-width: 0; } .cq-tile .t b { font-size: 15px; font-weight: 600; } .cq-tile .t span { font-size: 12px; color: var(--cq-text-muted); }
+.cq-tile .logo { box-sizing: border-box; width: 40px; height: 40px; border-radius: 10px; background: #FFFFFF; border: 1px solid var(--cq-border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cq-tile .logo img { width: 26px; height: 26px; object-fit: contain; display: block; }
+.cq-tile .chk { display: none; }
+
+.cq-prof-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--cq-card); border: 1px solid var(--cq-border); border-radius: var(--cq-radius); padding: 12px 16px; position: sticky; bottom: 12px; box-shadow: 0 -6px 20px rgba(245, 246, 248, 0.9); }
+.cq-prof-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.cq-prof-status { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
+.cq-prof-status.is-ok { color: var(--cq-ok); } .cq-prof-status.is-dirty { color: var(--cq-warn); } .cq-prof-status.is-bad { color: var(--cq-bad); }
+.cq-btn.is-quiet.is-danger { color: var(--cq-bad); font-weight: 600; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .cq-tile.is-on { animation: cq-pulse 0.3s ease-out; }
+  .cq-prof-status.is-ok svg { animation: cq-pop 0.35s cubic-bezier(0.3, 1.5, 0.5, 1) both; }
+}
+@keyframes cq-pulse { 50% { transform: scale(1.012); } }
+@media (prefers-reduced-motion: reduce) { .cq-tile, .cq-prof-cam, .cq-user.is-link, .cq-user-go, .cq-prof-meter .cq-bar > div { transition: none; } }
+@media (max-width: 1100px) { .cq-prof { grid-template-columns: 1fr; } .cq-prof-id { position: static; } }
+@media (max-width: 700px) { .cq-tile { flex-wrap: wrap; } .cq-prof-bar { position: static; } .cq-prof-actions { width: 100%; } .cq-prof-actions .cq-btn { flex: 1; } }
