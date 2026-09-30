@@ -155,14 +155,26 @@ function OpportunityPanel({ rows, links }: { rows: OpportunityRow[]; links?: Das
 }
 
 function ListCard({ card }: { card: ListCardData }) {
+  const groups = card.groups?.filter((g) => g.rows.length > 0);
+  const empty = groups ? groups.length === 0 : card.rows.length === 0;
   return (
     <div className="cq-card cq-card-col cq-flex1">
       <h2 className="cq-h2">{card.title}</h2>
-      {card.rows.length === 0 && <span className="cq-stat-note">{card.emptyText ?? 'Nothing to show yet.'}</span>}
-      {card.rows.map((r, i) => {
-        const inner = (<><span className="cq-list-title">{r.title}</span><span className="cq-list-detail">{r.detail}</span></>);
-        return r.href ? <Link key={i} className="cq-list-row" href={r.href}>{inner}</Link> : <div key={i} className="cq-list-row">{inner}</div>;
-      })}
+      {empty && <span className="cq-stat-note">{card.emptyText ?? 'Nothing to show yet.'}</span>}
+      {groups
+        ? groups.map((g) => (
+            <section key={g.title} className="cq-igroup">
+              <h3 className="cq-igroup-head"><span className={`cq-igroup-dot is-${g.tone}`} aria-hidden="true" />{g.title}</h3>
+              {g.rows.map((r, i) => {
+                const inner = (<><span className="cq-igroup-code">{r.code}</span><span className="cq-list-detail">{r.detail}</span></>);
+                return r.href ? <Link key={i} className="cq-igroup-row" href={r.href}>{inner}</Link> : <div key={i} className="cq-igroup-row">{inner}</div>;
+              })}
+            </section>
+          ))
+        : card.rows.map((r, i) => {
+            const inner = (<><span className="cq-list-title">{r.title}</span><span className="cq-list-detail">{r.detail}</span></>);
+            return r.href ? <Link key={i} className="cq-list-row" href={r.href}>{inner}</Link> : <div key={i} className="cq-list-row">{inner}</div>;
+          })}
     </div>
   );
 }

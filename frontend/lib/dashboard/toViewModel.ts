@@ -6,11 +6,11 @@
 // the 30-day accuracy and hallucination trend, description accuracy, median time to resolve, claim
 // counts, and the latest audit entries. Sample-only: everything marked `sample` in sampleDashboard.ts.
 import { showSampleSections } from "../config/dashboardSample";
-import { AUDIT_ACTION_LABELS } from "../labels";
 import { DEFAULT_ASSUMPTIONS, simulate } from "../screens/simulate";
 import type { Answer, AuditEntry, TrustMetrics, VisibilitySummary } from "../types";
 import { liveVisibility, scoreFromRate } from "./liveVisibility";
 import type { DashboardViewModel, ListRow, StatCardData } from "./types";
+import { buildInsightGroups, type InsightItem } from "./insightGroups";
 import { sampleDashboard } from "./sampleDashboard";
 
 export interface LiveDashboardInput {
@@ -18,7 +18,7 @@ export interface LiveDashboardInput {
   businessName: string;
   trust: TrustMetrics;
   /** Open = pending_approval + escalated; null while loading or if it failed. */
-  claims: { open: number; pending: number; decided: number; decidedCapped: boolean } | null;
+  claims: { open: number; pending: number; decided: number; decidedCapped: boolean; insights: InsightItem[] } | null;
   audit: AuditEntry[] | null;
   /** The recorded-answers visibility (GET /visibility/summary and /answers). When present it is the one visibility number on every screen. */
   visibility?: { summary: VisibilitySummary; answers: Answer[] } | null;
@@ -36,12 +36,8 @@ function weeklyScores(daily: TrustMetrics["daily"]): number[] {
   });
 }
 
-function auditRow(entry: AuditEntry): ListRow {
-  return { title: AUDIT_ACTION_LABELS[entry.action], detail: entry.details, href: "/claims/reviewed" };
-}
-
 export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
-  const { trust, claims, audit } = input;
+  const { trust, claims } = input;
   const { current, daily } = trust;
 
   const weekly = weeklyScores(daily);
@@ -79,8 +75,9 @@ export function toViewModel(input: LiveDashboardInput): DashboardViewModel {
 
   const lists = [];
   if (showSampleSections) lists.push(...sampleDashboard.lists.filter((l) => l.sample));
-  if (audit) {
-    lists.push({ id: "insights", title: "Latest insights", rows: audit.slice(0, 4).map(auditRow), emptyText: "No insights recorded yet." });
+  // Grouped from the incident records (see toInsightItems). Left out while they load, so no sample rows show in the meantime.
+  if (claims) {
+    lists.push({ id: "insights", title: "Latest insights", rows: [], groups: buildInsightGroups(claims.insights, 1), emptyText: "No insights recorded yet." });
   }
 
   return {
