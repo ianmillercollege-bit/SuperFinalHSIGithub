@@ -72,6 +72,8 @@ Developer-mode connector, through the server's `search` and `fetch` tools) and G
 `~/.gemini/settings.json`; the Gemini consumer app does not take custom connectors yet); `backend/connector/README.md` has
 the three sets of steps and a local install for Claude Desktop.
 
+**Website demo (embed anywhere).** `https://frontdoor-api-hiel.onrender.com/demo` is a chat with Claude using the CIRQO plugin, with each tool call shown and a panel that lights up per CIRQO feature. Paste it into any site as an iframe; the snippet and settings are in [`EMBED_DEMO.md`](EMBED_DEMO.md).
+
 **Brands (2 minutes).** Open https://utsa-tech-09302026.vercel.app, click **Connect your catalog**, enter the
 company name, the owner's name and a few products. The company gets a dashboard, an API key and verified facts
 in every assistant answer from that moment. A company already listed from public data claims its listing instead
