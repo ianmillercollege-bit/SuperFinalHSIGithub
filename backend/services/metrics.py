@@ -106,6 +106,16 @@ def false_alarm_rate(incidents: list[Incident]) -> float:
     return round(sum(1 for i in human_closed if i.status == "rejected" and i.false_alarm) / len(human_closed), 2)
 
 
+def constraint_compliance_rate(db, days: int) -> float:
+    """Plan 5.2 KPI: share of connector answers with stated hard constraints whose every shown product met them.
+    Platform-wide (the connector serves all brands at once). 1.0 when no constrained answer was recorded yet."""
+    rows = db.scalars(select(Answer).where(Answer.captured_at >= days_ago_iso(days),
+                                           Answer.constraints_stated > 0)).all()
+    if not rows:
+        return 1.0
+    return round(sum(1 for a in rows if a.constraints_met) / len(rows), 2)
+
+
 def trust_metrics(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dict:
     rows = db.scalars(select(DailyMetric).where(DailyMetric.brand_id == brand_id)
                       .order_by(DailyMetric.date)).all()[-days:]
@@ -125,6 +135,7 @@ def trust_metrics(db, days: int, brand_id: str = C.DEFAULT_BRAND_ID) -> dict:
             "medianTimeToResolveHours": median_hours_to_resolve(recently_closed),
             "falseAlarmRate": false_alarm_rate(recently_closed),
             "visibilityRate": mean("visibility_rate"),
+            "constraintComplianceRate": constraint_compliance_rate(db, days),
         },
         "daily": [{"date": r.date, "accuracyRate": r.accuracy_rate, "hallucinationRate": r.hallucination_rate,
                    "claimsChecked": r.claims_checked, "incidentsOpened": r.incidents_opened,

@@ -147,6 +147,10 @@ class Answer(Base):
     source_ids: Mapped[list] = mapped_column(JSON, default=list)
     captured_at: Mapped[str] = mapped_column(String)
     source: Mapped[str] = mapped_column(String, default="mock")
+    # v1.7 (plan 5.2 KPI): how many hard constraints the shopper stated (maxPrice, each mustHave) and whether
+    # every product CIRQO returned met all of them. Enforced by rule before display; measured here.
+    constraints_stated: Mapped[int] = mapped_column(Integer, default=0)
+    constraints_met: Mapped[bool] = mapped_column(Boolean, default=True)
     # v1.3: the brand whose tracked prompt produced this answer. None = brand-neutral (connector and
     # "File a claim" answers), visible to every brand.
     brand_id: Mapped[str | None] = mapped_column(String, nullable=True)

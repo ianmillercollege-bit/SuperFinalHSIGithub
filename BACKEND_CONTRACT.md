@@ -116,7 +116,7 @@ Status is decided per claim against the verified product facts:
 
 | ruleId | Severity | Handling |
 |--------|----------|----------|
-| `PRICE_MISMATCH`, `PRICE_OUTDATED` | under 5% off: `low`; 5% to under 15%: `medium`; 15% or more: `high` | low/medium: `auto_fix`; high: `human_approval` |
+| `PRICE_MISMATCH`, `PRICE_OUTDATED` | under 5% off: `low`; 5% to under 15%: `medium`; 15% or more: `high` | `human_approval` at every severity (business plan 5.1: any modification to pricing requires human review first; v1.7, decision 21) |
 | `AVAILABILITY_MISMATCH` | `medium` | `auto_fix` |
 | `SPEC_MISMATCH` | `medium` | `auto_fix` |
 | `INVENTED_FEATURE` | `high` | `human_approval` |
@@ -173,7 +173,21 @@ otherProductName, attribute, text}]` (the verified comparison facts). 404 for an
 takes `?optedIn=true|false` (section 7d). The MCP tool `cirqo_details` calls this so an assistant asked for depth
 quotes catalog facts instead of its memory.
 
+### Comparison slot (v1.7, decision 50)
+`POST /connector/search` adds `"publicComparison"`: `null` whenever any of the five options comes from a brand that
+has not opted in; otherwise the best-ranked not-opted-in product (same shape as an option, `verified: false`, facts
+`unverifiable`). The five `options` are the neutral ranking and are never changed by it; the neutrality test still
+holds. The MCP tool passes it through with `verificationLabel` and tells the assistant to show it as a separate line.
+
+### Constraint-compliance KPI (v1.7, plan 5.2)
+Every connector answer records `constraintsStated` (a budget counts one, each must-have one) and `constraintsMet`
+(every product shown met all of them). `GET /metrics/trust` `current` gains **`constraintComplianceRate`**: the share
+of constrained connector answers in the period whose products all met their constraints (1.0 when none yet). Plan
+target: 96% ± 2%. Also on the client API.
+
 ### Remote MCP endpoint (v1.7)
+The endpoint also exposes ChatGPT-shaped `search` (`{query}` → `{results: [{id, title, url}]}`) and `fetch` (`{id}` →
+`{id, title, text, url, metadata}`) tools that wrap the same calls, so ChatGPT connectors and deep research work.
 `POST /mcp` (no `/api/v1` prefix) serves the two MCP tools `cirqo_search` and `cirqo_query` over Streamable HTTP,
 stateless, JSON responses; clients send `Accept: application/json, text/event-stream`. It is the same code as
 `backend/mcp_server.py` and calls the REST endpoints below over loopback. Test: `tools/list` returns both tools.

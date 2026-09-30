@@ -65,14 +65,28 @@ Silence followed by `exit code: 0` is the good outcome.
 
 ## Option A (no install): add CIRQO as a custom connector
 
-The same tools are served by the hosted backend as a remote MCP endpoint:
+The same tools are served by the hosted backend as a remote MCP endpoint, for every assistant that speaks MCP:
 
 ```
 https://frontdoor-api-hiel.onrender.com/mcp
 ```
 
-In claude.ai (web or desktop app, Pro or Max plan): **Settings, Connectors, Add custom connector**, name `CIRQO`,
-paste the URL above, no authentication, **Add**. Then in a new chat enable CIRQO under the tools menu and ask:
+**Claude** (web or desktop app, Pro or Max plan): **Settings, Connectors, Add custom connector**, name `CIRQO`,
+paste the URL above, no authentication, **Add**.
+
+**ChatGPT** (Plus, Pro, Team or Enterprise): **Settings, Connectors, Advanced, turn on Developer mode**, then
+**Create**: name `CIRQO`, MCP server URL as above, authentication "No authentication", **Create**. In a chat, open
+the tools menu, pick CIRQO, and ask normally. ChatGPT's framework calls the connector's `search` and `fetch` tools,
+which wrap the same CIRQO endpoints; deep research mode uses them too.
+
+**Gemini** (Gemini CLI or a Gemini-based agent): add the server to `~/.gemini/settings.json`:
+
+```json
+{"mcpServers": {"cirqo": {"httpUrl": "https://frontdoor-api-hiel.onrender.com/mcp"}}}
+```
+
+then `/mcp` inside the CLI lists `cirqo_search`, `cirqo_query` and `cirqo_details`. The Gemini consumer app does not
+yet take custom connectors; when it does, the same URL applies. Then in a new chat enable CIRQO under the tools menu and ask:
 "I want headphones for the gym, budget around $150." Nothing to install, no config file, no restart. The free-tier
 backend may take up to a minute to answer the first call while it wakes up.
 

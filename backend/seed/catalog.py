@@ -378,7 +378,7 @@ def build_dashboards(data: dict, catalog_rows: dict, checker) -> dict[str, list[
                               f"{r.rule_id or 'correct'}: {r.reason}"))
                 if not r.rule_id or r.rule_id == "NO_FACT":
                     continue
-                severity, handling = checker.severity_and_handling(r.rule_id, r.pct_off)
+                severity, handling = checker.severity_and_handling(r.rule_id, r.pct_off, legacy_price_auto_fix=True)  # seeded history
                 product = session.get(Product, c.product_id)
                 summary, ai_said, verified_fact, fix = checker.describe(c, r, product, assistant_name[assistant_id])
                 incident_id = f"inc_{next(ids['inc'])}"

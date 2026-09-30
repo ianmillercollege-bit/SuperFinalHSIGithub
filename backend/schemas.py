@@ -310,6 +310,9 @@ class ConnectorSearchOut(CamelModel):
     narrowing_hints: list[NarrowingHint]
     verified_count: int  # v1.5
     unverified_count: int
+    # v1.7 decision 49: when no option comes from a not-opted-in brand, the best-ranked one, for comparison.
+    # Never part of the ranked list; the five options above it are untouched.
+    public_comparison: SearchOption | None = None
     ranking_note: str
     verified_at: str
     source: Source
@@ -485,6 +488,7 @@ class TrustCurrent(CamelModel):
     median_time_to_resolve_hours: float
     false_alarm_rate: float
     visibility_rate: float
+    constraint_compliance_rate: float = 1.0  # v1.7, plan 5.2 KPI (target 96%)
 
 
 class TrustDaily(CamelModel):

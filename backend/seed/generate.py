@@ -293,7 +293,7 @@ def build() -> dict[str, list[dict]]:
             if not r.rule_id or r.rule_id == "NO_FACT":
                 continue  # NO_FACT is counted but never creates an incident
 
-            severity, handling = severity_and_handling(r.rule_id, r.pct_off)
+            severity, handling = severity_and_handling(r.rule_id, r.pct_off, legacy_price_auto_fix=True)  # seeded history
             product = session.get(Product, c.product_id) if c.product_id else None
             summary, ai_said, verified_fact, fix = describe(c, r, product, assistant_name[assistant_id])
             owner = owner_for[r.rule_id]
@@ -538,7 +538,7 @@ def build_brand_account(brand_id: str, data: dict[str, list[dict]]) -> dict[str,
                           f"{r.rule_id or 'correct'}: {r.reason}"))
             if not r.rule_id or r.rule_id == "NO_FACT":
                 continue
-            severity, handling = severity_and_handling(r.rule_id, r.pct_off)
+            severity, handling = severity_and_handling(r.rule_id, r.pct_off, legacy_price_auto_fix=True)  # seeded history
             product = session.get(Product, c.product_id)
             summary, ai_said, verified_fact, fix = describe(c, r, product, assistant_name[assistant_id])
             owner = owner_for[r.rule_id]

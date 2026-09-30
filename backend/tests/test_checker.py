@@ -57,11 +57,11 @@ def test_pronoun_refers_to_last_product():
 
 
 @pytest.mark.parametrize("rule, pct, severity, handling", [
-    ("PRICE_MISMATCH", 0.049, "low", "auto_fix"),
-    ("PRICE_MISMATCH", 0.05, "medium", "auto_fix"),
-    ("PRICE_MISMATCH", 0.149, "medium", "auto_fix"),
+    ("PRICE_MISMATCH", 0.049, "low", "human_approval"),  # plan 5.1: every price change is reviewed by a person
+    ("PRICE_MISMATCH", 0.05, "medium", "human_approval"),
+    ("PRICE_MISMATCH", 0.149, "medium", "human_approval"),
     ("PRICE_MISMATCH", 0.15, "high", "human_approval"),
-    ("PRICE_OUTDATED", 0.02, "low", "auto_fix"),
+    ("PRICE_OUTDATED", 0.02, "low", "human_approval"),
     ("PRICE_OUTDATED", 0.20, "high", "human_approval"),
     ("AVAILABILITY_MISMATCH", None, "medium", "auto_fix"),
     ("SPEC_MISMATCH", None, "medium", "auto_fix"),
@@ -87,9 +87,9 @@ def test_incidents_follow_handling_rules(client):
                                   "The Kestrel Pocket 12 is certified child-safe. The Zephyr Book 13 is fine.")
     assert body["source"] == "mock"
     by_rule = {(i["ruleId"], i["severity"]): i for i in incidents}
-    low = by_rule[("PRICE_MISMATCH", "low")]  # 4.7% off
+    low = by_rule[("PRICE_MISMATCH", "low")]  # 4.7% off: still a person's call (business plan 5.1, decision 21)
     assert (low["handling"], low["status"], low["resolvedBy"], low["ownerName"]) == \
-        ("auto_fix", "auto_fixed", "system", "Maria Lopez")
+        ("human_approval", "pending_approval", None, "Maria Lopez")
     high = by_rule[("PRICE_MISMATCH", "high")]  # 16.8% off
     assert (high["handling"], high["status"], high["resolvedAt"]) == ("human_approval", "pending_approval", None)
     safety = by_rule[("SAFETY_LEGAL", "critical")]

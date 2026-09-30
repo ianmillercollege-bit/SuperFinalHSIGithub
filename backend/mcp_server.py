@@ -169,6 +169,9 @@ server = MCPServer(
         "6. Results mix opted-in brands (verified: true, facts checked against the brand's data, claimStatus "
         "correct) and brands that have not opted in (verified: false, facts from public listings, claimStatus "
         "unverifiable); verifiedCount and unverifiedCount total them. " + VERIFIED_RULE + "\n"
+        "6b. When the result carries publicComparison, show it right after the list as a sixth line: \"For "
+        "comparison, from a brand that has not opted in: <name> (Not CIRQO Verified), $<price>\". It is not part "
+        "of the ranking; it is there so the shopper can weigh a household name against the verified options.\n"
         "7. For depth on one option (full specs, comparisons with other products, when the brand last verified "
         "the record), call cirqo_details with its productId. Say \"CIRQO Verified\" or \"Not CIRQO "
         "Verified\" next to every product you name."),
@@ -188,7 +191,8 @@ server = MCPServer(
         "nothing matches, so say that instead of guessing. Each option carries verified (true when the brand "
         "opted in and its facts were checked, false when the facts come from a public listing) and each fact "
         "carries claimStatus (correct or unverifiable); verifiedCount and unverifiedCount total them. Show the "
-        "shopper the ranked list first, every product with its verificationLabel. " + VERIFIED_RULE + " " + ONLY_RULE),
+        "shopper the ranked list first, every product with its verificationLabel, then publicComparison (when "
+        "present) as a sixth, clearly separate line. " + VERIFIED_RULE + " " + ONLY_RULE),
 )
 async def cirqo_search(
     question: str = Field(description='What the shopper said, e.g. "I want headphones for the gym".'),
@@ -200,6 +204,9 @@ async def cirqo_search(
 ) -> dict[str, Any]:
     body = await post_to_cirqo(SEARCH_PATH, build_payload(question, assistantId, constraints))
     options = [{**o, "verificationLabel": label(o.get("verified"))} for o in body.get("options", [])]
+    comparison = body.get("publicComparison")
+    if comparison:
+        comparison = {**comparison, "verificationLabel": label(comparison.get("verified"))}
     hints = body.get("narrowingHints", [])
     option_count = body.get("optionCount", len(options))
     return {
@@ -211,6 +218,7 @@ async def cirqo_search(
         "nextStep": next_step(option_count, hints),
         "verifiedCount": body.get("verifiedCount"),
         "unverifiedCount": body.get("unverifiedCount"),
+        "publicComparison": comparison,
         "rankingNote": body.get("rankingNote"),
         "verifiedAt": body.get("verifiedAt"),
         "source": body.get("source"),
@@ -294,6 +302,51 @@ async def cirqo_details(
         "verifiedAt": body.get("verifiedAt"), "condition": body.get("condition"),
         "comparisons": body.get("comparisons", []),
     }
+
+
+# ---- ChatGPT-compatible tool names -----------------------------------------------------------------------------
+# ChatGPT's connector framework (and its deep research mode) looks for two tools named exactly `search` and `fetch`
+# with fixed shapes. They wrap the same CIRQO calls, so one endpoint serves Claude, ChatGPT and Gemini.
+# Gemini clients (Gemini CLI, Vertex agents) call the cirqo_* tools directly over the same streamable HTTP URL.
+
+DEFAULT_ASSISTANT_ID = os.environ.get("CIRQO_ASSISTANT_ID", "ast_01")
+
+
+@server.tool(
+    name="search",
+    description=(
+        "ChatGPT connector search. " + USE_RULE + " Returns CIRQO's ranked product matches for a shopping query as "
+        "{id, title, url} results; the title ends with (CIRQO Verified) or (Not CIRQO Verified). Call fetch with an "
+        "id for the product's full record. " + ONLY_RULE),
+)
+async def search(query: str = Field(description="What the shopper is looking for, in their words.")) -> dict[str, Any]:
+    body = await post_to_cirqo(SEARCH_PATH, build_payload(query, DEFAULT_ASSISTANT_ID, None))
+    options = list(body.get("options", []))
+    if body.get("publicComparison"):
+        options.append(body["publicComparison"])
+    return {"results": [{"id": o["productId"],
+                         "title": f"{o['name']} ({label(o.get('verified'))}) ${o['price']:.2f}",
+                         "url": f"{api_url()}{DETAILS_PATH}/{o['productId']}"} for o in options]}
+
+
+@server.tool(
+    name="fetch",
+    description=(
+        "ChatGPT connector fetch. Returns one CIRQO product record by id (from search): price, availability, specs, "
+        "verified comparisons and whether it is CIRQO Verified, as {id, title, text, url, metadata}. " + ONLY_RULE),
+)
+async def fetch(id: str = Field(description="A product id from search, e.g. prod_DEI-005-02.")) -> dict[str, Any]:
+    p = await get_from_cirqo(f"{DETAILS_PATH}/{id}")
+    lab = label(p.get("verified"))
+    specs = ", ".join(f"{k}: {v}" for k, v in (p.get("specs") or {}).items() if k not in ("otherNames",))
+    comparisons = "; ".join(c.get("text", "") for c in p.get("comparisons", [])) or "none recorded"
+    text = (f"{p.get('name')} by {p.get('brandName')} ({lab}). Price ${p.get('price'):.2f} {p.get('currency', 'USD')}, "
+            f"{p.get('availability')}, {p.get('returnPolicyDays')}-day returns. Specs: {specs}. "
+            f"Verified comparisons: {comparisons}. Fact source: {p.get('factSource')} (verified {p.get('verifiedAt')}).")
+    return {"id": p.get("productId"), "title": f"{p.get('name')} ({lab})", "text": text,
+            "url": f"{api_url()}{DETAILS_PATH}/{p.get('productId')}",
+            "metadata": {"verified": p.get("verified"), "verificationLabel": lab, "brandName": p.get("brandName"),
+                         "price": p.get("price"), "category": p.get("category")}}
 
 
 if __name__ == "__main__":

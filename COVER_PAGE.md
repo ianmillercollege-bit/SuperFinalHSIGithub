@@ -8,7 +8,7 @@ Theme: "The New Front Door: Trustworthy AI Product Discovery"
 
 **School:** The University of Texas at San Antonio (UTSA)
 
-**Team / Product:** CIRQO
+**Team / Company:** CIRQO AI (product: CIRQO)
 
 **Members:** Ian Miller, Zain Imam, Eniyan Aravindan, Aditya Ballal, Matthew Hernandez, Abraham Ly
 
