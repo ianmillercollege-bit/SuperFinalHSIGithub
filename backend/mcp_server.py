@@ -24,6 +24,7 @@ The MCP protocol runs over stdin/stdout, so this module must never print to stdo
 import logging
 import os
 import sys
+from contextvars import ContextVar
 from typing import Any, Literal
 
 import httpx
@@ -48,8 +49,17 @@ logging.basicConfig(stream=sys.stderr, level=logging.INFO, format="%(levelname)s
 log = logging.getLogger("cirqo-mcp")
 
 
+# Set by mcp_http.py for the length of one /mcp request so the tools call the hosting process over loopback.
+# A context variable, not an environment variable: it is visible only to that request's tasks, so the stdio
+# server and the tests that import both modules keep seeing CIRQO_API_URL or the default.
+api_url_override: ContextVar[str | None] = ContextVar("cirqo_api_url_override", default=None)
+
+
 def api_url() -> str:
-    """Base URL of the CIRQO API. Read at call time so the environment can change it."""
+    """Base URL of the CIRQO API. Read at call time so the environment (or a request override) can change it."""
+    override = api_url_override.get()
+    if override is not None:
+        return override.rstrip("/")
     return os.environ.get("CIRQO_API_URL", DEFAULT_API_URL).rstrip("/")
 
 

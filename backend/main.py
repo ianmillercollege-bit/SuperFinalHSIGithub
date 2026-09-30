@@ -6,7 +6,7 @@ from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from errors import register_error_handlers
-from mcp_http import MCP_PATH, mcp_asgi, session_manager
+from mcp_http import MCP_PATH, mcp_asgi, mcp_lifespan
 from routers import auth, brands, client, community, connector, dashboard, governance, shopper
 from schemas import HealthResponse
 from seed_loader import rebuild_database
@@ -28,8 +28,9 @@ ALLOWED_ORIGIN_REGEX = r"https://.*\.vercel\.app"
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    # The remote MCP endpoint (/mcp) needs its session manager running for the life of the app.
-    async with session_manager().run():
+    # The remote MCP endpoint (/mcp) needs a session manager running for the life of the app. mcp_lifespan
+    # builds a fresh one each time, since a manager can run only once and tests start the app repeatedly.
+    async with mcp_lifespan():
         yield
 
 
