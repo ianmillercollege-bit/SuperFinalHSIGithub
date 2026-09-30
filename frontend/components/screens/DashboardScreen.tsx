@@ -1,6 +1,5 @@
 "use client";
 
-import CommunityImpactTile from "@/components/screens/CommunityImpactTile";
 import DashboardPlan from "@/components/coach/DashboardPlan";
 import StorefrontRevenue from "@/components/dashboard/StorefrontRevenue";
 import DashboardView from "@/components/dashboard/DashboardView";
@@ -20,7 +19,6 @@ export default function DashboardScreen() {
   return (
     <>
       <DashboardView vm={vm!} afterCharts={<DashboardPlan session={coach} />} afterOpportunities={vm!.storefront ? <StorefrontRevenue data={vm!.storefront} /> : undefined} />
-      <CommunityImpactTile />
       {claims.error !== undefined && <ErrorNotice error={claims.error} onRetry={claims.reload} />}
       {audit.error !== undefined && <ErrorNotice error={audit.error} onRetry={audit.reload} />}
     </>

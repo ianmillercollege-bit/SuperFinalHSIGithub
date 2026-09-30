@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     const session = getUserSession();
     // The query string is kept, so "/?splash=1" still replays the opening splash on the page it redirects to.
-    router.replace((session.signedOut ? "/login" : session.user?.partner ? "/community" : "/dashboard") + window.location.search);
+    router.replace((session.signedOut ? "/login" : "/dashboard") + window.location.search);
   }, [router]);
   return (
     <main className="page">

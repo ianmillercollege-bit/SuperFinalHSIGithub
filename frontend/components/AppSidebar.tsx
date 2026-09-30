@@ -54,16 +54,15 @@ export default function AppSidebar() {
     };
   }, []);
 
-  const partner = Boolean(user?.partner);
-  const groups: KitNavGroup[] = NAV.filter((group) => !(partner && group.brandOnly)).map((group) => ({
+  const groups: KitNavGroup[] = NAV.map((group) => ({
     title: group.title,
     tone: group.tone,
-    items: group.items.filter((item) => (!item.staffOnly || user?.staff) && (!item.partnerOrStaff || partner || user?.staff)).map((item) => ({
+    items: group.items.filter((item) => !item.staffOnly || user?.staff).map((item) => ({
       label: item.label,
       href: item.href,
       ...(item.count === "openIncidents" && open.data !== undefined ? { badge: open.data } : {}),
     })),
-  })).filter((group) => group.items.length > 0);
+  }));
 
   // With nobody signed in there is no Sign out button, so the sidebar offers the way back to the sign-in page.
   if (!user) groups.push({ title: "Account", tone: "default", items: [{ label: "Sign in", href: "/login" }] });

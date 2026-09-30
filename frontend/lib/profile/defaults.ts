@@ -30,7 +30,7 @@ export function useProfileDefaults(): Partial<Profile> & { name: string; company
   const brand = useBrandSession();
   const name = user?.name ?? PROFILE_DEFAULTS.name;
   const jobTitle = user?.title?.split(' · ')[0] ?? PROFILE_DEFAULTS.jobTitle;
-  const company = user?.partner?.orgName ?? brand?.brandName ?? PROFILE_DEFAULTS.company;
+  const company = brand?.brandName ?? PROFILE_DEFAULTS.company;
   return useMemo(() => ({ ...PROFILE_DEFAULTS, name, jobTitle, company }), [name, jobTitle, company]);
 }
 
