@@ -32,20 +32,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${publicSans.variable} ${archivo.variable}`} suppressHydrationWarning>
       <head>
-        {/* Sets the saved (or system) theme before the first paint, so there is no flash. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var t=localStorage.getItem('cirqo.theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}",
-          }}
-        />
-        {/* Opening splash: when it has already played in this tab (or motion is reduced), hide it before the first paint so it never flashes. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "try{var seen=sessionStorage.getItem('cirqo:splash:v1')==='1'&&!/[?&]splash=1/.test(location.search);if(seen||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.setAttribute('data-splash','done')}catch(e){}",
-          }}
-        />
+        {/* A small blocking script that runs before the first paint: it sets the saved theme and hides the opening splash when it has already played. */}
+        <script src="/cirqo-init.js" />
       </head>
       <body>
         <SplashScreen />
