@@ -196,3 +196,12 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+class Token(Base):
+    """Login tokens (v1.4). Kept in the database, so they die on restart like everything else."""
+
+    __tablename__ = "tokens"
+    token: Mapped[str] = mapped_column(String, primary_key=True)
+    user_id: Mapped[str] = mapped_column(String)
+    expires_at: Mapped[str] = mapped_column(String)

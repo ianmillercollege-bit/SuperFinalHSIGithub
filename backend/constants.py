@@ -115,12 +115,13 @@ RANKING_NOTE = "Ranking is neutral. No brand can pay for placement."
 DEFAULT_BRAND_ID = "brand_001"  # Kestrel: used when no brandId is given (v1.2 behaviour)
 
 # Demo-only keys for seeded data (DECISIONS.md #6, CLIENT_API_CONTRACT.md v1.1). Unrelated to the AI key.
-DEMO_ACCOUNTS = [
-    {"brandId": "brand_001", "role": "owner", "apiKey": "fd_demo_owner_2026"},
-    {"brandId": "brand_001", "role": "viewer", "apiKey": "fd_demo_viewer_2026"},
-    {"brandId": "brand_002", "role": "owner", "apiKey": "fd_demo_arcton_2026"},
-    {"brandId": "brand_003", "role": "owner", "apiKey": "fd_demo_novex_2026"},
+DEMO_ACCOUNTS = [  # v1.4 adds the username that logs in with the shared demo password
+    {"brandId": "brand_001", "role": "owner", "apiKey": "fd_demo_owner_2026", "username": "maria.lopez@kestrel.example"},
+    {"brandId": "brand_001", "role": "viewer", "apiKey": "fd_demo_viewer_2026", "username": "sam.lee@kestrel.example"},
+    {"brandId": "brand_002", "role": "owner", "apiKey": "fd_demo_arcton_2026", "username": "priya.shah@arcton.example"},
+    {"brandId": "brand_003", "role": "owner", "apiKey": "fd_demo_novex_2026", "username": "lena.ortiz@novex.example"},
 ]
+SHEET_DEMO_COMPANIES = 5  # v1.4: the first five spreadsheet companies are listed as demo accounts too
 
 # ---- BACKEND_CONTRACT.md v1.4.1 section 7c: catalog at scale and login -------------------------
 

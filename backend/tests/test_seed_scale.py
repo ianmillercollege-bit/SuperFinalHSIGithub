@@ -149,7 +149,7 @@ def test_committed_sheet_has_no_passwords():
 
 def test_existing_brands_are_unchanged(seeded):
     names = {b["brandId"]: b["brandName"] for b in seeded.get("/api/v1/auth/demo-accounts").json()["accounts"]}
-    assert names == {"brand_001": "Kestrel", "brand_002": "Arcton", "brand_003": "Novex"}
+    assert {k: names[k] for k in ("brand_001", "brand_002", "brand_003")} ==         {"brand_001": "Kestrel", "brand_002": "Arcton", "brand_003": "Novex"}
     competitors = seeded.get("/api/v1/visibility/summary").json()["competitors"]
     assert [c["brandName"] for c in competitors] == ["Arcton", "Novex"]
     # A laptop question never returns earbuds; a headphone question returns headphones.
