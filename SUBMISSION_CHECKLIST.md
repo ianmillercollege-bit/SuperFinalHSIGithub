@@ -10,7 +10,7 @@ Deadline: **6:00 AM CT** (the instructions say 7:00 AM ET). Code freeze **3:30 A
 ## 4:00 AM: live checks (private window, as a judge)
 - [ ] `./smoke_test.sh` against the live backend: all pass.
 - [ ] Open https://frontdoor-api-hiel.onrender.com/health first (wakes the backend).
-- [ ] https://super-final-hsi-github.vercel.app loads on the dashboard; every sidebar page opens; "Sample data" badge on each.
+- [ ] https://utsa-tech-09302026.vercel.app loads on the dashboard; every sidebar page opens; "Sample data" badge on each.
 - [ ] Log in as a demo admin (password `cirqo-demo`); company dashboard changes; "Continue as guest" works.
 - [ ] Preview as shopper returns a verified answer; the question appears in AI Visibility.
 - [ ] File a Claim on the example answer creates claims and incidents.

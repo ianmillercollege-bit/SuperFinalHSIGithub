@@ -3,7 +3,7 @@
 For judges and for the pitch presenter. Everything shown is fictional sample data and labeled as such.
 
 **Before you start:** open https://frontdoor-api-hiel.onrender.com/health once. Optional: log in at `/login` as any demo admin (password `cirqo-demo`) to show a different company; the guest view is Kestrel. The free backend sleeps after
-15 minutes idle and takes about a minute to wake. Then open https://super-final-hsi-github.vercel.app.
+15 minutes idle and takes about a minute to wake. Then open https://utsa-tech-09302026.vercel.app.
 
 ## 1. Dashboard (30 seconds)
 "Kestrel is a fictional laptop brand using CIRQO. Thirty days ago, AI assistants got 62% of the claims about its

@@ -5,7 +5,7 @@
 **UTSA_TECH_09302026: 2026 HSI Battle of the Brains, Tech Submission (UTSA).** Theme: "The New Front Door: Trustworthy AI Product Discovery."
 Cover page: [`COVER_PAGE.md`](COVER_PAGE.md). Companion document: the CIRQO 5-Page Business and Marketing Plan (`UTSA_5PBP_09292026.pdf`).
 
-- **Live app:** https://super-final-hsi-github.vercel.app
+- **Live app:** https://utsa-tech-09302026.vercel.app
 - **Live API (interactive docs):** https://frontdoor-api-hiel.onrender.com/docs
 - **Repository:** https://github.com/ianmillercollege-bit/UTSA_TECH_09302026
 
@@ -57,7 +57,7 @@ fields, and `backend/tests/test_ranking_neutral.py` proves the results are ident
 
 ## How a judge should navigate it
 
-Open https://super-final-hsi-github.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
+Open https://utsa-tech-09302026.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
 A click-by-click script with talking points is in [`DEMO_SCRIPT.md`](DEMO_SCRIPT.md).
 
 **Logging in (optional):** the login page lists demo usernames. Every demo password is `cirqo-demo`. Each admin lands on
