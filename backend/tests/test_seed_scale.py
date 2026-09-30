@@ -103,7 +103,12 @@ def test_products_follow_the_sheet(seeded):
     assert sample["subcategory"] in {"Headphones", "Earbuds", "Headset"}
     assert set(sample["specs"]) <= {"processor", "graphics", "displayType", "resolution", "ports", "operatingSystem",
                                     "batteryHours", "weightG", "warranty", "certifications", "useCaseTags",
-                                    "otherNames"}
+                                    "otherNames",
+                                    # the sheet's product-detail columns (added after v1.4.1)
+                                    "productFamily", "model", "variant", "generation", "productTier", "tierBasis",
+                                    "msrp", "commercialStatus", "anc", "codecSupport", "driver", "microphone",
+                                    "waterResistance", "refreshRateHz", "cameraSystem", "charging", "cellular",
+                                    "formFactor", "compatibility"}
     assert isinstance(sample["specs"]["certifications"], list) and isinstance(sample["specs"]["otherNames"], list)
     laptop = seeded.get("/api/v1/products", params={"category": "laptops", "brandId": "brand_004"})
     assert laptop.status_code == 200

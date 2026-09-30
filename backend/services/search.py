@@ -36,7 +36,9 @@ def boolean_attributes(p: Product) -> dict[str, bool]:
     name, s = p.name.lower(), p.specs or {}
     out = {}
     if p.category == "headphones":
-        out["noiseCancelling"] = bool(re.search(r"\banc\b|noise[- ]cancel", name))
+        anc = s.get("anc")  # the sheet's ANC column when present ("Hybrid ANC", "None (open design)")
+        out["noiseCancelling"] = (not str(anc).startswith("None")) if anc else \
+            bool(re.search(r"\banc\b|noise[- ]cancel", name))
         out["wireless"] = "wired" not in name and ("wireless" in name or "charging" in str(s.get("ports", "")).lower())
     if p.category in ("laptops", "phones_tablets"):
         out["touchscreen"] = LEGACY_MUST_HAVES["touch"](s) or p.category == "phones_tablets"
