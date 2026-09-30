@@ -86,7 +86,7 @@ def checker_run(body: CheckerRunIn, db=Depends(get_db)):
     else:
         if not body.answer_text.strip():
             raise HTTPException(422, "answerText must not be empty.")
-        if not body.assistant_id or not body.query_text:
+        if not body.assistant_id or not (body.query_text or "").strip():
             raise HTTPException(422, "answerText requires assistantId and queryText.")
         if db.get(Assistant, body.assistant_id) is None:
             raise HTTPException(422, f"Unknown assistantId '{body.assistant_id}'.")
