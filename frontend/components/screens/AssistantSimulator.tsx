@@ -12,6 +12,7 @@ import { PRODUCT_CATEGORIES, categoryLabel } from "@/lib/categories";
 import type { ProductCategory } from "@/lib/categories";
 import { CONNECTOR_MUST_HAVES, CONNECTOR_USE_CASES } from "@/lib/connectorOptions";
 import { describeError } from "@/lib/errors";
+import { formatPrice } from "@/lib/format";
 import type { ConnectorMustHave, ConnectorQueryRequest, ConnectorSearchRequest, ConnectorSearchResponse, ConnectorUseCase } from "@/lib/types";
 import { useApi } from "@/lib/useApi";
 
@@ -108,8 +109,8 @@ export default function AssistantSimulator() {
       intro={
         <div className="stack-tight">
         <p className="cq-line">
-          Check a launch, see why a competitor wins a question, or reproduce a complaint. Shoppers never see this page. Every preview is
-          recorded and appears in <Link className="link" href="/visibility">AI Visibility</Link>.
+          See what a shopper&apos;s AI assistant answers from your verified catalog. Use it to check a launch, understand why a competitor
+          wins a question, or reproduce a complaint. Shoppers never see it. Every preview is recorded and appears in <Link className="link" href="/visibility">AI Visibility</Link>.
         </p>
         <div style={{ maxWidth: 320 }}>
           <Dropdown
@@ -145,9 +146,16 @@ function toAnswer({ response, via }: ConnectorResult): NonNullable<SimTurn["answ
   return {
     text: response.answerText,
     facts: (r?.facts ?? []).map((f) => ({ text: f.text, status: f.claimStatus === "correct" ? "checked" : "failed" })),
+    // v1.5: the recommendation says whether its brand verified the facts. Older backends send no flag, so nothing is claimed.
+    options: r && r.verified !== undefined ? [{ name: `${r.name} (${r.brandName})`, detail: formatPrice(r.price), verified: r.verified }] : undefined,
     noMatchMessage: r ? undefined : "No product fits.",
-    source: via === "mock" ? `${response.source} (example data: mock mode is on)` : response.source,
+    source: sourceLine(via === "mock" ? `${response.source} (example data: mock mode is on)` : response.source, response.verifiedCount, response.unverifiedCount),
   };
+}
+
+/** "mock · 3 verified, 2 not verified": the v1.5 counts, when the backend sends them. */
+function sourceLine(source: string, verified?: number, unverified?: number): string {
+  return verified === undefined && unverified === undefined ? source : `${source} · ${verified ?? 0} verified, ${unverified ?? 0} not verified`;
 }
 
 /** Maps the funnel response: the options and narrowing questions become the answer text; the best option's facts are checked. */
@@ -160,6 +168,7 @@ function searchToAnswer(r: ConnectorSearchResponse): NonNullable<SimTurn["answer
   return {
     text: `${r.optionCount} verified ${categoryLabel(r.category)} option${r.optionCount === 1 ? "" : "s"}, best first: ${options}${hints ? `  ${hints}` : ""}`,
     facts: r.options[0].facts.map((f) => ({ text: `${r.options[0].name}: ${f.text}`, status: f.claimStatus === "correct" ? "checked" : "failed" })),
-    source: r.source,
+    options: r.options.filter((o) => o.verified !== undefined).map((o) => ({ name: `${o.name} (${o.brandName})`, detail: formatPrice(o.price), verified: o.verified === true })),
+    source: sourceLine(r.source, r.verifiedCount, r.unverifiedCount),
   };
 }

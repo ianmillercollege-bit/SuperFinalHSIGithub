@@ -184,7 +184,9 @@ export interface Product {
   /** v1.2 Verified Data Layer. */
   factSource?: string;
   factSourceUrl?: string;
-  verifiedAt?: Timestamp;
+  verifiedAt?: Timestamp | null;
+  /** v1.5: true only for opted-in companies. */
+  verified?: boolean;
 }
 
 export interface ProductsResponse {
@@ -455,6 +457,8 @@ export interface ConnectorRecommendation {
   returnPolicyDays: number;
   facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
   verifiedAt: Timestamp;
+  /** v1.5: the brand verified these facts. */
+  verified?: boolean;
 }
 
 export interface ConnectorQueryResponse {
@@ -470,6 +474,9 @@ export interface ConnectorQueryResponse {
   rankingNote: string;
   verifiedAt: Timestamp;
   source: AiSource;
+  /** v1.5 */
+  verifiedCount?: number;
+  unverifiedCount?: number;
 }
 
 // ---- Brand accounts (v1.3, section 7b) ----
@@ -481,6 +488,8 @@ export interface DemoAccount {
   apiKey: string;
   /** v1.4: the login username, when the backend sends one. */
   username?: string;
+  /** v1.5: whether the company is opted in. Login lists only opted-in companies. */
+  optedIn?: boolean;
 }
 
 export interface DemoAccountsResponse {
@@ -544,6 +553,8 @@ export interface BrandProfile {
   website: string;
   admins: { userId: string; name: string; role: string }[];
   productCount: number;
+  /** v1.5: opted-in companies have admins, dashboards and verified facts; the rest can claim their company. */
+  optedIn?: boolean;
   /** Only on the company's own profile. */
   plan?: "starter" | "growth" | "enterprise";
 }
@@ -558,6 +569,8 @@ export interface BrandSummary {
   openIncidents: number;
   escalatedIncidents: number;
   accuracyRate: Rate;
+  /** v1.5 */
+  optedIn?: boolean;
 }
 
 export interface BrandsResponse {
@@ -584,9 +597,26 @@ export interface ConnectorSearchResponse {
     availability: Availability;
     matchScore: Rate;
     facts: { text: string; claimStatus: ClaimStatus; factId: string }[];
+    /** v1.5 */
+    verified?: boolean;
   }[];
   narrowingHints: { attribute: string; question: string; splits: Record<string, number> }[];
   rankingNote: string;
   verifiedAt: Timestamp;
   source: AiSource;
+  /** v1.5 */
+  verifiedCount?: number;
+  unverifiedCount?: number;
+}
+
+// ---- Claim your company (v1.5, section 7d): POST /api/v1/brands/{brandId}/claim ----
+
+export interface ClaimCompanyRequest {
+  ownerName: string;
+  email: string;
+}
+
+/** The /brands/onboard response plus `optedIn: true`. */
+export interface ClaimCompanyResponse extends OnboardResponse {
+  optedIn: true;
 }

@@ -39,6 +39,8 @@ export default function LoginScreen() {
   const rows = useMemo(() => {
     const local = DEMO_LOGINS.map((a) => ({ name: a.name, role: a.role, email: a.username, password: DEMO_PASSWORD }));
     const fromBackend = (accounts.data?.accounts ?? [])
+      // v1.5: login lists only opted-in companies (a missing flag means the backend is older, and its list is already opted-in only).
+      .filter((a) => a.optedIn !== false)
       .filter((a) => a.username && !local.some((l) => l.email.toLowerCase() === a.username!.toLowerCase()))
       .map((a) => ({
         name: a.brandName,

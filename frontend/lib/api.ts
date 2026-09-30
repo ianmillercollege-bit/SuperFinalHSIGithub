@@ -28,6 +28,8 @@ import type {
   CheckerRunRequest,
   CheckerRunResponse,
   BrandProfile,
+  ClaimCompanyRequest,
+  ClaimCompanyResponse,
   BrandsResponse,
   ConnectorQueryRequest,
   ConnectorSearchRequest,
@@ -93,6 +95,7 @@ export const MOCK_FILES = {
   /** v1.4. No file in shared/mock/, so mock mode reports NOT_FOUND. */
   authLogin: "auth_login",
   brandProfile: "brand_profile",
+  claimCompany: "claim_company",
   brands: "brands",
   connectorSearch: "connector_search",
   brandsOnboard: "brands_onboard",
@@ -139,6 +142,11 @@ export function getProducts(filters: { category?: string; brandId?: string } = {
 // GET /api/v1/brands/{brandId}  (v1.4: the company profile)
 export function getBrand(brandId: string): Promise<BrandProfile> {
   return request("GET", `/api/v1/brands/${encodeURIComponent(brandId)}`, {}, undefined, MOCK_FILES.brandProfile);
+}
+
+// POST /api/v1/brands/{brandId}/claim  (v1.5: a not-opted-in company opts in; 409 CONFLICT if it already has)
+export function claimCompany(brandId: string, body: ClaimCompanyRequest): Promise<ClaimCompanyResponse> {
+  return request("POST", `/api/v1/brands/${encodeURIComponent(brandId)}/claim`, {}, body, MOCK_FILES.claimCompany);
 }
 
 // GET /api/v1/brands  (v1.4, CIRQO Staff token only: 403 FORBIDDEN otherwise)

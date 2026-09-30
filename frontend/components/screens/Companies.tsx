@@ -48,6 +48,7 @@ export default function Companies() {
           <thead>
             <tr>
               <th>Company</th>
+              <th>Opted in</th>
               <th>Categories</th>
               <th>Products</th>
               <th>Visibility</th>
@@ -64,6 +65,7 @@ export default function Companies() {
                     {b.brandName}
                   </Link>
                 </td>
+                <td>{b.optedIn === undefined ? "—" : b.optedIn ? "Yes" : "No"}</td>
                 <td>{b.categories.map(categoryLabel).join(", ")}</td>
                 <td>{b.productCount.toLocaleString("en-US")}</td>
                 <td>{formatPercent(b.visibilityRate)}</td>
