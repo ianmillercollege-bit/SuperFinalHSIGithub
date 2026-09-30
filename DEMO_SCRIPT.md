@@ -45,12 +45,6 @@ Claude calls `cirqo_query` and gives one pick built only from checked facts. The
 one": Claude calls `cirqo_details` for specs and comparisons instead of guessing.
 "This is what the shopper sees. They never open CIRQO. Their assistant does."
 
-## 6c. Community program (30 seconds)
-Sign out, sign in as `rosa.delgado@bexar-valley-school-district.example` (password `cirqo-demo`). **Community catalog**
-shows pledged surplus and refurbished units from every brand at once. Request a few units; the brand's owner sees
-it under **Community requests**. "Brands pledge units they'd otherwise write off. Schools, nonprofits and veterans
-groups get them. CIRQO never checks anyone's income."
-
 ## 7. Close (15 seconds)
 "Brands pay a quarterly subscription: Base $450 for up to 50 SKUs, Pro $1,200 for up to 250, Enterprise $3,000 for the
 full catalog, with the first quarter's analytics free. Shoppers pay nothing. AI platforms pay nothing; they're partners,

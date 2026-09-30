@@ -78,10 +78,6 @@ in every assistant answer from that moment. A company already listed from public
 (`POST /api/v1/brands/{brandId}/claim`), which flips its products from "Not CIRQO Verified" to verified.
 Launch segment: small Shopify stores; the dashboard's storefront revenue panel is where their sales appear.
 
-**Community partners.** Schools, nonprofits and veterans groups sign in (demo:
-`rosa.delgado@bexar-valley-school-district.example`, password `cirqo-demo`) and request pledged surplus and
-refurbished units from every brand at once.
-
 ## How a judge should navigate it
 
 Open https://utsa-tech-09302026.vercel.app. It opens on the Kestrel dashboard as a guest; no login needed.
@@ -102,8 +98,11 @@ their own company's dashboard. There is also a "Continue as guest" link, so nobo
 | **File a Claim** | Paste any AI answer about the company. CIRQO extracts each claim and marks it correct, incorrect, outdated or unverifiable against verified facts, and opens incidents for the wrong ones. |
 | **Outstanding Claims** | Wrong claims waiting for a named person: high-risk fixes to approve or reject, and safety or legal claims that only a person can close. Try approving one as its owner. |
 | **Claims Reviewed** | Everything already decided, by the system or by a person, with the full audit trail. |
-| **Community catalog** and **Community requests** (Community Partner login, for example `rosa.delgado@bexar-valley-school-district.example`) | The Community program: brands pledge surplus and refurbished units; schools, nonprofits and veterans groups browse one cross-company catalog and request units. The brand's owner approves or rejects. CIRQO never verifies anyone's income and stores no recipient data. |
 | **All companies** (CIRQO Staff login) | Cross-company oversight: inclusion, open incidents and escalations for every company. |
+
+**Community program (backend only):** brands can pledge surplus and refurbished units and partner organizations can
+request them through `/api/v1/community/*` (contract section 7e, tests green). The dashboard pages for it were cut at
+the freeze to keep the demo tight; the endpoints stay live and documented as roadmap.
 
 **Scale:** 153 fictional opted-in companies (Greek-god names) across headphones, laptops, phones and tablets, and
 computer hardware; 1,500 verified products with real spec sheets; 2,946 verified comparison facts; a dashboard for every
