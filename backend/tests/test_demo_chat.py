@@ -52,12 +52,20 @@ def chat(client, *texts):
                        json={"messages": [{"role": roles[i % 2], "text": t} for i, t in enumerate(texts)]})
 
 
-def test_demo_page_is_served_and_frameable(client):
-    res = client.get("/demo")
+@pytest.mark.parametrize("path", ["/demo", "/demo/"])
+def test_demo_page_is_served_as_html_and_frameable(client, path):
+    res = client.get(path, headers={"Accept": "application/json"})
     assert res.status_code == 200
-    assert res.headers["content-type"].startswith("text/html")
+    assert res.headers["content-type"] == "text/html; charset=utf-8"
     assert "x-frame-options" not in res.headers
+    assert res.headers["content-security-policy"] == "frame-ancestors *"
+    assert res.text.lstrip().startswith("<!doctype html>")
     assert "/api/v1/demo/chat" in res.text
+
+
+def test_demo_mark_is_served(client):
+    res = client.get("/demo/cirqo-mark.png")
+    assert res.status_code == 200 and res.headers["content-type"] == "image/png"
 
 
 def test_scripted_first_turn_lists_options_with_labels_and_asks_one_question(client, fake_tools):

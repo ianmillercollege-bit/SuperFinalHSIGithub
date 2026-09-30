@@ -50,10 +50,17 @@ async def demo_chat_turn(body: DemoChatIn, request: Request):
     return await demo_chat.answer([t.model_dump() for t in body.messages])
 
 
+# This page exists to be framed by other sites: never X-Frame-Options, and frame-ancestors allows any origin.
+EMBED_HEADERS = {
+    "Content-Security-Policy": "frame-ancestors *",
+    "Cache-Control": "no-cache",
+}
+
+
 @page_router.get("/demo", include_in_schema=False)
+@page_router.get("/demo/", include_in_schema=False)
 def demo_page() -> FileResponse:
-    # No X-Frame-Options on purpose: this page exists to be framed by other sites.
-    return FileResponse(PAGE, media_type="text/html")
+    return FileResponse(PAGE, media_type="text/html; charset=utf-8", headers=EMBED_HEADERS)
 
 
 @page_router.get("/demo/cirqo-mark.png", include_in_schema=False)
