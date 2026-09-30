@@ -49,14 +49,29 @@ export default function Dropdown({
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [up, setUp] = useState(false);
+  // Fixed coordinates from the trigger, so a scrolling table or card around it can never clip the open list.
+  const [place, setPlace] = useState<React.CSSProperties>({});
 
   const selectedIndex = useMemo(() => options.findIndex((o) => o.value === value), [options, value]);
   const selected = selectedIndex >= 0 ? options[selectedIndex] : undefined;
 
   function show() {
     if (disabled || options.length === 0) return;
-    const rect = root.current?.getBoundingClientRect();
-    if (rect) setUp(window.innerHeight - rect.bottom < 280 && rect.top > 280);
+    const trigger = root.current?.querySelector("button")?.getBoundingClientRect();
+    if (trigger) {
+      const below = window.innerHeight - trigger.bottom;
+      const flip = below < 280 && trigger.top > below;
+      setUp(flip);
+      const room = Math.max(120, (flip ? trigger.top : below) - 14);
+      setPlace({
+        position: "fixed",
+        left: "auto",
+        right: Math.max(8, window.innerWidth - trigger.right),
+        minWidth: trigger.width,
+        maxHeight: Math.min(264, room),
+        ...(flip ? { top: "auto", bottom: window.innerHeight - trigger.top + 6 } : { top: trigger.bottom + 6, bottom: "auto" }),
+      });
+    }
     setActive(Math.max(0, selectedIndex));
     setOpen(true);
   }
@@ -73,11 +88,20 @@ export default function Dropdown({
     const away = (event: Event) => {
       if (root.current && !root.current.contains(event.target as Node)) setOpen(false);
     };
+    // The fixed list would drift from its trigger if the page moved under it, so any outside scroll or resize closes it.
+    const moved = (event: Event) => {
+      if (event.type === "scroll" && list.current?.contains(event.target as Node)) return;
+      setOpen(false);
+    };
     document.addEventListener("mousedown", away);
     document.addEventListener("focusin", away);
+    window.addEventListener("scroll", moved, true);
+    window.addEventListener("resize", moved);
     return () => {
       document.removeEventListener("mousedown", away);
       document.removeEventListener("focusin", away);
+      window.removeEventListener("scroll", moved, true);
+      window.removeEventListener("resize", moved);
     };
   }, [open]);
 
@@ -163,7 +187,7 @@ export default function Dropdown({
         </svg>
       </button>
       {open && (
-        <ul className={`dd-list${up ? " is-up" : ""}`} role="listbox" id={listId} aria-labelledby={labelId} ref={list}>
+        <ul className={`dd-list${up ? " is-up" : ""}`} role="listbox" id={listId} aria-labelledby={labelId} ref={list} style={place}>
           {options.map((o, i) => (
             <li
               key={o.value || `empty-${i}`}

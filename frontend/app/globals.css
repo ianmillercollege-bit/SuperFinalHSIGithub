@@ -1886,3 +1886,23 @@ aside.cq-sidebar .cq-lockup-sub {
 .cq-tiles .cq-tile.is-on input {
   accent-color: var(--connected-green);
 }
+
+/* Inventory: the stat tiles double as stock filters. */
+.stat-button {
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.stat-button:hover,
+.stat-button[aria-pressed="true"] {
+  border-color: var(--navy, currentColor);
+}
+.stat-value {
+  font-size: 1.6rem;
+}
+
+/* Tables full of inputs and dropdowns: center each cell's content so text lines up with the controls beside it. */
+.cells-middle td {
+  vertical-align: middle;
+}

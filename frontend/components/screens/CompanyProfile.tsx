@@ -57,7 +57,7 @@ export default function CompanyProfile() {
           <dt>Products</dt>
           <dd>
             {p.productCount.toLocaleString("en-US")}{" "}
-            <Link className="link" href="/products">
+            <Link className="link" href="/inventory">
               See the catalog
             </Link>
           </dd>

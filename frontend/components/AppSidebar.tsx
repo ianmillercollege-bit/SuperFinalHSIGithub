@@ -58,10 +58,13 @@ export default function AppSidebar() {
   const groups: KitNavGroup[] = buildNavGroups(
     {
       dashboard: "/dashboard", visibility: "/visibility", market: "/market",
-      gaps: "/gaps", simulator: "/growth-simulator", coach: "/coach",
+      company: "/company", companies: "/companies",
+      preview: "/preview", simulator: "/growth-simulator", coach: "/coach",
+      connect: "/connect", inventory: "/inventory",
       fileClaim: "/claims/new", outstanding: "/claims/outstanding", reviewed: "/claims/reviewed",
     },
     open.data,
+    user?.staff === true,
   );
 
   // With nobody signed in there is no Sign out button, so the sidebar offers the way back to the sign-in page.

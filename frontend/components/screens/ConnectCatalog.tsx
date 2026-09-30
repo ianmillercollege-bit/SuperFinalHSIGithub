@@ -5,7 +5,7 @@ import Dropdown from "@/components/Dropdown";
 import { ErrorNotice } from "@/components/LoadState";
 import { ApiError, onboardBrand } from "@/lib/api";
 import { signInAs } from "@/lib/auth/brandSession";
-import { AVAILABILITY_VALUES, emptyRow, parseCatalogCsv, parseCatalogXlsx } from "@/lib/catalogCsv";
+import { AVAILABILITY_VALUES, catalogRowToProduct as toProduct, emptyRow, parseCatalogCsv, parseCatalogXlsx } from "@/lib/catalogCsv";
 import type { CatalogRow } from "@/lib/catalogCsv";
 import { PRODUCT_CATEGORIES } from "@/lib/categories";
 import { AVAILABILITY_LABELS } from "@/lib/labels";
@@ -15,45 +15,6 @@ const MAX_FILE_BYTES = 25_000_000;
 const PAGE_SIZE = 100; // rows shown at once; every row is still sent
 
 const isExcel = (file: File) => /\.xlsx$/i.test(file.name) || file.type.includes("spreadsheetml");
-
-/** Turns the text in a table row into the contract's product, or explains what is wrong with it. */
-function toProduct(row: CatalogRow, number: number): { product?: OnboardProduct; problem?: string } {
-  const name = row.name.trim();
-  if (!name) return { problem: `Product ${number}: enter a name.` };
-  const price = Number(row.price);
-  if (row.price.trim() === "" || !Number.isFinite(price) || price <= 0) return { problem: `Product ${number}: price must be a number above 0.` };
-  const optional = (text: string, label: string): { value?: number; problem?: string } => {
-    if (text.trim() === "") return {};
-    const n = Number(text);
-    return Number.isFinite(n) && n >= 0 ? { value: n } : { problem: `Product ${number}: ${label} must be a number.` };
-  };
-  const battery = optional(row.batteryHours, "battery hours");
-  const weight = optional(row.weightLb, "weight");
-  const screen = optional(row.screenInches, "screen size");
-  const returns = optional(row.returnPolicyDays, "return days");
-  const ram = optional(row.ramGb, "RAM");
-  const storage = optional(row.storageGb, "storage");
-  const problem = battery.problem ?? weight.problem ?? screen.problem ?? returns.problem ?? ram.problem ?? storage.problem;
-  if (problem) return { problem };
-  const specs = {
-    ...(ram.value !== undefined ? { ramGb: ram.value } : {}),
-    ...(storage.value !== undefined ? { storageGb: storage.value } : {}),
-    ...(battery.value !== undefined ? { batteryHours: battery.value } : {}),
-    ...(weight.value !== undefined ? { weightLb: weight.value } : {}),
-    ...(screen.value !== undefined ? { screenInches: screen.value } : {}),
-  };
-  return {
-    product: {
-      name,
-      price,
-      availability: row.availability,
-      category: row.category,
-      ...(row.subcategory.trim() ? { subcategory: row.subcategory.trim() } : {}),
-      ...(Object.keys(specs).length ? { specs } : {}),
-      ...(returns.value !== undefined ? { returnPolicyDays: returns.value } : {}),
-    },
-  };
-}
 
 // The screen-specific sentence replaces the generic hint (whose wording is about incidents).
 function describe(error: unknown): unknown {
@@ -189,7 +150,7 @@ export default function ConnectCatalog() {
           </ul>
         )}
         <div className="table-wrap">
-          <table>
+          <table className="cells-middle">
             <thead>
               <tr>
                 <th>Name</th>

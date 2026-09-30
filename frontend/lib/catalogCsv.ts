@@ -4,7 +4,7 @@
 // a value (contract v1.3, section 7b). There is no cap on the number of products.
 import { PRODUCT_CATEGORIES } from "./categories";
 import type { ProductCategory } from "./categories";
-import type { Availability } from "./types";
+import type { Availability, OnboardProduct } from "./types";
 
 export const CATALOG_COLUMNS = [
   "name", "price", "availability", "category", "subcategory", "ramGb", "storageGb",
@@ -190,4 +190,43 @@ export async function parseCatalogXlsx(file: File): Promise<{ rows: CatalogRow[]
   } catch {
     return { rows: [], problems: ["That file could not be read as an Excel workbook (.xlsx). Older .xls files should be saved as .xlsx or .csv first."] };
   }
+}
+
+/** Turns the text in a table row into the contract's product, or explains what is wrong with it. */
+export function catalogRowToProduct(row: CatalogRow, number: number): { product?: OnboardProduct; problem?: string } {
+  const name = row.name.trim();
+  if (!name) return { problem: `Product ${number}: enter a name.` };
+  const price = Number(row.price);
+  if (row.price.trim() === "" || !Number.isFinite(price) || price <= 0) return { problem: `Product ${number}: price must be a number above 0.` };
+  const optional = (text: string, label: string): { value?: number; problem?: string } => {
+    if (text.trim() === "") return {};
+    const n = Number(text);
+    return Number.isFinite(n) && n >= 0 ? { value: n } : { problem: `Product ${number}: ${label} must be a number.` };
+  };
+  const battery = optional(row.batteryHours, "battery hours");
+  const weight = optional(row.weightLb, "weight");
+  const screen = optional(row.screenInches, "screen size");
+  const returns = optional(row.returnPolicyDays, "return days");
+  const ram = optional(row.ramGb, "RAM");
+  const storage = optional(row.storageGb, "storage");
+  const problem = battery.problem ?? weight.problem ?? screen.problem ?? returns.problem ?? ram.problem ?? storage.problem;
+  if (problem) return { problem };
+  const specs = {
+    ...(ram.value !== undefined ? { ramGb: ram.value } : {}),
+    ...(storage.value !== undefined ? { storageGb: storage.value } : {}),
+    ...(battery.value !== undefined ? { batteryHours: battery.value } : {}),
+    ...(weight.value !== undefined ? { weightLb: weight.value } : {}),
+    ...(screen.value !== undefined ? { screenInches: screen.value } : {}),
+  };
+  return {
+    product: {
+      name,
+      price,
+      availability: row.availability,
+      category: row.category,
+      ...(row.subcategory.trim() ? { subcategory: row.subcategory.trim() } : {}),
+      ...(Object.keys(specs).length ? { specs } : {}),
+      ...(returns.value !== undefined ? { returnPolicyDays: returns.value } : {}),
+    },
+  };
 }
