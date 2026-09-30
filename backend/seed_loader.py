@@ -24,7 +24,8 @@ from sqlalchemy import insert
 from db import (Answer, ApiKey, Assistant, AuditEntry, Base, Brand, Claim, CommunityOrg, CommunityRequest,
                 ComparisonFact, DailyMetric, Incident, LoginAlias, Owner, Product, SessionLocal, Source, User,
                 engine)
-from services.community import load_community
+from seed.community import opted_in_brands
+from services.community import PUBLIC_LISTING, load_community
 from services.passwords import hash_password
 from timeutil import now, parse_iso, shift_date, shift_iso_seconds, today
 
@@ -123,10 +124,12 @@ def load(db, folder: Path) -> dict:
     profiles = {r["brandId"]: {k: v for k, v in r.items() if k != "brandId"}
                 for r in (read_list(catalog, "profiles", "profiles") if catalog else [])}
     brands = read_list(folder, "brands", "brands") + (read_list(catalog, "brands", "brands") if catalog else [])
+    # v1.5 section 7d: the same split the community seed uses (originals plus 15 per category opted in).
+    opted_in = opted_in_brands(brands, profiles)
     for r in brands:
         rows[Brand].append(dict(brand_id=r["brandId"], name=pick(r, "name", "brandName"),
                                 is_client=bool(pick(r, "isClient", default=False)), billing_tier=pick(r, "billingTier"),
-                                profile=profiles.get(r["brandId"], {})))
+                                opted_in=r["brandId"] in opted_in, profile=profiles.get(r["brandId"], {})))
     brand_ids = {r["brandId"] for r in brands}
 
     product_brand = {}
@@ -137,7 +140,8 @@ def load(db, folder: Path) -> dict:
             product_id=r["productId"], brand_id=r["brandId"], name=r["name"], price=float(r["price"]),
             currency=pick(r, "currency", default="USD"), availability=r["availability"], specs=r["specs"],
             return_policy_days=int(r["returnPolicyDays"]), updated_at=moved(r["updatedAt"]),
-            fact_source=r["factSource"], fact_source_url=r["factSourceUrl"], verified_at=moved(r["verifiedAt"]),
+            fact_source=r["factSource"] if r["brandId"] in opted_in else PUBLIC_LISTING,
+            fact_source_url=r["factSourceUrl"], verified_at=moved(r["verifiedAt"]),
             price_history=previous_prices(r), features=[f.lower() for f in pick(r, "features", default=[])],
             category=pick(r, "category", default="laptops"), subcategory=pick(r, "subcategory", default="Laptop")))
 

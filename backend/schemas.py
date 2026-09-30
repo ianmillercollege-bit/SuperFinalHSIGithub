@@ -68,12 +68,29 @@ class ProductOut(CamelModel):
     return_policy_days: int
     updated_at: str
     # v1.2 Verified Data Layer. factSource is not called "source": that word means live|mock|fallback.
-    fact_source: Literal["Brand product feed", "Brand website", "Manufacturer spec sheet"]
+    fact_source: Literal["Brand product feed", "Brand website", "Manufacturer spec sheet",
+                         "Public listing (not verified by brand)"]
     fact_source_url: str
     verified_at: str
+    # v1.5 section 7d: true only when the brand has opted in (facts checked against the brand's own data).
+    verified: bool = True
     # v1.6 Community program.
     condition: Literal["new", "refurbished", "surplus"] = "new"
     community_pledge: CommunityPledge | None = None
+
+
+class ComparisonOut(CamelModel):
+    fact_id: str
+    other_product_id: str
+    other_product_name: str
+    attribute: str
+    text: str
+
+
+class ProductDetailOut(ProductOut):
+    """GET /products/{productId} (v1.7): the product plus its verified comparisons, for an assistant that
+    wants depth on one option without inventing anything."""
+    comparisons: list[ComparisonOut]
 
 
 class ClaimOut(CamelModel):
@@ -171,6 +188,7 @@ class Alternative(CamelModel):
     brand_name: str
     price: float
     match_score: float
+    verified: bool = True  # v1.5 section 7d
 
 
 class RecommendOut(CamelModel):
@@ -214,6 +232,7 @@ class ConnectorRecommendation(CamelModel):
     return_policy_days: int
     facts: list[Reason]
     verified_at: str
+    verified: bool = True  # v1.5 section 7d
 
 
 class ConnectorQueryOut(CamelModel):
@@ -226,6 +245,9 @@ class ConnectorQueryOut(CamelModel):
     claims: list[ClaimOut]
     ranking_note: str
     verified_at: str
+    # v1.5 section 7d: how many of the named products come from opted-in brands.
+    verified_count: int = 0
+    unverified_count: int = 0
     source: Source
 
 
@@ -443,7 +465,7 @@ class AuditOut(CamelModel):
     actor_type: Literal["system", "human", "ai"]
     action: Literal["claim_extracted", "claim_checked", "incident_created", "auto_fix_applied", "approved",
                     "rejected", "escalated", "resolved", "connector_query", "brand_onboarded",
-                    "connector_search",
+                    "connector_search", "brand_claimed",
                     "community_request", "community_approved", "community_rejected"]
     target_id: str
     details: str
@@ -538,6 +560,7 @@ class DemoAccount(CamelModel):
     role: Literal["owner", "viewer"]
     api_key: str
     username: str  # v1.4: log in with this and the shared demo password
+    opted_in: bool = True  # v1.5: only opted-in companies are listed
 
 
 class DemoAccountsOut(CamelModel):
@@ -601,6 +624,7 @@ class BrandProfileOut(CamelModel):
     website: str | None = None
     admins: list[ProfileAdmin]
     product_count: int
+    opted_in: bool = True  # v1.5 section 7d
     plan: Literal["starter", "growth", "enterprise"] | None = None  # only on the brand's own profile
 
 
@@ -613,6 +637,7 @@ class BrandSummary(CamelModel):
     open_incidents: int
     escalated_incidents: int
     accuracy_rate: float
+    opted_in: bool = True  # v1.5 section 7d
 
 
 class BrandsOut(CamelModel):
@@ -678,3 +703,18 @@ class OnboardOut(CamelModel):
     owners: list[OnboardOwner]
     connector_ready: bool
     note: str
+
+
+class ClaimIn(CamelModel):
+    """POST /brands/{brandId}/claim (v1.5 section 7d): a not-opted-in company opts in."""
+    owner_name: str = Field(max_length=C.MAX_NAME_CHARS)
+    email: str = Field(max_length=120)
+
+    @field_validator("owner_name", "email")
+    @classmethod
+    def not_blank(cls, v: str) -> str:
+        return _not_blank(v)
+
+
+class ClaimOut(OnboardOut):
+    opted_in: Literal[True] = True

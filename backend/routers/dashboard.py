@@ -9,9 +9,9 @@ from typing import Literal
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select
 
-from db import Answer, Assistant, Brand, Claim, Product, get_db
+from db import Answer, Assistant, Brand, Claim, ComparisonFact, Product, get_db
 from ids import next_id
-from schemas import (AnswersOut, CheckerRunIn, CheckerRunOut, ClaimsOut, ProductsOut, ReportOut, SourcesOut,
+from schemas import (AnswersOut, CheckerRunIn, CheckerRunOut, ClaimsOut, ProductDetailOut, ProductsOut, ReportOut, SourcesOut,
                      TrustOut, VisibilityOut)
 from services import ai_client, metrics
 from services.ai_client import source_label
@@ -35,9 +35,11 @@ def product_specs(p: Product) -> dict:
     return {**{k: p.specs.get(k) for k in SPEC_KEYS}, **{k: v for k, v in p.specs.items() if k not in SPEC_KEYS}}
 
 
-def product_out(p: Product, brands: dict[str, str]) -> dict:
+def product_out(p: Product, brands: dict[str, Brand]) -> dict:
     # Built field by field so seed-only fields (isClient, billingTier, priceHistory) can never leak.
-    return {"productId": p.product_id, "brandId": p.brand_id, "brandName": brands.get(p.brand_id, ""),
+    brand = brands.get(p.brand_id)
+    return {"productId": p.product_id, "brandId": p.brand_id, "brandName": brand.name if brand else "",
+            "verified": bool(brand.opted_in) if brand else False,  # v1.5 section 7d
             "name": p.name, "price": p.price, "currency": p.currency, "availability": p.availability,
             "category": p.category, "subcategory": p.subcategory,
             "specs": product_specs(p),
@@ -48,18 +50,39 @@ def product_out(p: Product, brands: dict[str, str]) -> dict:
 
 @router.get("/products", response_model=ProductsOut)
 def products(category: Literal["laptops", "headphones", "phones_tablets", "computer_hardware"] | None = None,
-             brand_id: str | None = Query(None, alias="brandId"), db=Depends(get_db)):
+             brand_id: str | None = Query(None, alias="brandId"),
+             opted_in: bool | None = Query(None, alias="optedIn"), db=Depends(get_db)):
     # v1.4.1: both filters optional. An unknown brandId is a 404 like every other brand filter.
     if brand_id is not None and db.get(Brand, brand_id) is None:
         raise HTTPException(404, f"Brand {brand_id} does not exist.")
-    brands = {b.brand_id: b.name for b in db.scalars(select(Brand)).all()}
+    brands = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
     q = select(Product).order_by(Product.product_id)
     if category:
         q = q.where(Product.category == category)
     if brand_id:
         q = q.where(Product.brand_id == brand_id)
     rows = db.scalars(q).all()
+    if opted_in is not None:  # v1.5 section 7d
+        rows = [p for p in rows if bool(brands[p.brand_id].opted_in) is opted_in]
     return {"products": [product_out(p, brands) for p in rows]}
+
+
+@router.get("/products/{product_id}", response_model=ProductDetailOut)
+def product_detail(product_id: str, db=Depends(get_db)):
+    """v1.7: one product with its verified comparisons, so an assistant asked for depth has facts to quote."""
+    p = db.get(Product, product_id)
+    if p is None:
+        raise HTTPException(404, f"Product {product_id} does not exist.")
+    brands = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
+    facts = db.scalars(select(ComparisonFact).where(ComparisonFact.product_id == product_id)
+                       .order_by(ComparisonFact.fact_id)).all()
+    others = {o.product_id: o.name for o in db.scalars(
+        select(Product).where(Product.product_id.in_([f.other_product_id for f in facts]))).all()} if facts else {}
+    out = product_out(p, brands)
+    out["comparisons"] = [{"factId": f.fact_id, "otherProductId": f.other_product_id,
+                           "otherProductName": others.get(f.other_product_id, ""), "attribute": f.attribute,
+                           "text": f.text} for f in facts]
+    return out
 
 
 # ---- Visibility and answers -----------------------------------------------------------------

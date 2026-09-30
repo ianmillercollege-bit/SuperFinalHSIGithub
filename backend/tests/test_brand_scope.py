@@ -161,13 +161,13 @@ def test_demo_accounts(seeded):
     # v1.4 (section 7c) adds a username to every account, the first 5 sheet companies and a password note.
     assert body["accounts"][:4] == [
         {"brandId": "brand_001", "brandName": "Kestrel", "role": "owner", "apiKey": "fd_demo_owner_2026",
-         "username": "maria.lopez@kestrel.example"},
+         "username": "maria.lopez@kestrel.example", "optedIn": True},
         {"brandId": "brand_001", "brandName": "Kestrel", "role": "viewer", "apiKey": "fd_demo_viewer_2026",
-         "username": "sam.lee@kestrel.example"},
+         "username": "sam.lee@kestrel.example", "optedIn": True},
         {"brandId": "brand_002", "brandName": "Arcton", "role": "owner", "apiKey": "fd_demo_arcton_2026",
-         "username": "priya.shah@arcton.example"},
+         "username": "priya.shah@arcton.example", "optedIn": True},
         {"brandId": "brand_003", "brandName": "Novex", "role": "owner", "apiKey": "fd_demo_novex_2026",
-         "username": "lena.ortiz@novex.example"}]
+         "username": "lena.ortiz@novex.example", "optedIn": True}]
     assert len(body["accounts"]) == 9 and body["passwordNote"] == "Every demo password is cirqo-demo."
     assert "isClient" not in json.dumps(body) and "billingTier" not in json.dumps(body)
 

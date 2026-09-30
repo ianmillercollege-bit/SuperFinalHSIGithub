@@ -26,6 +26,9 @@ class Brand(Base):
     # Seed-only. Never returned by any endpoint and never read by ranking code (contract section 8).
     is_client: Mapped[bool] = mapped_column(Boolean, default=False)
     billing_tier: Mapped[str | None] = mapped_column(String, nullable=True)  # public name: "plan" (v1.4)
+    # v1.5 section 7d (public as optedIn): opted-in brands have verified facts, admins and a dashboard.
+    # Never read by ranking code (test_ranking_neutral flips it).
+    opted_in: Mapped[bool] = mapped_column(Boolean, default=True)
     # v1.4 company profile: tagline, categories, hqCity, founded, employees, ceo, website, otherNames, ...
     profile: Mapped[dict] = mapped_column(JSON, default=dict)
 

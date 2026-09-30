@@ -46,8 +46,11 @@ def test_connector_search(seeded):
 
     # Every fact passes the checker.
     for option in body["options"]:
-        assert option["verified"] is True and option["facts"]
-        assert all(f["claimStatus"] == "correct" and f["factId"].startswith("fact_") for f in option["facts"])
+        assert option["facts"]
+        if option["verified"]:  # v1.5: opted-in brand, every fact checked
+            assert all(f["claimStatus"] == "correct" and f["factId"].startswith("fact_") for f in option["facts"])
+        else:  # not opted in: public-listing facts, labelled honestly
+            assert all(f["claimStatus"] == "unverifiable" for f in option["facts"])
     assert (body["verifiedCount"], body["unverifiedCount"]) == (body["optionCount"], 0)
 
     # Recorded as an answer (with its claims) and audited connector_search.
@@ -134,6 +137,7 @@ def test_search_ranking_ignores_billing(seeded):
     with SessionLocal() as db:
         for b in db.scalars(select(Brand)).all():
             b.is_client = not b.is_client
+            b.opted_in = not b.opted_in  # v1.5: the verified label never moves a product
             b.billing_tier = "enterprise" if b.billing_tier != "enterprise" else "starter"
         db.commit()
     assert [o["productId"] for o in search(seeded, GYM)["options"]] == before

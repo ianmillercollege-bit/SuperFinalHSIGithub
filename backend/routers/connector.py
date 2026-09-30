@@ -95,10 +95,13 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
     eligible = [to_rankable(p) for p in in_budget if p.category == category] or [to_rankable(p) for p in in_budget]
     ranked = rank(eligible, None, C.USE_CASES.get(use_case), [C.MUST_HAVES[m] for m in must_have])
 
-    brands = {b.brand_id: b.name for b in db.scalars(select(Brand)).all()}
+    brand_rows = {b.brand_id: b for b in db.scalars(select(Brand)).all()}
+    brands = {k: b.name for k, b in brand_rows.items()}
     catalog = Catalog(db)
     top = products[ranked[0][0].product_id] if ranked else None
     alt_rows = [(products[p.product_id], score) for p, score in ranked[1:3]]
+    # v1.5 section 7d: a pick from a brand that has not opted in is said so, in the text and in the flags.
+    top_verified = top is not None and brand_verified(brand_rows.get(top.brand_id))
 
     if top:
         sentences = compose_sentences(top, brands.get(top.brand_id, ""), [p for p, _ in alt_rows], must_have)
@@ -113,6 +116,8 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
             kept.append(sentence)
             results.extend(checked)
     answer_text = " ".join(kept)
+    if top and not top_verified and answer_text:
+        answer_text = "Not verified by the brand: " + answer_text
 
     at = now_iso()
     order = brand_mentions(answer_text, catalog)
@@ -148,14 +153,18 @@ def query(body: ConnectorQueryIn, db=Depends(get_db)):
             "matchScore": round(ranked[0][1], 2), "returnPolicyDays": top.return_policy_days,
             "facts": reasons_for(top, max_price, C.USE_CASES.get(use_case),
                                  [C.MUST_HAVES[m] for m in must_have], catalog),
-            "verifiedAt": top.verified_at}
+            "verifiedAt": top.verified_at, "verified": top_verified}
+    alt_flags = [brand_verified(brand_rows.get(p.brand_id)) for p, _ in alt_rows]
+    named_flags = ([top_verified] if top else []) + alt_flags
     return {
         "answerId": answer.answer_id, "question": body.question, "assistantId": assistant.assistant_id,
         "recommendation": recommendation,
         "alternatives": [{"productId": p.product_id, "name": p.name, "brandName": brands.get(p.brand_id, ""),
-                          "price": p.price, "matchScore": round(score, 2)} for p, score in alt_rows],
+                          "price": p.price, "matchScore": round(score, 2), "verified": flag}
+                         for (p, score), flag in zip(alt_rows, alt_flags)],
         "answerText": answer_text, "claims": claims, "rankingNote": C.CONNECTOR_RANKING_NOTE,
         "verifiedAt": at, "source": source_label(),
+        "verifiedCount": sum(1 for f in named_flags if f), "unverifiedCount": sum(1 for f in named_flags if not f),
     }
 
 
