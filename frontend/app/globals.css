@@ -1524,7 +1524,8 @@ details > summary {
 
 .dd-list {
   position: absolute;
-  z-index: 20;
+  z-index: 1000;
+  font-size: 14px;
   left: auto;
   right: 0;
   min-width: 100%;
@@ -1539,7 +1540,7 @@ details > summary {
   padding: 6px;
   list-style: none;
   border: 1px solid var(--border-strong);
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--bg-card);
   box-shadow: 0 2px 4px var(--shadow), 0 16px 32px -8px var(--shadow);
   scrollbar-width: thin;
@@ -1568,7 +1569,7 @@ details > summary {
   gap: 10px;
   min-height: 38px;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 6px;
   color: var(--fg);
   font-size: 14px;
   font-weight: 500;
