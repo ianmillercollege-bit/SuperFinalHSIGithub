@@ -1,7 +1,8 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import LoginView from "@/components/screens/LoginView";
 import { getDemoAccounts } from "@/lib/api";
 import { DEMO_LOGINS, DEMO_PASSWORD } from "@/lib/auth/demoAccounts";
@@ -18,6 +19,22 @@ export default function LoginScreen() {
   const [error, setError] = useState<string | undefined>();
   const next = useSearchParams().get("next");
   const accounts = useApi(useCallback(() => getDemoAccounts(), []));
+
+  // The kit's card has no slot for the guest link, so it is placed at the end of the card. That keeps it centered under
+  // the form and out of the way of the card at any window height.
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    const card = document.querySelector<HTMLElement>(".cq-login-card");
+    if (!card) return;
+    const el = document.createElement("div");
+    el.className = "guest-slot";
+    card.appendChild(el);
+    setSlot(el);
+    return () => {
+      el.remove();
+      setSlot(null);
+    };
+  }, []);
 
   const rows = useMemo(() => {
     const local = DEMO_LOGINS.map((a) => ({ name: a.name, role: a.role, email: a.username, password: DEMO_PASSWORD }));
@@ -51,16 +68,20 @@ export default function LoginScreen() {
         error={error}
         warning={`Demo login: not real authentication. Don't enter a real password. All demo passwords: ${DEMO_PASSWORD}.`}
       />
-      <button
-        type="button"
-        className="cq-btn guest-link"
-        onClick={() => {
-          continueAsGuest();
-          window.location.assign("/dashboard");
-        }}
-      >
-        Continue as guest (Kestrel)
-      </button>
+      {slot &&
+        createPortal(
+          <button
+            type="button"
+            className="cq-btn guest-link"
+            onClick={() => {
+              continueAsGuest();
+              window.location.assign("/dashboard");
+            }}
+          >
+            Continue as guest (Kestrel)
+          </button>,
+          slot,
+        )}
     </>
   );
 }
